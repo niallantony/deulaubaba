@@ -1,23 +1,40 @@
-import {TextInput, View, type TextInputProps } from "react-native";
-import { ThemedText } from "./ThemedText";
+import { TextInput, View, type TextInputProps } from "react-native";
+import { LightText } from "./ThemedText";
+import { styled } from "styled-components/native";
 
 export type ThemedTextInputProps = {
-    label: string;
-    value: string;
-    onChange: (text: string) => void;
+  label: string;
+  value: string;
+  onChange: (text: string) => void;
 } & Omit<TextInputProps, 'onChange' | 'value'>;
-export const ThemedTextInput = ({label, value, onChange, className, ...rest} : ThemedTextInputProps) => {
-    return (
-        <View>
-            <ThemedText className={"py-4"} type={"light"}>{label}</ThemedText>
-            <TextInput
-                className={`bg-white text-lg/6 p-4 rounded-xl shadow-[0_7px_6px_rgba(0,0,0,0.03)] ${className}`}
-                textAlignVertical={"center"}
-              value={value}
-              onChangeText={onChange}
-              {...rest}
-            />
-        </View>
-    )
+
+const StyledInput = styled.TextInput`
+  background-color: ${props => props.theme.colors.inputs};
+  font-size: ${props => props.theme.sizes.md}px;
+  padding: 12px;
+  border-radius: ${props => props.theme.radii.md}px;
+  box-shadow: 0 7px 6px rgba(0,0,0,0.03);
+`
+
+const FormLabel = styled(LightText)`
+  margin-bottom: ${props => props.theme.spacing.small}
+`
+
+const StyledField = styled.View`
+  margin-top: ${props => props.theme.spacing.small};
+  margin-bottom: ${props => props.theme.spacing.small};
+`
+export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextInputProps) => {
+  return (
+    <StyledField>
+      <FormLabel>{label}</FormLabel>
+      <StyledInput
+        textAlignVertical={"center"}
+        value={value}
+        onChangeText={onChange}
+        {...rest}
+      />
+    </StyledField>
+  )
 
 }

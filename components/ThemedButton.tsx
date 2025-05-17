@@ -1,30 +1,39 @@
-import { Text, Pressable} from "react-native";
+import { Text, Pressable } from "react-native";
+import { styled } from 'styled-components/native';
 
 export type ThemedButtonProps = {
-    text: string;
-    type: "green" | "outline";
-    onPress: () => void;
+  text: string;
+  type: "green" | "outline";
+  onPress: () => void;
 }
 
-const variantStyles = {
-    default: "flex-1 rounded-xl p-4 mx-12",
-    bg: {
-        green: "bg-accent",
-        outline: "bg-white border-accent"
-    },
-    text: {
-        default: "text-center font-semibold text-xl",
-        green: "text-white",
-        outline: "text-accent",
-    },
-}
-export function ThemedButton({text, type, onPress}: ThemedButtonProps) {
-    return (
-        <Pressable
-            className={`${variantStyles.default} ${variantStyles.bg[type]}`}
-            onPress={onPress}
-        >
-            <Text className={`${variantStyles.text.default} ${variantStyles.text[type]}`}>{text}</Text>
-        </Pressable>
-    )
+
+export const StyledButton = styled.Pressable<{ $type?: string }>`
+  width: 80%;
+  border-radius: 16px;
+  padding: 16px;
+  margin-left: 24px;
+  margin-right: 24px;
+  background-color: ${props => props.$type === "green" ? props.theme.colors.accent : "white"};
+  border-width: ${props => props.$type === "green" ? 0 : "1px"};
+  border-color: ${props => props.$type === "outline" ? props.theme.colors.accent : "none"};
+`;
+
+export const StyledButtonText = styled.Text<{ $type?: string; }>`
+  text-align: center;
+  font-weight: 800;  
+  font-size: 18px;
+  color: ${props => props.$type === "green" ? "white" : props.theme.colors.accent};
+`
+
+
+export function ThemedButton({ text, type, onPress }: ThemedButtonProps) {
+  return (
+    <StyledButton
+      onPress={onPress}
+      $type={type}
+    >
+      <StyledButtonText $type={type}>{text}</StyledButtonText>
+    </StyledButton>
+  )
 }

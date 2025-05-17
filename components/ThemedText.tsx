@@ -1,25 +1,37 @@
 import { Text, type TextProps } from 'react-native';
+import { styled } from 'styled-components/native';
 
+export const StyledText = styled.Text`
+  font-size: ${props => props.theme.sizes.md}
+`
+export const TitleText = styled.Text`
+  font-weight: 800;
+  font-size: ${props => props.theme.sizes.xxl};
+`
+export const SemiboldText = styled.Text`
+  font-weight: 600;
+  font-size: ${props => props.theme.sizes.lg};
+`
 
-export type ThemedTextProps = TextProps & {
-    type?: 'default' | 'title' | 'defaultSemiBold' | 'subtitle' | 'link' | 'light';
-} & TextProps;
+export const SubtitleText = styled.Text`
+  font-weight: 800;
+  font-size ${props => props.theme.sizes.xl};
+`
+export const LinkText = styled.Text<{ $size: string; }>`
+  font-size: ${props => props.theme.sizes[props.$size]};
+  color: ${props => props.theme.colors.accent};
+`
 
-const variantStyles = {
-    default: "font-base " ,
-    title: "font-bold text-2xl " ,
-    defaultSemiBold: "font-semibold text-lg ",
-    subtitle: "font-bold text-xl " ,
-    link: "font-base text-emerald-900 dark:text-emerald-100",
-    light: "font-base text-s text-light",
-}
+export const LightText = styled.Text`
+  font-size: ${props => props.theme.sizes.sm};
+  color: ${props => props.theme.colors.light};
+`
 
-export function ThemedText({ style, type = 'default', className, ...rest }: ThemedTextProps) {
-
-    return (
-        <Text
-            className={`${className} ${variantStyles[type]}`}
-            {...rest}
-        />
-    );
-}
+export const CenterText = styled.View`
+  display: flex;
+  flex-direction:row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  align-text: center;
+`

@@ -1,21 +1,19 @@
-import { View, Text } from "react-native";
-import {ThemedText} from "@/components/ThemedText";
+import { CenterText, LightText } from "@/components/ThemedText";
 import { Login } from "./Login";
+import { ThemedLink } from "@/components/ThemedLink";
+import { FullScreenView } from "@/components/FullScreenView";
+import { View } from "react-native";
 
 export default function Index() {
   return (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-            <Login />
-            <Text>
-                <ThemedText type="light">아이디가 없나요? </ThemedText>
-                <ThemedText type="link">가입하기</ThemedText>
-            </Text>
+    <FullScreenView>
+      <View style={{ alignItems: 'center' }}>
+        <Login />
+        <CenterText>
+          <LightText>아이디가 없나요? </LightText>
+          <ThemedLink size={"sm"} text={"가입하기"} href={"/register"} />
+        </CenterText>
       </View>
+    </FullScreenView>
   );
 }

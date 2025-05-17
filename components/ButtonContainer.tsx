@@ -1,10 +1,9 @@
-import { View, type ViewProps } from "react-native"
+import { styled } from 'styled-components/native';
 
-export const ButtonContainer = ({children, className} : ViewProps) => {
-
-    return (
-        <View className={`flex-row gap-3 justify-center items-center w-full ${className}`} >
-            {children}
-        </View>
-    )
-}
+export const ButtonContainer = styled.View`
+  display: flex;
+  justify-content:center;
+  align-items: center;
+  width: 100%;
+  margin-top: ${props => props.theme.spacing.default};
+`;
