@@ -1,6 +1,5 @@
 import { ThemedTextInput } from "@/components/ThemedTextInput";
 import { useState } from "react";
-import { View } from "react-native";
 import { ButtonContainer } from "@/components/ButtonContainer";
 import { ThemedButton } from "@/components/ThemedButton";
 import { FormView } from "@/components/ThemedView";
@@ -24,7 +23,7 @@ export function Login() {
         onChange={setPassword}
         autoComplete={"password"}
       />
-      <ButtonContainer className={"my-10"}>
+      <ButtonContainer>
         <ThemedButton text={"로그인"} type={"green"} onPress={() => console.log("login")} />
       </ButtonContainer>
     </FormView>

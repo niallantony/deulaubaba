@@ -1,4 +1,4 @@
-import { TextInput, View, type TextInputProps } from "react-native";
+import { type TextInputProps } from "react-native";
 import { LightText } from "./ThemedText";
 import { styled } from "styled-components/native";
 
@@ -10,9 +10,9 @@ export type ThemedTextInputProps = {
 
 const StyledInput = styled.TextInput`
   background-color: ${props => props.theme.colors.inputs};
-  font-size: ${props => props.theme.sizes.md}px;
-  padding: 12px;
-  border-radius: ${props => props.theme.radii.md}px;
+  font-size: ${props => props.theme.sizes.md};
+  padding: ${props => props.theme.spacing.small};
+  border-radius: ${props => props.theme.radii.md};
   box-shadow: 0 7px 6px rgba(0,0,0,0.03);
 `
 

@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import "../global.css"
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "@/themes/global";
 

@@ -24,7 +24,6 @@ export const FullScreenView = ({ children }: FullScreenViewProps) => {
           contentContainerStyle={{
             flexGrow: 1,
             justifyContent: "center",
-            paddingVertical: 32,
             paddingHorizontal: 24,
           }}
           keyboardShouldPersistTaps={"handled"}
