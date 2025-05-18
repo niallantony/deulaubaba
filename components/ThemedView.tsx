@@ -17,6 +17,12 @@ export const FormView = styled.View`
   margin-bottom: ${props => props.theme.spacing.default};
 `
 
+export const TwinInputs = styled.View`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+`
+
 const PageTitleContainer = styled.View`
   flex: 1;
   width: 100%;
@@ -27,6 +33,11 @@ const PageTitleContent = styled.View`
   flex: 1;
   width: 100%;
   justify-content: center;
+`
+
+export const UploadImageFrame = styled.View`
+  display: flex;
+  flex-direction: row;
 `
 
 export const PageTitleView = ({ title, children }: PageTitleViewProps) => {

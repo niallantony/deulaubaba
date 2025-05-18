@@ -1,11 +1,12 @@
 import { styled } from 'styled-components/native';
 import { ButtonTextTheme, ButtonTextWhite } from './ThemedText';
+import { PressableProps } from 'react-native';
 
 export type ThemedButtonProps = {
   text: string;
-  type: "green" | "outline";
+  type?: "green" | "outline";
   onPress: () => void;
-}
+} & PressableProps
 
 
 export const StyledButton = styled.Pressable<{ $type?: string }>`

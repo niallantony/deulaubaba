@@ -1,4 +1,4 @@
-import { ThemedTextInput } from "@/components/ThemedTextInput";
+import { ThemedTextInput } from "@/components/ThemedInput";
 import { useState } from "react";
 import { ButtonContainer } from "@/components/ButtonContainer";
 import { ThemedButton } from "@/components/ThemedButton";

@@ -26,7 +26,12 @@ export const LinkText = styled.Text<{ $size: string; }>`
 `
 
 export const LightText = styled.Text`
-  font-size: ${props => props.theme.sizes.sm};
+  font-size: ${props => props.theme.sizes.md};
+  color: ${props => props.theme.colors.light};
+`
+
+export const LightTextVariable = styled.Text<{ $size: string; }>`
+  font-size: ${props => props.theme.sizes[props.$size]};
   color: ${props => props.theme.colors.light};
 `
 

@@ -1,4 +1,4 @@
-import { ThemedTextInput } from "@/components/ThemedTextInput";
+import { ThemedTextInput } from "@/components/ThemedInput";
 import { ButtonContainer } from "@/components/ButtonContainer";
 import { ThemedButton } from "@/components/ThemedButton";
 import { useState } from "react";
@@ -46,6 +46,7 @@ export const UserDetails = ({ onSubmit }: UserDetailsProps) => {
       userType,
       username,
       name,
+      email,
       password
     }
     if (password !== confirmPassword) {

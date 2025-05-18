@@ -1,4 +1,4 @@
-import ModalSelector, { ModalSelectorProps } from 'react-native-modal-selector'
+import ModalSelector from 'react-native-modal-selector'
 import { LightText } from "./ThemedText";
 import { View } from 'react-native';
 import { styled } from 'styled-components/native';

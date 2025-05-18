@@ -10,8 +10,8 @@ export default function Index() {
       <View style={{ alignItems: 'center' }}>
         <Login />
         <CenterText>
-          <LightText>아이디가 없나요? </LightText>
-          <ThemedLink size={"sm"} text={"가입하기"} href={"/register"} />
+          <LightText size={"sm"}>아이디가 없나요? </LightText>
+          <ThemedLink size={"md"} text={"가입하기"} href={"/register"} />
         </CenterText>
       </View>
     </FullScreenView>
