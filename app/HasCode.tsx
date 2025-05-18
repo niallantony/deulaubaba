@@ -1,7 +1,7 @@
 import { BigButtonContainer } from "@/components/ButtonContainer";
 import { BigButton } from "@/components/ThemedButton";
 import { ButtonTextWhite } from "@/components/ThemedText"
-import { FormView, PageTitleView } from "@/components/ThemedView";
+import { PageTitleView } from "@/components/ThemedView";
 
 export type HasCodeActions = {
   inputCode: () => void;
@@ -15,11 +15,11 @@ export const HasCode = ({ inputCode, makeCode }: HasCodeActions) => {
     >
       <BigButtonContainer>
         <BigButton onPress={makeCode}>
-          <ButtonTextWhite>있다면</ButtonTextWhite>
+          <ButtonTextWhite>없다면</ButtonTextWhite>
           <ButtonTextWhite>학생 코드 만들기</ButtonTextWhite>
         </BigButton>
         <BigButton onPress={inputCode}>
-          <ButtonTextWhite>없다면</ButtonTextWhite>
+          <ButtonTextWhite>있다면</ButtonTextWhite>
           <ButtonTextWhite>학생 코드 입력하기</ButtonTextWhite>
         </BigButton>
       </BigButtonContainer>

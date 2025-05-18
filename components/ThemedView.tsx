@@ -7,6 +7,12 @@ export type PageTitleViewProps = {
   children: ReactNode;
 }
 
+export const FullView = styled.View`
+  flex:1;
+  justify-content: center;
+  padding: ${props => props.theme.spacing.screenContainer};
+`
+
 export const FormView = styled.View`
   width: 100%;
   padding-left: ${props => props.theme.spacing.default};
