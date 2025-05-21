@@ -9,7 +9,7 @@ import { DropDownSelect } from "@/components/DropDownSelect";
 import { ErrorText } from "@/components/ThemedText";
 
 export type UserDetailsProps = {
-  onSubmit: (user: User) => void;
+  onSubmit: (user: User, confirm: string) => void;
 }
 
 const UserTypeList = [
@@ -54,7 +54,7 @@ export const UserDetails = ({ onSubmit }: UserDetailsProps) => {
         confirm: "Passwords do not match",
       })
     } else {
-      onSubmit(user)
+      onSubmit(user, confirmPassword)
     }
   }
   return (

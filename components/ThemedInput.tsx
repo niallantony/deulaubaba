@@ -50,8 +50,9 @@ const StyledImageUpload = styled.Pressable`
 export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextInputProps) => {
   return (
     <StyledField>
-      <FormLabel >{label}</FormLabel>
+      <FormLabel accessibilityRole="label">{label}</FormLabel>
       <StyledInput
+        accessibilityLabel={label}
         textAlignVertical={"center"}
         value={value}
         onChangeText={onChange}
@@ -65,8 +66,9 @@ export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextI
 export const ThemedTwinInput = ({ position, label, value, onChange, ...rest }: ThemedTwinInputProps) => {
   return (
     <StyledTwinField $position={position}>
-      <FormLabel >{label}</FormLabel>
+      <FormLabel accessibilityRole="label">{label}</FormLabel>
       <StyledInput
+        accessibilityLabel={label}
         textAlignVertical={"center"}
         value={value}
         onChangeText={onChange}
@@ -79,7 +81,7 @@ export const ThemedTwinInput = ({ position, label, value, onChange, ...rest }: T
 
 export const UploadImage = ({ onPress }: PressableProps) => {
   return (
-    <StyledImageUpload onPress={onPress}>
+    <StyledImageUpload accessibilityLabel="이미지" onPress={onPress}>
       <Image source={addPhoto} style={{ width: 32, height: 32 }} />
     </StyledImageUpload>
   )

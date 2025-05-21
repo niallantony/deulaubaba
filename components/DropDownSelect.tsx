@@ -33,8 +33,9 @@ export const DropDownSelect = ({ items, label, selectedValue, onValueChange, pla
   const selectedLabel = items.find((i) => i.key === selectedValue)?.label || "";
   return (
     <View>
-      <FormLabel>{label}</FormLabel>
+      <FormLabel accessibilityRole='label'>{label}</FormLabel>
       <ModalSelector
+        testID="modal-select"
         data={items}
         initValue={placeholder}
         onChange={(option) => onValueChange(option.key)}
@@ -43,6 +44,7 @@ export const DropDownSelect = ({ items, label, selectedValue, onValueChange, pla
         cancelText='취소'
       >
         <StyledInput
+          accessibilityLabel={label}
           editable={false}
           value={selectedLabel}
         />

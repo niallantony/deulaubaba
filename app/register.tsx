@@ -1,11 +1,11 @@
-import { UserDetails } from "@/app/UserDetails";
+import { UserDetails } from "@/features/auth/UserDetails";
 import { useState } from "react";
 import { User } from "@/types/user";
-import { HasCode } from "./HasCode";
-import { AddStudent } from "./AddStudent";
+import { HasCode } from "@/features/auth/HasCode";
+import { AddStudent } from "@/features/auth/AddStudent";
 import { Student } from "@/types/student";
-import { RegistrationComplete } from "./RegistrationComplete";
-import { InputStudentCode } from "./InputCode";
+import { RegistrationComplete } from "@/features/auth/RegistrationComplete";
+import { InputStudentCode } from "@/components/InputCode";
 
 
 type Screen = "user" | "hasCode" | "code" | "student" | "finish"

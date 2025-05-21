@@ -14,11 +14,11 @@ export const HasCode = ({ inputCode, makeCode }: HasCodeActions) => {
       title={"학생 코드가 있나요? "}
     >
       <BigButtonContainer>
-        <BigButton onPress={makeCode}>
+        <BigButton accessibilityLabel="학생 코드 만들기" onPress={makeCode}>
           <ButtonTextWhite>없다면</ButtonTextWhite>
           <ButtonTextWhite>학생 코드 만들기</ButtonTextWhite>
         </BigButton>
-        <BigButton onPress={inputCode}>
+        <BigButton accessibilityLabel="학생 코드 입력하기" onPress={inputCode}>
           <ButtonTextWhite>있다면</ButtonTextWhite>
           <ButtonTextWhite>학생 코드 입력하기</ButtonTextWhite>
         </BigButton>

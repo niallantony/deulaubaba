@@ -11,9 +11,10 @@ import { Student } from "@/types/student"
 export type AddStudentProps = {
   onSubmit: (student: Student) => void;
   onSelectInput: () => void;
+  onUploadImage: () => void;
 }
 
-export const AddStudent = ({ onSubmit, onSelectInput }: AddStudentProps) => {
+export const AddStudent = ({ onSubmit, onSelectInput, onUploadImage }: AddStudentProps) => {
   const [name, setName] = useState("")
   const [school, setSchool] = useState("")
   const [age, setAge] = useState("")
@@ -30,14 +31,13 @@ export const AddStudent = ({ onSubmit, onSelectInput }: AddStudentProps) => {
       setting,
       disability,
     }
-    console.log(student)
     onSubmit(student)
   }
 
   return (
     <FullScreenView>
       <UploadImageFrame>
-        <UploadImage onPress={() => console.log("image")} />
+        <UploadImage onPress={onUploadImage} />
         <View style={{ flexGrow: 1, }}>
           <ThemedTextInput
             label={"학생 이름"}
@@ -83,7 +83,7 @@ export const AddStudent = ({ onSubmit, onSelectInput }: AddStudentProps) => {
       <CenterText style={{ marginTop: 28 }}>
         <LightTextVariable $size={"md"}>이미 코드가 있나요? </LightTextVariable>
         <Pressable onPress={onSelectInput}>
-          <LinkText $size={"md"}> 학생코드 입력하기</LinkText>
+          <LinkText $size={"md"}> 학생 코드 입력하기</LinkText>
         </Pressable>
       </CenterText>
     </FullScreenView>
