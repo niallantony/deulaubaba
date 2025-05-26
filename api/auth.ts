@@ -1,4 +1,4 @@
-import { RegistrationErrorType } from "@/types/registrationErrors"
+import { ErrorType } from "@/types/registrationErrors"
 import { User } from "@/types/user"
 
 export const login = async (username: string, password: string) => {
@@ -22,7 +22,7 @@ export const login = async (username: string, password: string) => {
 
 
 export const postUser = async (user: User, confirm: string) => {
-  const errors: RegistrationErrorType = {};
+  const errors: ErrorType = {};
   await wait(1000);
 
   if (!user.userType) {

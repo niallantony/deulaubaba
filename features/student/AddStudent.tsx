@@ -14,7 +14,7 @@ export type AddStudentProps = {
   onUploadImage: () => void;
 }
 
-export const AddStudent = ({ onSubmit, onSelectInput, onUploadImage }: AddStudentProps) => {
+export const AddStudentForm = ({ onSubmit, onSelectInput, onUploadImage }: AddStudentProps) => {
   const [name, setName] = useState("")
   const [school, setSchool] = useState("")
   const [age, setAge] = useState("")

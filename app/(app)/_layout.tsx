@@ -8,7 +8,7 @@ import profile from "@/assets/images/profile.png"
 export default function Root() {
   return (
     <StudentProvider>
-      <Tabs screenOptions={{ headerShown: false, }}>
+      <Tabs screenOptions={{ headerShown: false }}>
         <Tabs.Screen
           name="index"
           options={{
@@ -17,10 +17,16 @@ export default function Root() {
           }}
         />
         <Tabs.Screen
-          name="student"
+          name="student/index"
           options={{
             title: 'Student',
             tabBarIcon: () => <Image source={profile} style={{ height: 30, resizeMode: "contain", width: 30 }} />
+          }}
+        />
+        <Tabs.Screen
+          name="student/add"
+          options={{
+            href: null,
           }}
         />
       </Tabs>

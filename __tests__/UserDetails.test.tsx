@@ -1,6 +1,6 @@
 import { UserDetails } from "@/features/auth/UserDetails"
 import { renderWithProviders } from "@/test-utils/renderWithProvider"
-import { RegistrationErrorType } from "@/types/registrationErrors"
+import { ErrorType } from "@/types/registrationErrors"
 import { User } from "@/types/user"
 import { fireEvent, waitFor } from "@testing-library/react-native"
 
@@ -14,7 +14,7 @@ const mockUser: User = {
   password: "password",
 }
 
-const mockErrors: RegistrationErrorType = {
+const mockErrors: ErrorType = {
   userType: "ErrorMessage",
   username: "ErrorMessage",
   name: "ErrorMessage",

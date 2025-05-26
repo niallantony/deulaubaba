@@ -21,7 +21,7 @@ export const useLogin = () => {
       if (response.status === 200 && response.user) {
         setToken(response.user.token)
         setLoading(false);
-        signIn();
+        signIn(response.user);
         return true;
       }
     } catch (err) {

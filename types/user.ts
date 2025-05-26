@@ -5,3 +5,10 @@ export type User = {
   email: string;
   password: string;
 }
+
+export type UserResponse = {
+  username: string;
+  name: string;
+  email: string;
+  token: string;
+}

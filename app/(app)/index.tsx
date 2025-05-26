@@ -1,18 +1,22 @@
-import { FullScreenView } from "@/components/FullScreenView";
+import { ButtonContainer } from "@/components/ButtonContainer";
 import { ThemedButton } from "@/components/ThemedButton"
+import { TitleText } from "@/components/ThemedText";
+import { FullView } from "@/components/ThemedView";
 import { useSession } from "@/context/AuthContext"
-import { Text } from "react-native"
 
 export default function Index() {
-  const { signOut } = useSession();
+  const { signOut, user } = useSession();
   return (
-    <FullScreenView>
-      <ThemedButton
-        text={"Log Out"}
-        type="outline"
-        onPress={signOut}
-      />
-    </FullScreenView>
+    <FullView>
+      {user && (<TitleText>Welcome {user.name} 👋</TitleText>)}
+      <ButtonContainer>
+        <ThemedButton
+          text={"Log Out"}
+          type="outline"
+          onPress={signOut}
+        />
+      </ButtonContainer>
+    </FullView>
 
   )
 }
