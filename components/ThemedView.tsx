@@ -10,6 +10,7 @@ export type PageTitleViewProps = {
 export const FullView = styled.View`
   flex:1;
   justify-content: center;
+  align-items: center;
   padding: ${props => props.theme.spacing.screenContainer};
 `
 

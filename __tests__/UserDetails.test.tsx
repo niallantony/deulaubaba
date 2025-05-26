@@ -1,5 +1,6 @@
 import { UserDetails } from "@/features/auth/UserDetails"
 import { renderWithProviders } from "@/test-utils/renderWithProvider"
+import { RegistrationErrorType } from "@/types/registrationErrors"
 import { User } from "@/types/user"
 import { fireEvent, waitFor } from "@testing-library/react-native"
 
@@ -11,6 +12,15 @@ const mockUser: User = {
   name: "name",
   email: "email",
   password: "password",
+}
+
+const mockErrors: RegistrationErrorType = {
+  userType: "ErrorMessage",
+  username: "ErrorMessage",
+  name: "ErrorMessage",
+  email: "ErrorMessage",
+  password: "ErrorMessage",
+  confirm: "ErrorMessage",
 }
 
 
@@ -164,5 +174,13 @@ describe('Rendering', () => {
 
     expect(mockSubmit).not.toHaveBeenCalled()
     expect(getByText("Passwords must match")).toBeTruthy();
+  })
+
+  it("error messages are shown", () => {
+    const { getAllByText } = renderWithProviders(<UserDetails onSubmit={dummyFunction} errors={mockErrors} />)
+
+    const errors = getAllByText("ErrorMessage");
+
+    expect(errors.length).toBe(6);
   })
 })
