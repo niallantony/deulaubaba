@@ -11,8 +11,9 @@ export default function Student() {
     )
   }
 
-  return (
-    <StudentProfile />
+  console.log(student)
 
+  return (
+    <StudentProfile student={student} />
   )
 }

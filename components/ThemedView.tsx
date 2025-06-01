@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { Children, ReactNode } from "react";
 import { styled } from "styled-components/native"
 import { TitleText } from "./ThemedText";
 
@@ -6,6 +6,14 @@ export type PageTitleViewProps = {
   title: string;
   children: ReactNode;
 }
+
+export const InfoPane = styled.View`
+  background-color: ${props => props.theme.colors.inputs};
+  font-size: ${props => props.theme.sizes.md};
+  padding: ${props => props.theme.spacing.default};
+  border-radius: ${props => props.theme.radii.md};
+  box-shadow: 0 7px 6px rgba(0,0,0,0.03);
+`
 
 export const FullView = styled.View`
   flex:1;
@@ -24,10 +32,16 @@ export const FormView = styled.View`
   margin-bottom: ${props => props.theme.spacing.default};
 `
 
+
 export const TwinInputs = styled.View`
   width: 100%;
   display: flex;
   flex-direction: row;
+`
+
+export const RowText = styled.View`
+  flex-direction: row;
+  justify-content: flex-start;
 `
 
 const PageTitleContainer = styled.View`
@@ -41,8 +55,12 @@ const PageTitleContent = styled.View`
   width: 100%;
   justify-content: center;
 `
+const ScrollablePageTitleContent = styled.ScrollView`
+  flex: 1;
+  width: 100%;
+`
 
-export const UploadImageFrame = styled.View`
+export const ImageFrame = styled.View`
   display: flex;
   flex-direction: row;
 `
@@ -56,7 +74,17 @@ export const PageTitleView = ({ title, children }: PageTitleViewProps) => {
       </PageTitleContent>
     </PageTitleContainer>
   )
-
-
 }
+
+export const PageTitleScrollableView = ({ title, children }: PageTitleViewProps) => {
+  return (
+    <PageTitleContainer>
+      <TitleText>{title}</TitleText>
+      <ScrollablePageTitleContent>
+        {children}
+      </ScrollablePageTitleContent>
+    </PageTitleContainer>
+  )
+}
+
 

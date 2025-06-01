@@ -15,9 +15,17 @@ export const SemiboldText = styled.Text`
   color: ${props => props.theme.colors.text};
 `
 
+export const InfoLabel = styled.Text`
+  font-weight: 600;
+  font-size: ${props => props.theme.sizes.md};
+  color: ${props => props.theme.colors.text};
+  margin-top: ${props => props.theme.spacing.small};
+  margin-bottom: ${props => props.theme.spacing.small};
+`
+
 export const SubtitleText = styled.Text`
   font-weight: 800;
-  font-size ${props => props.theme.sizes.xl};
+  font-size: ${props => props.theme.sizes.xl};
   color: ${props => props.theme.colors.text};
 `
 export const LinkText = styled.Text<{ $size: string; }>`
@@ -60,5 +68,5 @@ export const CenterText = styled.View`
   justify-content: center;
   align-items: center;
   width: 100%;
-  align-text: center;
+  text-align: center;
 `

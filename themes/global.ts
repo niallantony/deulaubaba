@@ -14,6 +14,7 @@ export const theme = {
     sm: "12px",
   },
   radii: {
+    full: "128px",
     xl: "16px",
     md: "8px",
   },

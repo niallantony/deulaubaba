@@ -12,3 +12,9 @@ export type UserResponse = {
   email: string;
   token: string;
 }
+
+export type UserAvatar = {
+  id: string;
+  src: string;
+  type: string;
+}

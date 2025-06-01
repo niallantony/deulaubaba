@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -9,15 +10,16 @@ import {
 } from "react-native"
 
 export type FullScreenViewProps = {
-
+  children: ReactNode
 } & ViewProps;
 
-export const FullScreenView = ({ children }: FullScreenViewProps) => {
+export const FullScreenView = ({ children, ...props }: ViewProps) => {
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={64}
+      {...props}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView

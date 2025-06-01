@@ -1,3 +1,5 @@
+import { UserAvatar } from "./user";
+
 export type Student = {
   id?: string;
   name: string;
@@ -6,4 +8,8 @@ export type Student = {
   grade: number;
   setting: string;
   disability: string;
+  imagesrc?: string;
+  communicationDetails?: string;
+  challengesDetails?: string;
+  team?: UserAvatar[];
 }
