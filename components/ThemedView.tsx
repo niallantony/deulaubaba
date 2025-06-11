@@ -73,6 +73,10 @@ export const RowText = styled.View`
   flex-direction: row;
   justify-content: flex-start;
 `
+export const UploadImageFrame = styled.View`
+  display: flex;
+  flex-direction: row;
+`
 
 const PageTitleContainer = styled.View`
   flex: 1;
@@ -93,6 +97,11 @@ const ScrollablePageTitleContent = styled.ScrollView`
 export const ImageFrame = styled.View`
   display: flex;
   flex-direction: row;
+`
+
+export const ThemedScrollableView = styled.ScrollView`
+  flex: 1;
+  width: 100%;
 `
 
 export const PageTitleView = ({ title, children }: PageTitleViewProps) => {

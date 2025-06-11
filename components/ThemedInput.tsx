@@ -37,7 +37,7 @@ const StyledTwinField = styled.View<{ $position: "left" | "right" }>`
 `
 
 const StyledImageUpload = styled.Pressable`
-  width: 128px;
+  width: 49%;
   background-color: ${props => props.theme.colors.inputs};
   border-radius: ${props => props.theme.radii.xl};
   margin-right: ${props => props.theme.spacing.small};
@@ -50,7 +50,7 @@ const StyledImageUpload = styled.Pressable`
 export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextInputProps) => {
   return (
     <StyledField>
-      <FormLabel accessibilityRole="label">{label}</FormLabel>
+      <FormLabel>{label}</FormLabel>
       <StyledInput
         accessibilityLabel={label}
         textAlignVertical={"center"}
@@ -66,7 +66,7 @@ export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextI
 export const ThemedTwinInput = ({ position, label, value, onChange, ...rest }: ThemedTwinInputProps) => {
   return (
     <StyledTwinField $position={position}>
-      <FormLabel accessibilityRole="label">{label}</FormLabel>
+      <FormLabel>{label}</FormLabel>
       <StyledInput
         accessibilityLabel={label}
         textAlignVertical={"center"}

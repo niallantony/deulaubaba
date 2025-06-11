@@ -15,7 +15,7 @@ export default function Root() {
           }}
         />
         <Tabs.Screen
-          name="student/index"
+          name="student"
           options={{
             title: 'Student',
             tabBarShowLabel: false,
