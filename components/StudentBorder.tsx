@@ -1,0 +1,57 @@
+import { useStudent } from "@/context/StudentContext"
+import { PropsWithChildren } from "react";
+import { styled } from "styled-components/native";
+import { StudentAvatar } from "./StudentAvatar";
+import { PressableAvatarPane, } from "./ThemedView";
+import { SemiboldLightText, TitleText } from "./ThemedText";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+
+type BorderProps = {
+  $tabHeight: number;
+}
+
+type StudentBorderProps = {
+  title: string;
+  subtitle: string;
+} & PropsWithChildren;
+
+const BorderView = styled.View<BorderProps>`
+  padding: ${props => props.theme.spacing.default};
+  padding-top: ${props => props.theme.spacing.header};
+  padding-bottom: ${props => `${props.$tabHeight + 54}px`};
+  flex:1;
+`
+const HeaderFrame = styled.View`
+  flex-direction: row;
+  padding-top: ${props => props.theme.spacing.default};
+  padding-bottom: ${props => props.theme.spacing.default};
+  justify-content: space-between;
+  align-items: center;
+`
+
+const HeaderTextFrame = styled.View`
+
+`
+
+export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps) => {
+  const { student } = useStudent();
+  const tabBarHeight = useBottomTabBarHeight();
+
+  return (
+    <BorderView $tabHeight={tabBarHeight}>
+      {student &&
+        <HeaderFrame>
+          <HeaderTextFrame>
+            <TitleText>{title}</TitleText>
+            <SemiboldLightText>{subtitle}</SemiboldLightText>
+          </HeaderTextFrame>
+          <PressableAvatarPane onPress={() => console.log("Change Student")}>
+            <StudentAvatar url={student?.imagesrc} width={48} height={48} style="full" />
+          </PressableAvatarPane>
+        </HeaderFrame>
+      }
+      {children}
+    </BorderView>
+  )
+
+}
