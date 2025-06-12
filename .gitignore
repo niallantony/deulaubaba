@@ -21,6 +21,10 @@ assets/images/avatarexample.png
 *.key
 *.mobileprovision
 
+# Builds
+ios
+android
+
 # Metro
 .metro-health-check*
 
@@ -39,5 +43,3 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-app-example
-ios

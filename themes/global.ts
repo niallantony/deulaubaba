@@ -2,9 +2,11 @@ export const theme = {
   colors: {
     accent: "#15673D",
     text: "#364356",
+    lightText: "#FBFBFB",
     light: "#636D77",
     inputs: "#FFFFFF",
     error: "#FF4141",
+    background: "#FBFBFB",
   },
   sizes: {
     xxl: "42px",
@@ -23,6 +25,7 @@ export const theme = {
     large: "32px",
     default: "24px",
     small: "12px",
+    sides: "0 24px",
     header: "48px",
     screenContainer: "72px 32px",
     bigButton: "58px 0",

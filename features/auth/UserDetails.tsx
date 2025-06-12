@@ -8,6 +8,7 @@ import { FormView } from "@/components/ThemedView";
 import { DropDownSelect } from "@/components/DropDownSelect";
 import { ErrorText } from "@/components/ThemedText";
 import { RegistrationErrorType } from "@/types/registrationErrors";
+import { ThemedLink } from "@/components/ThemedLink";
 
 export type UserDetailsProps = {
   onSubmit: (user: User, confirm: string) => void;
@@ -49,7 +50,7 @@ export const UserDetails = ({ onSubmit, errors }: UserDetailsProps) => {
   }
 
   return (
-    <FullScreenView >
+    <FullScreenView>
       <FormView>
         <DropDownSelect
           label={"회원유형"}
@@ -98,6 +99,7 @@ export const UserDetails = ({ onSubmit, errors }: UserDetailsProps) => {
         {confirmError && (<ErrorText>{confirmError}</ErrorText>)}
         <ButtonContainer>
           <ThemedButton text={"가입하기"} type={"green"} onPress={handleSubmit} />
+          <ThemedLink size={"md"} text={"로그인"} href={'/sign-in'} margin={"24px 0"} />
         </ButtonContainer>
       </FormView>
     </FullScreenView>

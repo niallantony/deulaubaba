@@ -11,13 +11,14 @@ export default function Index() {
 
   const { handleLogin, error, loading } = useLogin();
 
+
   return (
     <FullScreenView>
       <View style={{ alignItems: 'center' }}>
         <Login onLogin={handleLogin} error={error} />
         <CenterText>
-          <LightText>아이디가 없나요? </LightText>
-          <ThemedLink size={"md"} text={"가입하기"} href={"/register"} />
+          <LightText> 아이디가 없나요? </LightText>
+          <ThemedLink margin={"0"} size={"md"} text={"가입하기"} href={"/register"} />
         </CenterText>
       </View>
       {loading && (<Loading />)}

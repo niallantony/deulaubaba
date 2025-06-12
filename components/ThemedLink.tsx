@@ -6,10 +6,12 @@ import { Image, ImageSourcePropType, ImageStyle } from 'react-native';
 export type ThemedLinkProps = {
   text: string;
   size: "sm" | "md" | "lg";
+  margin: string;
 } & LinkProps
 
-export const StyledLink = styled.Pressable`
-  color: ${props => props.theme.colors.accent}
+export const StyledLink = styled.Pressable<{ $margin?: string }>`
+  color: ${props => props.theme.colors.accent};
+  margin: ${props => props.$margin};
 `
 
 export const StyledIcon = styled.Pressable`
@@ -17,10 +19,10 @@ export const StyledIcon = styled.Pressable`
   align-items: center;
 `
 
-export function ThemedLink({ text, href, size }: ThemedLinkProps) {
+export function ThemedLink({ text, href, size, margin }: ThemedLinkProps) {
   return (
     <Link href={href} asChild>
-      <StyledLink>
+      <StyledLink $margin={margin}>
         <LinkText $size={size}>{text}</LinkText>
       </StyledLink>
     </Link>

@@ -1,4 +1,4 @@
-export type ErrorType = {
+export type RegistrationErrorType = {
   userType?: string;
   name?: string;
   username?: string;

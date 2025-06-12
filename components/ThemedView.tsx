@@ -34,10 +34,11 @@ export const PressableAvatarPane = styled.Pressable`
 `
 
 export const FullView = styled.View`
+  background-color: ${props => props.theme.colors.background};
+  paddingBottom: ${props => props.theme.spacing.default};
   flex:1;
   justify-content: center;
   align-items: center;
-  padding: ${props => props.theme.spacing.screenContainer};
 `
 
 export const FullViewWhite = styled.View`
@@ -125,5 +126,6 @@ export const PageTitleScrollableView = ({ title, children }: PageTitleViewProps)
     </PageTitleContainer>
   )
 }
+
 
 

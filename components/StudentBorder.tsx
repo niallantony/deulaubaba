@@ -17,8 +17,8 @@ type StudentBorderProps = {
 } & PropsWithChildren;
 
 const BorderView = styled.View<BorderProps>`
-  padding: ${props => props.theme.spacing.default};
-  padding-top: ${props => props.theme.spacing.header};
+  background-color: ${props => props.theme.colors.background};
+  padding: ${props => props.theme.spacing.sides};
   flex:1;
 `
 const HeaderFrame = styled.View`

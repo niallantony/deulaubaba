@@ -10,6 +10,7 @@ export const NoStudent = () => {
         No Student Found
       </TitleText>
       <IconLink
+        margin={"0"}
         text="Add Student"
         href={'/student/add'} size={"md"}
         imageSource={noStudent}

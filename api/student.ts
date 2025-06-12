@@ -18,6 +18,7 @@ export const getStudentFromCode = async (code: string): Promise<StudentResponse>
     return {
       status: 200,
       student: {
+        id: "123456",
         name: "엄수민",
         school: "지행초등학교",
         age: 11,
@@ -45,6 +46,11 @@ export const getAllStudents = async (userid: string): Promise<StudentsResponse> 
       {
         id: "123456",
         name: "엄수민",
+        imagesrc: "@example",
+      },
+      {
+        id: "123457",
+        name: "엄수빈",
         imagesrc: "@example",
       },
     ]

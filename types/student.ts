@@ -18,4 +18,5 @@ export type StudentIdAvatar = {
   name: string;
   id: string;
   imagesrc?: string;
+  empty?: boolean;
 }
