@@ -13,3 +13,9 @@ export type Student = {
   challengesDetails?: string;
   team?: UserAvatar[];
 }
+
+export type StudentIdAvatar = {
+  name: string;
+  id: string;
+  imagesrc?: string;
+}
