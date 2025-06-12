@@ -23,9 +23,10 @@ function RootNavigator() {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <Stack>
+      <Stack screenOptions={{ headerShown: false }}>
         <Stack.Protected guard={isSignedIn}>
           <Stack.Screen name="(app)" options={{ headerShown: false }} />
+          <Stack.Screen name="(hidden)/student/add" />
         </Stack.Protected>
         <Stack.Protected guard={!isSignedIn}>
           <Stack.Screen name="sign-in" options={{ headerShown: false }} />

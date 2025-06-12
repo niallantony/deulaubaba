@@ -49,6 +49,7 @@ export const useAddStudent = () => {
 
   const confirm = (cb: (s: Student) => void) => {
     if (student) {
+      setScreen("add")
       cb(student)
     }
   }

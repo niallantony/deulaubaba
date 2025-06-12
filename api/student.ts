@@ -48,11 +48,6 @@ export const getAllStudents = async (userid: string): Promise<StudentsResponse> 
         name: "엄수민",
         imagesrc: "@example",
       },
-      {
-        id: "123457",
-        name: "엄수빈",
-        imagesrc: "@example",
-      },
     ]
   }
 }

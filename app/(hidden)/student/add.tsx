@@ -28,14 +28,16 @@ export default function AddStudent() {
   useFocusEffect(
     useCallback(() => {
       reset();
-    }, [reset])
+    }
+
+      , [reset])
   )
 
 
   if (student && screen === "confirm") {
     return (<ConfirmStudent student={student} onConfirm={() => {
       confirm(setStudent);
-      router.navigate('/student')
+      router.dismissAll()
     }} />)
   }
   if (screen === "add") {

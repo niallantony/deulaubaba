@@ -21,6 +21,7 @@ export const StyledButton = styled.Pressable<{ $type?: string }>`
 `;
 
 export const BigButton = styled.Pressable`
+width: 80%;
   background-color: ${props => props.theme.colors.accent};
   border-radius: ${props => props.theme.radii.xl};
   padding: ${props => props.theme.spacing.bigButton};
