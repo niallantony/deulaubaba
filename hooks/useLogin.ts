@@ -5,7 +5,6 @@ import { useState } from "react"
 export const useLogin = () => {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false);
-  const [token, setToken] = useState("")
 
   const { signIn } = useSession();
 
@@ -19,7 +18,6 @@ export const useLogin = () => {
         return false;
       }
       if (response.status === 200 && response.user) {
-        setToken(response.user.token)
         setLoading(false);
         signIn(response.user);
         return true;
@@ -31,5 +29,5 @@ export const useLogin = () => {
     }
   }
 
-  return { handleLogin, error, loading, token }
+  return { handleLogin, error, loading }
 }

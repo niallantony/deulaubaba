@@ -1,6 +1,7 @@
 import { useStorageState } from "@/hooks/useStorageState";
 import { UserResponse } from "@/types/user";
 import { createContext, use, useState, type PropsWithChildren } from "react";
+import * as React from 'react';
 
 const AuthContext = createContext<{
   signIn: (user: UserResponse) => void;
@@ -25,6 +26,7 @@ export const useSession = () => {
   return value;
 }
 
+
 export const SessionProvider = ({ children }: PropsWithChildren) => {
   const [[isLoading, session], setSession] = useStorageState('session');
   const [user, setUser] = useState<UserResponse | null>(null);
@@ -38,6 +40,7 @@ export const SessionProvider = ({ children }: PropsWithChildren) => {
         },
         signOut: () => {
           setSession(null)
+          setUser(null)
         },
         session,
         isLoading,

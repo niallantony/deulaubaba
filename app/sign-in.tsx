@@ -9,7 +9,7 @@ import { Loading } from "@/components/Loading";
 
 export default function Index() {
 
-  const { handleLogin, error, loading, token } = useLogin();
+  const { handleLogin, error, loading } = useLogin();
 
   return (
     <FullScreenView>
@@ -20,7 +20,6 @@ export default function Index() {
           <ThemedLink size={"md"} text={"가입하기"} href={"/register"} />
         </CenterText>
       </View>
-      {token && (<LightText>{token}</LightText>)}
       {loading && (<Loading />)}
     </FullScreenView>
   );

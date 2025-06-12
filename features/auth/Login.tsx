@@ -25,6 +25,7 @@ export function Login({ onLogin, error }: LoginProps) {
         value={username}
         onChange={setUsername}
         autoComplete={"username"}
+        autoCapitalize="none"
       />
       <ThemedTextInput
         secureTextEntry

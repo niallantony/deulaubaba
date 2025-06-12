@@ -3,7 +3,7 @@ import { Slot } from "expo-router";
 
 export default function Root() {
   return (
-    <StudentBorder title={"Student Profile"} subtitle={"A profile"}>
+    <StudentBorder title={"프로필"} subtitle={"A profile"}>
       <Slot />
     </StudentBorder>
   )
