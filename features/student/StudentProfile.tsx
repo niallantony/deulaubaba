@@ -1,16 +1,20 @@
+import { OverlayDialog } from "@/components/OverlayDialog"
 import { StudentAvatar } from "@/components/StudentAvatar"
-import { InfoLabel, SemiboldText, StyledText, TitleText } from "@/components/ThemedText"
+import { InfoLabel, SemiboldText, StyledText, SubtitleText, TitleText } from "@/components/ThemedText"
 import { AvatarPane, ImageFrame, InfoPane, PageTitleScrollableView, ProfileAvatarPane, RowText, ThemedScrollableView } from "@/components/ThemedView"
 import { UserRibbon } from "@/components/UserRibbon"
-import { useUserRibbon } from "@/hooks/useUserRibbon"
 import { Student } from "@/types/student"
-import { useEffect } from "react"
-import { View } from "react-native"
+import { useState } from "react"
+import { View, Text } from "react-native"
 
 export const StudentProfile = ({ student }: { student: Student }) => {
+  const [studentCodeVisible, setStudentCodeVisible] = useState(false)
 
 
-
+  const handleShowStudentCode = () => {
+    console.log("Set to true")
+    setStudentCodeVisible(true)
+  }
 
 
   return (
@@ -33,7 +37,7 @@ export const StudentProfile = ({ student }: { student: Student }) => {
         </View>
       </ImageFrame>
       <InfoLabel>의사소통 팀 구성원</InfoLabel>
-      <UserRibbon student={student} />
+      <UserRibbon handleShowStudentCode={handleShowStudentCode} student={student} />
       <InfoLabel>주요 의사소통특성</InfoLabel>
       <InfoPane>
         <StyledText>{student.communicationDetails}</StyledText>
@@ -42,6 +46,20 @@ export const StudentProfile = ({ student }: { student: Student }) => {
       <InfoPane>
         <StyledText>{student.challengesDetails}</StyledText>
       </InfoPane>
+      <OverlayDialog
+        key="studentCodeDialog"
+        visible={studentCodeVisible}
+        onDismiss={() => setStudentCodeVisible(false)}
+      >
+        <StudentAvatar
+          url={student.imagesrc}
+          width={128}
+          height={128}
+          style="round"
+        />
+        <Text style={{ marginTop: 12 }}>{student.name}의 학생 코드:</Text>
+        <SubtitleText>{student.id}</SubtitleText>
+      </OverlayDialog>
     </ThemedScrollableView>
   )
 }

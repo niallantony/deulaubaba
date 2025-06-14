@@ -67,7 +67,7 @@ export const OverlayDialog = ({ children, onDismiss, buttons, visible }: DialogP
             {children}
             <ButtonContainer>
               {buttons && buttons.map((button) => (
-                <ModalButton onPress={() => handlePress(button.onPress)}>
+                <ModalButton key={button.text} onPress={() => handlePress(button.onPress)}>
                   <ButtonTextTheme>{button.text}</ButtonTextTheme>
                 </ModalButton>)
               )}

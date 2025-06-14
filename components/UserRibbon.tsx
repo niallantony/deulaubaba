@@ -75,9 +75,10 @@ const AddUserText = styled.Text`
 
 export type UserRibbonProps = {
   student: Student | null;
+  handleShowStudentCode: () => void;
 }
 
-export const UserRibbon = ({ student }: UserRibbonProps) => {
+export const UserRibbon = ({ student, handleShowStudentCode }: UserRibbonProps) => {
   const [userSelect, setUserSelect] = useState<UserAvatar | null>(null);
   const [modalVisible, setModalVisible] = useState(false)
 
@@ -130,11 +131,9 @@ export const UserRibbon = ({ student }: UserRibbonProps) => {
         />
         <UserLableBig>{userSelect?.type}</UserLableBig>
       </OverlayDialog>
-      <AddUserButton >
-        <StyledIcon>
-          <AddUserIcon source={addUser} />
-          <AddUserText>초대하기</AddUserText>
-        </StyledIcon>
+      <AddUserButton onPress={handleShowStudentCode}>
+        <AddUserIcon source={addUser} />
+        <AddUserText>초대하기</AddUserText>
       </AddUserButton>
     </RibbonFrame>
   )
