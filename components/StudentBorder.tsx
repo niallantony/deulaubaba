@@ -1,11 +1,12 @@
 import { useStudent } from "@/context/StudentContext"
 import { PropsWithChildren, useState } from "react";
 import { styled } from "styled-components/native";
+import { Text } from "react-native";
 import { StudentAvatar } from "./StudentAvatar";
 import { PressableAvatarPane, } from "./ThemedView";
 import { SemiboldLightText, TitleText } from "./ThemedText";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { ChangeStudentDialog } from "./StudentList";
+import { OverlayDialog } from "./OverlayDialog";
 
 
 type StudentBorderProps = {
@@ -60,7 +61,17 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
           </PressableAvatarPane>
         </HeaderFrame>
       }
-      {showList && (<ChangeStudentDialog onDismiss={() => setShowList(false)} />)}
+      {showList && (
+        <OverlayDialog
+          onDismiss={() => setShowList(false)}
+          buttons={
+            [
+              { text: "학생 선택", onPress: () => setShowList(false) }
+            ]
+          } >
+          <Text style={{ fontSize: 16 }}>현재 학생을 변경하시겠습니까?</Text>
+        </OverlayDialog>
+      )}
       <ContentFrame>
         {children}
       </ContentFrame>
