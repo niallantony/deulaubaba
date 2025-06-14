@@ -1,4 +1,4 @@
-import { BigButtonContainer } from "@/components/ButtonContainer";
+import { BigButtonContainer, BigButtonSpacer } from "@/components/ButtonContainer";
 import { BigButton } from "@/components/ThemedButton";
 import { StyledLink } from "@/components/ThemedLink";
 import { ButtonTextWhite, LinkText } from "@/components/ThemedText"

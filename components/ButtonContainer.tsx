@@ -10,7 +10,7 @@ export const ButtonContainer = styled.View`
 
 export const BigButtonContainer = styled.View`
   flex: 1;
-  padding: 100px 0;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
 `
+

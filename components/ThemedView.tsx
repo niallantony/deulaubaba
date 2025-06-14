@@ -82,7 +82,7 @@ export const UploadImageFrame = styled.View`
 const PageTitleContainer = styled.View`
   flex: 1;
   width: 100%;
-  padding: ${props => props.theme.spacing.screenContainer};
+  padding: ${props => props.theme.spacing.default};
 `
 
 const PageTitleContent = styled.View`
