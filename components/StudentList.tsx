@@ -60,38 +60,3 @@ export const ChangeStudentDialog = ({ onDismiss }: { onDismiss: () => void }) =>
 };
 
 
-export const StudentList = () => {
-
-  const { user } = useSession();
-  const { students, fetchStudents, loading, error } = useStudents();
-
-  useEffect(() => {
-    if (user?.userId) {
-      fetchStudents(user?.userId);
-    }
-  }, [user])
-
-  return (
-    <>
-      {loading && (
-        <ActivityIndicator />
-      )}
-      {!loading && students && students.map((student) => {
-        return (
-          // TODO : Student List Styling 
-          <View key={student.id}>
-            <StudentAvatar url={student.imagesrc} width={24} height={24} style="full" />
-            <Text >
-              {student.name}
-            </Text>
-          </View>
-        )
-      }
-      )}
-      {error && (
-        <ErrorText>{error}</ErrorText>
-      )}
-
-    </>
-  )
-}

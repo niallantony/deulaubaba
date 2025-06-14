@@ -3,7 +3,8 @@ import { ThemeProvider } from "styled-components/native";
 import { theme } from "@/themes/global";
 import { SessionProvider, useSession } from "@/context/AuthContext";
 import { SplashScreenController } from "@/features/splash";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { View } from "react-native";
 
 export default function RootLayout() {
   return (
@@ -18,11 +19,18 @@ export default function RootLayout() {
 
 function RootNavigator() {
   const { user } = useSession();
+  const insets = useSafeAreaInsets();
 
   const isSignedIn = user ? true : false;
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <View style={{
+      flex: 1,
+      paddingTop: insets.top,
+      paddingBottom: insets.bottom,
+      paddingLeft: insets.left,
+      paddingRight: insets.right,
+    }}>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Protected guard={isSignedIn}>
           <Stack.Screen name="(app)" options={{ headerShown: false }} />
@@ -33,6 +41,6 @@ function RootNavigator() {
           <Stack.Screen name="register" options={{ headerShown: false }} />
         </Stack.Protected>
       </Stack>
-    </SafeAreaView>
+    </View>
   )
 }

@@ -100,7 +100,7 @@ export const StudentCards = () => {
 
   }, [students, student]);
 
-  return students ? (
+  return (
     <CardHolder
       numColumns={2}
       data={cards}
@@ -127,18 +127,6 @@ export const StudentCards = () => {
         )
       }}
     />
-
-  ) : (
-    <AddStudentCard>
-      <IconLink
-        text={"학생 추가"}
-        href={'/student/add'}
-        size="md"
-        imageSource={noStudent}
-        imageOptions={{ width: 64, height: 64 }}
-        margin={"0"}
-      />
-    </AddStudentCard>
   )
 
 }
