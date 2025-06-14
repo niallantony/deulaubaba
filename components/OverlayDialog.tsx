@@ -40,15 +40,18 @@ type DialogProps = {
     text: string;
     onPress: () => void;
   }[];
+  visible: boolean;
 } & PropsWithChildren;
 
 
 
-export const OverlayDialog = ({ children, onDismiss, buttons }: DialogProps) => {
-  const [visible, setVisible] = useState(true);
+export const OverlayDialog = ({ children, onDismiss, buttons, visible }: DialogProps) => {
   const handlePress = (cb: () => void) => {
-    setVisible(false);
     cb()
+  }
+
+  const handleDismiss = () => {
+    onDismiss();
   }
 
   return (
@@ -56,7 +59,7 @@ export const OverlayDialog = ({ children, onDismiss, buttons }: DialogProps) => 
       visible={visible}
       transparent
       animationType="fade"
-      onRequestClose={onDismiss} // Android back
+      onRequestClose={handleDismiss}
     >
       <CenteredOverlay onPress={onDismiss}>
         <Pressable onPress={(e) => e.stopPropagation()}>

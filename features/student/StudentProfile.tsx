@@ -8,14 +8,8 @@ import { useEffect } from "react"
 import { View } from "react-native"
 
 export const StudentProfile = ({ student }: { student: Student }) => {
-  const { loading, users, fetchUsers } = useUserRibbon();
 
-  useEffect(() => {
-    if (student.id) {
-      fetchUsers(student.id)
-    }
 
-  }, [student])
 
 
 
@@ -39,7 +33,7 @@ export const StudentProfile = ({ student }: { student: Student }) => {
         </View>
       </ImageFrame>
       <InfoLabel>의사소통 팀 구성원</InfoLabel>
-      <UserRibbon users={users} />
+      <UserRibbon student={student} />
       <InfoLabel>주요 의사소통특성</InfoLabel>
       <InfoPane>
         <StyledText>{student.communicationDetails}</StyledText>

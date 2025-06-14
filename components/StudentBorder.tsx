@@ -61,17 +61,17 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
           </PressableAvatarPane>
         </HeaderFrame>
       }
-      {showList && (
-        <OverlayDialog
-          onDismiss={() => setShowList(false)}
-          buttons={
-            [
-              { text: "학생 선택", onPress: () => setShowList(false) }
-            ]
-          } >
-          <Text style={{ fontSize: 16 }}>현재 학생을 변경하시겠습니까?</Text>
-        </OverlayDialog>
-      )}
+      <OverlayDialog
+        key="studentBorderModal"
+        visible={showList}
+        onDismiss={() => setShowList(false)}
+        buttons={
+          [
+            { text: "학생 선택", onPress: () => setShowList(false) }
+          ]
+        } >
+        <Text style={{ fontSize: 16 }}>현재 학생을 변경하시겠습니까?</Text>
+      </OverlayDialog>
       <ContentFrame>
         {children}
       </ContentFrame>

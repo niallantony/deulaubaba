@@ -1,10 +1,14 @@
-import { Image } from "react-native"
+import { ActivityIndicator, Image } from "react-native"
 import { UserAvatar } from "@/types/user"
 import styled from "styled-components/native";
 import { StudentAvatar } from "./StudentAvatar";
 import { StyledIcon } from "./ThemedLink";
-import { LinkText } from "./ThemedText";
+import { LinkText, StyledText } from "./ThemedText";
 import addUser from "@/assets/images/addUser.png"
+import { useEffect, useState } from "react";
+import { OverlayDialog } from "./OverlayDialog";
+import { useUserRibbon } from "@/hooks/useUserRibbon";
+import { Student } from "@/types/student";
 
 const RibbonFrame = styled.View`
   flex-direction: row;
@@ -25,7 +29,7 @@ const UserAvatars = styled.ScrollView`
   flex: 1;
 `
 
-const UserAvatarView = styled.View`
+const UserAvatarView = styled.Pressable`
   margin-left: ${props => props.theme.spacing.mini};
   margin-right: ${props => props.theme.spacing.mini};
   align-items: center;
@@ -37,6 +41,13 @@ const UserLabel = styled.Text`
   flex: 1;
   color: ${props => props.theme.colors.light};
   margin-top: ${props => props.theme.spacing.mini};
+`
+const UserLableBig = styled.Text`
+  text-align: center;
+  font-size: ${props => props.theme.sizes.md};
+  color: ${props => props.theme.colors.text};
+  margin-top: ${props => props.theme.spacing.small};
+
 `
 
 const AddUserButton = styled.Pressable`
@@ -63,23 +74,62 @@ const AddUserText = styled.Text`
 `
 
 export type UserRibbonProps = {
-  users: UserAvatar[] | null;
+  student: Student | null;
 }
 
-export const UserRibbon = ({ users }: UserRibbonProps) => {
+export const UserRibbon = ({ student }: UserRibbonProps) => {
+  const [userSelect, setUserSelect] = useState<UserAvatar | null>(null);
+  const [modalVisible, setModalVisible] = useState(false)
 
+  const { loading, users, fetchUsers } = useUserRibbon();
+  useEffect(() => {
+
+    if (student?.id) {
+      fetchUsers(student.id)
+    }
+
+  }, [student])
+
+  const handleUserClick = (user: UserAvatar) => {
+    setUserSelect(user);
+    setModalVisible(true);
+  }
+
+  const handleDismiss = () => {
+    setModalVisible(false)
+    setTimeout(() => {
+      setUserSelect(null);
+    }, 500);
+  }
   return (
     <RibbonFrame>
       <UserRibbonView>
+
         <UserAvatars horizontal={true}>
+          {loading && <ActivityIndicator />}
           {users && users.map((user) => {
             return (
-              <UserAvatarButton key={user.id} user={user} />
+              <UserAvatarButton
+                key={user.id}
+                user={user}
+                onPress={() => handleUserClick(user)}
+              />
             )
 
           })}
         </UserAvatars>
       </UserRibbonView>
+      <OverlayDialog
+        visible={modalVisible}
+        onDismiss={handleDismiss}
+      >
+        <StudentAvatar
+          url={userSelect?.src}
+          width={128}
+          height={128}
+        />
+        <UserLableBig>{userSelect?.type}</UserLableBig>
+      </OverlayDialog>
       <AddUserButton >
         <StyledIcon>
           <AddUserIcon source={addUser} />
@@ -91,9 +141,9 @@ export const UserRibbon = ({ users }: UserRibbonProps) => {
 
 }
 
-const UserAvatarButton = ({ user }: { user: UserAvatar }) => {
+const UserAvatarButton = ({ user, onPress }: { user: UserAvatar, onPress: () => void }) => {
   return (
-    <UserAvatarView>
+    <UserAvatarView onPress={onPress}>
       <StudentAvatar
         url={user.src}
         width={32}
