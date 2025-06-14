@@ -67,14 +67,28 @@ export const getUsersFromStudent = async (studentId: string): Promise<UsersRespo
       {
         id: "1",
         src: "@userexample",
-        type: "교사",
+        type: "엄마",
       },
       {
         id: "2",
         src: "@userexample2",
-        type: "치료사",
-      }
-
+        type: "특수교사",
+      },
+      {
+        id: "3",
+        src: "@userexample2",
+        type: "언어치료사",
+      },
+      {
+        id: "4",
+        src: "@userexample2",
+        type: "통합교사",
+      },
+      {
+        id: "5",
+        src: "@userexample2",
+        type: "활동지원사",
+      },
     ]
   }
 }

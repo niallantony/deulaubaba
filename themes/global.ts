@@ -14,6 +14,7 @@ export const theme = {
     lg: "24px",
     md: "18px",
     sm: "12px",
+    xs: "10px",
   },
   radii: {
     full: "128px",
@@ -29,7 +30,8 @@ export const theme = {
     header: "48px",
     screenContainer: "72px 32px",
     bigButton: "58px 0",
-    border: "4px"
+    border: "4px",
+    mini: "4px"
   }
 
 
