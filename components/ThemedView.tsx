@@ -43,9 +43,8 @@ export const FullView = styled.View`
 
 export const FullViewWhite = styled.View`
   justify-content: center;
-  height: 100%;
+  flex: 1;
   align-items: center;
-  padding: ${props => props.theme.spacing.screenContainer};
   border-radius: ${props => props.theme.radii.xl};
   background-color: ${props => props.theme.colors.inputs};
 `

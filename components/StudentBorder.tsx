@@ -29,11 +29,13 @@ const HeaderFrame = styled.View`
 const HeaderTextFrame = styled.View`
 `
 
-const ContentFrame = styled.ScrollView`
+const ContentFrame = styled.View`
 flex: 1;
 border-radius: ${props => props.theme.radii.xl};
 margin: ${props => props.theme.spacing.sides};
+margin-bottom: ${props => props.theme.spacing.default};
 `
+
 
 
 export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps) => {

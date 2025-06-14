@@ -1,10 +1,22 @@
 import { StudentAvatar } from "@/components/StudentAvatar"
 import { InfoLabel, SemiboldText, StyledText, TitleText } from "@/components/ThemedText"
 import { AvatarPane, ImageFrame, InfoPane, PageTitleScrollableView, ProfileAvatarPane, RowText, ThemedScrollableView } from "@/components/ThemedView"
+import { UserRibbon } from "@/components/UserRibbon"
+import { useUserRibbon } from "@/hooks/useUserRibbon"
 import { Student } from "@/types/student"
+import { useEffect } from "react"
 import { View } from "react-native"
 
 export const StudentProfile = ({ student }: { student: Student }) => {
+  const { loading, users, fetchUsers } = useUserRibbon();
+
+  useEffect(() => {
+    if (student.id) {
+      fetchUsers(student.id)
+    }
+
+  }, [student])
+
 
 
   return (
@@ -27,6 +39,7 @@ export const StudentProfile = ({ student }: { student: Student }) => {
         </View>
       </ImageFrame>
       <InfoLabel>의사소통 팀 구성원</InfoLabel>
+      <UserRibbon users={users} />
       <InfoLabel>주요 의사소통특성</InfoLabel>
       <InfoPane>
         <StyledText>{student.communicationDetails}</StyledText>

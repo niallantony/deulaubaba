@@ -30,6 +30,7 @@ function RootNavigator() {
       paddingBottom: insets.bottom,
       paddingLeft: insets.left,
       paddingRight: insets.right,
+      backgroundColor: theme.colors.background,
     }}>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Protected guard={isSignedIn}>

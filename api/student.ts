@@ -1,4 +1,5 @@
 import { Student, StudentIdAvatar } from "@/types/student";
+import { UserAvatar } from "@/types/user";
 
 export type StudentResponse = {
   status: number;
@@ -9,6 +10,12 @@ export type StudentResponse = {
 export type StudentsResponse = {
   status: number;
   students: StudentIdAvatar[] | null;
+  message?: string;
+}
+
+export type UsersResponse = {
+  status: number;
+  users: UserAvatar[] | null;
   message?: string;
 }
 
@@ -48,6 +55,26 @@ export const getAllStudents = async (userid: string): Promise<StudentsResponse> 
         name: "엄수민",
         imagesrc: "@example",
       },
+    ]
+  }
+}
+
+export const getUsersFromStudent = async (studentId: string): Promise<UsersResponse> => {
+  await wait(500)
+  return {
+    status: 200,
+    users: [
+      {
+        id: "1",
+        src: "@userexample",
+        type: "교사",
+      },
+      {
+        id: "2",
+        src: "@userexample2",
+        type: "치료사",
+      }
+
     ]
   }
 }

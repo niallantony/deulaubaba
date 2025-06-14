@@ -3,12 +3,14 @@ import { ActivityIndicator, Image } from "react-native";
 import { styled } from 'styled-components/native';
 
 import avatar from '@/assets/images/avatarExample.png'
+import avatar1 from '@/assets/images/avatarExample1.png'
+import avatar2 from '@/assets/images/avatarExample2.png'
 
 type AvatarProps = {
   url?: string;
   width: number;
   height: number;
-  style: "full" | "round";
+  style?: "full" | "round";
 }
 
 type AvatarStyleProps = {
@@ -60,6 +62,12 @@ export const StudentAvatar = ({ url, width, height, style = "full" }: AvatarProp
 
   if (url === "@example") {
     return <Avatar source={avatar} $style={style} $width={width} $height={height} />
+  }
+  if (url === "@userexample") {
+    return <Avatar source={avatar1} $style={style} $width={width} $height={height} />
+  }
+  if (url === "@userexample2") {
+    return <Avatar source={avatar2} $style={style} $width={width} $height={height} />
   }
 
   if (!url) {
