@@ -14,3 +14,7 @@ export const BigButtonContainer = styled.View`
   align-items: center;
 `
 
+
+export const BackButtonContainer = styled.View`
+  flex-direction: row;
+`

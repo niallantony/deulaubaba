@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { ActivityIndicator, Image } from "react-native";
 import { styled } from 'styled-components/native';
 
-import avatar from '@/assets/images/avatarExample.png'
-import avatar1 from '@/assets/images/avatarExample1.png'
-import avatar2 from '@/assets/images/avatarExample2.png'
+import { devImages } from "@/constants/DevImages";
 
 type AvatarProps = {
   url?: string;
@@ -60,15 +58,10 @@ export const StudentAvatar = ({ url, width, height, style = "full" }: AvatarProp
     }
   }, [url]);
 
-  if (url === "@example") {
-    return <Avatar source={avatar} $style={style} $width={width} $height={height} />
+  if (url && Object.keys(devImages).includes(url)) {
+    return <Avatar source={devImages[url]} $style={style} $width={width} $height={height} />
   }
-  if (url === "@userexample") {
-    return <Avatar source={avatar1} $style={style} $width={width} $height={height} />
-  }
-  if (url === "@userexample2") {
-    return <Avatar source={avatar2} $style={style} $width={width} $height={height} />
-  }
+
 
   if (!url) {
     return <NoAvatar $width={width} $style={style} $height={height} />

@@ -1,11 +1,14 @@
 
 import { StudentBorder } from "@/components/StudentBorder";
+import { DictionaryProvider } from "@/context/DictionaryContext";
 import { Slot } from "expo-router";
 
 export default function Root() {
   return (
-    <StudentBorder title={"의사소통 사전"} subtitle={"A profile"}>
-      <Slot />
-    </StudentBorder>
+    <DictionaryProvider>
+      <StudentBorder title={"의사소통 사전"} subtitle={"A profile"}>
+        <Slot />
+      </StudentBorder>
+    </DictionaryProvider>
   )
 }

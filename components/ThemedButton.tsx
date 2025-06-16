@@ -1,6 +1,7 @@
 import { styled } from 'styled-components/native';
 import { ButtonTextTheme, ButtonTextWhite } from './ThemedText';
 import { PressableProps } from 'react-native';
+import { Link, LinkProps } from 'expo-router';
 
 export type ThemedButtonProps = {
   text: string;
@@ -20,6 +21,13 @@ export const StyledButton = styled.Pressable<{ $type?: string }>`
   border-color: ${props => props.$type === "outline" ? props.theme.colors.accent : "none"};
 `;
 
+export const SubtleButton = styled.Pressable`
+  border-radius: ${props => props.theme.radii.md};
+  padding: ${props => props.theme.spacing.small};
+  border: 1px solid ${props => props.theme.colors.light};
+`
+
+
 export const BigButton = styled.Pressable`
 width: 80%;
   background-color: ${props => props.theme.colors.accent};
@@ -27,6 +35,7 @@ width: 80%;
   padding: ${props => props.theme.spacing.bigButton};
   margin: ${props => props.theme.spacing.large};
 `
+
 
 export function ThemedButton({ text, type, onPress }: ThemedButtonProps) {
   return (
@@ -39,5 +48,16 @@ export function ThemedButton({ text, type, onPress }: ThemedButtonProps) {
         (<ButtonTextTheme>{text}</ButtonTextTheme>)
       }
     </StyledButton>
+  )
+}
+
+export const BackButton = ({ href }: LinkProps) => {
+  return (
+    <Link href={href} asChild>
+      <SubtleButton>
+        <ButtonTextTheme>&lt;  이전</ButtonTextTheme>
+
+      </SubtleButton>
+    </Link>
   )
 }

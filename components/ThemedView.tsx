@@ -52,6 +52,16 @@ export const ProfileAvatarPane = styled.View`
   margin: ${props => props.theme.spacing.default};
 `
 
+export const GreenHeading = styled.Text`
+  padding: ${props => props.theme.spacing.small} ${props => props.theme.spacing.default};
+  background-color: ${props => props.theme.colors.accent};
+  text-align: center;
+  color: ${props => props.theme.colors.lightText};
+  font-weight: 800;
+  border-radius: ${props => props.theme.radii.xl};
+  margin: ${props => props.theme.spacing.default} 0;
+`
+
 export const FormView = styled.View`
   width: 100%;
   padding-left: ${props => props.theme.spacing.default};
