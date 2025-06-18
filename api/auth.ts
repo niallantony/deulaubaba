@@ -7,10 +7,10 @@ export const login = async (username: string, password: string) => {
     return {
       status: 200,
       user: {
-        userId: "1231",
+        userId: "1",
         username: "niallantony",
         name: "Niall Craven",
-        email: "niall@niall.com",
+        email: "niallantony@example.com",
         token: "fake-jwt-token",
       }
     }

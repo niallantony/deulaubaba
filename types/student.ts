@@ -1,7 +1,7 @@
 import { UserAvatar } from "./user";
 
 export type Student = {
-  id?: string;
+  studentId?: string;
   name: string;
   school: string;
   age: number;

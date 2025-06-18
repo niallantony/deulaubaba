@@ -1,4 +1,4 @@
-import { getUsersFromStudent } from "@/api/student";
+import API from "@/api/student";
 import { UserAvatar } from "@/types/user";
 import { useState } from "react";
 
@@ -9,7 +9,7 @@ export const useUserRibbon = () => {
   const fetchUsers = async (studentId: string) => {
     try {
       setLoading(true)
-      const fetchedUsers = await getUsersFromStudent(studentId);
+      const fetchedUsers = await API.getUsersFromStudent(studentId);
       if (fetchedUsers.users) {
         setUsers(fetchedUsers.users);
       }

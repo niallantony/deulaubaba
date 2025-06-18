@@ -7,9 +7,10 @@ import { TwinInputs, UploadImageFrame } from "@/components/ThemedView"
 import { useState } from "react"
 import { Pressable, View } from "react-native"
 import { Student } from "@/types/student"
+import { useSession } from "@/context/AuthContext"
 
 export type AddStudentProps = {
-  onSubmit: (student: Student) => void;
+  onSubmit: (student: Student, uid: string) => void;
   onSelectInput: () => void;
   onUploadImage: () => void;
 }
@@ -22,6 +23,8 @@ export const AddStudentForm = ({ onSubmit, onSelectInput, onUploadImage }: AddSt
   const [setting, setSetting] = useState("")
   const [disability, setDisability] = useState("")
 
+  const { user } = useSession();
+
   const handleSubmit = () => {
     const student: Student = {
       name,
@@ -31,7 +34,12 @@ export const AddStudentForm = ({ onSubmit, onSelectInput, onUploadImage }: AddSt
       setting,
       disability,
     }
-    onSubmit(student)
+    if (user) {
+      onSubmit(student, user?.userId)
+    } else {
+      throw new Error("No user logged in")
+    }
+
   }
 
   return (

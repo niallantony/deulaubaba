@@ -1,4 +1,4 @@
-import { getStudentFromCode } from "@/api/student";
+import API from "@/api/student";
 import { Student } from "@/types/student";
 import { useCallback, useState } from "react"
 
@@ -9,6 +9,7 @@ export const useAddStudent = () => {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState<Student | null>(null);
+
 
   const reset = useCallback(() => {
     setScreen("add");
@@ -23,7 +24,7 @@ export const useAddStudent = () => {
   const handleStudentCode = async (code: string) => {
     try {
       setLoading(true);
-      const response = await getStudentFromCode(code);
+      const response = await API.getStudentFromCode(code);
       if (response.status === 401 && response.message) {
         setError(response.message)
         return false
@@ -42,9 +43,17 @@ export const useAddStudent = () => {
     }
   }
 
-  const handleNewStudent = (student: Student) => {
-    setStudent(student)
-    setScreen("confirm")
+  const handleNewStudent = async (student: Student, uid: string) => {
+    try {
+      const response = await API.postStudent(student, uid)
+      if (response.status === 200) {
+        setStudent(student)
+        setScreen("confirm")
+      }
+      // TODO : ERROR WITH POST
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const confirm = (cb: (s: Student) => void) => {

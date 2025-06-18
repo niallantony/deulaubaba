@@ -1,17 +1,21 @@
-import { getAllStudents } from "@/api/student";
-import { Student } from "@/types/student"
+import API from "@/api/student";
+import { useStudent } from "@/context/StudentContext";
 import { useState } from "react"
 
 export const useStudents = () => {
-  const [students, setStudents] = useState<Student[]>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("")
+
+  const { setStudents, students } = useStudent();
+
 
 
   const fetchStudents = async (userId: string) => {
     try {
       setLoading(true);
-      const response = await getAllStudents(userId);
+      const response = await API.getAllStudents(userId);
+      console.log(response)
+
       if (response.status === 401 && response.message) {
         setError(response.message)
         setLoading(false);

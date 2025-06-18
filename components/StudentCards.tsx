@@ -90,7 +90,7 @@ export const StudentCards = () => {
     ) {
       const dummyStudent: StudentIdAvatar = {
         name: "",
-        id: "",
+        id: "dummy",
         empty: true,
       }
       clonedData.push(dummyStudent);
@@ -104,7 +104,9 @@ export const StudentCards = () => {
     <CardHolder
       numColumns={2}
       data={cards}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => {
+        return item.id
+      }}
       renderItem={({ item }) => {
         if (item.id === "add") {
           return (
@@ -123,7 +125,7 @@ export const StudentCards = () => {
           return (<DummyStudent />)
         }
         return (
-          <StudentCard selected={item.id === student?.id} student={item} />
+          <StudentCard selected={item.id === student?.studentId} student={item} />
         )
       }}
     />
