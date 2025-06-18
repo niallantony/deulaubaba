@@ -29,7 +29,7 @@ export const getStudentFromCode = async (code: string): Promise<StudentResponse>
     return {
       status: 200,
       student: {
-        id: "123456",
+        studentId: "123456",
         name: "엄수민",
         school: "지행초등학교",
         age: 11,

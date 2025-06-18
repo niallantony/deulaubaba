@@ -85,8 +85,8 @@ export const UserRibbon = ({ student, handleShowStudentCode }: UserRibbonProps) 
   const { loading, users, fetchUsers } = useUserRibbon();
   useEffect(() => {
 
-    if (student?.id) {
-      fetchUsers(student.id)
+    if (student?.studentId) {
+      fetchUsers(student.studentId)
     }
 
   }, [student])

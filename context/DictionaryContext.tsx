@@ -29,8 +29,8 @@ export const DictionaryProvider = ({ children }: PropsWithChildren) => {
   const [types, setTypes] = useState<ExpressionType[] | null>(null)
 
   useEffect(() => {
-    if (student?.id) {
-      fetchDictionary(student.id)
+    if (student?.studentId) {
+      fetchDictionary(student.studentId)
     }
   }, [student])
 
