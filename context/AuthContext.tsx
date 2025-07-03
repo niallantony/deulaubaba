@@ -26,7 +26,6 @@ export const useSession = () => {
   return value;
 }
 
-
 export const SessionProvider = ({ children }: PropsWithChildren) => {
   const [[isLoading, session], setSession] = useStorageState('session');
   const [user, setUser] = useState<UserResponse | null>(null);

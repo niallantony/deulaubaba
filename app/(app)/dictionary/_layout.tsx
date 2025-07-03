@@ -1,7 +1,6 @@
-
 import { StudentBorder } from "@/components/StudentBorder";
 import { DictionaryProvider } from "@/context/DictionaryContext";
-import { Slot, Stack } from "expo-router";
+import { Stack } from "expo-router";
 
 export default function Root() {
   return (

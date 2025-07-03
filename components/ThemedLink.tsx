@@ -29,7 +29,6 @@ export function ThemedLink({ text, href, size, margin }: ThemedLinkProps) {
   );
 }
 
-
 export type IconLinkProps = {
   imageSource: ImageSourcePropType;
   imageOptions: ImageStyle;

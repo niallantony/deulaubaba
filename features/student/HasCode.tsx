@@ -1,11 +1,10 @@
 import { BigButtonContainer, BigButtonSpacer } from "@/components/ButtonContainer";
 import { BigButton } from "@/components/ThemedButton";
-import { StyledLink } from "@/components/ThemedLink";
+import { StyledLink , ThemedLink } from "@/components/ThemedLink";
 import { ButtonTextWhite, LinkText } from "@/components/ThemedText"
 import { PageTitleView } from "@/components/ThemedView";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
-import { ThemedLink } from "../../components/ThemedLink";
 
 export type HasCodeActions = {
   inputCode: () => void;

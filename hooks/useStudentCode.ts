@@ -10,7 +10,6 @@ export const useAddStudent = () => {
   const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState<Student | null>(null);
 
-
   const reset = useCallback(() => {
     setScreen("add");
     setStudent(null);
