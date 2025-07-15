@@ -3,12 +3,11 @@ import { FullScreenView } from "@/components/FullScreenView";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedTextInput, ThemedTwinInput, UploadImage } from "@/components/ThemedInput";
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView";
-import { devImages } from "@/constants/DevImages";
 import { useStudent } from "@/context/StudentContext";
 import { theme } from "@/themes/global";
-import { useFocusEffect, useRouter } from "expo-router";
-import { useState, useCallback } from "react";
-import { ImageBackground, View } from "react-native";
+import { useRouter } from "expo-router";
+import { useState } from "react";
+import { View } from "react-native";
 
 export default function EditStudent() {
   const { student } = useStudent();

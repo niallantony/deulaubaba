@@ -22,6 +22,7 @@ export default function Root() {
             title: 'Student',
             tabBarShowLabel: false,
             tabBarIcon: ({ color }) => <FontAwesome size={28} name="user-circle" color={color} />,
+            popToTopOnBlur: true,
           }}
         />
         <Tabs.Screen
