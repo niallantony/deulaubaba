@@ -92,9 +92,13 @@ export const getUsersFromStudent = async (studentId: string): Promise<UsersRespo
         id: "5",
         src: "@userexample2",
         type: "활동지원사",
-      },
+      }
     ]
   }
+}
+
+export const putStudent = async (student: Student, studentId: string, uid: string) => {
+  return Promise.resolve();
 }
 
 const wait = (ms: number) => {

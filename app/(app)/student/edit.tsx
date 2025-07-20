@@ -1,16 +1,19 @@
 import { RowButtonContainer } from "@/components/ButtonContainer";
 import { FullScreenView } from "@/components/FullScreenView";
 import { ThemedButton } from "@/components/ThemedButton";
-import { ThemedTextInput, ThemedTwinInput, UploadImage } from "@/components/ThemedInput";
+import { ThemedTextArea, ThemedTextInput, ThemedTwinInput, UploadImage } from "@/components/ThemedInput";
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView";
+import { useSession } from "@/context/AuthContext";
 import { useStudent } from "@/context/StudentContext";
 import { theme } from "@/themes/global";
+import { Student } from "@/types/student";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
+import API from '@/api/student';
 
 export default function EditStudent() {
-  const { student } = useStudent();
+  const { student, refreshStudent } = useStudent();
   const [name, setName] = useState(student?.name)
   const [school, setSchool] = useState(student?.school)
   const [age, setAge] = useState(student?.age)
@@ -21,8 +24,30 @@ export default function EditStudent() {
   const [challengesDetails, setChallengesDetails] = useState(student?.challengesDetails)
   const router = useRouter()
 
+  const { user } = useSession();
 
   const handleSubmit = () => {
+    if (!name || !school || !age || !grade || !setting || !disability) {
+      return
+    }
+    const editStudent: Student = {
+      name,
+      school,
+      age,
+      grade,
+      setting,
+      disability,
+      communicationDetails,
+      challengesDetails,
+    }
+    if (user && student?.studentId) {
+      API.putStudent(editStudent, student?.studentId, user.userId)
+      refreshStudent();
+      router.dismissAll();
+    }
+
+
+
 
   }
 
@@ -73,14 +98,14 @@ export default function EditStudent() {
         value={disability ? disability : ""}
         onChange={setDisability}
       />
-      <ThemedTextInput
+      <ThemedTextArea
         label={"주요 의사소통특성"}
         value={communicationDetails ? communicationDetails : ""}
         onChange={setCommunicationDetails}
         numberOfLines={5}
         multiline={true}
       />
-      <ThemedTextInput
+      <ThemedTextArea
         label={"주요 도전행동 특성"}
         value={challengesDetails ? challengesDetails : ""}
         onChange={setChallengesDetails}

@@ -20,6 +20,14 @@ const StyledInput = styled.TextInput`
   border-radius: ${props => props.theme.radii.md};
   box-shadow: 0 7px 6px rgba(0,0,0,0.03);
 `
+const StyledTextArea = styled.TextInput`
+  background-color: ${props => props.theme.colors.inputs};
+  font-size: ${props => props.theme.sizes.md};
+  padding: ${props => props.theme.spacing.small};
+  border-radius: ${props => props.theme.radii.md};
+  box-shadow: 0 7px 6px rgba(0,0,0,0.03);
+  height: 150px;
+`
 const FormLabel = styled(LightText)`
   margin-bottom: ${props => props.theme.spacing.small}
 `
@@ -54,6 +62,22 @@ export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextI
       <StyledInput
         accessibilityLabel={label}
         textAlignVertical={"center"}
+        value={value}
+        onChangeText={onChange}
+        {...rest}
+      />
+    </StyledField>
+  )
+
+}
+
+export const ThemedTextArea = ({ label, value, onChange, ...rest }: ThemedTextInputProps) => {
+  return (
+    <StyledField>
+      <FormLabel>{label}</FormLabel>
+      <StyledTextArea
+        accessibilityLabel={label}
+        textAlignVertical={"top"}
         value={value}
         onChangeText={onChange}
         {...rest}
