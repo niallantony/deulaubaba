@@ -1,12 +1,18 @@
 import { useStudent } from "@/context/StudentContext";
 import { NoStudent } from "@/features/student/NoStudent";
 import { StudentProfile } from "@/features/student/StudentProfile";
-import { useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
+import { useCallback } from "react";
 
 export default function Student() {
-  const { student } = useStudent();
+  const { student, refreshStudent } = useStudent();
   const router = useRouter();
 
+  useFocusEffect(
+    useCallback(() => {
+      refreshStudent()
+    }, [])
+  )
 
 
   if (!student) {
