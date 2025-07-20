@@ -9,6 +9,13 @@ export type ThemedTextInputProps = {
   onChange: (text: string) => void;
 } & Omit<TextInputProps, 'onChange' | 'value'>;
 
+export type ThemedTextAreaProps = {
+  label: string;
+  value: string;
+  onChange: (text: string) => void;
+  $height?: string;
+} & Omit<TextInputProps, 'onChange' | 'value'>;
+
 export type ThemedTwinInputProps = {
   position: "left" | "right";
 } & ThemedTextInputProps
@@ -20,15 +27,15 @@ const StyledInput = styled.TextInput`
   border-radius: ${props => props.theme.radii.md};
   box-shadow: 0 7px 6px rgba(0,0,0,0.03);
 `
-const StyledTextArea = styled.TextInput`
+const StyledTextArea = styled.TextInput<{ $height: string }>`
   background-color: ${props => props.theme.colors.inputs};
   font-size: ${props => props.theme.sizes.md};
   padding: ${props => props.theme.spacing.small};
   border-radius: ${props => props.theme.radii.md};
   box-shadow: 0 7px 6px rgba(0,0,0,0.03);
-  height: 150px;
+  height: ${props => props.$height ? props.$height : "150px"};
 `
-const FormLabel = styled(LightText)`
+export const FormLabel = styled(LightText)`
   margin-bottom: ${props => props.theme.spacing.small}
 `
 
@@ -71,7 +78,7 @@ export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextI
 
 }
 
-export const ThemedTextArea = ({ label, value, onChange, ...rest }: ThemedTextInputProps) => {
+export const ThemedTextArea = ({ label, value, onChange, ...rest }: ThemedTextAreaProps) => {
   return (
     <StyledField>
       <FormLabel>{label}</FormLabel>

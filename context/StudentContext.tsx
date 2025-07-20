@@ -11,12 +11,12 @@ const StudentContext = createContext<{
   lastStudent?: StudentIdAvatar;
   error?: string | null;
   setStudents: (s: StudentIdAvatar[] | null) => void;
-  refreshStudent: () => void;
+  updateStudent: (data: Student) => void;
 }>({
   student: null,
   setStudent: () => { },
   selectStudent: () => { },
-  refreshStudent: () => { },
+  updateStudent: () => { },
   setStudents: () => { },
   students: null,
   error: null,
@@ -62,19 +62,20 @@ export const StudentProvider = ({ children }: PropsWithChildren) => {
 
   }
 
-  const refreshStudent = async () => {
-    if (student && student.studentId) {
-      const response = await API.getStudentFromCode(student.studentId)
-      if (response.student) {
-        setStudent(response.student);
+  const updateStudent = async (data: Student) => {
+    if (student && student.studentId && user) {
+      const response = await API.putStudent(data, student.studentId, user.userId)
+      if (response?.status === 200) {
+        selectStudent(student.studentId)
       }
+      return response
     }
   }
 
 
 
   return (
-    <StudentContext.Provider value={{ error, student, selectStudent, refreshStudent, students, setStudent, setStudents }}>
+    <StudentContext.Provider value={{ error, student, selectStudent, updateStudent, students, setStudent, setStudents }}>
       {children}
     </StudentContext.Provider>
   )

@@ -1,7 +1,6 @@
 import { Tabs, useNavigationContainerRef } from "expo-router";
 import { StudentProvider } from "@/context/StudentContext";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { TouchableOpacity } from "react-native";
 
 export default function Root() {
   const navRef = useNavigationContainerRef();
@@ -29,7 +28,8 @@ export default function Root() {
           name="dictionary"
           options={{
             tabBarShowLabel: false,
-            tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />
+            tabBarIcon: ({ color }) => <FontAwesome size={28} name="book" color={color} />,
+            popToTopOnBlur: true,
           }}
         />
         <Tabs.Screen

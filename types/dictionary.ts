@@ -9,6 +9,15 @@ export type DictionaryListing = {
   description?: string;
 }
 
+
+export type DictionaryPosting = {
+  type: ExpressionType;
+  title: string;
+  category: CommunicationCategory[];
+  imgsrc?: string;
+  description?: string;
+}
+
 export type CommunicationCategory = keyof typeof CommunicationCategories;
 
 export function getCategoryColor(category: CommunicationCategory) {

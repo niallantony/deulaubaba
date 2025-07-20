@@ -3,8 +3,8 @@ import { StudentBorder } from "@/components/StudentBorder";
 
 export default function Root() {
   return (
-    <StudentBorder title={"프로필"} subtitle={" "}>
-      <Stack screenOptions={{ headerShown: false }}>
+    <StudentBorder title={"프로필"} subtitle={""}>
+      <Stack screenOptions={{ headerShown: false, animation: "none" }}>
         <Stack.Screen
           name="index"
         />

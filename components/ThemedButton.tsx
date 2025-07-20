@@ -11,6 +11,16 @@ export type ThemedButtonProps = {
 } & PressableProps
 
 
+export const InputLikeButton = styled.Pressable`
+  background-color: ${props => props.theme.colors.inputs};
+  padding: ${props => props.theme.spacing.small};
+  border-radius: ${props => props.theme.radii.md};
+  box-shadow: 0 7px 6px rgba(0,0,0,0.03);
+  margin-top: ${props => props.theme.spacing.small};
+  flex-direction: row;
+  justify-content: space-between;
+`
+
 export const StyledButton = styled.Pressable<{ $type?: string, $row?: boolean }>`
   width: 80%;
   ${props => props.$row ? "flex: 1;" : ""}
@@ -59,6 +69,18 @@ export const BackButton = ({ href }: LinkProps) => {
     <Link href={href} asChild>
       <SubtleButton>
         <ButtonTextTheme>&lt;  이전</ButtonTextTheme>
+
+      </SubtleButton>
+    </Link>
+  )
+}
+
+
+export const AddButton = ({ href }: LinkProps) => {
+  return (
+    <Link href={href} asChild>
+      <SubtleButton>
+        <ButtonTextTheme>+ 추가하기</ButtonTextTheme>
 
       </SubtleButton>
     </Link>

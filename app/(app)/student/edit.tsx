@@ -10,10 +10,9 @@ import { Student } from "@/types/student";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
-import API from '@/api/student';
 
 export default function EditStudent() {
-  const { student, refreshStudent } = useStudent();
+  const { student, updateStudent } = useStudent();
   const [name, setName] = useState(student?.name)
   const [school, setSchool] = useState(student?.school)
   const [age, setAge] = useState(student?.age)
@@ -41,8 +40,7 @@ export default function EditStudent() {
       challengesDetails,
     }
     if (user && student?.studentId) {
-      API.putStudent(editStudent, student?.studentId, user.userId)
-      refreshStudent();
+      updateStudent(editStudent);
       router.dismissAll();
     }
 
