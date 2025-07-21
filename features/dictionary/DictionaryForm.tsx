@@ -10,6 +10,7 @@ import { useState } from "react"
 import { Image, ScrollView, View } from "react-native";
 import down from "@/assets/images/down.png"
 import { CategoryIndicator, CategoryPicker } from "./CategoryPicker";
+import { useStudent } from "@/context/StudentContext";
 
 export const DictionaryForm = ({ type, onSubmit }: {
   type: ExpressionType;
@@ -21,11 +22,18 @@ export const DictionaryForm = ({ type, onSubmit }: {
   const [description, setDescription] = useState("")
   const [overlayVisible, setOverlayVisible] = useState(false)
 
+  const { student } = useStudent();
+
   const handleSubmit = () => {
+    // TODO: Handle Validation
+    if (!student || !student.studentId) {
+      return
+    }
     if (!category || !title) {
       return;
     }
     const listing: DictionaryPosting = {
+      studentId: student.studentId,
       type,
       title,
       category,

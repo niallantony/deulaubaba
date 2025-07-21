@@ -11,11 +11,21 @@ export type DictionaryListing = {
 
 
 export type DictionaryPosting = {
+  studentId: string;
   type: ExpressionType;
   title: string;
   category: CommunicationCategory[];
   imgsrc?: string;
   description?: string;
+}
+
+export type DictionaryPostingResponse = {
+  status: number;
+  body: {
+    listings: DictionaryListing[] | null;
+    expressiontypes: ExpressionType[] | null;
+  } | null;
+  message?: string;
 }
 
 export type CommunicationCategory = keyof typeof CommunicationCategories;

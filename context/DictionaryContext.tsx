@@ -1,16 +1,18 @@
-import { DictionaryListing, ExpressionType } from "@/types/dictionary"
+import { DictionaryListing, DictionaryPosting, ExpressionType } from "@/types/dictionary"
 import { createContext, PropsWithChildren, use, useEffect, useState } from "react";
 import { useStudent } from "./StudentContext";
-import { DictionaryListingResponse, getDictionaryListings } from "@/api/dictionary";
+import API from "@/api/dictionary";
 
 const DictionaryContext = createContext<{
   dictionary: DictionaryListing[] | null;
   fetchDictionary: (id: string) => void;
   types: ExpressionType[] | null;
+  postDictionary: (d: DictionaryPosting) => void;
 }>({
   dictionary: null,
   fetchDictionary: () => { },
   types: null,
+  postDictionary: () => { },
 })
 
 export const useDictionary = () => {
@@ -36,23 +38,33 @@ export const DictionaryProvider = ({ children }: PropsWithChildren) => {
 
   const fetchDictionary = async (studentId: string) => {
     try {
-      const response = await getDictionaryListings(studentId);
+      const response = await API.getDictionaryListings(studentId);
       if (response.status === 200 && response.body) {
         setTypes(response.body.expressiontypes);
         setDictionary(response.body.listings)
       }
-      if (response.status === 401) {
+      if (response.status === 204) {
+        setTypes(null);
+        setDictionary(null);
+      }
+      // TODO: Student not found error handling
+      if (response.status === 404) {
         setTypes(null);
         setDictionary(null);
       }
     } catch (err) {
       console.error(err)
-    } finally {
     }
   }
 
+
+  const postDictionary = async (dictionary: DictionaryPosting) => {
+
+
+  }
+
   return (
-    <DictionaryContext.Provider value={{ dictionary, types, fetchDictionary }}>
+    <DictionaryContext.Provider value={{ dictionary, types, fetchDictionary, postDictionary }}>
       {children}
     </DictionaryContext.Provider>
   )
