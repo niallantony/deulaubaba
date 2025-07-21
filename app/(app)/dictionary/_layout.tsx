@@ -11,7 +11,8 @@ export default function Root() {
         <Stack screenOptions={{ headerShown: false, animation: "none" }}>
           <Stack.Screen
             name="index" />
-          <Stack.Screen name="viewList/[extype]" />
+          <Stack.Screen name="viewList/[extype]/index" />
+          <Stack.Screen name="new" />
         </Stack>
       </StudentBorder>
     </DictionaryProvider>

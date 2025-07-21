@@ -41,6 +41,10 @@ export const DictionaryProvider = ({ children }: PropsWithChildren) => {
         setTypes(response.body.expressiontypes);
         setDictionary(response.body.listings)
       }
+      if (response.status === 401) {
+        setTypes(null);
+        setDictionary(null);
+      }
     } catch (err) {
       console.error(err)
     } finally {

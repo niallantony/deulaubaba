@@ -18,7 +18,7 @@ export default function Route() {
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <BackButtonContainer>
-        <BackButton href={"/dictionary"} />
+        <BackButton />
       </ BackButtonContainer>
       <GreenHeading>{title}</GreenHeading>
       {results && results.map((entry) => (

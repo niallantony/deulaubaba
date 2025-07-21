@@ -30,7 +30,6 @@ const ButtonContainer = styled.View`
 
 const ModalButton = styled.Pressable`
   margin-top: ${props => props.theme.spacing.default};
-  height: fit-content;
   padding: ${props => props.theme.spacing.small};
 `;
 

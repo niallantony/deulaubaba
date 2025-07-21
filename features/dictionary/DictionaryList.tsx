@@ -1,12 +1,15 @@
-import { ThemedButton } from "@/components/ThemedButton";
+import { SmallButtonContainer } from "@/components/ButtonContainer";
+import { ExpressionTypeButton } from "@/components/ExpressionTypeButton";
+import { AddButton, ThemedButton } from "@/components/ThemedButton";
+import { PageTitle } from "@/components/ThemedText";
 import { FullViewWhite } from "@/components/ThemedView"
 import { useDictionary } from "@/context/DictionaryContext";
-import { ExpressionType, getExpressionType } from "@/types/dictionary";
+import { ExpressionType } from "@/types/dictionary";
 import { Link } from "expo-router";
-import styled from "styled-components/native";
+import { styled } from "styled-components/native";
 
 export const DictionaryList = () => {
-  const { dictionary, types, fetchDictionary } = useDictionary();
+  const { types } = useDictionary();
 
   return (
     <FullViewWhite>
@@ -16,7 +19,14 @@ export const DictionaryList = () => {
           <ExpressionTypeButton expression={expression} key={expression} />
         ))}
         {!types && (
-          <ThemedButton type="green" text="입력하기" onPress={() => console.log("pres")} />
+          <Link href={"/dictionary/new"} asChild>
+            <ThemedButton type="green" text="입력하기" />
+          </Link>
+        )}
+        {types && (
+          <SmallButtonContainer>
+            <AddButton href={"/dictionary/new"} />
+          </SmallButtonContainer>
         )}
       </ButtonList>
     </FullViewWhite>
@@ -26,45 +36,5 @@ export const DictionaryList = () => {
 const ButtonList = styled.View`
 width: 100%;
 flex:1;
+align-items: center;
 `
-
-const PageTitle = styled.Text`
-  text-align: left;
-  width: 80%;
-  font-size: ${props => props.theme.sizes.lg};
-  margin: ${props => props.theme.spacing.default};
-  font-weight: 800;
-  color: ${props => props.theme.colors.light};
-`
-const ExpressionTypeButtonStyle = styled.Pressable`
-  border-radius: 16px;
-  padding: 16px;
-  margin: ${props => props.theme.spacing.sides};
-  background-color: ${props => props.theme.colors.accent};
-`
-
-const FirstLineText = styled.Text`
-  font-size: ${props => props.theme.sizes.mdsm};
-  margin-bottom: ${props => props.theme.spacing.mini};
-  font-weight: 800;
-  color: ${props => props.theme.colors.lightText};
-`
-const SecondLineText = styled.Text`
-  font-weight: 600;
-  color: ${props => props.theme.colors.lightText};
-`
-
-
-export const ExpressionTypeButton = ({ expression }: { expression: ExpressionType }) => {
-  const { title, description } = getExpressionType(expression);
-  return (
-    <Link href={`/dictionary/viewList/${expression}`} asChild>
-      <ExpressionTypeButtonStyle>
-        <FirstLineText>{title}</FirstLineText>
-        <SecondLineText>{description}</SecondLineText>
-      </ExpressionTypeButtonStyle>
-    </Link>
-
-  )
-
-}

@@ -2,21 +2,21 @@ import { ButtonContainer } from "@/components/ButtonContainer";
 import { FullScreenView } from "@/components/FullScreenView";
 import { OverlayDialog } from "@/components/OverlayDialog";
 import { InputLikeButton, ThemedButton } from "@/components/ThemedButton";
-import { FormLabel, ThemedTextArea, UploadImage } from "@/components/ThemedInput";
+import { ThemedTextArea, UploadImage } from "@/components/ThemedInput";
 import { LightText } from "@/components/ThemedText";
 import { UploadImageFrame } from "@/components/ThemedView";
-import { theme } from "@/themes/global";
 import { CommunicationCategory, DictionaryPosting, ExpressionType } from "@/types/dictionary"
 import { useState } from "react"
-import { Image, View } from "react-native";
+import { Image, ScrollView, View } from "react-native";
 import down from "@/assets/images/down.png"
+import { CategoryIndicator, CategoryPicker } from "./CategoryPicker";
 
 export const DictionaryForm = ({ type, onSubmit }: {
   type: ExpressionType;
   onSubmit: (d: DictionaryPosting) => void
 }) => {
   const [title, setTitle] = useState("")
-  const [category, setCategory] = useState<CommunicationCategory[]>()
+  const [category, setCategory] = useState<CommunicationCategory[]>([])
   const [imgsrc, setImgsrc] = useState()
   const [description, setDescription] = useState("")
   const [overlayVisible, setOverlayVisible] = useState(false)
@@ -56,14 +56,19 @@ export const DictionaryForm = ({ type, onSubmit }: {
       </UploadImageFrame>
       <LightText >의사소통 기능(선택)</LightText>
       <InputLikeButton onPress={() => { setOverlayVisible(true) }}>
-        <View>
-        </View>
+        <ScrollView contentContainerStyle={{ flexDirection: "row", alignItems: 'center', }} horizontal={true}>
+          {category && category.map((category) => {
+            return (<CategoryIndicator category={category} key={category} />)
+          })}
+
+        </ScrollView>
         <Image source={down} style={{ width: 24, height: 24 }} />
       </InputLikeButton>
       <OverlayDialog
         visible={overlayVisible}
         onDismiss={() => setOverlayVisible(false)}
       >
+        <CategoryPicker setCategory={setCategory} category={category} />
       </OverlayDialog>
       <ThemedTextArea
         label={"추가설명(선택)"}

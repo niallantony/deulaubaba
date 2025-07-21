@@ -75,3 +75,12 @@ export const CenterText = styled.View`
   width: 100%;
   text-align: center;
 `
+
+export const PageTitle = styled.Text`
+  text-align: left;
+  width: 80%;
+  font-size: ${props => props.theme.sizes.lg};
+  margin: ${props => props.theme.spacing.default};
+  font-weight: 800;
+  color: ${props => props.theme.colors.light};
+`

@@ -20,10 +20,7 @@ export default function Route() {
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <BackButtonContainer>
-        <BackButton href={{
-          pathname: "/dictionary/viewList/[extype]",
-          params: { extype },
-        }} />
+        <BackButton />
       </ BackButtonContainer>
       <GreenHeading>{title}</GreenHeading>
       <DictionaryForm type={extype} onSubmit={handleSubmit} />

@@ -20,11 +20,18 @@ export type DictionaryPosting = {
 
 export type CommunicationCategory = keyof typeof CommunicationCategories;
 
+export const categoryKeys: CommunicationCategory[] = Object.keys(CommunicationCategories) as CommunicationCategory[]
+
 export function getCategoryColor(category: CommunicationCategory) {
   return CommunicationCategories[category].color;
 }
+export function getCategoryTitle(category: CommunicationCategory) {
+  return CommunicationCategories[category].title;
+}
 
 export type ExpressionType = keyof typeof ExpressionTypes;
+
+export const expressionKeys: ExpressionType[] = Object.keys(ExpressionTypes) as ExpressionType[];
 
 export function getExpressionType(expression: ExpressionType) {
   return {

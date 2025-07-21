@@ -20,7 +20,6 @@ export const AvatarPane = styled.View`
   border-radius: ${props => props.theme.radii.imageBorder};
   box-shadow: 0 7px 6px rgba(0,4,4,0.2);
   width: fit-content;
-  height: fit-content;
   padding: ${props => props.theme.spacing.border};
 `
 

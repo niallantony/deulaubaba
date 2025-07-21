@@ -22,7 +22,6 @@ const BorderView = styled.View`
 `
 const HeaderFrame = styled.View`
   flex-direction: row;
-  height: fit-content;
   padding: ${props => props.theme.spacing.default};
   justify-content: space-between;
 `

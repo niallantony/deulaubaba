@@ -1,12 +1,11 @@
 import { styled } from 'styled-components/native';
 import { ButtonTextTheme, ButtonTextWhite } from './ThemedText';
 import { PressableProps } from 'react-native';
-import { Link, LinkProps } from 'expo-router';
+import { Link, LinkProps, useRouter } from 'expo-router';
 
 export type ThemedButtonProps = {
   text: string;
   type?: "green" | "outline";
-  onPress: () => void;
   row?: boolean;
 } & PressableProps
 
@@ -49,12 +48,12 @@ width: 80%;
 `
 
 
-export function ThemedButton({ text, type, onPress, row = false }: ThemedButtonProps) {
+export function ThemedButton({ text, type, row = false, ...rest }: ThemedButtonProps) {
   return (
     <StyledButton
       $row={row}
-      onPress={onPress}
       $type={type}
+      {...rest}
     >
       {type === "green" ?
         (<ButtonTextWhite>{text}</ButtonTextWhite>) :
@@ -64,14 +63,14 @@ export function ThemedButton({ text, type, onPress, row = false }: ThemedButtonP
   )
 }
 
-export const BackButton = ({ href }: LinkProps) => {
+export const BackButton = () => {
+  const router = useRouter();
   return (
-    <Link href={href} asChild>
-      <SubtleButton>
-        <ButtonTextTheme>&lt;  이전</ButtonTextTheme>
-
-      </SubtleButton>
-    </Link>
+    <SubtleButton onPress={() => {
+      router.back();
+    }}>
+      <ButtonTextTheme>&lt;  이전</ButtonTextTheme>
+    </SubtleButton>
   )
 }
 
