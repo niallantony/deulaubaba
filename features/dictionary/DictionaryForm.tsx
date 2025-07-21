@@ -44,14 +44,13 @@ export const DictionaryForm = ({ type, onSubmit }: {
   }
 
   const handleUploadImage = () => {
-
   }
 
   return (
     <FullScreenView>
       <UploadImageFrame style={{ marginBottom: 12 }}>
         <UploadImage onPress={handleUploadImage} />
-        <View style={{ flexGrow: 1 }}>
+        <View style={{ flexGrow: 1, width: 100, }}>
           <ThemedTextArea
             label={"의사소통 내용"}
             value={title}

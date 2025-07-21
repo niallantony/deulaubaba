@@ -1,7 +1,6 @@
 import { StudentAvatar } from "@/components/StudentAvatar";
 import { DictionaryListing, getCategoryColor } from "@/types/dictionary";
-import { Text } from "react-native";
-import styled from "styled-components/native";
+import { styled } from "styled-components/native";
 
 const Card = styled.View`
   background-color: ${props => props.theme.colors.inputs};
@@ -44,6 +43,7 @@ const CardDescriptionHolder = styled.View`
 `
 
 export const EntryCard = ({ entry }: { entry: DictionaryListing }) => {
+  console.log(entry)
   return (
     <Card>
       <StudentAvatar

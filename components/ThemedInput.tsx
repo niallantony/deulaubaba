@@ -34,6 +34,7 @@ const StyledTextArea = styled.TextInput<{ $height: string }>`
   border-radius: ${props => props.theme.radii.md};
   box-shadow: 0 7px 6px rgba(0,0,0,0.03);
   height: ${props => props.$height ? props.$height : "150px"};
+  width: 100%;
 `
 export const FormLabel = styled(LightText)`
   margin-bottom: ${props => props.theme.spacing.small}

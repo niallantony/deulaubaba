@@ -59,6 +59,15 @@ export const DictionaryProvider = ({ children }: PropsWithChildren) => {
 
 
   const postDictionary = async (dictionary: DictionaryPosting) => {
+    console.log("Posting", dictionary)
+    try {
+      const response = await API.postDictionary(dictionary);
+      if (response.status === 200) {
+
+      }
+    } catch (err) {
+      console.error(err);
+    }
 
 
   }

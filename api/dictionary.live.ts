@@ -1,8 +1,8 @@
-import { DictionaryListing, ExpressionType } from "@/types/dictionary";
+import { DictionaryListing, DictionaryPosting, ExpressionType } from "@/types/dictionary";
 
-export type DictionaryListingResponse = {
+export type DictionaryResponse = {
   status: number;
-  body: DictionaryListingBodyResponse | null;
+  body: DictionaryListingBodyResponse | DictionaryListing | null;
 }
 
 export type DictionaryListingBodyResponse = {
@@ -11,7 +11,8 @@ export type DictionaryListingBodyResponse = {
   message?: string;
 }
 
-export const getDictionaryListings = async (id: string): Promise<DictionaryListingResponse> => {
+
+export const getDictionaryListings = async (id: string): Promise<DictionaryResponse> => {
 
   try {
     const api = process.env.EXPO_PUBLIC_API_ADDRESS;
@@ -59,6 +60,41 @@ export const getDictionaryListings = async (id: string): Promise<DictionaryListi
   }
 }
 
-export const PostDictionary = (d) => {
+export const postDictionary = async (dictionary: DictionaryPosting): Promise<DictionaryResponse> => {
+  try {
+    const api = process.env.EXPO_PUBLIC_API_ADDRESS;
+
+    const response = await fetch(`${api}/dictionary`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(dictionary)
+    })
+    if (response.status === 404) {
+      return {
+        status: 404,
+        body: null,
+      }
+    }
+    if (response.status === 200) {
+      const body = await response.json()
+      return {
+        status: 200,
+        body,
+      };
+
+    }
+  } catch (err) {
+    console.error(err)
+  }
+  return {
+    status: 503,
+    body: {
+      listings: null,
+      expressiontypes: null,
+      message: "No Response from Server"
+    },
+  }
 
 }

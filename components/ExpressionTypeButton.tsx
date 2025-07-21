@@ -7,6 +7,7 @@ const ExpressionTypeButtonStyle = styled.Pressable`
   padding: 16px;
   margin: ${props => props.theme.spacing.mini} ${props => props.theme.spacing.small};
   background-color: ${props => props.theme.colors.accent};
+  width: 90%;
 `
 
 const FirstLineText = styled.Text`

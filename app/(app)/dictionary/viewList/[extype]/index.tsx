@@ -6,7 +6,7 @@ import { EntryCard } from "@/features/dictionary/EntryCard";
 import { theme } from "@/themes/global";
 import { ExpressionType, getExpressionType } from "@/types/dictionary";
 import { useLocalSearchParams } from "expo-router";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 export default function Route() {
   const { extype } = useLocalSearchParams<{ extype: ExpressionType }>()
@@ -21,9 +21,11 @@ export default function Route() {
         <BackButton />
       </ BackButtonContainer>
       <GreenHeading>{title}</GreenHeading>
-      {results && results.map((entry) => (
-        <EntryCard key={entry.id} entry={entry} />
-      ))}
+      <ScrollView>
+        {results && results.map((entry) => (
+          <EntryCard key={entry.id} entry={entry} />
+        ))}
+      </ScrollView>
 
       <SmallButtonContainer>
         <AddButton href={{
