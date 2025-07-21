@@ -63,6 +63,9 @@ export const DictionaryProvider = ({ children }: PropsWithChildren) => {
     try {
       const response = await API.postDictionary(dictionary);
       if (response.status === 200) {
+        if (student?.studentId) {
+          fetchDictionary(student?.studentId)
+        }
 
       }
     } catch (err) {

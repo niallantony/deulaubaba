@@ -5,7 +5,7 @@ import { useDictionary } from "@/context/DictionaryContext";
 import { DictionaryForm } from "@/features/dictionary/DictionaryForm";
 import { theme } from "@/themes/global";
 import { DictionaryPosting, ExpressionType, getExpressionType } from "@/types/dictionary";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { View } from "react-native";
 
 
@@ -15,9 +15,11 @@ export default function Route() {
 
   const { title } = getExpressionType(extype);
 
+  const router = useRouter();
 
   const handleSubmit = (listing: DictionaryPosting) => {
     postDictionary(listing);
+    router.dismissAll();
   }
 
   return (
