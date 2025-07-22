@@ -42,8 +42,8 @@ const CardDescriptionHolder = styled.View`
   flex-direction: row;
 `
 
+
 export const EntryCard = ({ entry }: { entry: DictionaryListing }) => {
-  console.log(entry)
   return (
     <Card>
       <StudentAvatar

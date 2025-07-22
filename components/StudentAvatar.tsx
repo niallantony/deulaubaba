@@ -1,8 +1,10 @@
-import { useState, useEffect } from "react";
-import { ActivityIndicator, Image } from "react-native";
+import { useState } from "react";
+import { ActivityIndicator } from "react-native";
 import { styled } from 'styled-components/native';
+import { Image } from "expo-image";
 
-import { devImages } from "@/constants/DevImages";
+
+const api = process.env.EXPO_PUBLIC_API_ADDRESS;
 
 type AvatarProps = {
   url?: string;
@@ -17,14 +19,6 @@ type AvatarStyleProps = {
   $style: "full" | "round";
 }
 
-const Avatar = styled.Image<AvatarStyleProps>`
-  border-radius: ${props => props.theme.radii.md};
-  border-radius: ${props => props.$style === "full" ? props.theme.radii.md : props.theme.radii.full};
-  width: ${props => props.$width}px;
-  height: ${props => props.$height}px;
-`
-
-
 const NoAvatar = styled.View<AvatarStyleProps>`
   justify-content: center;
   background-color: ${props => props.theme.colors.light};
@@ -38,40 +32,35 @@ const NoAvatar = styled.View<AvatarStyleProps>`
 export const StudentAvatar = ({ url, width, height, style = "full" }: AvatarProps) => {
   const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    if (!url) {
-      setLoaded(false);
-      return;
-    }
-
-    let isMounted = true;
-
-    Image.prefetch(url)
-      .then(() => {
-        if (isMounted) setLoaded(true);
-      })
-      .catch(() => {
-        if (isMounted) setLoaded(false);
-      })
-    return () => {
-      isMounted = false
-    }
-  }, [url]);
-
-  if (url && Object.keys(devImages).includes(url)) {
-    return <Avatar source={devImages[url]} $style={style} $width={width} $height={height} />
-  }
-
+  const imageurl = `${api}/uploads/${url}`
 
   if (!url) {
-    return <NoAvatar $width={width} $style={style} $height={height} />
+    return <NoAvatar $width={width} $height={height} $style={style} />;
   }
 
-  return loaded ? (
-    <Avatar source={{ uri: url }} $width={width} $style={style} $height={height} />
-  ) : (
-    <NoAvatar $width={width} $style={style} $height={height}>
-      <ActivityIndicator />
-    </NoAvatar>
-  )
-}
+  console.log("Loading image", imageurl)
+
+
+  return (
+    <>
+      {!loaded && (
+        <NoAvatar $width={width} $height={height} $style={style}>
+          <ActivityIndicator />
+        </NoAvatar>
+      )}
+      <Image
+        source={{ uri: imageurl }}
+        onLoadEnd={() => setLoaded(true)}
+        onError={(e) => {
+          console.log(e)
+          setLoaded(false)
+        }}
+        style={{
+          width: width,
+          height: height,
+          borderRadius: style === "full" ? 8 : 128,
+        }}
+      />
+    </>
+  );
+};

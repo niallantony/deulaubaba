@@ -63,7 +63,7 @@ export const getDictionaryListings = async (studentId: string): Promise<Dictiona
 
 }
 
-export const postDictionary = async (d: DictionaryPosting): Promise<DictionaryPostingResponse> => {
+export const postDictionary = async (d: DictionaryPosting, b: Blob): Promise<DictionaryPostingResponse> => {
   return Promise.resolve({ status: 200, body: null });
 }
 

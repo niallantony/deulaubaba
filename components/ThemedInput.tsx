@@ -53,13 +53,15 @@ const StyledTwinField = styled.View<{ $position: "left" | "right" }>`
 `
 
 const StyledImageUpload = styled.Pressable`
-  width: 49%;
+  width: 140px;
+  height: 140px;
   background-color: ${props => props.theme.colors.inputs};
   border-radius: ${props => props.theme.radii.xl};
   margin-right: ${props => props.theme.spacing.small};
   justify-content: center;
   align-items: center;
   padding: ${props => props.theme.spacing.small};
+  overflow: hidden;
 `
 
 
@@ -111,10 +113,14 @@ export const ThemedTwinInput = ({ position, label, value, onChange, ...rest }: T
 
 }
 
-export const UploadImage = ({ onPress, ...rest }: PressableProps) => {
+
+export const UploadImage = ({ onPress, image, ...rest }: { image: string | null } & PressableProps) => {
   return (
     <StyledImageUpload accessibilityLabel="이미지" onPress={onPress} {...rest}>
-      <Image source={addPhoto} style={{ width: 32, height: 32 }} />
+      {image ?
+        (<Image source={{ uri: image }} style={{ flex: 1, width: 150, height: 150 }} />) :
+        <Image source={addPhoto} style={{ width: 32, height: 32 }} />
+      }
     </StyledImageUpload>
   )
 
