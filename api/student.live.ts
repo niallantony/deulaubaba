@@ -1,5 +1,6 @@
 import { Student, StudentIdAvatar } from "@/types/student";
 import { UserAvatar } from "@/types/user";
+import * as ImageManipulator from "expo-image-manipulator";
 
 export type StudentResponse = {
   status: number;
@@ -16,7 +17,7 @@ export type StudentsResponse = {
 export type UsersResponse = {
   status: number;
   users: UserAvatar[] | null;
-  message?: string;
+  umessage?: string;
 }
 
 export const getStudentFromCode = async (code: string): Promise<StudentResponse> => {
@@ -50,6 +51,15 @@ export const getStudentFromCode = async (code: string): Promise<StudentResponse>
   }
 }
 
+const compressImage = async (uri: string) => {
+  const compressed = await ImageManipulator.manipulateAsync(
+    uri,
+    [{ resize: { width: 1000 } }], // or whatever width makes sense
+    { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+  );
+  return compressed;
+};
+
 export const postStudent = async (student: Student, uid: string) => {
   try {
     const api = process.env.EXPO_PUBLIC_API_ADDRESS;
@@ -81,6 +91,7 @@ export const putStudent = async (student: Student, studentId: string, uid: strin
     })
 
     return response;
+
   } catch (err) {
     console.error("Thrown: ", err)
   }

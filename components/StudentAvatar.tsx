@@ -38,8 +38,6 @@ export const StudentAvatar = ({ url, width, height, style = "full" }: AvatarProp
     return <NoAvatar $width={width} $height={height} $style={style} />;
   }
 
-  console.log("Loading image", imageurl)
-
 
   return (
     <>
@@ -51,13 +49,10 @@ export const StudentAvatar = ({ url, width, height, style = "full" }: AvatarProp
       <Image
         source={{ uri: imageurl }}
         onLoadEnd={() => setLoaded(true)}
-        onError={(e) => {
-          console.log(e)
-          setLoaded(false)
-        }}
+        onError={() => setLoaded(false)}
         style={{
-          width: width,
-          height: height,
+          width,
+          height,
           borderRadius: style === "full" ? 8 : 128,
         }}
       />

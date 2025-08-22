@@ -8,20 +8,21 @@ import { useState } from "react"
 import { Pressable, View } from "react-native"
 import { Student } from "@/types/student"
 import { useSession } from "@/context/AuthContext"
+import * as ImagePicker from "expo-image-picker"
 
 export type AddStudentProps = {
   onSubmit: (student: Student, uid: string) => void;
   onSelectInput: () => void;
-  onUploadImage: () => void;
 }
 
-export const AddStudentForm = ({ onSubmit, onSelectInput, onUploadImage }: AddStudentProps) => {
+export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => {
   const [name, setName] = useState("")
   const [school, setSchool] = useState("")
   const [age, setAge] = useState("")
   const [grade, setGrade] = useState("")
   const [setting, setSetting] = useState("")
   const [disability, setDisability] = useState("")
+  const [imgsrc, setImgsrc] = useState("")
 
   const { user } = useSession();
 
@@ -33,6 +34,7 @@ export const AddStudentForm = ({ onSubmit, onSelectInput, onUploadImage }: AddSt
       grade: parseInt(grade),
       setting,
       disability,
+      imagesrc: imgsrc ? imgsrc : undefined,
     }
     if (user) {
       onSubmit(student, user?.userId)
@@ -42,10 +44,26 @@ export const AddStudentForm = ({ onSubmit, onSelectInput, onUploadImage }: AddSt
 
   }
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images', 'videos'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImgsrc(result.assets[0].uri);
+    }
+
+  }
+
   return (
     <FullScreenView>
       <UploadImageFrame>
-        <UploadImage onPress={onUploadImage} />
+        <UploadImage onPress={pickImage} image={imgsrc} />
         <View style={{ flexGrow: 1, }}>
           <ThemedTextInput
             label={"학생 이름"}

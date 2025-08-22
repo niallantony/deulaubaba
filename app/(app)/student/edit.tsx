@@ -21,6 +21,7 @@ export default function EditStudent() {
   const [disability, setDisability] = useState(student?.disability)
   const [communicationDetails, setCommunicationDetails] = useState(student?.communicationDetails)
   const [challengesDetails, setChallengesDetails] = useState(student?.challengesDetails)
+  const [imgsrc, setImgsrc] = useState<string | null>(null);
   const router = useRouter()
 
   const { user } = useSession();
@@ -56,7 +57,7 @@ export default function EditStudent() {
   return (
     <FullScreenView style={{ backgroundColor: theme.colors.background }}>
       <UploadImageFrame>
-        <UploadImage onPress={() => { }} />
+        <UploadImage onPress={() => { console.log(imgsrc) }} preImage={student?.imagesrc} image={imgsrc} />
         <View style={{ flexGrow: 1, }}>
           <ThemedTextInput
             label={"학생 이름"}
