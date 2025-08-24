@@ -85,6 +85,7 @@ export const RowText = styled.View`
 export const UploadImageFrame = styled.View`
   display: flex;
   flex-direction: row;
+  align-items: center;
 `
 
 const PageTitleContainer = styled.View`

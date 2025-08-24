@@ -12,8 +12,6 @@ export default function AddStudent() {
   const {
     handleStudentCode,
     handleNewStudent,
-    error,
-    loading,
     student,
     screen,
     reset,
@@ -51,7 +49,7 @@ export default function AddStudent() {
     return (<AddStudentForm
       onSubmit={handleNewStudent}
       onSelectInput={inputCode}
-      onUploadImage={() => { }}
     />);
+
   }
 }

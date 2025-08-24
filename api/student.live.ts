@@ -1,5 +1,6 @@
 import { Student, StudentIdAvatar } from "@/types/student";
 import { UserAvatar } from "@/types/user";
+import * as ImageManipulator from "expo-image-manipulator";
 
 export type StudentResponse = {
   status: number;
@@ -16,7 +17,7 @@ export type StudentsResponse = {
 export type UsersResponse = {
   status: number;
   users: UserAvatar[] | null;
-  message?: string;
+  umessage?: string;
 }
 
 export const getStudentFromCode = async (code: string): Promise<StudentResponse> => {
@@ -50,16 +51,35 @@ export const getStudentFromCode = async (code: string): Promise<StudentResponse>
   }
 }
 
+const compressImage = async (uri: string) => {
+  const compressed = await ImageManipulator.manipulateAsync(
+    uri,
+    [{ resize: { width: 1000 } }], // or whatever width makes sense
+    { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+  );
+  return compressed;
+};
+
 export const postStudent = async (student: Student, uid: string) => {
   try {
     const api = process.env.EXPO_PUBLIC_API_ADDRESS;
+    const formData = new FormData()
+    formData.append("data", JSON.stringify({ uid, ...student }))
+    if (student.imagesrc) {
+      const compressed = await compressImage(student.imagesrc);
+      formData.append("image", {
+        uri: compressed.uri,
+        name: `${uid}-${student.name}.jpg`,
+        type: "image/jpeg",
+      } as any)
+    }
 
     const response = await fetch(`${api}/student`, {
       "method": "POST",
       "headers": {
-        "Content-type": "application/json"
+        "Content-type": "multipart/form-data"
       },
-      "body": JSON.stringify({ uid: uid, ...student }),
+      "body": formData,
     })
 
     return response;
@@ -71,16 +91,28 @@ export const postStudent = async (student: Student, uid: string) => {
 export const putStudent = async (student: Student, studentId: string, uid: string) => {
   try {
     const api = process.env.EXPO_PUBLIC_API_ADDRESS;
+    const formData = new FormData()
+    formData.append("data", JSON.stringify({ uid, ...student }))
+    if (student.imagesrc) {
+      const compressed = await compressImage(student.imagesrc);
+      formData.append("image", {
+        uri: compressed.uri,
+        name: `${studentId}.jpg`,
+        type: "image/jpeg",
+      } as any)
+    }
+    console.log(formData)
 
     const response = await fetch(`${api}/student/${studentId}`, {
       "method": "PUT",
       "headers": {
-        "Content-type": "application/json"
+        "Content-type": "multipart/form-data"
       },
-      "body": JSON.stringify({ uid: uid, ...student }),
+      "body": formData,
     })
 
     return response;
+
   } catch (err) {
     console.error("Thrown: ", err)
   }

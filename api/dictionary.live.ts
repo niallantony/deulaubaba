@@ -1,4 +1,5 @@
 import { DictionaryListing, DictionaryPosting, ExpressionType } from "@/types/dictionary";
+import * as ImageManipulator from 'expo-image-manipulator'
 
 export type DictionaryResponse = {
   status: number;
@@ -60,16 +61,37 @@ export const getDictionaryListings = async (id: string): Promise<DictionaryRespo
   }
 }
 
+const compressImage = async (uri: string) => {
+  const compressed = await ImageManipulator.manipulateAsync(
+    uri,
+    [{ resize: { width: 1000 } }], // or whatever width makes sense
+    { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
+  );
+  return compressed;
+};
+
+
 export const postDictionary = async (dictionary: DictionaryPosting): Promise<DictionaryResponse> => {
   try {
     const api = process.env.EXPO_PUBLIC_API_ADDRESS;
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(dictionary))
+    if (dictionary.imgsrc) {
+      const compressed = await compressImage(dictionary.imgsrc);
+      formData.append("image", {
+        uri: compressed.uri,
+        name: `${dictionary.studentId}.jpg`,
+        type: "image/jpeg",
+      } as any)
+
+    }
 
     const response = await fetch(`${api}/dictionary`, {
       method: "POST",
       headers: {
-        "Content-type": "application/json"
+        "Content-type": "multipart/form-data"
       },
-      body: JSON.stringify(dictionary)
+      body: formData,
     })
     if (response.status === 404) {
       return {

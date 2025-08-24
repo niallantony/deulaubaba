@@ -15,7 +15,6 @@ export const StudentProfile = ({ student, requestForm }: { student: Student, req
 
 
   const handleShowStudentCode = () => {
-    console.log("Set to true")
     setStudentCodeVisible(true)
   }
 

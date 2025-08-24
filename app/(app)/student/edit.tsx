@@ -10,6 +10,7 @@ import { Student } from "@/types/student";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 
 export default function EditStudent() {
   const { student, updateStudent } = useStudent();
@@ -21,6 +22,7 @@ export default function EditStudent() {
   const [disability, setDisability] = useState(student?.disability)
   const [communicationDetails, setCommunicationDetails] = useState(student?.communicationDetails)
   const [challengesDetails, setChallengesDetails] = useState(student?.challengesDetails)
+  const [imgsrc, setImgsrc] = useState<string | null>(null);
   const router = useRouter()
 
   const { user } = useSession();
@@ -38,14 +40,27 @@ export default function EditStudent() {
       disability,
       communicationDetails,
       challengesDetails,
+      imagesrc: imgsrc ? imgsrc : undefined,
     }
     if (user && student?.studentId) {
       updateStudent(editStudent);
       router.dismissAll();
     }
+  }
 
 
 
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images', 'videos'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImgsrc(result.assets[0].uri)
+    }
 
   }
 
@@ -56,7 +71,7 @@ export default function EditStudent() {
   return (
     <FullScreenView style={{ backgroundColor: theme.colors.background }}>
       <UploadImageFrame>
-        <UploadImage onPress={() => { }} />
+        <UploadImage onPress={pickImage} preImage={student?.imagesrc} image={imgsrc} />
         <View style={{ flexGrow: 1, }}>
           <ThemedTextInput
             label={"학생 이름"}

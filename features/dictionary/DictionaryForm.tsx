@@ -11,6 +11,7 @@ import { Image, ScrollView, View } from "react-native";
 import down from "@/assets/images/down.png"
 import { CategoryIndicator, CategoryPicker } from "./CategoryPicker";
 import { useStudent } from "@/context/StudentContext";
+import * as ImagePicker from "expo-image-picker";
 
 export const DictionaryForm = ({ type, onSubmit }: {
   type: ExpressionType;
@@ -18,13 +19,28 @@ export const DictionaryForm = ({ type, onSubmit }: {
 }) => {
   const [title, setTitle] = useState("")
   const [category, setCategory] = useState<CommunicationCategory[]>([])
-  const [imgsrc, setImgsrc] = useState()
+  const [imgsrc, setImgsrc] = useState<string | null>(null)
   const [description, setDescription] = useState("")
   const [overlayVisible, setOverlayVisible] = useState(false)
 
   const { student } = useStudent();
 
-  const handleSubmit = () => {
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images', 'videos'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImgsrc(result.assets[0].uri);
+    }
+
+  }
+
+  const handleSubmit = async () => {
     // TODO: Handle Validation
     if (!student || !student.studentId) {
       return
@@ -37,19 +53,18 @@ export const DictionaryForm = ({ type, onSubmit }: {
       type,
       title,
       category,
-      imgsrc,
+      imgsrc: imgsrc ? imgsrc : undefined,
       description,
     }
     onSubmit(listing);
   }
 
-  const handleUploadImage = () => {
-  }
+
 
   return (
     <FullScreenView>
       <UploadImageFrame style={{ marginBottom: 12 }}>
-        <UploadImage onPress={handleUploadImage} />
+        <UploadImage onPress={pickImage} image={imgsrc} />
         <View style={{ flexGrow: 1, width: 100, }}>
           <ThemedTextArea
             label={"의사소통 내용"}
