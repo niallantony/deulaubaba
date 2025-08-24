@@ -1,6 +1,6 @@
-import { Student, StudentIdAvatar } from "@/types/student";
-import { UserAvatar } from "@/types/user";
-import * as ImageManipulator from "expo-image-manipulator";
+import {Student, StudentIdAvatar} from "@/types/student";
+import {UserAvatar} from "@/types/user";
+import {ImageManipulator, SaveFormat} from "expo-image-manipulator";
 
 export type StudentResponse = {
   status: number;
@@ -17,7 +17,7 @@ export type StudentsResponse = {
 export type UsersResponse = {
   status: number;
   users: UserAvatar[] | null;
-  umessage?: string;
+  message?: string;
 }
 
 export const getStudentFromCode = async (code: string): Promise<StudentResponse> => {
@@ -52,12 +52,12 @@ export const getStudentFromCode = async (code: string): Promise<StudentResponse>
 }
 
 const compressImage = async (uri: string) => {
-  const compressed = await ImageManipulator.manipulateAsync(
-    uri,
-    [{ resize: { width: 1000 } }], // or whatever width makes sense
-    { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
-  );
-  return compressed;
+  const imageContext = ImageManipulator.manipulate(uri);
+  const manipulated = await imageContext
+      .resize({width: 1000})
+      .renderAsync()
+
+  return await manipulated.saveAsync({compress: 0.7, format: SaveFormat.JPEG})
 };
 
 export const postStudent = async (student: Student, uid: string) => {
@@ -74,17 +74,16 @@ export const postStudent = async (student: Student, uid: string) => {
       } as any)
     }
 
-    const response = await fetch(`${api}/student`, {
+    return await fetch(`${api}/student`, {
       "method": "POST",
       "headers": {
         "Content-type": "multipart/form-data"
       },
       "body": formData,
-    })
-
-    return response;
+    });
   } catch (err) {
     console.error("Thrown: ", err)
+    return Promise.reject(err);
   }
 }
 
@@ -103,18 +102,21 @@ export const putStudent = async (student: Student, studentId: string, uid: strin
     }
     console.log(formData)
 
-    const response = await fetch(`${api}/student/${studentId}`, {
+    return await fetch(`${api}/student/${studentId}`, {
       "method": "PUT",
       "headers": {
         "Content-type": "multipart/form-data"
       },
       "body": formData,
-    })
-
-    return response;
+    });
 
   } catch (err) {
     console.error("Thrown: ", err)
+    return {
+      status: 401,
+      students: null,
+      message: "Post Failed"
+    }
   }
 }
 

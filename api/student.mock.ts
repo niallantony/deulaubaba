@@ -21,6 +21,7 @@ export type UsersResponse = {
 
 export const postStudent = async (student: Student) => {
   console.log(student)
+  return Promise.resolve({status: 200, student: student})
 }
 
 export const getStudentFromCode = async (code: string): Promise<StudentResponse> => {

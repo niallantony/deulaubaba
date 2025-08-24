@@ -1,10 +1,8 @@
-import { BigButtonContainer, BigButtonSpacer } from "@/components/ButtonContainer";
+import { BigButtonContainer } from "@/components/ButtonContainer";
 import { BigButton } from "@/components/ThemedButton";
-import { StyledLink , ThemedLink } from "@/components/ThemedLink";
-import { ButtonTextWhite, LinkText } from "@/components/ThemedText"
+import {  ThemedLink } from "@/components/ThemedLink";
+import { ButtonTextWhite, } from "@/components/ThemedText"
 import { PageTitleView } from "@/components/ThemedView";
-import { useRouter } from "expo-router";
-import { View } from "react-native";
 
 export type HasCodeActions = {
   inputCode: () => void;
@@ -12,7 +10,6 @@ export type HasCodeActions = {
 }
 
 export const HasCode = ({ inputCode, makeCode }: HasCodeActions) => {
-  const router = useRouter();
   return (
     <PageTitleView
       title={"학생 코드가 있나요? "}

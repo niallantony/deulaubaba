@@ -1,9 +1,9 @@
 import { useStudent } from "@/context/StudentContext"
+// @ts-ignore
 import noStudent from '@/assets/images/personSearch.png'
-import { Student, StudentIdAvatar } from "@/types/student"
-import { FlatList, Text } from "react-native"
-import styled from "styled-components/native"
-import { LightText, StyledText } from "./ThemedText"
+import {  StudentIdAvatar } from "@/types/student"
+import { FlatList } from "react-native"
+import { styled } from "styled-components/native"
 import { StudentAvatar } from "./StudentAvatar"
 import { IconLink } from "./ThemedLink"
 import { useEffect, useState } from "react"
@@ -20,7 +20,7 @@ flex: 1;
   };
   box-shadow: 0 7px 6px rgba(0,0,0,0.03);
   padding: ${props => props.theme.spacing.small};
-  justify-contents: center;
+  justify-content: center;
   align-items: center;
   border: 1px solid ${props => props.$selected ?
     props.theme.colors.lightText :
@@ -66,7 +66,7 @@ flex: 1;
 `
 
 const StudentInfoPanel = styled.View`
-  justify-contents: flex-start;
+  justify-content: flex-start;
   height: 100%;
 
 `

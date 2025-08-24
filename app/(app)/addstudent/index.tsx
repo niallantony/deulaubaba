@@ -56,7 +56,6 @@ export default function AddStudent() {
     return (<AddStudentForm
       onSubmit={handleNewStudent}
       onSelectInput={inputCode}
-      onUploadImage={() => { }}
     />);
   }
 }

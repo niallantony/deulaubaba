@@ -1,6 +1,7 @@
 import { Image, PressableProps, View, type TextInputProps } from "react-native";
 import { LightText } from "./ThemedText";
 import { styled } from "styled-components/native";
+// @ts-ignore
 import addPhoto from "@/assets/images/addPhotoDark.png"
 import { ImageBackground } from "react-native";
 
@@ -28,7 +29,7 @@ const StyledInput = styled.TextInput`
   border-radius: ${props => props.theme.radii.md};
   box-shadow: 0 7px 6px rgba(0,0,0,0.03);
 `
-const StyledTextArea = styled.TextInput<{ $height: string }>`
+const StyledTextArea = styled.TextInput<{ $height?: string }>`
   background-color: ${props => props.theme.colors.inputs};
   font-size: ${props => props.theme.sizes.md};
   padding: ${props => props.theme.spacing.small};
@@ -81,11 +82,12 @@ export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextI
 
 }
 
-export const ThemedTextArea = ({ label, value, onChange, ...rest }: ThemedTextAreaProps) => {
+export const ThemedTextArea = ({ label, value, onChange, $height, ...rest }: ThemedTextAreaProps) => {
   return (
     <StyledField>
       <FormLabel>{label}</FormLabel>
       <StyledTextArea
+        $height={$height}
         accessibilityLabel={label}
         textAlignVertical={"top"}
         value={value}

@@ -1,4 +1,4 @@
-import { AddStudent } from "@/features/auth/AddStudent"
+import { AddStudentForm } from "@/features/student/AddStudent"
 import { renderWithProviders } from "@/test-utils/renderWithProvider"
 import { Student } from "@/types/student"
 import { fireEvent } from "@testing-library/react-native"
@@ -18,11 +18,11 @@ const mockStudent: Student = {
 
 describe('Rendering', () => {
   it("renders correctly", () => {
-    renderWithProviders(<AddStudent onUploadImage={dummyProp} onSubmit={dummyStudent} onSelectInput={dummyProp} />)
+    renderWithProviders(<AddStudentForm  onSubmit={dummyStudent} onSelectInput={dummyProp} />)
   })
 
   it("renders text boxes and buttons", () => {
-    const { getByLabelText, getByText } = renderWithProviders(<AddStudent onUploadImage={dummyProp} onSubmit={dummyStudent} onSelectInput={dummyProp} />)
+    const { getByLabelText, getByText } = renderWithProviders(<AddStudentForm onSubmit={dummyStudent} onSelectInput={dummyProp} />)
     expect(getByLabelText("학생 이름")).toBeTruthy()
     expect(getByLabelText("소속 학교명")).toBeTruthy()
     expect(getByLabelText("나이")).toBeTruthy()
@@ -35,7 +35,7 @@ describe('Rendering', () => {
   })
 
   it("updates username and passwords on change", () => {
-    const { getByLabelText } = renderWithProviders(<AddStudent onUploadImage={dummyProp} onSubmit={dummyStudent} onSelectInput={dummyProp} />)
+    const { getByLabelText } = renderWithProviders(<AddStudentForm  onSubmit={dummyStudent} onSelectInput={dummyProp} />)
 
     const name = getByLabelText("학생 이름")
     const school = getByLabelText("소속 학교명")
@@ -61,7 +61,7 @@ describe('Rendering', () => {
 
   it("calls submit function on button press", () => {
     const mockSubmit = jest.fn()
-    const { getByText } = renderWithProviders(<AddStudent onUploadImage={dummyProp} onSubmit={mockSubmit} onSelectInput={dummyProp} />)
+    const { getByText } = renderWithProviders(<AddStudentForm  onSubmit={mockSubmit} onSelectInput={dummyProp} />)
     const button = getByText("학생 코드 만들기")
 
     fireEvent.press(button);
@@ -71,7 +71,7 @@ describe('Rendering', () => {
 
   it("calls input function on button press", () => {
     const mockInput = jest.fn()
-    const { getByText } = renderWithProviders(<AddStudent onUploadImage={dummyProp} onSubmit={dummyStudent} onSelectInput={mockInput} />)
+    const { getByText } = renderWithProviders(<AddStudentForm  onSubmit={dummyStudent} onSelectInput={mockInput} />)
     const button = getByText("학생 코드 입력하기")
 
     fireEvent.press(button);
@@ -81,7 +81,7 @@ describe('Rendering', () => {
 
   it("calls upload image function on button press", () => {
     const mockInput = jest.fn()
-    const { getByLabelText } = renderWithProviders(<AddStudent onUploadImage={mockInput} onSubmit={dummyStudent} onSelectInput={dummyProp} />)
+    const { getByLabelText } = renderWithProviders(<AddStudentForm onSubmit={dummyStudent} onSelectInput={dummyProp} />)
     const button = getByLabelText("이미지")
 
     fireEvent.press(button);
@@ -91,7 +91,7 @@ describe('Rendering', () => {
 
   it("calls function with correct inputs", () => {
     const mockSubmit = jest.fn()
-    const { getByText, getByLabelText } = renderWithProviders(<AddStudent onUploadImage={dummyProp} onSubmit={mockSubmit} onSelectInput={dummyProp} />)
+    const { getByText, getByLabelText } = renderWithProviders(<AddStudentForm onSubmit={mockSubmit} onSelectInput={dummyProp} />)
     const button = getByText("학생 코드 만들기")
 
     const name = getByLabelText("학생 이름")
@@ -114,7 +114,7 @@ describe('Rendering', () => {
 
   it("non integer values send NaN", () => {
     const mockSubmit = jest.fn()
-    const { getByText, getByLabelText } = renderWithProviders(<AddStudent onUploadImage={dummyProp} onSubmit={mockSubmit} onSelectInput={dummyProp} />)
+    const { getByText, getByLabelText } = renderWithProviders(<AddStudentForm onSubmit={mockSubmit} onSelectInput={dummyProp} />)
     const button = getByText("학생 코드 만들기")
 
     const age = getByLabelText("나이")
@@ -132,7 +132,7 @@ describe('Rendering', () => {
 
   it("calls function with empty object", () => {
     const mockSubmit = jest.fn()
-    const { getByText, getByLabelText } = renderWithProviders(<AddStudent onUploadImage={dummyProp} onSubmit={mockSubmit} onSelectInput={dummyProp} />)
+    const { getByText } = renderWithProviders(<AddStudentForm onSubmit={mockSubmit} onSelectInput={dummyProp} />)
     const button = getByText("학생 코드 만들기")
 
     fireEvent.press(button);

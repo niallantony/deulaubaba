@@ -1,9 +1,9 @@
 import { DictionaryListing, DictionaryPosting, ExpressionType } from "@/types/dictionary";
-import * as ImageManipulator from 'expo-image-manipulator'
+import { ImageManipulator, SaveFormat } from 'expo-image-manipulator'
 
 export type DictionaryResponse = {
   status: number;
-  body: DictionaryListingBodyResponse | DictionaryListing | null;
+  body: DictionaryListingBodyResponse |  null;
 }
 
 export type DictionaryListingBodyResponse = {
@@ -62,14 +62,13 @@ export const getDictionaryListings = async (id: string): Promise<DictionaryRespo
 }
 
 const compressImage = async (uri: string) => {
-  const compressed = await ImageManipulator.manipulateAsync(
-    uri,
-    [{ resize: { width: 1000 } }], // or whatever width makes sense
-    { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
-  );
-  return compressed;
-};
+  const imageContext = ImageManipulator.manipulate(uri);
+  const manipulated = await imageContext
+      .resize({width: 1000})
+      .renderAsync()
 
+  return await manipulated.saveAsync({compress: 0.7, format: SaveFormat.JPEG})
+};
 
 export const postDictionary = async (dictionary: DictionaryPosting): Promise<DictionaryResponse> => {
   try {

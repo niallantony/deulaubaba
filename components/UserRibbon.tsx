@@ -1,9 +1,8 @@
-import { ActivityIndicator, Image } from "react-native"
+import { ActivityIndicator} from "react-native"
 import { UserAvatar } from "@/types/user"
-import styled from "styled-components/native";
+import { styled } from "styled-components/native";
 import { StudentAvatar } from "./StudentAvatar";
-import { StyledIcon } from "./ThemedLink";
-import { LinkText, StyledText } from "./ThemedText";
+// @ts-ignore
 import addUser from "@/assets/images/addUser.png"
 import { useEffect, useState } from "react";
 import { OverlayDialog } from "./OverlayDialog";

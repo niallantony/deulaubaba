@@ -8,6 +8,7 @@ import { UploadImageFrame } from "@/components/ThemedView";
 import { CommunicationCategory, DictionaryPosting, ExpressionType } from "@/types/dictionary"
 import { useState } from "react"
 import { Image, ScrollView, View } from "react-native";
+// @ts-ignore
 import down from "@/assets/images/down.png"
 import { CategoryIndicator, CategoryPicker } from "./CategoryPicker";
 import { useStudent } from "@/context/StudentContext";

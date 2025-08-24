@@ -1,4 +1,4 @@
-import { HasCode } from "@/features/auth/HasCode"
+import { HasCode } from "@/features/student/HasCode"
 import { renderWithProviders } from "@/test-utils/renderWithProvider"
 import { fireEvent } from "@testing-library/react-native"
 

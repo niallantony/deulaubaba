@@ -1,6 +1,7 @@
 import { CenterText, TitleText } from "@/components/ThemedText"
 import { ThemedLink } from "@/components/ThemedLink";
 import { FullView } from "@/components/ThemedView";
+// @ts-ignore
 import complete from "@/assets/images/complete.png"
 import { Image } from "react-native";
 import { styled } from "styled-components/native";

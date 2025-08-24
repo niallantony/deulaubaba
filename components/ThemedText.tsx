@@ -33,7 +33,7 @@ export const SubtitleText = styled.Text`
   font-size: ${props => props.theme.sizes.xl};
   color: ${props => props.theme.colors.text};
 `
-export const LinkText = styled.Text<{ $size: string; }>`
+export const LinkText = styled.Text<{ $size: "xxl" | "xl" | "lg" | "md" | "mdsm" | "sm" | "xs" ; }>`
   font-size: ${props => props.theme.sizes[props.$size]};
   color: ${props => props.theme.colors.accent};
 `
@@ -43,7 +43,7 @@ export const LightText = styled.Text`
   color: ${props => props.theme.colors.light};
 `
 
-export const LightTextVariable = styled.Text<{ $size: string; }>`
+export const LightTextVariable = styled.Text<{ $size: "xxl" | "xl" | "lg" | "md" | "mdsm" | "sm" | "xs"; }>`
   font-size: ${props => props.theme.sizes[props.$size]};
   color: ${props => props.theme.colors.light};
 `
