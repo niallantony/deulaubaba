@@ -12,7 +12,6 @@ import down from "@/assets/images/down.png"
 import { CategoryIndicator, CategoryPicker } from "./CategoryPicker";
 import { useStudent } from "@/context/StudentContext";
 import * as ImagePicker from "expo-image-picker";
-import * as ImageManipulator from 'expo-image-manipulator'
 
 export const DictionaryForm = ({ type, onSubmit }: {
   type: ExpressionType;
@@ -26,14 +25,6 @@ export const DictionaryForm = ({ type, onSubmit }: {
 
   const { student } = useStudent();
 
-  const compressImage = async (uri: string) => {
-    const compressed = await ImageManipulator.manipulateAsync(
-      uri,
-      [{ resize: { width: 1000 } }], // or whatever width makes sense
-      { compress: 0.7, format: ImageManipulator.SaveFormat.JPEG }
-    );
-    return compressed;
-  };
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -43,15 +34,13 @@ export const DictionaryForm = ({ type, onSubmit }: {
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImgsrc(result.assets[0].uri);
     }
 
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // TODO: Handle Validation
     if (!student || !student.studentId) {
       return
