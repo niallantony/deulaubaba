@@ -1,5 +1,3 @@
-const { getDefaultConfig } = require("expo/metro-config");
-
 module.exports = {
   preset: "jest-expo",
   testEnvironment: "node",

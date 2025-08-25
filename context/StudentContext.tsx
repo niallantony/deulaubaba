@@ -66,7 +66,7 @@ export const StudentProvider = ({ children }: PropsWithChildren) => {
     if (student && student.studentId && user) {
       const response = await API.putStudent(data, student.studentId, user.userId)
       if (response?.status === 200) {
-        selectStudent(student.studentId)
+        await selectStudent(student.studentId)
       }
       return response
     }

@@ -1,8 +1,6 @@
 import React, {useRef} from "react";
 import {Pressable, TextInput, TextInputProps} from "react-native";
 import {styled} from "styled-components/native";
-import {FastOmit} from "styled-components";
-import {IStyledComponentBase} from "styled-components/native/dist/types";
 
 export type InputCodeProps = {
     code: string;

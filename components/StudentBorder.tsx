@@ -5,7 +5,6 @@ import { Text } from "react-native";
 import { StudentAvatar } from "./StudentAvatar";
 import { PressableAvatarPane, } from "./ThemedView";
 import { SemiboldLightText, TitleText } from "./ThemedText";
-import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { OverlayDialog } from "./OverlayDialog";
 
 
@@ -44,7 +43,11 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
   const imageSize = 48
 
   const toggleList = () => {
-    showList ? setShowList(false) : setShowList(true);
+      if (showList) {
+          setShowList(false);
+      } else {
+          setShowList(true);
+      }
   }
 
   return (

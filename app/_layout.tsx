@@ -21,7 +21,7 @@ function RootNavigator() {
   const { user } = useSession();
   const insets = useSafeAreaInsets();
 
-  const isSignedIn = user ? true : false;
+  const isSignedIn = !!user;
 
   return (
     <View style={{

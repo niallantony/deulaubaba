@@ -1,21 +1,14 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> 500229efe98d7f93b2af74e48115d1d2271fa38d
 # Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
 
 # dependencies
 node_modules/
 
-<<<<<<< HEAD
-.git_broken
-=======
->>>>>>> 500229efe98d7f93b2af74e48115d1d2271fa38d
 # Expo
 .expo/
 dist/
 web-build/
 expo-env.d.ts
+.git_broken
 
 assets/images/avatarexample.png
 
@@ -28,13 +21,10 @@ assets/images/avatarexample.png
 *.key
 *.mobileprovision
 
-<<<<<<< HEAD
 # Builds
 ios
 android
 
-=======
->>>>>>> 500229efe98d7f93b2af74e48115d1d2271fa38d
 # Metro
 .metro-health-check*
 
@@ -50,15 +40,9 @@ yarn-error.*
 # local env files
 .env*.local
 
-<<<<<<< HEAD
 .env
 
 # typescript
 *.tsbuildinfo
 
-=======
-# typescript
-*.tsbuildinfo
-
 app-example
->>>>>>> 500229efe98d7f93b2af74e48115d1d2271fa38d

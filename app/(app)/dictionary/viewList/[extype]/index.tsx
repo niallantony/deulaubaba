@@ -1,40 +1,67 @@
 import { BackButtonContainer, SmallButtonContainer } from "@/components/ButtonContainer";
-import { AddButton, BackButton } from "@/components/ThemedButton";
+import { AddButton, BackButton, SubtleButton } from "@/components/ThemedButton";
+import { ButtonTextTheme } from "@/components/ThemedText";
 import { GreenHeading } from "@/components/ThemedView";
 import { useDictionary } from "@/context/DictionaryContext";
 import { EntryCard } from "@/features/dictionary/EntryCard";
+import { ListingDescription } from "@/features/dictionary/ListingDescription";
 import { theme } from "@/themes/global";
-import { ExpressionType, getExpressionType } from "@/types/dictionary";
+import { DictionaryListing, ExpressionType, getExpressionType } from "@/types/dictionary";
 import { useLocalSearchParams } from "expo-router";
+import { useState } from "react";
 import { ScrollView, View } from "react-native";
 
 export default function Route() {
   const { extype } = useLocalSearchParams<{ extype: ExpressionType }>()
   const { dictionary } = useDictionary();
-  const results = dictionary?.filter((entry) => entry.type === extype);
+  const results = dictionary?.filter((entry) => entry.type === extype) || [];
+  const [viewEntry, setViewEntry] = useState<DictionaryListing | null>(null);
 
   const { title } = getExpressionType(extype);
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
-      <BackButtonContainer>
-        <BackButton />
-      </ BackButtonContainer>
+      <HeaderBack viewEntry={!!viewEntry} onBack={() => setViewEntry(null)} />
       <GreenHeading>{title}</GreenHeading>
+      {!viewEntry ? (
+        <DictionaryListView results={results} onSelectEntry={setViewEntry} extype={extype} />
+      ) : (
+        <ListingDescription entry={viewEntry} />
+      )}
+    </View>
+  );
+}
+
+
+function DictionaryListView({ results, onSelectEntry, extype }: {
+  results: DictionaryListing[],
+  onSelectEntry: (entry: DictionaryListing) => void,
+  extype: ExpressionType
+}) {
+  return (
+    <>
       <ScrollView>
-        {results && results.map((entry) => (
-          <EntryCard key={entry.id} entry={entry} />
+        {results.map((entry) => (
+          <EntryCard key={entry.id} entry={entry} onClick={() => onSelectEntry(entry)} />
         ))}
       </ScrollView>
-
       <SmallButtonContainer>
-        <AddButton href={{
-          pathname: "/dictionary/viewList/[extype]/add",
-          params: { extype },
-        }} />
+        <AddButton href={{ pathname: "/dictionary/viewList/[extype]/add", params: { extype } }} />
       </SmallButtonContainer>
+    </>
+  );
+}
 
-
-    </View>
-  )
+function HeaderBack({ viewEntry, onBack }: { viewEntry: boolean, onBack: () => void }) {
+  return (
+    <BackButtonContainer>
+      {viewEntry ? (
+        <SubtleButton onPress={onBack}>
+          <ButtonTextTheme>&lt;  이전</ButtonTextTheme>
+        </SubtleButton>
+      ) : (
+        <BackButton />
+      )}
+    </BackButtonContainer>
+  );
 }

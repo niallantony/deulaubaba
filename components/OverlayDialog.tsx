@@ -1,7 +1,7 @@
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren} from "react";
 import { Modal, Pressable } from "react-native";
 import { ButtonTextTheme } from "./ThemedText";
-import styled from "styled-components/native";
+import { styled } from "styled-components/native";
 
 const CenteredOverlay = styled.Pressable`
   flex: 1;

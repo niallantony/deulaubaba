@@ -1,6 +1,6 @@
 import { HasCode } from "@/features/student/HasCode";
 import { InputStudentCode } from "@/features/student/InputCode";
-import { useFocusEffect, useNavigation, useRouter } from "expo-router";
+import { useFocusEffect,  useRouter } from "expo-router";
 import { useCallback } from "react";
 import { AddStudentForm } from "@/features/student/AddStudent";
 import { useAddStudent } from "@/hooks/useStudentCode";

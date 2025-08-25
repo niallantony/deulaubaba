@@ -1,4 +1,4 @@
-import { ActivityIndicator} from "react-native"
+import { ActivityIndicator } from "react-native"
 import { UserAvatar } from "@/types/user"
 import { styled } from "styled-components/native";
 import { StudentAvatar } from "./StudentAvatar";

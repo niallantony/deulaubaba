@@ -1,4 +1,4 @@
-import styled from 'styled-components/native';
+import { styled } from 'styled-components/native';
 import { LightText } from './ThemedText';
 
 const Divider = styled.View`

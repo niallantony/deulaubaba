@@ -2,7 +2,7 @@ import { StudentAvatar } from "@/components/StudentAvatar";
 import { DictionaryListing, getCategoryColor } from "@/types/dictionary";
 import { styled } from "styled-components/native";
 
-const Card = styled.View`
+const Card = styled.Pressable`
   background-color: ${props => props.theme.colors.inputs};
   border-radius: ${props => props.theme.radii.xl};
   padding: ${props => props.theme.spacing.small} ${props => props.theme.spacing.small};
@@ -43,9 +43,9 @@ const CardDescriptionHolder = styled.View`
 `
 
 
-export const EntryCard = ({ entry }: { entry: DictionaryListing }) => {
+export const EntryCard = ({ entry, onClick }: { entry: DictionaryListing, onClick: () => void }) => {
   return (
-    <Card>
+    <Card onPress={onClick}>
       <StudentAvatar
         url={entry.imgsrc} width={64} height={64} />
       <CardInterior>

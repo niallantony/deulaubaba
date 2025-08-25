@@ -1,7 +1,7 @@
 import API from "@/api/student";
 import { ButtonContainer } from "@/components/ButtonContainer";
 import { DividerWithTitle } from "@/components/Divider";
-import { StudentCards, StudentList } from "@/components/StudentCards";
+import {  StudentList } from "@/components/StudentCards";
 import { ThemedButton } from "@/components/ThemedButton"
 import { ErrorText, TitleText } from "@/components/ThemedText";
 import { FullView } from "@/components/ThemedView";
@@ -23,7 +23,7 @@ export default function Index() {
         })
     }
 
-  }, [students])
+  }, [setStudent, students])
 
 
   return (

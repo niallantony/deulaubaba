@@ -18,17 +18,14 @@ export const useStudents = () => {
       if (response.status === 401 && response.message) {
         setError(response.message)
         setLoading(false);
-        return false;
       }
       if (response.status === 200 && response.students) {
         setStudents(response.students);
         setLoading(false);
-        return true;
       }
     } catch (err) {
       console.error(err);
       setError("Attempt Failed")
-      return false;
     } finally {
       setLoading(false);
     }
