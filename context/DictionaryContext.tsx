@@ -8,11 +8,15 @@ const DictionaryContext = createContext<{
   fetchDictionary: (id: string) => void;
   types: ExpressionType[] | null;
   postDictionary: (d: DictionaryPosting) => void;
+  putDictionary: (d: DictionaryPosting, id: number) => void;
+  deleteDictionary: (id: number) => void;
 }>({
   dictionary: null,
   fetchDictionary: () => { },
   types: null,
   postDictionary: () => { },
+  putDictionary: () => { },
+  deleteDictionary: () => { },
 })
 
 export const useDictionary = () => {
@@ -57,7 +61,6 @@ export const DictionaryProvider = ({ children }: PropsWithChildren) => {
     }
   }
 
-
   const postDictionary = async (dictionary: DictionaryPosting) => {
     try {
       const response = await API.postDictionary(dictionary);
@@ -70,12 +73,35 @@ export const DictionaryProvider = ({ children }: PropsWithChildren) => {
     } catch (err) {
       console.error(err);
     }
+  }
 
+  const putDictionary = async (dictionary: DictionaryPosting, id: number) => {
+    try {
+      const response = await API.putDictionary(dictionary, id);
+      console.log(response)
+      if (response.status === 200 && student?.studentId) {
+        await fetchDictionary(student?.studentId)
+      }
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
+  const deleteDictionary = async (id: number) => {
+    try {
+      const response = await API.deleteDictionary(id);
+      console.log(response)
+      if (response.status === 204 && student?.studentId) {
+        fetchDictionary(student?.studentId);
+      }
+      return response.status
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
-    <DictionaryContext.Provider value={{ dictionary, types, fetchDictionary, postDictionary }}>
+    <DictionaryContext.Provider value={{ dictionary, types, fetchDictionary, postDictionary, putDictionary, deleteDictionary }}>
       {children}
     </DictionaryContext.Provider>
   )

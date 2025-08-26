@@ -3,7 +3,7 @@ import { ImageManipulator, SaveFormat } from 'expo-image-manipulator'
 
 export type DictionaryResponse = {
   status: number;
-  body: DictionaryListingBodyResponse |  null;
+  body: DictionaryListingBodyResponse | null;
 }
 
 export type DictionaryListingBodyResponse = {
@@ -64,10 +64,10 @@ export const getDictionaryListings = async (id: string): Promise<DictionaryRespo
 const compressImage = async (uri: string) => {
   const imageContext = ImageManipulator.manipulate(uri);
   const manipulated = await imageContext
-      .resize({width: 1000})
-      .renderAsync()
+    .resize({ width: 1000 })
+    .renderAsync()
 
-  return await manipulated.saveAsync({compress: 0.7, format: SaveFormat.JPEG})
+  return await manipulated.saveAsync({ compress: 0.7, format: SaveFormat.JPEG })
 };
 
 export const postDictionary = async (dictionary: DictionaryPosting): Promise<DictionaryResponse> => {
@@ -117,5 +117,78 @@ export const postDictionary = async (dictionary: DictionaryPosting): Promise<Dic
       message: "No Response from Server"
     },
   }
+}
 
+export const putDictionary = async (dictionary: DictionaryPosting, id: number): Promise<DictionaryResponse> => {
+  try {
+    const api = process.env.EXPO_PUBLIC_API_ADDRESS;
+    const formData = new FormData();
+    formData.append("data", JSON.stringify({ id, ...dictionary }))
+    if (dictionary.imgsrc) {
+      const compressed = await compressImage(dictionary.imgsrc);
+      formData.append("image", {
+        uri: compressed.uri,
+        name: `${dictionary.studentId}.jpg`,
+        type: "image/jpeg",
+      } as any)
+
+    }
+
+    const response = await fetch(`${api}/dictionary`, {
+      method: "PUT",
+      headers: {
+        "Content-type": "multipart/form-data"
+      },
+      body: formData,
+    })
+    if (response.status === 404) {
+      return {
+        status: 404,
+        body: null,
+      }
+    }
+    if (response.status === 200) {
+      const body = await response.json()
+      return {
+        status: 200,
+        body,
+      };
+
+    }
+  } catch (err) {
+    console.error(err)
+  }
+  return {
+    status: 503,
+    body: {
+      listings: null,
+      expressiontypes: null,
+      message: "No Response from Server"
+    },
+  }
+}
+
+export const deleteDictionary = async (id: number): Promise<{ status: number }> => {
+  try {
+    const api = process.env.EXPO_PUBLIC_API_ADDRESS;
+    const response = await fetch(`${api}/dictionary/${id}`, {
+      method: "DELETE",
+    })
+    if (response.status === 404) {
+      return {
+        status: 404,
+      }
+    }
+    if (response.status === 204) {
+      return {
+        status: 204,
+      };
+
+    }
+  } catch (err) {
+    console.error(err)
+  }
+  return {
+    status: 503,
+  }
 }

@@ -67,3 +67,10 @@ export const postDictionary = async (d: DictionaryPosting): Promise<DictionaryPo
   return Promise.resolve({ status: 200, body: null });
 }
 
+export const putDictionary = async (d: DictionaryPosting, id: number): Promise<DictionaryPostingResponse> => {
+  return Promise.resolve({ status: 200, body: null });
+}
+
+export const deleteDictionary = async (id: number): Promise<{ status: number }> => {
+  return Promise.resolve({ status: 200 })
+}

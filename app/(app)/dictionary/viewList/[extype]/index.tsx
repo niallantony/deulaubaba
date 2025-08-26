@@ -26,7 +26,7 @@ export default function Route() {
       {!viewEntry ? (
         <DictionaryListView results={results} onSelectEntry={setViewEntry} extype={extype} />
       ) : (
-        <ListingDescription entry={viewEntry} />
+        <ListingDescription entry={viewEntry} onUpdate={() => setViewEntry(null)} />
       )}
     </View>
   );

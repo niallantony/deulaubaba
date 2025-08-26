@@ -5,7 +5,7 @@ import { InputLikeButton, ThemedButton } from "@/components/ThemedButton";
 import { ThemedTextArea, UploadImage } from "@/components/ThemedInput";
 import { LightText } from "@/components/ThemedText";
 import { UploadImageFrame } from "@/components/ThemedView";
-import { CommunicationCategory, DictionaryPosting, ExpressionType } from "@/types/dictionary"
+import { CommunicationCategory, DictionaryListing, DictionaryPosting, ExpressionType } from "@/types/dictionary"
 import { useState } from "react"
 import { Image, ScrollView, View } from "react-native";
 // @ts-ignore
@@ -14,14 +14,15 @@ import { CategoryIndicator, CategoryPicker } from "./CategoryPicker";
 import { useStudent } from "@/context/StudentContext";
 import * as ImagePicker from "expo-image-picker";
 
-export const DictionaryForm = ({ type, onSubmit }: {
+export const DictionaryForm = ({ type, onSubmit, entry }: {
   type: ExpressionType;
   onSubmit: (d: DictionaryPosting) => void
+  entry?: DictionaryListing
 }) => {
-  const [title, setTitle] = useState("")
-  const [category, setCategory] = useState<CommunicationCategory[]>([])
+  const [title, setTitle] = useState(entry ? entry.title : "")
+  const [category, setCategory] = useState<CommunicationCategory[]>(entry ? entry.category : [])
   const [imgsrc, setImgsrc] = useState<string | null>(null)
-  const [description, setDescription] = useState("")
+  const [description, setDescription] = useState(entry ? entry.description : undefined)
   const [overlayVisible, setOverlayVisible] = useState(false)
 
   const { student } = useStudent();
@@ -65,7 +66,7 @@ export const DictionaryForm = ({ type, onSubmit }: {
   return (
     <FullScreenView>
       <UploadImageFrame style={{ marginBottom: 12 }}>
-        <UploadImage onPress={pickImage} image={imgsrc} />
+        <UploadImage onPress={pickImage} image={imgsrc} preImage={entry?.imgsrc} />
         <View style={{ flexGrow: 1, width: 100, }}>
           <ThemedTextArea
             label={"의사소통 내용"}
