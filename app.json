@@ -38,7 +38,13 @@
         }
       ],
       "expo-secure-store",
-      "expo-image-picker"
+      "expo-image-picker",
+      [
+        "react-native-auth0",
+        {
+          "domain": "dev-51x43bln4su24q1p.us.auth0.com"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
