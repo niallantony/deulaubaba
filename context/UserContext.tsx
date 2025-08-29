@@ -34,6 +34,7 @@ export const UserProvider = ({ children }: PropsWithChildren) => {
 
   const getUser = async () => {
     try {
+      setIsLoading(true)
       const response = await API.getUser()
       if (response.ok) {
         setIsUser(true)

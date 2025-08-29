@@ -7,11 +7,10 @@ import { TwinInputs, UploadImageFrame } from "@/components/ThemedView"
 import { useState } from "react"
 import { Pressable, View } from "react-native"
 import { Student } from "@/types/student"
-import { useSession } from "@/context/AuthContext"
 import * as ImagePicker from "expo-image-picker"
 
 export type AddStudentProps = {
-  onSubmit: (student: Student, uid: string) => void;
+  onSubmit: (student: Student) => void;
   onSelectInput: () => void;
 }
 
@@ -24,8 +23,6 @@ export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => 
   const [disability, setDisability] = useState("")
   const [imgsrc, setImgsrc] = useState("")
 
-  const { user } = useSession();
-
   const handleSubmit = () => {
     const student: Student = {
       name,
@@ -36,11 +33,7 @@ export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => 
       disability,
       imagesrc: imgsrc ? imgsrc : undefined,
     }
-    if (user) {
-      onSubmit(student, user?.userId)
-    } else {
-      throw new Error("No user logged in")
-    }
+    onSubmit(student)
 
   }
 

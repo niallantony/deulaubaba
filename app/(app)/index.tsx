@@ -18,7 +18,7 @@ export default function Index() {
 
   useEffect(() => {
     if (students) {
-      API.getStudentFromCode(students[0].id)
+      API.getStudentFromCode(students[0].studentId)
         .then((response) => {
           if (response.student) {
             setStudent(response.student);

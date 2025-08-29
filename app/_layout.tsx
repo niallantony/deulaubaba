@@ -1,14 +1,11 @@
 import { Stack } from "expo-router";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "@/themes/global";
-import { SessionProvider } from "@/context/AuthContext";
-import { SplashScreenController } from "@/features/splash";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { View } from "react-native";
 import { authConfig } from "@/config/authConfig";
-import { useAuth0, Auth0Provider } from "react-native-auth0";
+import { Auth0Provider, useAuth0 } from "react-native-auth0";
 import { UserProvider, useUser } from "@/context/UserContext";
-import { useEffect } from "react";
 
 export default function RootLayout() {
 
@@ -18,10 +15,7 @@ export default function RootLayout() {
     <Auth0Provider domain={authConfig.domain} clientId={authConfig.clientId}  >
       <UserProvider>
         <ThemeProvider theme={theme}>
-          <SessionProvider>
-            <SplashScreenController />
-            <RootNavigator />
-          </SessionProvider>
+          <RootNavigator />
         </ThemeProvider>
       </UserProvider>
     </Auth0Provider>
@@ -29,20 +23,11 @@ export default function RootLayout() {
 }
 
 function RootNavigator() {
-  const { user } = useAuth0();
   const insets = useSafeAreaInsets();
-  const { isUser, getUser } = useUser();
+  const { user } = useAuth0();
+  const { isUser } = useUser();
 
   const isSignedIn = user !== undefined && user !== null;
-  console.log(isSignedIn, isUser)
-  console.log(user)
-  useEffect(() => {
-    try {
-      getUser();
-    } catch (e) {
-      console.log(e)
-    }
-  }, [user])
 
   return (
     <View style={{

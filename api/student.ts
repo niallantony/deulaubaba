@@ -15,6 +15,12 @@ export type StudentResponse = {
   message?: string;
 }
 
+export type StudentSmallResponse = {
+  status: number;
+  student: StudentIdAvatar | null;
+  message?: string;
+}
+
 export type StudentsResponse = {
   status: number;
   students: StudentIdAvatar[] | null;
@@ -27,13 +33,79 @@ export type UsersResponse = {
   message?: string;
 }
 
-const getStudentFromCode = async (code: string): Promise<StudentResponse> => {
+const getStudentPreviewFromCode = async (code: string): Promise<StudentSmallResponse> => {
   try {
-    const api = process.env.EXPO_PUBLIC_API_ADDRESS;
     const accessToken = await getAccessTokenHeader();
 
-    const response = await fetch(`${api}/student?id=${code}`, {
+    const response = await fetch(`${API_BASE_URL}/student/preview?id=${code}`, {
       method: "GET",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+      }
+    })
+    if (response.status === 404) {
+      return {
+        status: 404,
+        student: null,
+        message: "Student Not Found"
+      }
+    }
+    const student = await response.json();
+    if (response.status === 200) {
+      return {
+        status: 200,
+        student: student,
+      }
+    }
+  } catch (err) {
+    console.error(err)
+  }
+  return {
+    status: 401,
+    student: null,
+    message: "Incorrect Code"
+  }
+}
+
+const getStudentFromCode = async (code: string): Promise<StudentResponse> => {
+  try {
+    const accessToken = await getAccessTokenHeader();
+    const response = await fetch(`${API_BASE_URL}/student?id=${code}`, {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${accessToken}`,
+      }
+    })
+    if (response.status === 404) {
+      return {
+        status: 404,
+        student: null,
+        message: "Student Not Found"
+      }
+    }
+    const student = await response.json();
+    if (response.status === 200) {
+      return {
+        status: 200,
+        student: student,
+      }
+    }
+  } catch (err) {
+    console.error(err)
+  }
+  return {
+    status: 401,
+    student: null,
+    message: "Incorrect Code"
+  }
+}
+
+const linkStudentFromCode = async (code: string): Promise<StudentResponse> => {
+  try {
+    const accessToken = await getAccessTokenHeader();
+
+    const response = await fetch(`${API_BASE_URL}/me/link-student?code=${code}`, {
+      method: "POST",
       headers: {
         "Authorization": `Bearer ${accessToken}`,
       }
@@ -71,17 +143,17 @@ const compressImage = async (uri: string) => {
   return await manipulated.saveAsync({ compress: 0.7, format: SaveFormat.JPEG })
 };
 
-const postStudent = async (student: Student, uid: string) => {
+const postStudent = async (student: Student) => {
   try {
     const api = process.env.EXPO_PUBLIC_API_ADDRESS;
     const accessToken = await getAccessTokenHeader();
     const formData = new FormData()
-    formData.append("data", JSON.stringify({ uid, ...student }))
+    formData.append("data", JSON.stringify(student))
     if (student.imagesrc) {
       const compressed = await compressImage(student.imagesrc);
       formData.append("image", {
         uri: compressed.uri,
-        name: `${uid}-${student.name}.jpg`,
+        name: `${student.name}.jpg`,
         type: "image/jpeg",
       } as any)
     }
@@ -100,12 +172,12 @@ const postStudent = async (student: Student, uid: string) => {
   }
 }
 
-const putStudent = async (student: Student, studentId: string, uid: string) => {
+const putStudent = async (student: Student, studentId: string) => {
   try {
     const api = process.env.EXPO_PUBLIC_API_ADDRESS;
     const accessToken = await getAccessTokenHeader();
     const formData = new FormData()
-    formData.append("data", JSON.stringify({ uid, ...student }))
+    formData.append("data", JSON.stringify(student))
     if (student.imagesrc) {
       const compressed = await compressImage(student.imagesrc);
       formData.append("image", {
@@ -172,10 +244,8 @@ const getAllStudents = async (): Promise<StudentsResponse> => {
 
 const getUsersFromStudent = async (studentId: string): Promise<UsersResponse> => {
   try {
-    const api = process.env.EXPO_PUBLIC_API_ADDRESS;
     const accessToken = await getAccessTokenHeader();
-
-    const response = await fetch(`${api}/student/team?id=${studentId}`, {
+    const response = await fetch(`${API_BASE_URL}/student/team?id=${studentId}`, {
       method: "GET",
       headers: {
         "Authorization": `Bearer ${accessToken}`,
@@ -208,6 +278,8 @@ const getUsersFromStudent = async (studentId: string): Promise<UsersResponse> =>
 
 export default {
   getStudentFromCode,
+  linkStudentFromCode,
+  getStudentPreviewFromCode,
   getUsersFromStudent,
   getAllStudents,
   postStudent,

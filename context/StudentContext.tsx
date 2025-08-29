@@ -1,6 +1,5 @@
 import { createContext, use, useEffect, useState, type PropsWithChildren } from "react";
 import { StudentIdAvatar, type Student } from "@/types/student";
-import { useSession } from "./AuthContext";
 import API from "@/api/student";
 import { useUser } from "./UserContext";
 
@@ -40,7 +39,6 @@ export const StudentProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     if (user) {
-      console.log(user)
       API.getAllStudents()
         .then((response) => {
           if (response.status === 404 && response.message) {
@@ -56,17 +54,15 @@ export const StudentProvider = ({ children }: PropsWithChildren) => {
   }, [user])
 
   const selectStudent = async (studentId: string) => {
-
     const response = await API.getStudentFromCode(studentId);
     if (response.student) {
       setStudent(response.student);
     }
-
   }
 
   const updateStudent = async (data: Student) => {
     if (student && student.studentId && user) {
-      const response = await API.putStudent(data, student.studentId, user.userId)
+      const response = await API.putStudent(data, student.studentId)
       if (response?.status === 200) {
         await selectStudent(student.studentId)
       }

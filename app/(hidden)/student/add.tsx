@@ -1,6 +1,6 @@
 import { HasCode } from "@/features/student/HasCode";
 import { InputStudentCode } from "@/features/student/InputCode";
-import { useFocusEffect,  useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback } from "react";
 import { AddStudentForm } from "@/features/student/AddStudent";
 import { useAddStudent } from "@/hooks/useStudentCode";
@@ -12,12 +12,12 @@ export default function AddStudent() {
   const {
     handleStudentCode,
     handleNewStudent,
-    student,
     screen,
     reset,
     confirm,
     inputCode,
     makeCode,
+    studentPreview,
   } = useAddStudent();
 
   const { setStudent } = useStudent();
@@ -27,13 +27,12 @@ export default function AddStudent() {
     useCallback(() => {
       reset();
     }
-
       , [reset])
   )
 
 
-  if (student && screen === "confirm") {
-    return (<ConfirmStudent student={student} onConfirm={() => {
+  if (studentPreview && screen === "confirm") {
+    return (<ConfirmStudent student={studentPreview} onConfirm={() => {
       confirm(setStudent);
       router.dismissAll()
     }} />)

@@ -22,7 +22,6 @@ const getAccessToken = async () => {
 const getUser = async (): Promise<GetUserResult> => {
   try {
     const accessToken = await getAccessToken();
-    console.log("Getting user")
     const response = await fetch(`${API_BASE_URL}/me`, {
       method: "GET",
       "headers": {
@@ -30,7 +29,6 @@ const getUser = async (): Promise<GetUserResult> => {
         "Content-type": "application/json",
       }
     })
-    console.log("Response:", response)
     if (response.status === 404) {
       return { ok: false, reason: "not_found" };
     } else if (response.status === 401) {
@@ -70,7 +68,6 @@ const postUser = async (user: User): Promise<PostUserResult> => {
         type: "image/jpeg",
       } as any)
     }
-    console.log(formData)
     const response = await fetch(`${API_BASE_URL}/me`, {
       method: "POST",
       "headers": {

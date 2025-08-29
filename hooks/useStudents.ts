@@ -10,10 +10,10 @@ export const useStudents = () => {
 
 
 
-  const fetchStudents = async (userId: string) => {
+  const fetchStudents = async () => {
     try {
       setLoading(true);
-      const response = await API.getAllStudents(userId);
+      const response = await API.getAllStudents();
 
       if (response.status === 401 && response.message) {
         setError(response.message)
