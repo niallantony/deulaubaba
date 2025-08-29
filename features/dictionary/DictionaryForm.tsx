@@ -96,7 +96,7 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
       </OverlayDialog>
       <ThemedTextArea
         label={"추가설명(선택)"}
-        value={description}
+        value={description ? description : ""}
         onChange={setDescription}
         numberOfLines={5}
         multiline={true}

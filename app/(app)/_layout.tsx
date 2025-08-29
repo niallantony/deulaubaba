@@ -4,6 +4,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function Root() {
   const navRef = useNavigationContainerRef();
+
   return (
     <StudentProvider>
       <Tabs ref={navRef} screenOptions={{ headerShown: false, tabBarActiveTintColor: "#15673D" }}>

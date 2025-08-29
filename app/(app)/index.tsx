@@ -1,17 +1,20 @@
+import auth0 from "@/api/auth";
 import API from "@/api/student";
 import { ButtonContainer } from "@/components/ButtonContainer";
 import { DividerWithTitle } from "@/components/Divider";
-import {  StudentList } from "@/components/StudentCards";
+import { StudentList } from "@/components/StudentCards";
 import { ThemedButton } from "@/components/ThemedButton"
 import { ErrorText, TitleText } from "@/components/ThemedText";
 import { FullView } from "@/components/ThemedView";
-import { useSession } from "@/context/AuthContext"
 import { useStudent } from "@/context/StudentContext";
+import { useUser } from "@/context/UserContext";
 import { useEffect } from "react";
+import { useAuth0 } from "react-native-auth0";
 
 export default function Index() {
-  const { signOut, user } = useSession();
   const { students, setStudent, error } = useStudent();
+  const { clearSession } = useAuth0();
+  const { user } = useUser()
 
   useEffect(() => {
     if (students) {
@@ -22,9 +25,15 @@ export default function Index() {
           }
         })
     }
-
   }, [setStudent, students])
 
+  const onLogout = async () => {
+    try {
+      await clearSession();
+    } catch (e) {
+      console.error(e)
+    }
+  }
 
   return (
     <FullView>
@@ -39,7 +48,7 @@ export default function Index() {
         <ThemedButton
           text={"Log Out"}
           type="outline"
-          onPress={signOut}
+          onPress={onLogout}
         />
       </ButtonContainer>
     </FullView>

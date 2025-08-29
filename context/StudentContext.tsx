@@ -2,6 +2,7 @@ import { createContext, use, useEffect, useState, type PropsWithChildren } from 
 import { StudentIdAvatar, type Student } from "@/types/student";
 import { useSession } from "./AuthContext";
 import API from "@/api/student";
+import { useUser } from "./UserContext";
 
 const StudentContext = createContext<{
   student: Student | null;
@@ -32,14 +33,15 @@ export const useStudent = () => {
 }
 
 export const StudentProvider = ({ children }: PropsWithChildren) => {
-  const { user } = useSession();
+  const { user } = useUser();
   const [student, setStudent] = useState<Student | null>(null);
   const [students, setStudents] = useState<StudentIdAvatar[] | null>(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (user) {
-      API.getAllStudents(user.userId)
+      console.log(user)
+      API.getAllStudents()
         .then((response) => {
           if (response.status === 404 && response.message) {
             setError(response.message);

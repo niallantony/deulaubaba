@@ -6,12 +6,15 @@
     "orientation": "portrait",
     "backgroundColor": "#FBFBFB",
     "icon": "./assets/images/logo.png",
-    "scheme": "deulaubaba",
+    "scheme": "com.niallantony.deulaubaba",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.niallantony.deulaubaba"
+      "bundleIdentifier": "com.niallantony.deulaubaba",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -19,7 +22,10 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.niallantony.deulaubaba"
+      "package": "com.niallantony.deulaubaba",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -48,6 +54,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "7bdf8ba6-3148-48f3-9354-0006edec10db"
+      }
     }
   }
 }

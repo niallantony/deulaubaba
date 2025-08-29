@@ -52,8 +52,6 @@ export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => 
       quality: 1,
     });
 
-    console.log(result);
-
     if (!result.canceled) {
       setImgsrc(result.assets[0].uri);
     }
