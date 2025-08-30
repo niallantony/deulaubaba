@@ -4,12 +4,12 @@ import { FullView } from "@/components/ThemedView";
 import { ActivityIndicator, Image, View } from "react-native";
 import { useAuth0 } from "react-native-auth0";
 import Logo from "@/assets/images/logo.png"
-import { useUser } from "@/context/UserContext";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function Index() {
 
   const { authorize } = useAuth0();
-  const { isLoading } = useUser();
+  const { isLoading } = useCurrentUser();
   const onPress = async () => {
     try {
       await authorize({
@@ -21,23 +21,19 @@ export default function Index() {
     }
   }
 
-  if (!isLoading) {
-
-    return (
-      <FullView style={{ justifyContent: 'space-between', flex: 1, paddingTop: 50, paddingBottom: 50 }}>
-        <View style={{ alignItems: 'center' }}>
-          <Image source={Logo} style={{ width: 300, height: 300 }} />
-        </View>
-        <View>
-          <ButtonContainer style={{ width: 300 }}>
-            <ThemedButton text={"로그인"} type={"green"} onPress={onPress} />
-          </ButtonContainer>
-        </View>
-      </FullView>
-    )
-  } else {
-    return (
-      <ActivityIndicator />
-    )
+  if (isLoading) {
+    return (<ActivityIndicator />)
   }
+  return (
+    <FullView style={{ justifyContent: 'space-between', flex: 1, paddingTop: 50, paddingBottom: 50 }}>
+      <View style={{ alignItems: 'center' }}>
+        <Image source={Logo} style={{ width: 300, height: 300 }} />
+      </View>
+      <View>
+        <ButtonContainer style={{ width: 300 }}>
+          <ThemedButton text={"로그인"} type={"green"} onPress={onPress} />
+        </ButtonContainer>
+      </View>
+    </FullView>
+  )
 }

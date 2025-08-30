@@ -6,8 +6,8 @@ import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 
 type GetUserResult =
   | { ok: true; user: UserResponse }
-  | { ok: false; reason: "not_found" }
-  | { ok: false; reason: "error"; error: unknown }
+  | { ok: false; user: null; reason: "not_found" }
+  | { ok: false; user: null; reason: "error"; error: unknown }
 
 export type PostUserResult = {
   success: boolean;
@@ -30,14 +30,14 @@ const getUser = async (): Promise<GetUserResult> => {
       }
     })
     if (response.status === 404) {
-      return { ok: false, reason: "not_found" };
+      return { ok: false, reason: "not_found", user: null };
     } else if (response.status === 401) {
       throw new Error("Invalid Token");
     }
     const json: UserResponse = await response.json();
     return { ok: true, user: json };
   } catch (e) {
-    return { ok: false, reason: "error", error: e };
+    return { ok: false, reason: "error", error: e, user: null };
   }
 }
 

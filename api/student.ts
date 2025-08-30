@@ -145,7 +145,6 @@ const compressImage = async (uri: string) => {
 
 const postStudent = async (student: Student) => {
   try {
-    const api = process.env.EXPO_PUBLIC_API_ADDRESS;
     const accessToken = await getAccessTokenHeader();
     const formData = new FormData()
     formData.append("data", JSON.stringify(student))
@@ -158,10 +157,10 @@ const postStudent = async (student: Student) => {
       } as any)
     }
 
-    return await fetch(`${api}/student`, {
+    console.log(formData)
+    return await fetch(`${API_BASE_URL}/student`, {
       "method": "POST",
       "headers": {
-        "Content-type": "multipart/form-data",
         "Authorization": `Bearer ${accessToken}`,
       },
       "body": formData,

@@ -7,7 +7,7 @@ import { useAddStudent } from "@/hooks/useStudentCode";
 import { ConfirmStudent } from "@/features/student/ConfirmStudent";
 import { useStudent } from "@/context/StudentContext";
 import { useStudents } from "@/hooks/useStudents";
-import { useUser } from "@/context/UserContext";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 
 export default function AddStudent() {
@@ -24,9 +24,9 @@ export default function AddStudent() {
   } = useAddStudent();
 
   const { setStudent } = useStudent();
-  const { user } = useUser();
   const { fetchStudents } = useStudents();
   const router = useRouter();
+  const { data } = useCurrentUser();
 
   useFocusEffect(
     useCallback(() => {
@@ -39,7 +39,7 @@ export default function AddStudent() {
     return (<ConfirmStudent student={studentPreview} onConfirm={() => {
       linkStudent();
       confirm(setStudent);
-      if (user) {
+      if (data?.user) {
         fetchStudents();
       }
       router.navigate('/student')
