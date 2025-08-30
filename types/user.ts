@@ -3,16 +3,15 @@ export type User = {
   name: string;
   username: string;
   email: string;
-  password: string;
-  userId?: string;
+  imagesrc?: string;
 }
 
 export type UserResponse = {
-  userId: string;
-  username: string;
   name: string;
-  email: string;
-  token: string;
+  email?: string;
+  imagesrc: string;
+  role: { id: number, name: string };
+  userType: string;
 }
 
 export type UserAvatar = {

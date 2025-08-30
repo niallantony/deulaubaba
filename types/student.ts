@@ -16,7 +16,7 @@ export type Student = {
 
 export type StudentIdAvatar = {
   name: string;
-  id: string;
+  studentId: string;
   imagesrc?: string;
   empty?: boolean;
 }

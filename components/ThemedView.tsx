@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
 import { styled } from "styled-components/native"
 import { TitleText } from "./ThemedText";
+import { ViewProperties, ViewProps } from "react-native";
 
 export type PageTitleViewProps = {
   title: string;
   children: ReactNode;
-}
+} & ViewProps;
 
 export const InfoPane = styled.View`
   background-color: ${props => props.theme.colors.inputs};
@@ -114,22 +115,22 @@ export const ThemedScrollableView = styled.ScrollView`
   width: 100%;
 `
 
-export const PageTitleView = ({ title, children }: PageTitleViewProps) => {
+export const PageTitleView = ({ title, children, ...rest }: PageTitleViewProps) => {
   return (
     <PageTitleContainer>
       <TitleText>{title}</TitleText>
-      <PageTitleContent>
+      <PageTitleContent {...rest}>
         {children}
       </PageTitleContent>
     </PageTitleContainer>
   )
 }
 
-export const PageTitleScrollableView = ({ title, children }: PageTitleViewProps) => {
+export const PageTitleScrollableView = ({ title, children, ...rest }: PageTitleViewProps) => {
   return (
     <PageTitleContainer>
       <TitleText>{title}</TitleText>
-      <ScrollablePageTitleContent>
+      <ScrollablePageTitleContent {...rest}>
         {children}
       </ScrollablePageTitleContent>
     </PageTitleContainer>

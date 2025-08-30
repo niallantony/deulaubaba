@@ -3,6 +3,7 @@ import { ThemedButton } from "@/components/ThemedButton";
 import { LightText, SemiboldText } from "@/components/ThemedText";
 import { FullView } from "@/components/ThemedView";
 import { Student } from "@/types/student";
+import { Text } from "react-native";
 import { styled } from "styled-components/native";
 
 const ConfirmPage = styled.View`
@@ -16,7 +17,7 @@ const ConfirmText = styled.View`
   margin-bottom: ${props => props.theme.spacing.default};
 `
 
-export const ConfirmStudent = ({ student, onConfirm }: { student: Student | null; onConfirm: () => void }) => {
+export const ConfirmStudent = ({ student, onConfirm }: { student: Pick<Student, "studentId" | "name" | "imagesrc"> | null; onConfirm: () => void }) => {
   return (
     <FullView>
       {student &&

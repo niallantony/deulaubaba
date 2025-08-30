@@ -4,6 +4,7 @@ import { styled } from "styled-components/native";
 // @ts-ignore
 import addPhoto from "@/assets/images/addPhotoDark.png"
 import { ImageBackground } from "react-native";
+import { API_BASE_URL } from "@/api/api";
 
 export type ThemedTextInputProps = {
   label: string;
@@ -116,12 +117,17 @@ export const ThemedTwinInput = ({ position, label, value, onChange, ...rest }: T
 }
 
 export const UploadImage = ({ onPress, image, preImage, ...rest }: { preImage?: string, image: string | null } & PressableProps) => {
-  const api = process.env.EXPO_PUBLIC_API_ADDRESS;
+  const resolveAvatarUrl = (avatar: string): string => {
+    if (avatar.startsWith("http://") || avatar.startsWith("https://")) {
+      return avatar; // already absolute
+    }
+    return `${API_BASE_URL}/uploads/${avatar}`;
+  }
 
   return (
     <StyledImageUpload accessibilityLabel="이미지" onPress={onPress} {...rest}>
       <ImageBackground
-        source={preImage ? { uri: `${api}/uploads/${preImage}` } : undefined}
+        source={preImage ? { uri: resolveAvatarUrl(preImage) } : undefined}
         style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: 150, height: 150 }}
       >
         {preImage && (

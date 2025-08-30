@@ -1,7 +1,7 @@
 import { useStudent } from "@/context/StudentContext"
 // @ts-ignore
 import noStudent from '@/assets/images/personSearch.png'
-import {  StudentIdAvatar } from "@/types/student"
+import { StudentIdAvatar } from "@/types/student"
 import { FlatList } from "react-native"
 import { styled } from "styled-components/native"
 import { StudentAvatar } from "./StudentAvatar"
@@ -78,7 +78,7 @@ export const StudentCards = () => {
   useEffect(() => {
     const addStudentIndicator: StudentIdAvatar = {
       name: "",
-      id: "add",
+      studentId: "add",
     }
     const clonedData = students ? [...students, addStudentIndicator] : [addStudentIndicator]
     const numberOfFullRows = Math.floor(clonedData.length / 2);
@@ -90,7 +90,7 @@ export const StudentCards = () => {
     ) {
       const dummyStudent: StudentIdAvatar = {
         name: "",
-        id: "dummy",
+        studentId: "dummy",
         empty: true,
       }
       clonedData.push(dummyStudent);
@@ -105,10 +105,10 @@ export const StudentCards = () => {
       numColumns={2}
       data={cards}
       keyExtractor={(item) => {
-        return item.id
+        return item.studentId
       }}
       renderItem={({ item }) => {
-        if (item.id === "add") {
+        if (item.studentId === "add") {
           return (
             <AddStudentCard>
               <IconLink
@@ -125,7 +125,7 @@ export const StudentCards = () => {
           return (<DummyStudent />)
         }
         return (
-          <StudentCard selected={item.id === student?.studentId} student={item} />
+          <StudentCard selected={item.studentId === student?.studentId} student={item} />
         )
       }}
     />
@@ -171,7 +171,7 @@ export const StudentList = () => {
   useEffect(() => {
     const addStudentIndicator: StudentIdAvatar = {
       name: "",
-      id: "add",
+      studentId: "add",
     }
     const clonedData = students ? [...students, addStudentIndicator] : [addStudentIndicator]
     setRows(clonedData);
@@ -183,11 +183,11 @@ export const StudentList = () => {
       <ListHolder
         data={rows}
         keyExtractor={(item) => {
-          return item.id
+          return item.studentId
         }}
         renderItem={({ item }) => {
 
-          if (item.id === "add") {
+          if (item.studentId === "add") {
             return (
               <AddStudentRow>
                 <IconLink
@@ -202,7 +202,7 @@ export const StudentList = () => {
 
             )
           } else {
-            return (<StudentRow student={item} selected={item.id === student?.studentId} />)
+            return (<StudentRow student={item} selected={item.studentId === student?.studentId} />)
           }
         }
         }
@@ -242,7 +242,7 @@ const StudentRow = ({ student, selected }: { student: StudentIdAvatar; selected:
   const { selectStudent } = useStudent();
 
   return (
-    <RowFrame $selected={selected} onPress={() => selectStudent(student.id)}>
+    <RowFrame $selected={selected} onPress={() => selectStudent(student.studentId)}>
       <StudentAvatar
         url={student.imagesrc}
         height={42}

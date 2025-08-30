@@ -2,9 +2,7 @@ import { useState } from "react";
 import { ActivityIndicator } from "react-native";
 import { styled } from 'styled-components/native';
 import { Image } from "expo-image";
-
-
-const api = process.env.EXPO_PUBLIC_API_ADDRESS;
+import { API_BASE_URL } from "@/api/api";
 
 type AvatarProps = {
   url?: string;
@@ -27,17 +25,14 @@ const NoAvatar = styled.View<AvatarStyleProps>`
   height: ${props => props.$height}px;
 `
 
-
-
 export const StudentAvatar = ({ url, width, height, style = "full" }: AvatarProps) => {
   const [loaded, setLoaded] = useState(false);
 
-  const imageurl = `${api}/uploads/${url}`
+  const imageurl = `${API_BASE_URL}/uploads/${url}`
 
   if (!url) {
     return <NoAvatar $width={width} $height={height} $style={style} />;
   }
-
 
   return (
     <>

@@ -1,29 +1,30 @@
 import { HasCode } from "@/features/student/HasCode";
 import { InputStudentCode } from "@/features/student/InputCode";
-import { useFocusEffect,  useRouter } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback } from "react";
 import { AddStudentForm } from "@/features/student/AddStudent";
 import { useAddStudent } from "@/hooks/useStudentCode";
 import { ConfirmStudent } from "@/features/student/ConfirmStudent";
 import { useStudent } from "@/context/StudentContext";
-import { useSession } from "@/context/AuthContext";
 import { useStudents } from "@/hooks/useStudents";
+import { useUser } from "@/context/UserContext";
 
 
 export default function AddStudent() {
   const {
     handleStudentCode,
+    linkStudent,
     handleNewStudent,
-    student,
     screen,
     reset,
     confirm,
     inputCode,
     makeCode,
+    studentPreview,
   } = useAddStudent();
 
   const { setStudent } = useStudent();
-  const { user } = useSession();
+  const { user } = useUser();
   const { fetchStudents } = useStudents();
   const router = useRouter();
 
@@ -34,11 +35,12 @@ export default function AddStudent() {
   )
 
 
-  if (student && screen === "confirm") {
-    return (<ConfirmStudent student={student} onConfirm={() => {
+  if (studentPreview && screen === "confirm") {
+    return (<ConfirmStudent student={studentPreview} onConfirm={() => {
+      linkStudent();
       confirm(setStudent);
       if (user) {
-        fetchStudents(user?.userId);
+        fetchStudents();
       }
       router.navigate('/student')
     }} />)

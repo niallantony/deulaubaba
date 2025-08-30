@@ -1,73 +1,18 @@
-import { RegistrationErrorType } from "@/types/registrationErrors"
-import { User } from "@/types/user"
+import { authConfig } from "@/config/authConfig";
+import Auth0 from "react-native-auth0";
 
-export const login = async (username: string, password: string) => {
-  await wait(500)
-  if (username === "niallantony" && password === "password") {
-    return {
-      status: 200,
-      user: {
-        userId: "1",
-        username: "niallantony",
-        name: "Niall Craven",
-        email: "niallantony@example.com",
-        token: "fake-jwt-token",
-      }
-    }
-  }
-  else return {
-    status: 401,
-    message: "Incorrect user details",
-  }
+const AUTH0_DOMAIN = authConfig.domain
+const AUTH0_CLIENTID = authConfig.clientId
+
+if (!AUTH0_DOMAIN || !AUTH0_CLIENTID) {
+  throw new Error(
+    'Missing Auth0 credentials. Please add AUTH0_DOMAIN and AUTH0_CLIENT_ID to your environment variables.'
+  );
 }
 
+const auth0 = new Auth0({
+  domain: AUTH0_DOMAIN,
+  clientId: AUTH0_CLIENTID,
+})
 
-export const postUser = async (user: User, confirm: string) => {
-  const errors: RegistrationErrorType = {};
-  await wait(1000);
-
-  if (!user.userType) {
-    errors["userType"] = "User Type not valid";
-  }
-  if (!user.name) {
-    errors["name"] = "Please input a valid name";
-  }
-  if (!user.username) {
-    errors["username"] = "Please input a valid username";
-  }
-  if (!user.email) {
-    errors["email"] = "Please input a valid email address";
-  }
-  if (!user.password) {
-    errors["password"] = "Please input a valid password";
-  }
-  if (user.password !== confirm) {
-    errors["confirm"] = "Passwords do not match"
-  }
-  if (Object.keys(errors).length === 0) {
-    return {
-      status: 201,
-      message: "User Created",
-      data: {
-        userType: user.userType,
-        username: user.username,
-        name: user.name,
-        email: user.email,
-        id: "000001"
-      }
-    }
-  } else {
-    return {
-      status: 401,
-      message: "Operation failed",
-      errors: errors,
-    }
-  }
-
-}
-
-const wait = (ms: number) => {
-  return new Promise((res) => setTimeout(res, ms))
-}
-
-
+export default auth0

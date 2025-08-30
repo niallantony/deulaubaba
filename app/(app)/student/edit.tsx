@@ -3,7 +3,6 @@ import { FullScreenView } from "@/components/FullScreenView";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedTextArea, ThemedTextInput, ThemedTwinInput, UploadImage } from "@/components/ThemedInput";
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView";
-import { useSession } from "@/context/AuthContext";
 import { useStudent } from "@/context/StudentContext";
 import { theme } from "@/themes/global";
 import { Student } from "@/types/student";
@@ -25,7 +24,6 @@ export default function EditStudent() {
   const [imgsrc, setImgsrc] = useState<string | null>(null);
   const router = useRouter()
 
-  const { user } = useSession();
 
   const handleSubmit = () => {
     if (!name || !school || !age || !grade || !setting || !disability) {
@@ -42,7 +40,7 @@ export default function EditStudent() {
       challengesDetails,
       imagesrc: imgsrc ? imgsrc : undefined,
     }
-    if (user && student?.studentId) {
+    if (student?.studentId) {
       updateStudent(editStudent);
       router.dismissAll();
     }

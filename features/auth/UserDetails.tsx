@@ -1,4 +1,4 @@
-import { ThemedTextInput } from "@/components/ThemedInput";
+import { ThemedTextInput, UploadImage } from "@/components/ThemedInput";
 import { ButtonContainer } from "@/components/ButtonContainer";
 import { ThemedButton } from "@/components/ThemedButton";
 import { useState } from "react";
@@ -8,10 +8,12 @@ import { FormView } from "@/components/ThemedView";
 import { DropDownSelect } from "@/components/DropDownSelect";
 import { ErrorText } from "@/components/ThemedText";
 import { RegistrationErrorType } from "@/types/registrationErrors";
-import { ThemedLink } from "@/components/ThemedLink";
+import * as ImagePicker from "expo-image-picker"
+import { useAuth0 } from "react-native-auth0";
+import { View } from "react-native";
 
 export type UserDetailsProps = {
-  onSubmit: (user: User, confirm: string) => void;
+  onSubmit: (user: User) => void;
   errors?: RegistrationErrorType
 }
 
@@ -30,27 +32,37 @@ export const UserDetails = ({ onSubmit, errors }: UserDetailsProps) => {
   const [userType, setUserType] = useState("")
   const [name, setName] = useState("")
   const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [confirmError, setConfirmError] = useState("")
+  const [imagesrc, setImgsrc] = useState("")
+  const { user } = useAuth0();
 
   const handleSubmit = () => {
-    if (password !== confirmPassword) {
-      setConfirmError("Passwords must match")
-      return
-    }
     onSubmit({
-      userType,
+      userType: UserTypeList[parseInt(userType)].label,
       username,
       name,
-      email,
-      password
-    }, confirmPassword);
+      imagesrc: imagesrc ? imagesrc : user?.picture,
+      email: user?.email ? user.email : "",
+    });
+  }
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images', 'videos'],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImgsrc(result.assets[0].uri)
+    }
   }
 
   return (
     <FullScreenView>
+      <View style={{ justifyContent: 'center', alignItems: 'center', }}>
+        <UploadImage onPress={pickImage} image={imagesrc} preImage={user?.picture} />
+      </View>
       <FormView>
         <DropDownSelect
           label={"회원유형"}
@@ -74,32 +86,8 @@ export const UserDetails = ({ onSubmit, errors }: UserDetailsProps) => {
           autoComplete={"username"}
         />
         {errors?.username && (<ErrorText>{errors.username}</ErrorText>)}
-        <ThemedTextInput
-          label={"이메일"}
-          value={email}
-          onChange={setEmail}
-          autoComplete={"email"}
-        />
-        {errors?.email && (<ErrorText>{errors.email}</ErrorText>)}
-        <ThemedTextInput
-          secureTextEntry
-          label={"비밀번호"}
-          value={password}
-          onChange={setPassword}
-          autoComplete={"password"}
-        />
-        {errors?.password && (<ErrorText>{errors.password}</ErrorText>)}
-        <ThemedTextInput
-          secureTextEntry
-          label={"비밀번호확인"}
-          value={confirmPassword}
-          onChange={setConfirmPassword}
-        />
-        {errors?.confirm && (<ErrorText>{errors.confirm}</ErrorText>)}
-        {confirmError && (<ErrorText>{confirmError}</ErrorText>)}
         <ButtonContainer>
           <ThemedButton text={"가입하기"} type={"green"} onPress={handleSubmit} />
-          <ThemedLink size={"md"} text={"로그인"} href={'/sign-in'} margin={"24px 0"} />
         </ButtonContainer>
       </FormView>
     </FullScreenView>

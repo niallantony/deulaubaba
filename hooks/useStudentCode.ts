@@ -9,12 +9,14 @@ export const useAddStudent = () => {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState<Student | null>(null);
+  const [studentPreview, setStudentPreview] = useState<Pick<Student, "studentId" | "name" | "imagesrc"> | null>(null);
 
   const reset = useCallback(() => {
     setScreen("add");
     setStudent(null);
     setError("");
     setLoading(false);
+    setStudentPreview(null);
   }, []);
 
   const inputCode = () => setScreen("code");
@@ -23,13 +25,13 @@ export const useAddStudent = () => {
   const handleStudentCode = async (code: string) => {
     try {
       setLoading(true);
-      const response = await API.getStudentFromCode(code);
+      const response = await API.getStudentPreviewFromCode(code);
       if (response.status === 401 && response.message) {
         setError(response.message)
         return false
       }
       if (response.status === 200 && response.student) {
-        setStudent(response.student)
+        setStudentPreview(response.student)
         setScreen("confirm")
         return true;
       }
@@ -42,16 +44,36 @@ export const useAddStudent = () => {
     }
   }
 
-  const handleNewStudent = async (student: Student, uid: string) => {
+  const handleNewStudent = async (student: Student) => {
     try {
-      const response = await API.postStudent(student, uid)
+      const response = await API.postStudent(student)
       if (response.status === 200) {
         setStudent(student)
+        setStudentPreview({
+          studentId: student.studentId,
+          name: student.name,
+          imagesrc: student.imagesrc,
+        })
         setScreen("confirm")
       }
       // TODO : ERROR WITH POST
     } catch (err) {
       console.error(err)
+    }
+  }
+
+  const linkStudent = async () => {
+    try {
+      if (studentPreview && studentPreview.studentId) {
+        const response = await API.linkStudentFromCode(studentPreview?.studentId)
+        if (response.status === 200 && response.student) {
+          setStudent(response.student)
+        } else if (response.status === 404) {
+          setError("Incorrect Code")
+        }
+      }
+    } catch (e) {
+      console.log(e)
     }
   }
 
@@ -63,8 +85,10 @@ export const useAddStudent = () => {
   }
 
   return {
+    studentPreview,
     handleStudentCode,
     handleNewStudent,
+    linkStudent,
     screen,
     reset,
     inputCode,
