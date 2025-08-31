@@ -1,4 +1,3 @@
-import { useStudent } from "@/context/StudentContext"
 import { PropsWithChildren, useState } from "react";
 import { styled } from "styled-components/native";
 import { Text } from "react-native";
@@ -6,6 +5,7 @@ import { StudentAvatar } from "./StudentAvatar";
 import { PressableAvatarPane, } from "./ThemedView";
 import { SemiboldLightText, TitleText } from "./ThemedText";
 import { OverlayDialog } from "./OverlayDialog";
+import { useStudentStore } from "@/store/currentStudent";
 
 
 type StudentBorderProps = {
@@ -38,16 +38,16 @@ margin-bottom: ${props => props.theme.spacing.default};
 
 
 export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps) => {
-  const { student } = useStudent();
+  const student = useStudentStore((s) => s.student)
   const [showList, setShowList] = useState(false);
   const imageSize = 48
 
   const toggleList = () => {
-      if (showList) {
-          setShowList(false);
-      } else {
-          setShowList(true);
-      }
+    if (showList) {
+      setShowList(false);
+    } else {
+      setShowList(true);
+    }
   }
 
   return (

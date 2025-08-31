@@ -3,16 +3,19 @@ import { FullScreenView } from "@/components/FullScreenView";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedTextArea, ThemedTextInput, ThemedTwinInput, UploadImage } from "@/components/ThemedInput";
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView";
-import { useStudent } from "@/context/StudentContext";
 import { theme } from "@/themes/global";
 import { Student } from "@/types/student";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { useUpdateStudent } from "@/hooks/useUpdateStudent";
+import { useSelectedStudent } from "@/hooks/useSelectedStudent";
 
 export default function EditStudent() {
-  const { student, updateStudent } = useStudent();
+  const { data } = useSelectedStudent();
+  const student = data?.student
+  const { mutate: updateStudent, isPending } = useUpdateStudent();
   const [name, setName] = useState(student?.name)
   const [school, setSchool] = useState(student?.school)
   const [age, setAge] = useState(student?.age)
@@ -30,6 +33,7 @@ export default function EditStudent() {
       return
     }
     const editStudent: Student = {
+      studentId: student?.studentId,
       name,
       school,
       age,

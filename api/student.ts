@@ -171,9 +171,8 @@ const postStudent = async (student: Student) => {
   }
 }
 
-const putStudent = async (student: Student, studentId: string) => {
+const putStudent = async (student: Student) => {
   try {
-    const api = process.env.EXPO_PUBLIC_API_ADDRESS;
     const accessToken = await getAccessTokenHeader();
     const formData = new FormData()
     formData.append("data", JSON.stringify(student))
@@ -181,15 +180,16 @@ const putStudent = async (student: Student, studentId: string) => {
       const compressed = await compressImage(student.imagesrc);
       formData.append("image", {
         uri: compressed.uri,
-        name: `${studentId}.jpg`,
+        name: `${student.studentId}.jpg`,
         type: "image/jpeg",
       } as any)
     }
+    console.log(formData)
+    console.log(student)
 
-    return await fetch(`${api}/student/${studentId}`, {
+    return await fetch(`${API_BASE_URL}/student/${student.studentId}`, {
       "method": "PUT",
       "headers": {
-        "Content-type": "multipart/form-data",
         "Authorization": `Bearer ${accessToken}`,
       },
       "body": formData,

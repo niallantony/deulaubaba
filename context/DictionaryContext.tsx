@@ -1,7 +1,7 @@
 import { DictionaryListing, DictionaryPosting, ExpressionType } from "@/types/dictionary"
 import { createContext, PropsWithChildren, use, useEffect, useState } from "react";
-import { useStudent } from "./StudentContext";
 import API from "@/api/dictionary";
+import { useStudentStore } from "@/store/currentStudent";
 
 const DictionaryContext = createContext<{
   dictionary: DictionaryListing[] | null;
@@ -30,7 +30,7 @@ export const useDictionary = () => {
 
 export const DictionaryProvider = ({ children }: PropsWithChildren) => {
 
-  const { student } = useStudent();
+  const student = useStudentStore((s) => s.student)
   const [dictionary, setDictionary] = useState<DictionaryListing[] | null>(null)
   const [types, setTypes] = useState<ExpressionType[] | null>(null)
 

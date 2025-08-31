@@ -1,8 +1,9 @@
 import API from "@/api/student";
 import { Student } from "@/types/student";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useState } from "react"
 
-type Screen = "add" | "code" | "register" | "confirm";
+type Screen = "add" | "code" | "register" | "confirm_new" | "confirm_link";
 
 export const useAddStudent = () => {
   const [screen, setScreen] = useState<Screen>("add");
@@ -10,6 +11,7 @@ export const useAddStudent = () => {
   const [loading, setLoading] = useState(false);
   const [student, setStudent] = useState<Student | null>(null);
   const [studentPreview, setStudentPreview] = useState<Pick<Student, "studentId" | "name" | "imagesrc"> | null>(null);
+  const queryClient = useQueryClient();
 
   const reset = useCallback(() => {
     setScreen("add");
@@ -32,7 +34,7 @@ export const useAddStudent = () => {
       }
       if (response.status === 200 && response.student) {
         setStudentPreview(response.student)
-        setScreen("confirm")
+        setScreen("confirm_link")
         return true;
       }
     } catch (err) {
@@ -44,36 +46,41 @@ export const useAddStudent = () => {
     }
   }
 
-  const handleNewStudent = async (student: Student) => {
-    try {
-      const response = await API.postStudent(student)
-      if (response.status === 200) {
-        setStudent(student)
-        setStudentPreview({
-          studentId: student.studentId,
-          name: student.name,
-          imagesrc: student.imagesrc,
-        })
-        setScreen("confirm")
-      }
-      // TODO : ERROR WITH POST
-    } catch (err) {
-      console.error(err)
+  const linkStudentMutation = useMutation({
+    mutationFn: (id: string) => API.linkStudentFromCode(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['students'] })
+    },
+    onError: () => setError("Link failed")
+  })
+
+  const submitStudent = () => {
+    if (student) {
+      submitStudentMutation.mutate(student)
+      setStudent(student)
     }
   }
 
+  const submitStudentMutation = useMutation({
+    mutationFn: API.postStudent,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['students'] })
+    }
+  })
+
+  const handleNewStudent = async (student: Student) => {
+    setStudent(student)
+    setStudentPreview({
+      studentId: student.studentId,
+      name: student.name,
+      imagesrc: student.imagesrc,
+    })
+    setScreen("confirm_new")
+  }
+
   const linkStudent = async () => {
-    try {
-      if (studentPreview && studentPreview.studentId) {
-        const response = await API.linkStudentFromCode(studentPreview?.studentId)
-        if (response.status === 200 && response.student) {
-          setStudent(response.student)
-        } else if (response.status === 404) {
-          setError("Incorrect Code")
-        }
-      }
-    } catch (e) {
-      console.log(e)
+    if (studentPreview?.studentId) {
+      linkStudentMutation.mutate(studentPreview?.studentId)
     }
   }
 
@@ -96,6 +103,7 @@ export const useAddStudent = () => {
     error,
     loading,
     student,
-    confirm
+    confirm,
+    submitStudent
   }
 }

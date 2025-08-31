@@ -1,10 +1,10 @@
 import { StudentBorder } from "@/components/StudentBorder";
 import { DictionaryProvider } from "@/context/DictionaryContext";
-import { useStudent } from "@/context/StudentContext";
+import { useStudentStore } from "@/store/currentStudent";
 import { Stack } from "expo-router";
 
 export default function Root() {
-  const { student } = useStudent();
+  const student = useStudentStore((s) => s.student)
   return (
     <DictionaryProvider>
       <StudentBorder title={"의사소통 사전"} subtitle={student ? `${student.name}이 어떻게 표현하나요?` : ""}>
