@@ -5,19 +5,12 @@ import complete from "@/assets/images/complete.png"
 import { Image } from "react-native";
 import { styled } from "styled-components/native";
 import { ThemedButton } from "@/components/ThemedButton";
-import { useUser } from "@/context/UserContext";
 
 const CompleteImage = styled.View`
   margin: ${props => props.theme.spacing.large};
 `
 
-export const RegistrationComplete = () => {
-  const { getUser } = useUser();
-
-  const onPress = () => {
-    getUser();
-  }
-
+export const RegistrationComplete = ({ onPress }: { onPress: () => void }) => {
   return (
     <FullView>
       <TitleText>완료됐습니다!</TitleText>

@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { OverlayDialog } from "./OverlayDialog";
 import { useUserRibbon } from "@/hooks/useUserRibbon";
 import { Student } from "@/types/student";
+import { useStudentStore } from "@/store/currentStudent";
 
 const RibbonFrame = styled.View`
   flex-direction: row;
@@ -73,13 +74,13 @@ const AddUserText = styled.Text`
 `
 
 export type UserRibbonProps = {
-  student: Student | null;
   handleShowStudentCode: () => void;
 }
 
-export const UserRibbon = ({ student, handleShowStudentCode }: UserRibbonProps) => {
+export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
   const [userSelect, setUserSelect] = useState<UserAvatar | null>(null);
   const [modalVisible, setModalVisible] = useState(false)
+  const student = useStudentStore((s) => s.student);
 
   const { loading, users, fetchUsers } = useUserRibbon();
   useEffect(() => {

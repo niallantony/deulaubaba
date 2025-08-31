@@ -1,31 +1,18 @@
-import auth0 from "@/api/auth";
-import API from "@/api/student";
 import { ButtonContainer } from "@/components/ButtonContainer";
 import { DividerWithTitle } from "@/components/Divider";
 import { StudentList } from "@/components/StudentCards";
 import { ThemedButton } from "@/components/ThemedButton"
 import { ErrorText, TitleText } from "@/components/ThemedText";
 import { FullView } from "@/components/ThemedView";
-import { useStudent } from "@/context/StudentContext";
-import { useUser } from "@/context/UserContext";
-import { useEffect } from "react";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useStudents } from "@/hooks/useStudents";
 import { useAuth0 } from "react-native-auth0";
 
 export default function Index() {
-  const { students, setStudent, error } = useStudent();
   const { clearSession } = useAuth0();
-  const { user } = useUser()
+  const query = useCurrentUser();
+  const { data } = useStudents();
 
-  useEffect(() => {
-    if (students) {
-      API.getStudentFromCode(students[0].studentId)
-        .then((response) => {
-          if (response.student) {
-            setStudent(response.student);
-          }
-        })
-    }
-  }, [setStudent, students])
 
   const onLogout = async () => {
     try {
@@ -37,9 +24,9 @@ export default function Index() {
 
   return (
     <FullView>
-      {user && (<TitleText>Welcome {user.name} 👋</TitleText>)}
+      {query.data?.user && (<TitleText>Welcome {query.data?.user.name} 👋</TitleText>)}
       <DividerWithTitle title={"학생 목록"} />
-      {error === "Students not found" && (
+      {!data?.students && (
         <ErrorText>No students found</ErrorText>
       )}
       <StudentList />

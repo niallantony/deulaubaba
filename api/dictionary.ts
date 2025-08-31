@@ -127,7 +127,7 @@ const postDictionary = async (dictionary: DictionaryPosting): Promise<Dictionary
   }
 }
 
-const putDictionary = async (dictionary: DictionaryPosting, id: number): Promise<DictionaryResponse> => {
+const putDictionary = async ({ dictionary, id }: { dictionary: DictionaryPosting, id: number }): Promise<DictionaryResponse> => {
   try {
     const accessToken = await getAccessToken();
     const formData = new FormData();

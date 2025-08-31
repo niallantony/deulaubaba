@@ -11,8 +11,8 @@ import { Image, ScrollView, View } from "react-native";
 // @ts-ignore
 import down from "@/assets/images/down.png"
 import { CategoryIndicator, CategoryPicker } from "./CategoryPicker";
-import { useStudent } from "@/context/StudentContext";
 import * as ImagePicker from "expo-image-picker";
+import { useStudentStore } from "@/store/currentStudent";
 
 export const DictionaryForm = ({ type, onSubmit, entry }: {
   type: ExpressionType;
@@ -24,8 +24,8 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
   const [imgsrc, setImgsrc] = useState<string | null>(null)
   const [description, setDescription] = useState(entry ? entry.description : undefined)
   const [overlayVisible, setOverlayVisible] = useState(false)
+  const student = useStudentStore((s) => s.student)
 
-  const { student } = useStudent();
 
 
   const pickImage = async () => {

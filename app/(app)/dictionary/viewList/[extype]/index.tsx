@@ -2,9 +2,9 @@ import { BackButtonContainer, SmallButtonContainer } from "@/components/ButtonCo
 import { AddButton, BackButton, SubtleButton } from "@/components/ThemedButton";
 import { ButtonTextTheme } from "@/components/ThemedText";
 import { GreenHeading } from "@/components/ThemedView";
-import { useDictionary } from "@/context/DictionaryContext";
 import { EntryCard } from "@/features/dictionary/EntryCard";
 import { ListingDescription } from "@/features/dictionary/ListingDescription";
+import { useDictionary } from "@/hooks/useDictionary";
 import { theme } from "@/themes/global";
 import { DictionaryListing, ExpressionType, getExpressionType } from "@/types/dictionary";
 import { useLocalSearchParams } from "expo-router";
@@ -13,8 +13,8 @@ import { ScrollView, View } from "react-native";
 
 export default function Route() {
   const { extype } = useLocalSearchParams<{ extype: ExpressionType }>()
-  const { dictionary } = useDictionary();
-  const results = dictionary?.filter((entry) => entry.type === extype) || [];
+  const { data } = useDictionary();
+  const results = data?.body?.listings?.filter((entry) => entry.type === extype) || [];
   const [viewEntry, setViewEntry] = useState<DictionaryListing | null>(null);
 
   const { title } = getExpressionType(extype);

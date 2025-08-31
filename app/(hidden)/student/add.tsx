@@ -5,22 +5,21 @@ import { useCallback } from "react";
 import { AddStudentForm } from "@/features/student/AddStudent";
 import { useAddStudent } from "@/hooks/useStudentCode";
 import { ConfirmStudent } from "@/features/student/ConfirmStudent";
-import { useStudent } from "@/context/StudentContext";
 
 
+// TODO -> Get Rid of this Oddity
 export default function AddStudent() {
   const {
     handleStudentCode,
     handleNewStudent,
     screen,
     reset,
-    confirm,
+    linkStudent,
     inputCode,
     makeCode,
     studentPreview,
   } = useAddStudent();
 
-  const { setStudent } = useStudent();
   const router = useRouter();
 
   useFocusEffect(
@@ -31,9 +30,9 @@ export default function AddStudent() {
   )
 
 
-  if (studentPreview && screen === "confirm") {
+  if (studentPreview && screen === "confirm_new") {
     return (<ConfirmStudent student={studentPreview} onConfirm={() => {
-      confirm(setStudent);
+      linkStudent()
       router.dismissAll()
     }} />)
   }

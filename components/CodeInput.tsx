@@ -1,11 +1,11 @@
-import React, {useRef} from "react";
-import {Pressable, TextInput, TextInputProps} from "react-native";
-import {styled} from "styled-components/native";
+import React, { useRef } from "react";
+import { Pressable, TextInput, TextInputProps } from "react-native";
+import { styled } from "styled-components/native";
 
 export type InputCodeProps = {
-    code: string;
-    setCode: (code: string) => void;
-    length: number;
+  code: string;
+  setCode: (code: string) => void;
+  length: number;
 }
 
 const StyledCodeView = styled.View`
@@ -35,36 +35,37 @@ const InvisibleInput = styled.TextInput.attrs<TextInputProps>({})`
     height: 1px;
 `
 
-export const InputCode = ({code, setCode, length}: InputCodeProps) => {
-    const inputRef = useRef<TextInput>(null);
+export const InputCode = ({ code, setCode, length }: InputCodeProps) => {
+  const inputRef = useRef<TextInput>(null);
 
-    const handlePress = () => {
-        inputRef.current?.focus();
+  const handlePress = () => {
+    inputRef.current?.focus();
+  }
+
+  const handleChange = (text: string) => {
+    if (text.length <= length) {
+      setCode(text);
     }
+  }
 
-    const handleChange = (text: string) => {
-        if (text.length <= length) {
-            setCode(text);
-        }
-    }
-
-    return (
-        <Pressable onPress={handlePress}>
-            <StyledCodeView>
-                {[...Array(length)].map((_, i) => (
-                    <CodeBox key={i}>
-                        <CodeChar>{code[i] || ''}</CodeChar>
-                    </CodeBox>
-                ))}
-                <InvisibleInput
-                    ref={inputRef}
-                    value={code}
-                    onChangeText={handleChange}
-                    maxLength={length}
-                    autoFocus
-                />
-            </StyledCodeView>
-        </Pressable>
-    )
+  return (
+    <Pressable onPress={handlePress}>
+      <StyledCodeView>
+        {[...Array(length)].map((_, i) => (
+          <CodeBox key={i}>
+            <CodeChar>{code[i] || ''}</CodeChar>
+          </CodeBox>
+        ))}
+        <InvisibleInput
+          ref={inputRef}
+          value={code}
+          onChangeText={handleChange}
+          maxLength={length}
+          autoFocus
+          autoCapitalize="none"
+        />
+      </StyledCodeView>
+    </Pressable>
+  )
 
 }

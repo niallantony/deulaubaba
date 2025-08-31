@@ -34,7 +34,6 @@ export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => 
       imagesrc: imgsrc ? imgsrc : undefined,
     }
     onSubmit(student)
-
   }
 
   const pickImage = async () => {

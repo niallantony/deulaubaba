@@ -5,9 +5,6 @@ import { useCallback } from "react";
 import { AddStudentForm } from "@/features/student/AddStudent";
 import { useAddStudent } from "@/hooks/useStudentCode";
 import { ConfirmStudent } from "@/features/student/ConfirmStudent";
-import { useStudent } from "@/context/StudentContext";
-import { useStudents } from "@/hooks/useStudents";
-import { useUser } from "@/context/UserContext";
 
 
 export default function AddStudent() {
@@ -15,17 +12,14 @@ export default function AddStudent() {
     handleStudentCode,
     linkStudent,
     handleNewStudent,
+    submitStudent,
     screen,
     reset,
-    confirm,
     inputCode,
     makeCode,
     studentPreview,
   } = useAddStudent();
 
-  const { setStudent } = useStudent();
-  const { user } = useUser();
-  const { fetchStudents } = useStudents();
   const router = useRouter();
 
   useFocusEffect(
@@ -35,14 +29,16 @@ export default function AddStudent() {
   )
 
 
-  if (studentPreview && screen === "confirm") {
+  if (studentPreview && screen === "confirm_new") {
     return (<ConfirmStudent student={studentPreview} onConfirm={() => {
-      linkStudent();
-      confirm(setStudent);
-      if (user) {
-        fetchStudents();
-      }
-      router.navigate('/student')
+      submitStudent();
+      router.navigate('/student');
+    }} />)
+  }
+  if (studentPreview && screen === "confirm_link") {
+    return (<ConfirmStudent student={studentPreview} onConfirm={() => {
+      linkStudent()
+      router.navigate('/student');
     }} />)
   }
   if (screen === "add") {
