@@ -9,22 +9,23 @@ import { CategoryIndicator } from "./CategoryPicker"
 import { useState } from "react"
 import { DictionaryForm } from "./DictionaryForm"
 import { OverlayDialog } from "@/components/OverlayDialog"
-import { useDictionary } from "@/context/DictionaryContext"
+import { useDictionaryMutations } from "@/hooks/useDictionaryMutations"
 
 export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListing, onUpdate: () => void }) => {
   const [edit, setEdit] = useState(false);
   const [overlayVisible, setOverlayVisible] = useState(false)
+  const id = entry.id
 
-  const { putDictionary, deleteDictionary } = useDictionary();
+  const { update, remove } = useDictionaryMutations();
 
 
   const handleEditSubmit = (dictionary: DictionaryPosting) => {
-    putDictionary(dictionary, entry.id)
+    update.mutate({ dictionary, id })
     onUpdate();
   }
 
   const handleDelete = () => {
-    deleteDictionary(entry.id);
+    remove.mutate(entry.id);
     onUpdate();
   }
 
