@@ -3,7 +3,6 @@ import { ThemedButton } from "@/components/ThemedButton";
 import { LightText, SemiboldText } from "@/components/ThemedText";
 import { FullView } from "@/components/ThemedView";
 import { Student } from "@/types/student";
-import { Text } from "react-native";
 import { styled } from "styled-components/native";
 
 const ConfirmPage = styled.View`

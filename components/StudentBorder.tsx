@@ -1,12 +1,11 @@
 import { PropsWithChildren, useState } from "react";
 import { styled } from "styled-components/native";
-import { Text } from "react-native";
 import { StudentAvatar } from "./StudentAvatar";
 import { PressableAvatarPane, } from "./ThemedView";
-import { SemiboldLightText, TitleText } from "./ThemedText";
-import { OverlayDialog } from "./OverlayDialog";
+import { ButtonTextTheme, SemiboldLightText, TitleText } from "./ThemedText";
 import { useStudentStore } from "@/store/currentStudent";
 import { useRouter } from "expo-router";
+import { DropdownMenu, DropdownMenuOption } from "./SettingsMenu/SettingsMenu";
 
 
 type StudentBorderProps = {
@@ -61,31 +60,31 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
             <TitleText>{title}</TitleText>
             <SemiboldLightText>{subtitle}</SemiboldLightText>
           </HeaderTextFrame>
-          <PressableAvatarPane $size={imageSize + 8} onPress={toggleList}>
-            <StudentAvatar url={student?.imagesrc} width={imageSize} height={imageSize} style="full" />
-          </PressableAvatarPane>
+          <DropdownMenu
+            visible={showList}
+            handleOpen={() => setShowList(true)}
+            handleClose={() => setShowList(false)}
+            trigger={
+
+              <PressableAvatarPane $size={imageSize + 8} onPress={toggleList}>
+                <StudentAvatar url={student?.imagesrc} width={imageSize} height={imageSize} style="full" />
+              </PressableAvatarPane>
+            }
+          >
+            <DropdownMenuOption onSelect={() => {
+              router.push('/selectstudent')
+              setShowList(false)
+            }}>
+              <ButtonTextTheme>학생 변경</ButtonTextTheme>
+            </DropdownMenuOption>
+
+          </DropdownMenu>
         </HeaderFrame>
       }
-      <OverlayDialog
-        key="studentBorderModal"
-        visible={showList}
-        onDismiss={() => setShowList(false)}
-        buttons={
-          [
-            {
-              text: "학생 선택", onPress: () => {
-                router.push("/selectstudent")
-                setShowList(false)
-              }
-            }
-          ]
-        } >
-        <Text style={{ fontSize: 16 }}>현재 학생을 변경하시겠습니까?</Text>
-      </OverlayDialog>
       <ContentFrame>
         {children}
       </ContentFrame>
-    </BorderView>
+    </BorderView >
   )
 
 }
