@@ -46,7 +46,6 @@ function RootNavigator() {
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Protected guard={isSignedIn && (query.data?.ok || false)}>
           <Stack.Screen name="(app)" options={{ headerShown: false }} />
-          <Stack.Screen name="(hidden)/student/add" />
         </Stack.Protected>
         <Stack.Protected guard={isSignedIn && !query.data?.ok && query.data?.reason === 'not_found'}>
           <Stack.Screen name="register" options={{ headerShown: false }} />

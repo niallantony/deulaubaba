@@ -38,6 +38,13 @@ export default function Root() {
           tabBarShowLabel: false,
         }}
       />
+      <Tabs.Screen
+        name="selectstudent/index"
+        options={{
+          href: null,
+          tabBarShowLabel: false,
+        }}
+      />
     </Tabs>
   )
 }

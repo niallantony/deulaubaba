@@ -1,21 +1,21 @@
 import { RowButtonContainer } from "@/components/ButtonContainer";
 import { FullScreenView } from "@/components/FullScreenView";
 import { ThemedButton } from "@/components/ThemedButton";
-import { ThemedTextArea, ThemedTextInput, ThemedTwinInput, UploadImage } from "@/components/ThemedInput";
+import { ThemedTextArea, ThemedTextInput, ThemedTwinInput } from "@/components/ThemedInput";
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView";
 import { theme } from "@/themes/global";
 import { Student } from "@/types/student";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
-import * as ImagePicker from "expo-image-picker";
 import { useUpdateStudent } from "@/hooks/useUpdateStudent";
 import { useSelectedStudent } from "@/hooks/useSelectedStudent";
+import { UploadImage } from "@/components/UploadImage";
 
 export default function EditStudent() {
   const { data } = useSelectedStudent();
   const student = data?.student
-  const { mutate: updateStudent, isPending } = useUpdateStudent();
+  const { mutate: updateStudent } = useUpdateStudent();
   const [name, setName] = useState(student?.name)
   const [school, setSchool] = useState(student?.school)
   const [age, setAge] = useState(student?.age)
@@ -50,22 +50,6 @@ export default function EditStudent() {
     }
   }
 
-
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images', 'videos'],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImgsrc(result.assets[0].uri)
-    }
-
-  }
-
   const handleCancel = () => {
     router.dismissAll()
   }
@@ -73,7 +57,7 @@ export default function EditStudent() {
   return (
     <FullScreenView style={{ backgroundColor: theme.colors.background }}>
       <UploadImageFrame>
-        <UploadImage onPress={pickImage} preImage={student?.imagesrc} image={imgsrc} />
+        <UploadImage setImage={setImgsrc} preImage={student?.imagesrc} image={imgsrc} />
         <View style={{ flexGrow: 1, }}>
           <ThemedTextInput
             label={"학생 이름"}

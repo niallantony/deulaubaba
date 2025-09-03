@@ -2,7 +2,7 @@ import { ButtonContainer } from "@/components/ButtonContainer";
 import { FullScreenView } from "@/components/FullScreenView";
 import { OverlayDialog } from "@/components/OverlayDialog";
 import { InputLikeButton, ThemedButton } from "@/components/ThemedButton";
-import { ThemedTextArea, UploadImage } from "@/components/ThemedInput";
+import { ThemedTextArea } from "@/components/ThemedInput";
 import { LightText } from "@/components/ThemedText";
 import { UploadImageFrame } from "@/components/ThemedView";
 import { CommunicationCategory, DictionaryListing, DictionaryPosting, ExpressionType } from "@/types/dictionary"
@@ -11,8 +11,8 @@ import { Image, ScrollView, View } from "react-native";
 // @ts-ignore
 import down from "@/assets/images/down.png"
 import { CategoryIndicator, CategoryPicker } from "./CategoryPicker";
-import * as ImagePicker from "expo-image-picker";
 import { useStudentStore } from "@/store/currentStudent";
+import { UploadImage } from "@/components/UploadImage";
 
 export const DictionaryForm = ({ type, onSubmit, entry }: {
   type: ExpressionType;
@@ -26,21 +26,6 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
   const [overlayVisible, setOverlayVisible] = useState(false)
   const student = useStudentStore((s) => s.student)
 
-
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images', 'videos'],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImgsrc(result.assets[0].uri);
-    }
-
-  }
 
   const handleSubmit = async () => {
     // TODO: Handle Validation
@@ -61,12 +46,10 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
     onSubmit(listing);
   }
 
-
-
   return (
     <FullScreenView>
       <UploadImageFrame style={{ marginBottom: 12 }}>
-        <UploadImage onPress={pickImage} image={imgsrc} preImage={entry?.imgsrc} />
+        <UploadImage setImage={setImgsrc} image={imgsrc} preImage={entry?.imgsrc} />
         <View style={{ flexGrow: 1, width: 100, }}>
           <ThemedTextArea
             label={"의사소통 내용"}

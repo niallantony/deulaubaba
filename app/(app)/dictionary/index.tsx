@@ -1,4 +1,5 @@
 import { DictionaryList } from "@/features/dictionary/DictionaryList";
+import { NoSelectedStudent } from "@/features/student/NoSelectedStudent";
 import { NoStudent } from "@/features/student/NoStudent";
 import { useStudentStore } from "@/store/currentStudent";
 
@@ -9,7 +10,7 @@ export default function DictionaryIndex() {
   if (student) {
     return (<DictionaryList />)
   } else {
-    return (<NoStudent />)
+    return (<NoSelectedStudent />)
   }
 
 }

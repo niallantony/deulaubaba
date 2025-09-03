@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { styled } from "styled-components/native"
 import { TitleText } from "./ThemedText";
-import { ViewProperties, ViewProps } from "react-native";
+import { ViewProps } from "react-native";
 
 export type PageTitleViewProps = {
   title: string;

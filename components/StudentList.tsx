@@ -8,6 +8,7 @@ import { IconLink } from "./ThemedLink"
 import { useEffect, useState } from "react"
 import { useStudents } from "@/hooks/useStudents"
 import { useStudentStore } from '@/store/currentStudent'
+import { useRouter } from 'expo-router'
 
 const ListHolder = styled.FlatList`
   flex: 1;
@@ -20,6 +21,7 @@ export const StudentList = () => {
   const [rows, setRows] = useState<StudentIdAvatar[]>();
   const { data: studentsData } = useStudents();
   const selectedStudent = useStudentStore((s) => s.student);
+  const router = useRouter();
 
   useEffect(() => {
     const addStudentIndicator: StudentIdAvatar = {
@@ -29,6 +31,11 @@ export const StudentList = () => {
     const clonedData = studentsData?.students ? [...studentsData.students, addStudentIndicator] : [addStudentIndicator]
     setRows(clonedData);
   }, [studentsData?.students]);
+
+  const onChange = () => {
+    router.push("/student");
+  }
+
 
   return (
     <>
@@ -54,7 +61,7 @@ export const StudentList = () => {
 
             )
           } else {
-            return (<StudentRow student={item} selected={item.studentId === selectedStudent?.studentId} />)
+            return (<StudentRow student={item} selected={item.studentId === selectedStudent?.studentId} onChange={onChange} />)
           }
         }
         }
@@ -89,11 +96,15 @@ const NameText = styled.Text<{ $size: "md" | "lg"; $selected: boolean }>`
   color: ${props => props.$selected ? props.theme.colors.lightText : props.theme.colors.text}
 `
 
-const StudentRow = ({ student, selected }: { student: StudentIdAvatar; selected: boolean; }) => {
+const StudentRow = ({ student, selected, onChange }: { student: StudentIdAvatar; selected: boolean; onChange: () => void }) => {
   const selectStudent = useStudentStore((s) => s.setStudent)
 
   return (
-    <RowFrame $selected={selected} onPress={() => selectStudent(student)}>
+    <RowFrame $selected={selected} onPress={() => {
+      selectStudent(student)
+      onChange();
+    }
+    }>
       <StudentAvatar
         url={student.imagesrc}
         height={42}
@@ -103,6 +114,6 @@ const StudentRow = ({ student, selected }: { student: StudentIdAvatar; selected:
       <InfoPanel>
         <NameText $size={"lg"} $selected={selected}>{student.name}</NameText>
       </InfoPanel>
-    </RowFrame>
+    </RowFrame >
   )
 }

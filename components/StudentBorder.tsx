@@ -6,6 +6,7 @@ import { PressableAvatarPane, } from "./ThemedView";
 import { SemiboldLightText, TitleText } from "./ThemedText";
 import { OverlayDialog } from "./OverlayDialog";
 import { useStudentStore } from "@/store/currentStudent";
+import { useRouter } from "expo-router";
 
 
 type StudentBorderProps = {
@@ -26,6 +27,7 @@ const HeaderFrame = styled.View`
 `
 
 const HeaderTextFrame = styled.View`
+  width: 80%
 `
 
 const ContentFrame = styled.View`
@@ -41,6 +43,7 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
   const student = useStudentStore((s) => s.student)
   const [showList, setShowList] = useState(false);
   const imageSize = 48
+  const router = useRouter()
 
   const toggleList = () => {
     if (showList) {
@@ -69,7 +72,12 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
         onDismiss={() => setShowList(false)}
         buttons={
           [
-            { text: "학생 선택", onPress: () => setShowList(false) }
+            {
+              text: "학생 선택", onPress: () => {
+                router.push("/selectstudent")
+                setShowList(false)
+              }
+            }
           ]
         } >
         <Text style={{ fontSize: 16 }}>현재 학생을 변경하시겠습니까?</Text>

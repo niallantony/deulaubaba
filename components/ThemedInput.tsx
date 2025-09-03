@@ -1,10 +1,7 @@
-import { Image, PressableProps, View, type TextInputProps } from "react-native";
+import { type TextInputProps } from "react-native";
 import { LightText } from "./ThemedText";
 import { styled } from "styled-components/native";
 // @ts-ignore
-import addPhoto from "@/assets/images/addPhotoDark.png"
-import { ImageBackground } from "react-native";
-import { API_BASE_URL } from "@/api/api";
 
 export type ThemedTextInputProps = {
   label: string;
@@ -55,16 +52,6 @@ const StyledTwinField = styled.View<{ $position: "left" | "right" }>`
   flex: 1;
 `
 
-const StyledImageUpload = styled.Pressable`
-  width: 140px;
-  height: 140px;
-  background-color: ${props => props.theme.colors.inputs};
-  border-radius: ${props => props.theme.radii.xl};
-  margin-right: ${props => props.theme.spacing.small};
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`
 
 
 export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextInputProps) => {
@@ -115,41 +102,4 @@ export const ThemedTwinInput = ({ position, label, value, onChange, ...rest }: T
   )
 
 }
-
-export const UploadImage = ({ onPress, image, preImage, ...rest }: { preImage?: string, image: string | null } & PressableProps) => {
-  const resolveAvatarUrl = (avatar: string): string => {
-    if (avatar.startsWith("http://") || avatar.startsWith("https://")) {
-      return avatar; // already absolute
-    }
-    return `${API_BASE_URL}/uploads/${avatar}`;
-  }
-
-  return (
-    <StyledImageUpload accessibilityLabel="이미지" onPress={onPress} {...rest}>
-      <ImageBackground
-        source={preImage ? { uri: resolveAvatarUrl(preImage) } : undefined}
-        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: 150, height: 150 }}
-      >
-        {preImage && (
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(255,255,255, 0.5)',
-            }}
-          />
-        )}
-
-        {image ? (
-          <Image source={{ uri: image }} style={{ flex: 1, width: 150, height: 150 }} />
-        ) : (
-          <Image source={addPhoto} style={{ width: 32, height: 32 }} />
-        )}
-      </ImageBackground>
-    </StyledImageUpload>
-  );
-};
 

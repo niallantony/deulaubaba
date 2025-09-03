@@ -2,12 +2,12 @@ import { ButtonContainer } from "@/components/ButtonContainer"
 import { FullScreenView } from "@/components/FullScreenView"
 import { ThemedButton } from "@/components/ThemedButton"
 import { CenterText, LightTextVariable, LinkText } from "@/components/ThemedText"
-import { ThemedTextInput, ThemedTwinInput, UploadImage } from "@/components/ThemedInput"
+import { ThemedTextInput, ThemedTwinInput } from "@/components/ThemedInput"
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView"
 import { useState } from "react"
 import { Pressable, View } from "react-native"
 import { Student } from "@/types/student"
-import * as ImagePicker from "expo-image-picker"
+import { UploadImage } from "@/components/UploadImage"
 
 export type AddStudentProps = {
   onSubmit: (student: Student) => void;
@@ -36,24 +36,10 @@ export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => 
     onSubmit(student)
   }
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images', 'videos'],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImgsrc(result.assets[0].uri);
-    }
-
-  }
-
   return (
     <FullScreenView>
       <UploadImageFrame>
-        <UploadImage onPress={pickImage} image={imgsrc} />
+        <UploadImage setImage={setImgsrc} image={imgsrc} />
         <View style={{ flexGrow: 1, }}>
           <ThemedTextInput
             label={"학생 이름"}

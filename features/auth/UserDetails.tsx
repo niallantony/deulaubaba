@@ -1,4 +1,4 @@
-import { ThemedTextInput, UploadImage } from "@/components/ThemedInput";
+import { ThemedTextInput } from "@/components/ThemedInput";
 import { ButtonContainer } from "@/components/ButtonContainer";
 import { ThemedButton } from "@/components/ThemedButton";
 import { useState } from "react";
@@ -8,9 +8,9 @@ import { FormView } from "@/components/ThemedView";
 import { DropDownSelect } from "@/components/DropDownSelect";
 import { ErrorText } from "@/components/ThemedText";
 import { RegistrationErrorType } from "@/types/registrationErrors";
-import * as ImagePicker from "expo-image-picker"
 import { useAuth0 } from "react-native-auth0";
 import { View } from "react-native";
+import { UploadImage } from "@/components/UploadImage";
 
 export type UserDetailsProps = {
   onSubmit: (user: User) => void;
@@ -45,23 +45,10 @@ export const UserDetails = ({ onSubmit, errors }: UserDetailsProps) => {
     });
   }
 
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ['images', 'videos'],
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      setImgsrc(result.assets[0].uri)
-    }
-  }
-
   return (
     <FullScreenView>
       <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-        <UploadImage onPress={pickImage} image={imagesrc} preImage={user?.picture} />
+        <UploadImage setImage={setImgsrc} image={imagesrc} preImage={user?.picture} />
       </View>
       <FormView>
         <DropDownSelect
