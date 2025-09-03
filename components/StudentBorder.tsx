@@ -1,11 +1,12 @@
 import { PropsWithChildren, useState } from "react";
-import { styled } from "styled-components/native";
 import { StudentAvatar } from "./StudentAvatar";
 import { PressableAvatarPane, } from "./ThemedView";
-import { ButtonTextTheme, SemiboldLightText, TitleText } from "./ThemedText";
+import { ClickableText, SemiboldLightText, TitleText } from "./ThemedText";
 import { useStudentStore } from "@/store/currentStudent";
 import { useRouter } from "expo-router";
 import { DropdownMenu, DropdownMenuOption } from "./SettingsMenu/SettingsMenu";
+import { StyleSheet, View } from "react-native";
+import { theme } from "@/themes/global";
 
 
 type StudentBorderProps = {
@@ -13,28 +14,6 @@ type StudentBorderProps = {
   subtitle: string;
 } & PropsWithChildren;
 
-const BorderView = styled.View`
-  background-color: ${props => props.theme.colors.background};
-  width: 100%;
-  flex:1;
-  margin: 0;
-`
-const HeaderFrame = styled.View`
-  flex-direction: row;
-  padding: ${props => props.theme.spacing.default};
-  justify-content: space-between;
-`
-
-const HeaderTextFrame = styled.View`
-  width: 80%
-`
-
-const ContentFrame = styled.View`
-flex: 1;
-border-radius: ${props => props.theme.radii.xl};
-margin: ${props => props.theme.spacing.sides};
-margin-bottom: ${props => props.theme.spacing.default};
-`
 
 
 
@@ -53,13 +32,13 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
   }
 
   return (
-    <BorderView >
+    <View style={styles.borderView} >
       {student &&
-        <HeaderFrame>
-          <HeaderTextFrame>
+        <View style={styles.headerFrame}>
+          <View style={styles.headerTextFrame}>
             <TitleText>{title}</TitleText>
             <SemiboldLightText>{subtitle}</SemiboldLightText>
-          </HeaderTextFrame>
+          </View>
           <DropdownMenu
             visible={showList}
             handleOpen={() => setShowList(true)}
@@ -75,16 +54,38 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
               router.push('/selectstudent')
               setShowList(false)
             }}>
-              <ButtonTextTheme>학생 변경</ButtonTextTheme>
+              <ClickableText>학생 변경</ClickableText>
             </DropdownMenuOption>
 
           </DropdownMenu>
-        </HeaderFrame>
+        </View>
       }
-      <ContentFrame>
+      <View style={styles.content}>
         {children}
-      </ContentFrame>
-    </BorderView >
+      </View>
+    </View >
   )
 
 }
+
+const styles = StyleSheet.create({
+  borderView: {
+    backgroundColor: theme.colors.background,
+    width: "100%",
+    flex: 1,
+    margin: 0
+  },
+  headerFrame: {
+    flexDirection: "row",
+    padding: 24,
+    justifyContent: "space-between"
+  },
+  headerTextFrame: {
+    width: "80%"
+  },
+  content: {
+    flex: 1,
+    borderRadius: 16,
+    marginBottom: 24
+  }
+})

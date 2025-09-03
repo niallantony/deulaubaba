@@ -23,7 +23,7 @@ export const StudentProfile = ({ requestForm }: { requestForm: () => void }) => 
 
 
   return (
-    <ThemedScrollableView style={{ backgroundColor: theme.colors.background }}>
+    <ThemedScrollableView style={{ backgroundColor: theme.colors.background, paddingHorizontal: 24 }}>
       <ImageFrame>
         <ProfileAvatarPane>
           <StudentAvatar style="full" url={student?.imagesrc} width={128} height={182} />

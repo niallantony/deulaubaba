@@ -1,7 +1,8 @@
-import { styled } from 'styled-components/native';
-import { ButtonTextTheme, ButtonTextWhite } from './ThemedText';
-import { PressableProps } from 'react-native';
+import { ButtonTextTheme } from './ThemedText';
+import { Pressable, PressableProps, StyleSheet, Text } from 'react-native';
 import { Link, LinkProps, useRouter } from 'expo-router';
+import { theme } from '@/themes/global';
+import { ReactNode } from 'react';
 
 export type ThemedButtonProps = {
   text: string;
@@ -10,56 +11,108 @@ export type ThemedButtonProps = {
 } & PressableProps
 
 
-export const InputLikeButton = styled.Pressable`
-  background-color: ${props => props.theme.colors.inputs};
-  padding: ${props => props.theme.spacing.small};
-  border-radius: ${props => props.theme.radii.md};
-  box-shadow: 0 7px 6px rgba(0,0,0,0.03);
-  margin-top: ${props => props.theme.spacing.small};
-  flex-direction: row;
-  justify-content: space-between;
-`
 
-export const StyledButton = styled.Pressable<{ $type?: string, $row?: boolean }>`
-  width: 80%;
-  ${props => props.$row ? "flex: 1;" : ""}
-  border-radius: 16px;
-  padding: 16px;
-  margin-left: 24px;
-  margin-right: 24px;
-  background-color: ${props => props.$type === "green" ? props.theme.colors.accent : "white"};
-  border-width: ${props => props.$type === "green" ? 0 : "1px"};
-  border-color: ${props => props.$type === "outline" ? props.theme.colors.accent : "none"};
-`;
-
-export const SubtleButton = styled.Pressable`
-  border-radius: ${props => props.theme.radii.md};
-  padding: ${props => props.theme.spacing.small};
-  border: 1px solid ${props => props.theme.colors.light};
-`
-
-
-export const BigButton = styled.Pressable`
-width: 80%;
-  background-color: ${props => props.theme.colors.accent};
-  border-radius: ${props => props.theme.radii.xl};
-  padding: ${props => props.theme.spacing.bigButton};
-  margin: ${props => props.theme.spacing.large};
-`
-
-
-export function ThemedButton({ text, type, row = false, ...rest }: ThemedButtonProps) {
+export const InputLikeButton = ({ error, children, ...rest }: { error?: boolean } & PressableProps) => {
   return (
-    <StyledButton
-      $row={row}
-      $type={type}
+    <Pressable style={[
+      styles.inputLike,
+      error ? styles.error : null,
+    ]}
       {...rest}
     >
-      {type === "green" ?
-        (<ButtonTextWhite>{text}</ButtonTextWhite>) :
-        (<ButtonTextTheme>{text}</ButtonTextTheme>)
-      }
-    </StyledButton>
+      {children}
+    </Pressable>
+  )
+}
+
+const styles = StyleSheet.create({
+  inputLike: {
+    backgroundColor: theme.colors.inputs,
+    fontSize: theme.fontSizes.md,
+    padding: 12,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 7 },
+    elevation: 3,
+    marginVertical: 12,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  error: {
+    borderWidth: 1,
+    borderColor: theme.colors.error
+  },
+  common: {
+    marginHorizontal: 24,
+    padding: 16,
+    borderRadius: 16,
+    width: "100%",
+  },
+  text: {
+    textAlign: "center",
+    fontWeight: 800,
+    fontSize: 18,
+  },
+  outline: {
+    backgroundColor: theme.colors.background,
+    borderWidth: 1,
+    borderColor: theme.colors.accent,
+  },
+  green: {
+    backgroundColor: theme.colors.accent,
+  },
+  subtle: {
+    borderRadius: 16,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.light,
+  },
+  big: {
+    width: "100%",
+    paddingVertical: 58,
+    paddingHorizontal: 0,
+    margin: 32,
+    borderRadius: 16,
+    backgroundColor: theme.colors.accent
+  }
+})
+
+export const SubtleButton = ({ children, ...rest }: { children: ReactNode } & PressableProps) => {
+  return (
+    <Pressable style={styles.subtle} {...rest}>
+      {children}
+    </Pressable>
+  )
+
+}
+
+export const BigButton = ({ children, ...rest }: { children: ReactNode } & PressableProps) => {
+  return (
+    <Pressable style={styles.big} {...rest}>
+      {children}
+    </Pressable>
+  )
+}
+
+export function ThemedButton({ text, type = "green", row = false, ...rest }: ThemedButtonProps) {
+  return (
+    <Pressable style={[
+      styles.common,
+      row ? { flex: 1 } : null,
+      styles[type],
+    ]}
+      {...rest}
+    >
+      <Text style={[
+        styles.text,
+        type === "outline" ? { color: theme.colors.accent } : { color: theme.colors.lightText },
+      ]}
+      >
+        {text}
+      </Text>
+    </Pressable>
   )
 }
 

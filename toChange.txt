@@ -8,10 +8,10 @@ InputCode.tsx
 OverlayDialog.tsx
 Placeholder.tsx, done
 StudentAvatar.tsx
-StudentBorder.tsx
+StudentBorder.tsx, done
 StudentList.tsx
-ThemedButton.tsx
-ThemedInput.tsx
+ThemedButton.tsx, done - some errors
+ThemedInput.tsx, done
 ThemedLink.tsx
 ThemedText.tsx
 ThemedView.tsx
@@ -26,7 +26,7 @@ UserDetails.tsx
 
 features/dictionary:
 CategoryPicker.tsx
-DictionaryForm.tsx
+DictionaryForm.tsx, done
 DictionaryList.tsx
 EntryCard.tsx
 ListingDescription.tsx

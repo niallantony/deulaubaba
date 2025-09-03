@@ -1,3 +1,6 @@
+import { theme } from '@/themes/global';
+import { ReactNode } from 'react';
+import { StyleSheet, Text } from 'react-native';
 import { styled } from 'styled-components/native';
 
 export const StyledText = styled.Text`
@@ -33,7 +36,7 @@ export const SubtitleText = styled.Text`
   font-size: ${props => props.theme.sizes.xl};
   color: ${props => props.theme.colors.text};
 `
-export const LinkText = styled.Text<{ $size: "xxl" | "xl" | "lg" | "md" | "mdsm" | "sm" | "xs" ; }>`
+export const LinkText = styled.Text<{ $size: "xxl" | "xl" | "lg" | "md" | "mdsm" | "sm" | "xs"; }>`
   font-size: ${props => props.theme.sizes[props.$size]};
   color: ${props => props.theme.colors.accent};
 `
@@ -61,6 +64,24 @@ export const ButtonTextTheme = styled.Text`
   font-size: 18px;
   color: ${props => props.theme.colors.accent};
 `
+const styles = StyleSheet.create({
+  clickable: {
+    textAlign: "center",
+    fontWeight: 800,
+    fontSize: 18,
+    color: theme.colors.accent,
+  }
+})
+
+export const ClickableText = ({ children }: { children: ReactNode }) => {
+  return (
+    <Text style={[
+      styles.clickable
+    ]}>
+      {children}
+    </Text>
+  )
+}
 
 export const ErrorText = styled.Text`
   font-size: ${props => props.theme.sizes.sm};

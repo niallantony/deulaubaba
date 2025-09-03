@@ -33,6 +33,9 @@ export const theme = {
     bigButton: "58px 0",
     border: "4px",
     mini: "4px"
+  },
+  fontSizes: {
+    md: 18,
   }
 
 

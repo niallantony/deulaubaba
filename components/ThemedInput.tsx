@@ -1,7 +1,6 @@
-import { type TextInputProps } from "react-native";
+import { StyleSheet, TextInput, View, type TextInputProps } from "react-native";
 import { LightText } from "./ThemedText";
-import { styled } from "styled-components/native";
-// @ts-ignore
+import { theme } from "@/themes/global";
 
 export type ThemedTextInputProps = {
   label: string;
@@ -13,93 +12,111 @@ export type ThemedTextAreaProps = {
   label: string;
   value: string;
   onChange: (text: string) => void;
-  $height?: string;
+  error?: boolean;
+  height: number;
 } & Omit<TextInputProps, 'onChange' | 'value'>;
 
 export type ThemedTwinInputProps = {
   position: "left" | "right";
 } & ThemedTextInputProps
 
-const StyledInput = styled.TextInput`
-  background-color: ${props => props.theme.colors.inputs};
-  font-size: ${props => props.theme.sizes.md};
-  padding: ${props => props.theme.spacing.small};
-  border-radius: ${props => props.theme.radii.md};
-  box-shadow: 0 7px 6px rgba(0,0,0,0.03);
-`
-const StyledTextArea = styled.TextInput<{ $height?: string }>`
-  background-color: ${props => props.theme.colors.inputs};
-  font-size: ${props => props.theme.sizes.md};
-  padding: ${props => props.theme.spacing.small};
-  border-radius: ${props => props.theme.radii.md};
-  box-shadow: 0 7px 6px rgba(0,0,0,0.03);
-  height: ${props => props.$height ? props.$height : "150px"};
-  width: 100%;
-`
-export const FormLabel = styled(LightText)`
-  margin-bottom: ${props => props.theme.spacing.small}
-`
-
-const StyledField = styled.View`
-  margin-top: ${props => props.theme.spacing.small};
-  margin-bottom: ${props => props.theme.spacing.small};
-`
-
-const StyledTwinField = styled.View<{ $position: "left" | "right" }>`
-  margin-top: ${props => props.theme.spacing.small};
-  margin-bottom: ${props => props.theme.spacing.small};
-  margin-right: ${props => props.$position === "left" ? props.theme.spacing.small : 0};
-  flex: 1;
-`
 
 
 
 export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextInputProps) => {
   return (
-    <StyledField>
-      <FormLabel>{label}</FormLabel>
-      <StyledInput
+    <View style={styles.container}>
+      <LightText style={{ marginBottom: 12 }}>{label}</LightText>
+      <TextInput style={[
+        styles.common,
+        styles.text,
+      ]}
         accessibilityLabel={label}
         textAlignVertical={"center"}
         value={value}
         onChangeText={onChange}
         {...rest}
       />
-    </StyledField>
+    </View>
   )
 
 }
 
-export const ThemedTextArea = ({ label, value, onChange, $height, ...rest }: ThemedTextAreaProps) => {
+export const ThemedTextArea = ({ label, value, onChange, error, height, ...rest }: ThemedTextAreaProps) => {
   return (
-    <StyledField>
-      <FormLabel>{label}</FormLabel>
-      <StyledTextArea
-        $height={$height}
+    <View style={styles.container}>
+      <LightText style={{ marginBottom: 12 }}>{label}</LightText>
+      <TextInput
         accessibilityLabel={label}
         textAlignVertical={"top"}
         value={value}
         onChangeText={onChange}
+        style={[
+          styles.common,
+          styles.textArea,
+          error ? styles.error : null,
+          { height: height * 32 }
+        ]}
         {...rest}
       />
-    </StyledField>
+    </View>
   )
 
 }
 
 export const ThemedTwinInput = ({ position, label, value, onChange, ...rest }: ThemedTwinInputProps) => {
   return (
-    <StyledTwinField $position={position}>
-      <FormLabel>{label}</FormLabel>
-      <StyledInput
+    <View style={[
+      styles.container,
+      position === "left" ? styles.left : null,
+      styles.twin
+    ]}>
+      <LightText style={{ marginBottom: 12 }}>{label}</LightText>
+      <TextInput style={[
+        styles.common,
+        styles.text,
+      ]}
         accessibilityLabel={label}
         textAlignVertical={"center"}
         value={value}
         onChangeText={onChange}
         {...rest}
       />
-    </StyledTwinField>
+    </View>
   )
 
 }
+
+const styles = StyleSheet.create({
+  container: {
+    marginVertical: 12,
+  },
+  twin: {
+    flex: 1,
+  },
+  left: {
+    marginRight: 12,
+  },
+  common: {
+    backgroundColor: theme.colors.inputs,
+    fontSize: theme.fontSizes.md,
+    padding: 12,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 7 },
+    elevation: 3,
+  },
+  text: {
+
+  },
+  textArea: {
+    width: "100%"
+  },
+  error: {
+    borderWidth: 1,
+    borderColor: theme.colors.error
+  },
+})
 

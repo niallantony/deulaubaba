@@ -20,7 +20,7 @@ export default function Route() {
   const { title } = getExpressionType(extype);
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <View style={{ flex: 1, backgroundColor: theme.colors.background, paddingHorizontal: 24 }}>
       <HeaderBack viewEntry={!!viewEntry} onBack={() => setViewEntry(null)} />
       <GreenHeading>{title}</GreenHeading>
       {!viewEntry ? (

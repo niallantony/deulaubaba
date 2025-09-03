@@ -23,7 +23,7 @@ export default function Route() {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
+    <View style={{ flex: 1, backgroundColor: theme.colors.background, paddingHorizontal: 24 }}>
       <BackButtonContainer>
         <BackButton />
       </ BackButtonContainer>
