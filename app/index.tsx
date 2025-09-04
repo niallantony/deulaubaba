@@ -29,8 +29,8 @@ export default function Index() {
       <View style={{ alignItems: 'center' }}>
         <Image source={Logo} style={{ width: 300, height: 300 }} />
       </View>
-      <View>
-        <ButtonContainer style={{ width: 300 }}>
+      <View style={{ width: "100%" }}>
+        <ButtonContainer width={150}>
           <ThemedButton text={"로그인"} type={"green"} onPress={onPress} />
         </ButtonContainer>
       </View>

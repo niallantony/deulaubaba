@@ -1,11 +1,10 @@
-import { ButtonContainer, SmallButtonContainer } from "@/components/ButtonContainer";
+import { ButtonContainer } from "@/components/ButtonContainer";
 import { ExpressionTypeButton } from "@/components/ExpressionTypeButton";
-import { AddButton, ThemedButton } from "@/components/ThemedButton";
+import { AddButton, LinkButton } from "@/components/ThemedButton";
 import { PageTitle } from "@/components/ThemedText";
-import { FullViewWhite } from "@/components/ThemedView"
+import { FullView } from "@/components/ThemedView"
 import { useDictionary } from "@/hooks/useDictionary";
 import { ExpressionType } from "@/types/dictionary";
-import { Link } from "expo-router";
 import { View } from "react-native";
 
 export const DictionaryList = () => {
@@ -14,30 +13,28 @@ export const DictionaryList = () => {
   const types = data?.body?.expressiontypes
 
   return (
-    <FullViewWhite>
+    <FullView >
       <PageTitle>의사소통 방법</PageTitle>
       <View style={{
-        width: "100%",
         flex: 1,
-        alignItems: "center",
+        width: "100%",
+        padding: 24,
       }}>
         {types && types.map((expression: ExpressionType) => (
           <ExpressionTypeButton expression={expression} key={expression} />
         ))}
         {!types && (
-          <ButtonContainer>
-            <Link href={"/dictionary/new"} asChild>
-              <ThemedButton type="green" text="입력하기" />
-            </Link>
+          <ButtonContainer width={150}>
+            <LinkButton type="green" text="입력하기" href={"/dictionary/new"} />
           </ButtonContainer>
         )}
         {types && (
-          <ButtonContainer>
+          <ButtonContainer width={150}>
             <AddButton href={"/dictionary/new"} />
           </ButtonContainer>
         )}
       </View>
-    </FullViewWhite>
+    </FullView>
   )
 }
 

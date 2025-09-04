@@ -1,36 +1,33 @@
-import { styled } from 'styled-components/native';
-
-export const ButtonContainer = styled.View`
-  display: flex;
-  justify-content:center;
-  align-items: center;
-  width: 100%;
-  margin-top: ${props => props.theme.spacing.default};
-`;
-
-export const SmallButtonContainer = styled.View`
-  display: flex;
-  justify-content:center;
-  align-items: center;
-  width: 100%;
-  margin-top: ${props => props.theme.spacing.default};
-  padding: 0 94px;
-`
-
-export const RowButtonContainer = styled.View`
- flex-direction: row;
- justify-content: space-between;
- width: 100%;
-  margin-top: ${props => props.theme.spacing.default};
-`
-
-export const BigButtonContainer = styled.View`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-`
+import { ReactNode, useState } from 'react';
+import { View } from 'react-native';
 
 
-export const BackButtonContainer = styled.View`
-  flex-direction: row;
-`
+export const RowButtonContainer = ({ children }: { children: ReactNode }) => {
+  return (
+    <View style={{
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: '100%',
+      marginTop: 24
+    }}>
+      {children}
+    </View>
+  )
+}
+
+export const ButtonContainer = ({ width, children }: { width: number, children: ReactNode }) => {
+  const [conWidth, setConWidth] = useState(150)
+  const padding = (conWidth - width) / 2
+  return (
+    <View
+      style={{ width: "100%", marginVertical: 24 }}
+      onLayout={(event) => {
+        const { width } = event.nativeEvent.layout;
+        setConWidth(width);
+      }}>
+      <View style={{ paddingHorizontal: padding }}>
+        {children}
+      </View>
+    </View>
+  )
+}

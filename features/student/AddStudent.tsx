@@ -79,7 +79,7 @@ export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => 
         value={disability}
         onChange={setDisability}
       />
-      <ButtonContainer>
+      <ButtonContainer width={150}>
         <ThemedButton text={"학생 코드 만들기"} type={"green"} onPress={handleSubmit} />
       </ButtonContainer>
       <CenterText style={{ marginTop: 28 }}>

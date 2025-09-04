@@ -1,4 +1,3 @@
-import { BackButtonContainer } from "@/components/ButtonContainer";
 import { BackButton } from "@/components/ThemedButton";
 import { GreenHeading } from "@/components/ThemedView";
 import { DictionaryForm } from "@/features/dictionary/DictionaryForm";
@@ -24,9 +23,9 @@ export default function Route() {
 
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background, paddingHorizontal: 24 }}>
-      <BackButtonContainer>
+      <View style={{ flexDirection: "row" }}>
         <BackButton />
-      </ BackButtonContainer>
+      </ View>
       <GreenHeading>{title}</GreenHeading>
       <DictionaryForm type={extype} onSubmit={handleSubmit} />
 

@@ -1,12 +1,12 @@
 import { ButtonTextTheme } from './ThemedText';
 import { Pressable, PressableProps, StyleSheet, Text } from 'react-native';
-import { Link, LinkProps, useRouter } from 'expo-router';
+import { LinkProps, useRouter } from 'expo-router';
 import { theme } from '@/themes/global';
 import { ReactNode } from 'react';
 
 export type ThemedButtonProps = {
   text: string;
-  type?: "green" | "outline";
+  type?: "green" | "outline" | "bare";
   row?: boolean;
 } & PressableProps
 
@@ -44,11 +44,22 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: theme.colors.error
   },
+  bare: {
+
+  },
+  "text-green": {
+    color: theme.colors.lightText
+  },
+  "text-outline": {
+    color: theme.colors.accent
+  },
+  "text-bare": {
+    color: theme.colors.accent,
+    fontWeight: 400,
+  },
   common: {
-    marginHorizontal: 24,
     padding: 16,
     borderRadius: 16,
-    width: "100%",
   },
   text: {
     textAlign: "center",
@@ -67,7 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 12,
     borderWidth: 1,
-    borderColor: theme.colors.light,
+    borderColor: theme.colors.accent,
   },
   big: {
     width: "100%",
@@ -100,20 +111,53 @@ export function ThemedButton({ text, type = "green", row = false, ...rest }: The
   return (
     <Pressable style={[
       styles.common,
-      row ? { flex: 1 } : null,
+      row ? { flex: 1, marginHorizontal: 6 } : null,
       styles[type],
     ]}
       {...rest}
     >
       <Text style={[
         styles.text,
-        type === "outline" ? { color: theme.colors.accent } : { color: theme.colors.lightText },
+        styles[`text-${type}`]
       ]}
       >
         {text}
       </Text>
     </Pressable>
   )
+}
+
+export function LinkButton({
+  text,
+  type = "green",
+  href,
+  ...rest
+}: {
+  href: string
+} & ThemedButtonProps & LinkProps) {
+  const router = useRouter();
+  return (
+    <Pressable
+      style={[
+        styles.common,
+        styles[type]
+      ]}
+      onPress={() => {
+        router.push(href)
+      }}
+      {...rest}
+    >
+      <Text style={[
+        styles.text,
+        styles[`text-${type}`]
+      ]}
+      >
+        {text}
+      </Text>
+    </Pressable>
+
+  )
+
 }
 
 export const BackButton = () => {
@@ -129,12 +173,16 @@ export const BackButton = () => {
 
 
 export const AddButton = ({ href }: LinkProps) => {
+  const router = useRouter();
   return (
-    <Link href={href} asChild>
-      <SubtleButton>
-        <ButtonTextTheme>+ 추가하기</ButtonTextTheme>
+    <SubtleButton
+      style={styles.subtle}
+      onPress={() => {
+        router.push(href)
+      }}
+    >
+      <ButtonTextTheme>+ 추가하기</ButtonTextTheme>
 
-      </SubtleButton>
-    </Link>
+    </SubtleButton>
   )
 }

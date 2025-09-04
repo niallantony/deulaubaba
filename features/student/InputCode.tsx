@@ -5,6 +5,7 @@ import { StyledLink } from "@/components/ThemedLink"
 import { LinkText } from "@/components/ThemedText"
 import { PageTitleView } from "@/components/ThemedView"
 import { useState } from "react"
+import { View } from "react-native"
 
 export type InputStudentCodeProps = {
   onSubmit: (code: string) => void;
@@ -21,21 +22,23 @@ export const InputStudentCode = ({ onSubmit, onBack }: InputStudentCodeProps) =>
   return (
     <PageTitleView
       title={"학생 코드 입력하세요"}
+      style={{ justifyContent: 'space-between', paddingVertical: 164 }}
     >
       <InputCode
         code={code}
         setCode={setCode}
         length={6}
       />
-      <ButtonContainer>
-        <ThemedButton text={"확인"} type={"green"} onPress={handleSubmit} />
-        <StyledLink
-          onPress={onBack}
-          $margin="24px"
-        >
-          <LinkText $size="md">뒤로</LinkText>
-        </StyledLink>
-      </ButtonContainer>
+      <View style={{ marginTop: 32, justifyContent: 'center', alignItems: 'center' }}>
+        <ButtonContainer width={150}>
+          <ThemedButton text={"확인"} type={"green"} onPress={handleSubmit} />
+          <ThemedButton
+            onPress={onBack}
+            type="bare"
+            text={"뒤로"}
+          />
+        </ButtonContainer>
+      </View>
     </PageTitleView>
   )
 }

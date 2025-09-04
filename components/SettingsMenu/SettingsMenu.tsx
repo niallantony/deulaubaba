@@ -66,7 +66,6 @@ export const DropdownMenu = ({
         <Modal
           transparent={true}
           visible={visible}
-          animationType="fade"
           onRequestClose={handleClose}
         >
           <TouchableWithoutFeedback onPress={handleClose}>

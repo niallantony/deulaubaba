@@ -51,7 +51,7 @@ export const StudentProfile = ({ requestForm }: { requestForm: () => void }) => 
       <InfoPane>
         <StyledText>{student?.challengesDetails}</StyledText>
       </InfoPane>
-      <ButtonContainer>
+      <ButtonContainer width={150}>
         <ThemedButton
           text="정보 수정하기"
           type="green"

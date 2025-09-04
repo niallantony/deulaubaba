@@ -23,6 +23,7 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
   const imageSize = 48
   const router = useRouter()
 
+
   const toggleList = () => {
     if (showList) {
       setShowList(false);
@@ -30,6 +31,7 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
       setShowList(true);
     }
   }
+
 
   return (
     <View style={styles.borderView} >
@@ -40,6 +42,7 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
             <SemiboldLightText>{subtitle}</SemiboldLightText>
           </View>
           <DropdownMenu
+            key={"changestudent"}
             visible={showList}
             handleOpen={() => setShowList(true)}
             handleClose={() => setShowList(false)}

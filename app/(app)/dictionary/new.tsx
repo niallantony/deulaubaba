@@ -8,7 +8,7 @@ export default function Route() {
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.background }}>
       <PageTitle>의사소통 방법을 골라주세요</PageTitle>
-      <ScrollView style={{ width: 100, flex: 1 }}>
+      <ScrollView style={{ paddingHorizontal: 24, flex: 1 }}>
         {expressionKeys.map((expression: ExpressionType) => (
           <ExpressionTypeButton expression={expression} key={expression} add={true} />
         ))}

@@ -107,7 +107,7 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
         multiline={true}
         height={3}
       />
-      <ButtonContainer>
+      <ButtonContainer width={150}>
         <ThemedButton text={"등록하기"} type={"green"} onPress={handleSubmit} />
       </ButtonContainer>
     </FullScreenView>

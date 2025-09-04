@@ -11,7 +11,9 @@ export const SettingsMenu = () => {
   return (
     <View style={styles.container}>
       <DropdownMenu
+        key={"settingsmenu"}
         visible={visible}
+        dropdownWidth={300}
         handleOpen={() => setVisible(true)}
         handleClose={() => setVisible(false)}
         trigger={

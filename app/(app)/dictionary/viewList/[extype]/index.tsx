@@ -1,4 +1,4 @@
-import { BackButtonContainer, SmallButtonContainer } from "@/components/ButtonContainer";
+import { ButtonContainer } from "@/components/ButtonContainer";
 import { AddButton, BackButton, SubtleButton } from "@/components/ThemedButton";
 import { ButtonTextTheme } from "@/components/ThemedText";
 import { GreenHeading } from "@/components/ThemedView";
@@ -45,16 +45,16 @@ function DictionaryListView({ results, onSelectEntry, extype }: {
           <EntryCard key={entry.id} entry={entry} onClick={() => onSelectEntry(entry)} />
         ))}
       </ScrollView>
-      <SmallButtonContainer>
+      <ButtonContainer width={110}>
         <AddButton href={{ pathname: "/dictionary/viewList/[extype]/add", params: { extype } }} />
-      </SmallButtonContainer>
+      </ButtonContainer>
     </>
   );
 }
 
 function HeaderBack({ viewEntry, onBack }: { viewEntry: boolean, onBack: () => void }) {
   return (
-    <BackButtonContainer>
+    <View style={{ flexDirection: "row" }}>
       {viewEntry ? (
         <SubtleButton onPress={onBack}>
           <ButtonTextTheme>&lt;  이전</ButtonTextTheme>
@@ -62,6 +62,6 @@ function HeaderBack({ viewEntry, onBack }: { viewEntry: boolean, onBack: () => v
       ) : (
         <BackButton />
       )}
-    </BackButtonContainer>
+    </View>
   );
 }

@@ -1,8 +1,8 @@
-import { BigButtonContainer } from "@/components/ButtonContainer";
 import { BigButton } from "@/components/ThemedButton";
-import {  ThemedLink } from "@/components/ThemedLink";
+import { ThemedLink } from "@/components/ThemedLink";
 import { ButtonTextWhite, } from "@/components/ThemedText"
 import { PageTitleView } from "@/components/ThemedView";
+import { View } from "react-native";
 
 export type HasCodeActions = {
   inputCode: () => void;
@@ -14,7 +14,7 @@ export const HasCode = ({ inputCode, makeCode }: HasCodeActions) => {
     <PageTitleView
       title={"학생 코드가 있나요? "}
     >
-      <BigButtonContainer>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <BigButton accessibilityLabel="학생 코드 만들기" onPress={makeCode}>
           <ButtonTextWhite>없다면</ButtonTextWhite>
           <ButtonTextWhite>학생 코드 만들기</ButtonTextWhite>
@@ -29,7 +29,7 @@ export const HasCode = ({ inputCode, makeCode }: HasCodeActions) => {
           size="md"
           margin="12px"
         />
-      </BigButtonContainer>
+      </View>
     </PageTitleView>
 
   )
