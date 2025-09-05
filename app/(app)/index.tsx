@@ -6,7 +6,7 @@ export default function Index() {
   return (
     <FullView>
       <UserToolbar />
-      <FullView style={{ width: "100%", padding: 12 }}>
+      <FullView >
         <Placeholder
           color={"#EBEBEB"}
           message={"Projects"}

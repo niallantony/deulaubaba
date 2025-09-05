@@ -15,8 +15,8 @@ export const RowButtonContainer = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export const ButtonContainer = ({ width, children }: { width: number, children: ReactNode }) => {
-  const [conWidth, setConWidth] = useState(150)
+export const ButtonContainer = ({ width = 150, children }: { width?: number, children: ReactNode }) => {
+  const [conWidth, setConWidth] = useState(width)
   const padding = (conWidth - width) / 2
   return (
     <View

@@ -1,46 +1,75 @@
 import { StudentAvatar } from "@/components/StudentAvatar";
+import { theme } from "@/themes/global";
 import { DictionaryListing, getCategoryColor } from "@/types/dictionary";
-import { styled } from "styled-components/native";
+import { Pressable, PressableProps, TextProps, View, ViewProps, Text, StyleSheet } from "react-native";
 
-const Card = styled.Pressable`
-  background-color: ${props => props.theme.colors.inputs};
-  border-radius: ${props => props.theme.radii.xl};
-  padding: ${props => props.theme.spacing.small} ${props => props.theme.spacing.small};
-  margin: ${props => props.theme.spacing.mini} 0;
-  flex-direction: row;
-`
+export const Card = ({ children, onPress }: PressableProps) => (
+  <Pressable style={styles.card} onPress={onPress}>
+    {children}
+  </Pressable>
+);
 
-const CardInterior = styled.View`
-  margin-left: ${props => props.theme.spacing.small};
-  flex: 1;
-`
+export const CardInterior = ({ children }: ViewProps) => (
+  <View style={styles.cardInterior}>{children}</View>
+);
 
-const CardTitle = styled.Text`
-  font-size: ${props => props.theme.sizes.md};
-  font-weight: 700;
-  max-width: 186px;
-`
+export const CardTitleHolder = ({ children }: ViewProps) => (
+  <View style={styles.cardTitleHolder}>{children}</View>
+);
 
-const CardTitleHolder = styled.View`
-  flex-direction: row;
-  align-items: center;
-`
+export const CardTitle = ({ children }: TextProps) => (
+  <Text style={styles.cardTitle} numberOfLines={1} ellipsizeMode="tail">
+    {children}
+  </Text>
+);
 
-const CategoryMarker = styled.View<{ $color: string }>`
-  background-color: ${props => props.$color};
-  width: 16px;
-  height: 16px;
-  border-radius: 8px;
-  margin: 0 2px;
-`
+export const CategoryMarker = ({ color }: { color: string }) => (
+  <View style={[styles.categoryMarker, { backgroundColor: color }]} />
+);
 
-const CardDescription = styled.Text`
-  color: ${props => props.theme.colors.light};
-`
+export const CardDescriptionHolder = ({ children }: ViewProps) => (
+  <View style={styles.cardDescriptionHolder}>{children}</View>
+);
 
-const CardDescriptionHolder = styled.View`
-  flex-direction: row;
-`
+export const CardDescription = ({ children }: TextProps) => (
+  <Text style={styles.cardDescription} numberOfLines={2} ellipsizeMode="tail">{children}</Text>
+);
+
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: theme.colors.inputs,
+    borderRadius: 16, // xl
+    paddingVertical: 12, // small
+    paddingHorizontal: 12, // small
+    marginVertical: 4, // mini
+    flexDirection: "row",
+  },
+  cardInterior: {
+    marginLeft: 12, // small
+    flex: 1,
+  },
+  cardTitleHolder: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  cardTitle: {
+    fontSize: 18, // md
+    fontWeight: "700",
+    maxWidth: 186,
+  },
+  categoryMarker: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    marginHorizontal: 2,
+  },
+  cardDescriptionHolder: {
+    flexDirection: "row",
+  },
+  cardDescription: {
+    color: theme.colors.light,
+  },
+});
 
 
 export const EntryCard = ({ entry, onClick }: { entry: DictionaryListing, onClick: () => void }) => {
@@ -50,13 +79,13 @@ export const EntryCard = ({ entry, onClick }: { entry: DictionaryListing, onClic
         url={entry.imgsrc} width={64} height={64} />
       <CardInterior>
         <CardTitleHolder>
-          <CardTitle numberOfLines={1} ellipsizeMode="tail"> {entry.title} </CardTitle>
+          <CardTitle > {entry.title} </CardTitle>
           {entry.category.map((category) => (
-            <CategoryMarker key={category} $color={getCategoryColor(category)} />
+            <CategoryMarker key={category} color={getCategoryColor(category)} />
           ))}
         </CardTitleHolder>
         <CardDescriptionHolder>
-          <CardDescription numberOfLines={2} ellipsizeMode="tail"> {entry.description} </CardDescription>
+          <CardDescription > {entry.description} </CardDescription>
         </CardDescriptionHolder>
       </CardInterior>
     </Card>

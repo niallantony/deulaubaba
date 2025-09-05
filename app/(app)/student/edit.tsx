@@ -101,15 +101,14 @@ export default function EditStudent() {
         label={"주요 의사소통특성"}
         value={communicationDetails ? communicationDetails : ""}
         onChange={setCommunicationDetails}
-        height={5}
-
+        height={3}
         multiline={true}
       />
       <ThemedTextArea
         label={"주요 도전행동 특성"}
         value={challengesDetails ? challengesDetails : ""}
         onChange={setChallengesDetails}
-        height={5}
+        height={3}
         multiline={true}
       />
       <RowButtonContainer>

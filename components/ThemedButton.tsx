@@ -1,5 +1,5 @@
-import { ButtonTextTheme } from './ThemedText';
-import { Pressable, PressableProps, StyleSheet, Text } from 'react-native';
+import { ButtonTextTheme, LinkText } from './ThemedText';
+import { Pressable, PressableProps, StyleSheet, Text, Image, ImageSourcePropType, ImageStyle } from 'react-native';
 import { LinkProps, useRouter } from 'expo-router';
 import { theme } from '@/themes/global';
 import { ReactNode } from 'react';
@@ -186,3 +186,26 @@ export const AddButton = ({ href }: LinkProps) => {
     </SubtleButton>
   )
 }
+
+export type IconLinkProps = {
+  imageSource: ImageSourcePropType;
+  imageOptions: ImageStyle;
+  size: "sm" | "md" | "lg";
+} & ThemedButtonProps & LinkProps
+
+export const IconLink = ({ text, href, size, imageSource, imageOptions }: IconLinkProps) => {
+  const router = useRouter()
+
+  return (
+    <Pressable
+      style={{ alignItems: 'center' }}
+      onPress={() => {
+        router.push(href)
+      }}
+    >
+      <Image source={imageSource} style={imageOptions} />
+      <LinkText $size={size}>{text}</LinkText>
+    </Pressable>
+  )
+}
+

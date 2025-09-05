@@ -1,5 +1,5 @@
 import { StyleSheet, TextInput, View, type TextInputProps } from "react-native";
-import { LightText } from "./ThemedText";
+import { InfoLabel, LightText } from "./ThemedText";
 import { theme } from "@/themes/global";
 
 export type ThemedTextInputProps = {
@@ -26,7 +26,7 @@ export type ThemedTwinInputProps = {
 export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextInputProps) => {
   return (
     <View style={styles.container}>
-      <LightText style={{ marginBottom: 12 }}>{label}</LightText>
+      <InfoLabel>{label}</InfoLabel>
       <TextInput style={[
         styles.common,
         styles.text,
@@ -45,7 +45,7 @@ export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextI
 export const ThemedTextArea = ({ label, value, onChange, error, height, ...rest }: ThemedTextAreaProps) => {
   return (
     <View style={styles.container}>
-      <LightText style={{ marginBottom: 12 }}>{label}</LightText>
+      <InfoLabel>{label}</InfoLabel>
       <TextInput
         accessibilityLabel={label}
         textAlignVertical={"top"}
@@ -71,7 +71,7 @@ export const ThemedTwinInput = ({ position, label, value, onChange, ...rest }: T
       position === "left" ? styles.left : null,
       styles.twin
     ]}>
-      <LightText style={{ marginBottom: 12 }}>{label}</LightText>
+      <InfoLabel>{label}</InfoLabel>
       <TextInput style={[
         styles.common,
         styles.text,

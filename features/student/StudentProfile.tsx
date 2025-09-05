@@ -6,7 +6,6 @@ import { InfoLabel, SemiboldText, StyledText, SubtitleText, TitleText } from "@/
 import { ImageFrame, InfoPane, ProfileAvatarPane, RowText, ThemedScrollableView } from "@/components/ThemedView"
 import { UserRibbon } from "@/components/UserRibbon"
 import { useSelectedStudent } from "@/hooks/useSelectedStudent"
-import { theme } from "@/themes/global"
 import { useState } from "react"
 import { View, Text } from "react-native"
 
@@ -23,7 +22,7 @@ export const StudentProfile = ({ requestForm }: { requestForm: () => void }) => 
 
 
   return (
-    <ThemedScrollableView style={{ backgroundColor: theme.colors.background, paddingHorizontal: 24 }}>
+    <ThemedScrollableView>
       <ImageFrame>
         <ProfileAvatarPane>
           <StudentAvatar style="full" url={student?.imagesrc} width={128} height={182} />

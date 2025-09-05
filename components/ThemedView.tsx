@@ -1,119 +1,270 @@
 import { ReactNode } from "react";
-import { styled } from "styled-components/native"
 import { TitleText } from "./ThemedText";
-import { ViewProps } from "react-native";
+import { StyleSheet, View, ViewProps, Text, Pressable, ScrollView, PressableProps } from "react-native";
+import { theme } from "@/themes/global";
 
 export type PageTitleViewProps = {
   title: string;
   children: ReactNode;
 } & ViewProps;
 
-export const InfoPane = styled.View`
-  background-color: ${props => props.theme.colors.inputs};
-  font-size: ${props => props.theme.sizes.md};
-  padding: ${props => props.theme.spacing.default};
-  border-radius: ${props => props.theme.radii.md};
-  box-shadow: 0 7px 6px rgba(0,0,0,0.03);
-`
-
-export const AvatarPane = styled.View`
-  background-color: ${props => props.theme.colors.inputs};
-  border-radius: ${props => props.theme.radii.imageBorder};
-  box-shadow: 0 7px 6px rgba(0,4,4,0.2);
-  width: fit-content;
-  padding: ${props => props.theme.spacing.border};
-`
-
-export const PressableAvatarPane = styled.Pressable<{ $size: number }>`
-  background-color: ${props => props.theme.colors.inputs};
-  border-radius: ${props => props.theme.radii.imageBorder};
-  box-shadow: 0 7px 6px rgba(0,4,4,0.2);
-  width: ${props => props.$size}px;
-  height: ${props => props.$size}px;
-  padding: ${props => props.theme.spacing.border};
-`
-
-export const FullView = styled.View`
-  background-color: ${props => props.theme.colors.background};
-  paddingBottom: ${props => props.theme.spacing.default};
-  flex:1;
-  justify-content: center;
-  align-items: center;
-`
-
-export const FullViewWhite = styled.View`
-  justify-content: center;
-  flex: 1;
-  align-items: center;
-  border-radius: ${props => props.theme.radii.xl};
-  background-color: ${props => props.theme.colors.inputs};
-`
-export const ProfileAvatarPane = styled.View`
-  margin: ${props => props.theme.spacing.default};
-`
-
-export const GreenHeading = styled.Text`
-  padding: ${props => props.theme.spacing.small} ${props => props.theme.spacing.default};
-  background-color: ${props => props.theme.colors.accent};
-  text-align: center;
-  color: ${props => props.theme.colors.lightText};
-  font-weight: 800;
-  border-radius: ${props => props.theme.radii.xl};
-  margin: ${props => props.theme.spacing.default} 0;
-`
-
-export const FormView = styled.View`
-  width: 100%;
-  padding-left: ${props => props.theme.spacing.default};
-  padding-right: ${props => props.theme.spacing.default};
-  display: flex;
-  justify-content: center;
-  margin-top: ${props => props.theme.spacing.default};
-  margin-bottom: ${props => props.theme.spacing.default};
-`
 
 
-export const TwinInputs = styled.View`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-`
+const styles = StyleSheet.create({
+  infoPane: {
+    backgroundColor: theme.colors.inputs,
+    padding: 24,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  avatarPane: {
+    backgroundColor: theme.colors.inputs,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
+    alignSelf: "flex-start",
+    padding: 4,
+  },
+  pressableAvatarPane: {
+    backgroundColor: theme.colors.inputs,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
+    padding: 4,
+  },
+  fullView: {
+    backgroundColor: theme.colors.background,
+    paddingBottom: 24,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    width: '100%',
+    paddingHorizontal: 12,
+  },
+  fullViewWhite: {
+    justifyContent: "center",
+    flex: 1,
+    alignItems: "center",
+    borderRadius: 16,
+    backgroundColor: theme.colors.inputs,
+  },
+  profileAvatarPane: {
+    margin: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  greenHeading: {
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    backgroundColor: theme.colors.accent,
+    textAlign: "center",
+    color: theme.colors.lightText,
+    fontWeight: "800",
+    borderRadius: 12,
+    marginVertical: 24,
+  },
+  formView: {
+    width: "100%",
+    paddingLeft: 24,
+    paddingRight: 24,
+    justifyContent: "center",
+    marginTop: 24,
+    marginBottom: 24,
+  },
+  twinInputs: {
+    width: "100%",
+    flexDirection: "row",
+  },
+  rowText: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
+  },
+  uploadImageFrame: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  pageTitleContainer: {
+    flex: 1,
+    width: "100%",
+    padding: 24,
+  },
+  pageTitleContent: {
+    flex: 1,
+    width: "100%",
+    justifyContent: "center",
+  },
+  scrollablePageTitleContent: {
+    flex: 1,
+    width: "100%",
+  },
+  imageFrame: {
+    flexDirection: "row",
+  },
+  themedScrollableView: {
+    flex: 1,
+    width: "100%",
+    padding: 24,
+    backgroundColor: theme.colors.background,
+  },
+  scrollViewContent: {
+    justifyContent: 'center',
+    flexGrow: 1
+  }
 
-export const RowText = styled.View`
-  flex-direction: row;
-  justify-content: flex-start;
-`
-export const UploadImageFrame = styled.View`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`
+});
 
-const PageTitleContainer = styled.View`
-  flex: 1;
-  width: 100%;
-  padding: ${props => props.theme.spacing.default};
-`
+export const InfoPane = ({ children }: ViewProps) => {
 
-const PageTitleContent = styled.View`
-  flex: 1;
-  width: 100%;
-  justify-content: center;
-`
-const ScrollablePageTitleContent = styled.ScrollView`
-  flex: 1;
-  width: 100%;
-`
+  return (
+    <View style={styles.infoPane}>
+      {children}
+    </View>
+  )
+}
 
-export const ImageFrame = styled.View`
-  display: flex;
-  flex-direction: row;
-`
+export const AvatarPane = ({ children }: ViewProps) => {
 
-export const ThemedScrollableView = styled.ScrollView`
-  flex: 1;
-  width: 100%;
-`
+  return (
+    <View style={styles.avatarPane}>
+      {children}
+    </View>
+  )
+}
+
+export const PressableAvatarPane = ({ children, size, ...rest }: { size: number } & PressableProps) => {
+
+  return (
+    <Pressable style={[
+      styles.avatarPane,
+      { width: size, height: size }
+    ]} {...rest} >
+      {children}
+    </Pressable>
+  )
+}
+
+export const FullView = ({ children }: ViewProps) => {
+
+  return (
+    <View style={styles.fullView}>
+      {children}
+    </View>
+  )
+}
+export const FullViewWhite = ({ children }: ViewProps) => {
+
+  return (
+    <View style={styles.fullViewWhite}>
+      {children}
+    </View>
+  )
+}
+export const ProfileAvatarPane = ({ children }: ViewProps) => {
+
+  return (
+    <View style={styles.profileAvatarPane}>
+      {children}
+    </View>
+  )
+}
+export const GreenHeading = ({ children }: ViewProps) => {
+
+  return (
+    <Text style={styles.greenHeading}>
+      {children}
+    </Text>
+  )
+}
+
+export const FormView = ({ children }: ViewProps) => {
+
+  return (
+    <View style={styles.formView}>
+      {children}
+    </View>
+  )
+}
+
+
+export const TwinInputs = ({ children }: ViewProps) => {
+
+  return (
+    <View style={styles.twinInputs}>
+      {children}
+    </View>
+  )
+}
+
+export const RowText = ({ children }: ViewProps) => {
+
+  return (
+    <View style={styles.rowText}>
+      {children}
+    </View>
+  )
+}
+export const UploadImageFrame = ({ children }: ViewProps) => {
+
+  return (
+    <View style={styles.uploadImageFrame}>
+      {children}
+    </View>
+  )
+}
+
+const PageTitleContainer = ({ children }: ViewProps) => {
+
+  return (
+    <View style={styles.pageTitleContainer}>
+      {children}
+    </View>
+  )
+}
+const PageTitleContent = ({ children }: ViewProps) => {
+
+  return (
+    <View style={styles.pageTitleContent}>
+      {children}
+    </View>
+  )
+}
+const ScrollablePageTitleContent = ({ children }: ViewProps) => {
+
+  return (
+    <ScrollView style={styles.scrollablePageTitleContent}>
+      {children}
+    </ScrollView>
+  )
+}
+
+export const ImageFrame = ({ children }: ViewProps) => {
+
+  return (
+    <View style={styles.imageFrame}>
+      {children}
+    </View>
+  )
+}
+export const ThemedScrollableView = ({ children }: ViewProps) => {
+
+  return (
+    <ScrollView
+      style={styles.themedScrollableView}
+    >
+      {children}
+    </ScrollView >
+  )
+}
 
 export const PageTitleView = ({ title, children, ...rest }: PageTitleViewProps) => {
   return (

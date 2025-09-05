@@ -1,7 +1,7 @@
 import { TitleText } from "@/components/ThemedText"
 // @ts-ignore
 import noStudent from '@/assets/images/personSearch.png'
-import { IconLink } from "@/components/ThemedLink"
+import { IconLink } from "@/components/ThemedButton"
 import { FullView } from "@/components/ThemedView"
 
 export const NoStudent = () => {
@@ -11,7 +11,6 @@ export const NoStudent = () => {
         No Student Found
       </TitleText>
       <IconLink
-        margin={"0"}
         text="Add Student"
         href={'/student/add'} size={"md"}
         imageSource={noStudent}

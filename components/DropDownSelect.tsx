@@ -1,7 +1,7 @@
 import ModalSelector from 'react-native-modal-selector'
 import { LightText } from "./ThemedText";
-import { View } from 'react-native';
-import { styled } from 'styled-components/native';
+import { StyleSheet, TextInput, View } from 'react-native';
+import { theme } from '@/themes/global';
 
 export type DropDownOption = {
   label: string;
@@ -16,24 +16,13 @@ export type DropDownType = {
   onValueChange: (value: string) => void;
 }
 
-const StyledInput = styled.TextInput`
-  background-color: ${props => props.theme.colors.inputs};
-  font-size: ${props => props.theme.sizes.md};
-  padding: ${props => props.theme.spacing.small};
-  border-radius: ${props => props.theme.radii.md};
-  box-shadow: 0 7px 6px rgba(0,0,0,0.03);
-`
-
-const FormLabel = styled(LightText)`
-  margin-bottom: ${props => props.theme.spacing.small}
-`
 
 export const DropDownSelect = ({ items, label, selectedValue, onValueChange, placeholder = "" }: DropDownType) => {
 
   const selectedLabel = items.find((i) => i.key === selectedValue)?.label || "";
   return (
     <View>
-      <FormLabel>{label}</FormLabel>
+      <LightText style={{ marginBottom: 12 }}>{label}</LightText>
       <ModalSelector
         testID="modal-select"
         data={items}
@@ -43,7 +32,8 @@ export const DropDownSelect = ({ items, label, selectedValue, onValueChange, pla
         initValueTextStyle={{ color: "#CCC" }}
         cancelText='취소'
       >
-        <StyledInput
+        <TextInput
+          style={styles.input}
           accessibilityLabel={label}
           editable={false}
           value={selectedLabel}
@@ -53,3 +43,18 @@ export const DropDownSelect = ({ items, label, selectedValue, onValueChange, pla
   )
 
 }
+
+const styles = StyleSheet.create({
+  input: {
+    backgroundColor: theme.colors.inputs,
+    fontSize: 18,
+    padding: 12,
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 7 },
+    elevation: 3,
+  }
+})
+

@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { ActivityIndicator } from "react-native";
-import { styled } from 'styled-components/native';
+import { ReactNode, useState } from "react";
+import { ActivityIndicator, View } from "react-native";
 import { Image } from "expo-image";
 import { API_BASE_URL } from "@/api/api";
+import { theme } from "@/themes/global";
 
 type AvatarProps = {
   url?: string;
@@ -12,18 +12,25 @@ type AvatarProps = {
 }
 
 type AvatarStyleProps = {
-  $width: number;
-  $height: number;
-  $style: "full" | "round";
+  width: number;
+  height: number;
+  style: "full" | "round";
 }
 
-const NoAvatar = styled.View<AvatarStyleProps>`
-  justify-content: center;
-  background-color: ${props => props.theme.colors.light};
-  border-radius: ${props => props.$style === "full" ? props.theme.radii.md : props.theme.radii.full};
-  width: ${props => props.$width}px;
-  height: ${props => props.$height}px;
-`
+
+const NoAvatar = ({ height, width, style, children }: { children?: ReactNode } & AvatarStyleProps) => {
+  return (
+    <View style={{
+      justifyContent: 'center',
+      backgroundColor: theme.colors.light,
+      borderRadius: style === "full" ? 128 : 8,
+      width: width,
+      height: height,
+    }}>
+      {children}
+    </View>
+  )
+}
 
 export const StudentAvatar = ({ url, width, height, style = "full" }: AvatarProps) => {
   const [loaded, setLoaded] = useState(false);
@@ -31,13 +38,13 @@ export const StudentAvatar = ({ url, width, height, style = "full" }: AvatarProp
   const imageurl = `${API_BASE_URL}/uploads/${url}`
 
   if (!url) {
-    return <NoAvatar $width={width} $height={height} $style={style} />;
+    return <NoAvatar width={width} height={height} style={style} />;
   }
 
   return (
     <>
       {!loaded && (
-        <NoAvatar $width={width} $height={height} $style={style}>
+        <NoAvatar width={width} height={height} style={style}>
           <ActivityIndicator />
         </NoAvatar>
       )}

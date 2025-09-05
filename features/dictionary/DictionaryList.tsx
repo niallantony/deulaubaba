@@ -18,7 +18,7 @@ export const DictionaryList = () => {
       <View style={{
         flex: 1,
         width: "100%",
-        padding: 24,
+        padding: 12,
       }}>
         {types && types.map((expression: ExpressionType) => (
           <ExpressionTypeButton expression={expression} key={expression} />

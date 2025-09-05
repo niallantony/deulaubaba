@@ -1,77 +1,120 @@
-import { ActivityIndicator } from "react-native"
+import { ActivityIndicator, Pressable, ScrollView, View, Text, Image, ViewProps, ScrollViewProps, PressableProps, TextProps, ImageProps, StyleSheet } from "react-native"
 import { UserAvatar } from "@/types/user"
-import { styled } from "styled-components/native";
 import { StudentAvatar } from "./StudentAvatar";
 // @ts-ignore
 import addUser from "@/assets/images/addUser.png"
 import { useEffect, useState } from "react";
 import { OverlayDialog } from "./OverlayDialog";
 import { useUserRibbon } from "@/hooks/useUserRibbon";
-import { Student } from "@/types/student";
 import { useStudentStore } from "@/store/currentStudent";
+import { theme } from "@/themes/global";
 
-const RibbonFrame = styled.View`
-  flex-direction: row;
-  align-items: center;
-`
 
-const UserRibbonView = styled.View`
-  background-color: ${props => props.theme.colors.inputs};
-  box-shadow: 0 7px 6px rgba(0,0,0,0.03);
-  border-radius: ${props => props.theme.radii.md};
-  padding: ${props => props.theme.spacing.small};
-  flex: 1;
-  margin-right: ${props => props.theme.spacing.small};
-`
+export const RibbonFrame = ({ children }: ViewProps) => (
+  <View style={styles.ribbonFrame}>{children}</View>
+);
 
-const UserAvatars = styled.ScrollView`
-  overflow: hidden;
-  flex: 1;
-`
+export const UserRibbonView = ({ children }: ViewProps) => (
+  <View style={styles.userRibbonView}>{children}</View>
+);
 
-const UserAvatarView = styled.Pressable`
-  margin-left: ${props => props.theme.spacing.mini};
-  margin-right: ${props => props.theme.spacing.mini};
-  align-items: center;
-  width: 54px;
-`
+export const UserAvatars = ({ children }: ScrollViewProps) => (
+  <ScrollView
+    horizontal
+    showsHorizontalScrollIndicator={false}
+    style={styles.userAvatars}
+  >
+    {children}
+  </ScrollView>
+);
 
-const UserLabel = styled.Text`
-  text-align: center;
-  flex: 1;
-  color: ${props => props.theme.colors.light};
-  margin-top: ${props => props.theme.spacing.mini};
-`
-const UserLableBig = styled.Text`
-  text-align: center;
-  font-size: ${props => props.theme.sizes.md};
-  color: ${props => props.theme.colors.text};
-  margin-top: ${props => props.theme.spacing.small};
+export const UserAvatarView = ({ children, onPress }: PressableProps) => (
+  <Pressable style={styles.userAvatarView} onPress={onPress}>
+    {children}
+  </Pressable>
+);
 
-`
+export const UserLabel = ({ children }: TextProps) => (
+  <Text style={styles.userLabel}>{children}</Text>
+);
 
-const AddUserButton = styled.Pressable`
-  width: 60px;
-  height: 60px;
-  background-color: ${props => props.theme.colors.accent};
-  border-radius: ${props => props.theme.radii.xl};
-  align-items: center;
-  justify-content: center;
-`
+export const UserLabelBig = ({ children }: TextProps) => (
+  <Text style={styles.userLabelBig}>{children}</Text>
+);
 
-const AddUserIcon = styled.Image`
-  width: 32px;
-  height: 32px;
-  border: 2px solid ${props => props.theme.colors.lightText};
-  border-radius: ${props => props.theme.radii.full};
-  padding: ${props => props.theme.spacing.mini};
-  margin: ${props => props.theme.spacing.mini};
-`
+export const AddUserButton = ({ children, onPress }: PressableProps) => (
+  <Pressable style={styles.addUserButton} onPress={onPress}>
+    {children}
+  </Pressable>
+);
 
-const AddUserText = styled.Text`
-  font-size: ${props => props.theme.sizes.xs};
-  color: ${props => props.theme.colors.lightText};
-`
+export const AddUserIcon = ({ source }: ImageProps) => (
+  <Image source={source} style={styles.addUserIcon} />
+);
+
+export const AddUserText = ({ children }: TextProps) => (
+  <Text style={styles.addUserText}>{children}</Text>
+);
+
+const styles = StyleSheet.create({
+  ribbonFrame: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  userRibbonView: {
+    backgroundColor: theme.colors.inputs,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    borderRadius: 8, // md
+    padding: 12, // small
+    flex: 1,
+    marginRight: 12, // small
+  },
+  userAvatars: {
+    flex: 1,
+  },
+  userAvatarView: {
+    marginLeft: 4, // mini
+    marginRight: 4, // mini
+    alignItems: "center",
+    width: 54,
+  },
+  userLabel: {
+    textAlign: "center",
+    flex: 1,
+    color: theme.colors.light,
+    marginTop: 4, // mini
+  },
+  userLabelBig: {
+    textAlign: "center",
+    fontSize: 18, // md
+    color: theme.colors.text,
+    marginTop: 12, // small
+  },
+  addUserButton: {
+    width: 60,
+    height: 60,
+    backgroundColor: theme.colors.accent,
+    borderRadius: 16, // xl
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  addUserIcon: {
+    width: 32,
+    height: 32,
+    borderWidth: 2,
+    borderColor: theme.colors.lightText,
+    borderRadius: 128, // full
+    padding: 4, // mini
+    margin: 4, // mini
+  },
+  addUserText: {
+    fontSize: 10, // xs
+    color: theme.colors.lightText,
+  },
+});
 
 export type UserRibbonProps = {
   handleShowStudentCode: () => void;
@@ -104,7 +147,6 @@ export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
   return (
     <RibbonFrame>
       <UserRibbonView>
-
         <UserAvatars horizontal={true}>
           {loading && <ActivityIndicator />}
           {users && users.map((user) => {
@@ -128,7 +170,7 @@ export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
           width={128}
           height={128}
         />
-        <UserLableBig>{userSelect?.type}</UserLableBig>
+        <UserLabelBig>{userSelect?.type}</UserLabelBig>
       </OverlayDialog>
       <AddUserButton onPress={handleShowStudentCode}>
         <AddUserIcon source={addUser} />

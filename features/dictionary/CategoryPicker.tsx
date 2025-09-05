@@ -1,44 +1,65 @@
+import { theme } from "@/themes/global";
 import { categoryKeys, CommunicationCategory, getCategoryColor, getCategoryTitle } from "@/types/dictionary";
 import { useState } from "react";
-import { View } from "react-native";
-import { styled } from "styled-components/native";
+import { Pressable, PressableProps, TextProps, View, Text, StyleSheet } from "react-native";
 
-const CategoryChip = styled.Pressable`
-  background-color: ${props => props.theme.colors.accent};
-  flex-direction: row;
-  margin: 2px 0;
-  border-radius: ${props => props.theme.radii.md};
-  padding: ${props => props.theme.spacing.small};
-  justify-content: space-between;
-  align-items: center;
-`
+export const CategoryChip = ({ children, onPress }: PressableProps) => (
+  <Pressable style={styles.categoryChip} onPress={onPress}>
+    {children}
+  </Pressable>
+);
 
-const InactiveCategoryChip = styled.Pressable`
-  background-color: ${props => props.theme.colors.inputs};
-  flex-direction: row;
-  margin: 2px 0;
-  padding: ${props => props.theme.spacing.small};
-  justify-content: space-between;
-  align-items: center;
-`
+export const InactiveCategoryChip = ({ children, onPress }: PressableProps) => (
+  <Pressable style={styles.inactiveCategoryChip} onPress={onPress}>
+    {children}
+  </Pressable>
+);
 
-const CategoryColor = styled.View<{ $color: string }>`
-  background-color: ${props => props.$color};
-  height: 16px;
-  width: 16px;
-  border-radius: 16px;
-`
+export const CategoryColor = ({ color }: { color: string }) => (
+  <View style={[styles.categoryColor, { backgroundColor: color }]} />
+);
 
-const CategoryTitle = styled.Text<{ $color: string }>`
-  font-weight: 700;
-  font-size: ${props => props.theme.sizes.md};
-  color: ${props => props.$color}
-`
+export const CategoryTitle = ({ children, color }: { color: string } & TextProps) => (
+  <Text style={[styles.categoryTitle, { color }]}>{children}</Text>
+);
 
-const SmallCategoryTitle = styled.Text<{ $color: string }>`
-  font-size: ${props => props.theme.sizes.sm};
-  color: ${props => props.$color}
-`
+export const SmallCategoryTitle = ({ children, color }: { color: string } & TextProps) => (
+  <Text style={[styles.smallCategoryTitle, { color }]}>{children}</Text>
+);
+
+const styles = StyleSheet.create({
+  categoryChip: {
+    backgroundColor: theme.colors.accent,
+    flexDirection: "row",
+    marginVertical: 2,
+    borderRadius: 8,
+    padding: 12,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  inactiveCategoryChip: {
+    backgroundColor: theme.colors.inputs,
+    flexDirection: "row",
+    marginVertical: 2,
+    padding: 12,
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  categoryColor: {
+    height: 16,
+    width: 16,
+    borderRadius: 16,
+    marginHorizontal: 4,
+  },
+  categoryTitle: {
+    fontWeight: "700",
+    fontSize: 18,
+  },
+  smallCategoryTitle: {
+    fontSize: 12,
+    flexShrink: 1,
+  },
+});
 
 export const CategoryPicker = ({ setCategory, category }: {
   setCategory: (c: CommunicationCategory[]) => void;
@@ -94,13 +115,13 @@ const CategoryButton = ({ category, active, handleAdd, handleRemove }: {
     <>
       {active ?
         (<CategoryChip onPress={handleRemove}>
-          <CategoryTitle $color={"white"}>{title}</CategoryTitle>
-          <CategoryColor $color={color} style={{ marginLeft: 10 }} />
+          <CategoryTitle color={"white"}>{title}</CategoryTitle>
+          <CategoryColor color={color} />
         </CategoryChip>)
         :
         (<InactiveCategoryChip onPress={handleAdd}>
-          <CategoryTitle $color={color}>{title}</CategoryTitle>
-          <CategoryColor $color={color} style={{ marginLeft: 10 }} />
+          <CategoryTitle color={color}>{title}</CategoryTitle>
+          <CategoryColor color={color} />
         </InactiveCategoryChip>)
       }
     </>
@@ -108,19 +129,17 @@ const CategoryButton = ({ category, active, handleAdd, handleRemove }: {
 
 }
 
-const SmallChip = styled.View`
-  flex-direction: row;
-  align-items: center;
-  margin: 0 ${props => props.theme.spacing.mini};
-`
-
 export const CategoryIndicator = ({ category }: { category: CommunicationCategory }) => {
   const color = getCategoryColor(category);
   return (
-    <SmallChip>
-      <CategoryColor $color={color} style={{ marginRight: 6 }} />
-      <SmallCategoryTitle $color={color}>{getCategoryTitle(category)}</SmallCategoryTitle>
-    </SmallChip>
+    <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden', maxWidth: '100%' }}>
+      <CategoryColor color={color} />
+      <SmallCategoryTitle
+        color={color}
+      >
+        {getCategoryTitle(category)}
+      </SmallCategoryTitle>
+    </View>
   )
 
 }

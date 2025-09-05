@@ -1,7 +1,7 @@
 import { ButtonContainer } from "@/components/ButtonContainer"
 import { FullScreenView } from "@/components/FullScreenView"
 import { ThemedButton } from "@/components/ThemedButton"
-import { CenterText, LightTextVariable, LinkText } from "@/components/ThemedText"
+import { CenterText, LightText, LightTextVariable, LinkText } from "@/components/ThemedText"
 import { ThemedTextInput, ThemedTwinInput } from "@/components/ThemedInput"
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView"
 import { useState } from "react"
@@ -83,9 +83,9 @@ export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => 
         <ThemedButton text={"학생 코드 만들기"} type={"green"} onPress={handleSubmit} />
       </ButtonContainer>
       <CenterText style={{ marginTop: 28 }}>
-        <LightTextVariable $size={"md"}>이미 코드가 있나요? </LightTextVariable>
+        <LightText style={{ fontSize: 18 }}>이미 코드가 있나요? </LightText>
         <Pressable onPress={onSelectInput}>
-          <LinkText $size={"md"}> 학생 코드 입력하기</LinkText>
+          <LinkText> 학생 코드 입력하기</LinkText>
         </Pressable>
       </CenterText>
     </FullScreenView>

@@ -1,5 +1,4 @@
 import { Stack } from "expo-router";
-import { ThemeProvider } from "styled-components/native";
 import { theme } from "@/themes/global";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { ActivityIndicator, View } from "react-native";
@@ -15,9 +14,7 @@ export default function RootLayout() {
 
     <Auth0Provider domain={authConfig.domain} clientId={authConfig.clientId}  >
       <QueryClientProvider client={queryClient}>
-        <ThemeProvider theme={theme}>
-          <RootNavigator />
-        </ThemeProvider>
+        <RootNavigator />
       </QueryClientProvider>
     </Auth0Provider>
   );

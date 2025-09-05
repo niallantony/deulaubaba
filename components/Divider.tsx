@@ -1,28 +1,30 @@
-import { styled } from 'styled-components/native';
 import { LightText } from './ThemedText';
-
-const Divider = styled.View`
-width: 80%;
-height: 1px;
-flex: 1;
-background-color: ${props => props.theme.colors.light};
-margin-left: ${props => props.theme.spacing.small};
-`
-
-const DividerView = styled.View`
-  margin-top: ${props => props.theme.spacing.default};
-  flex-direction: row;
-  width: 80%;
-  align-items: center;
-`
+import { StyleSheet, View } from 'react-native';
+import { theme } from '@/themes/global';
 
 export const DividerWithTitle = ({ title }: { title: string }) => {
   return (
-    <DividerView>
+    <View style={styles.view}>
       <LightText>{title}</LightText>
-      <Divider />
-    </DividerView>
+      <View style={styles.divider} />
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  view: {
+    marginTop: 24,
+    flexDirection: 'row',
+    width: '90%',
+    alignItems: 'center',
+  },
+  divider: {
+    width: '90%',
+    height: 1,
+    flex: 1,
+    backgroundColor: theme.colors.light,
+    marginLeft: 12,
+  }
+})
 
 

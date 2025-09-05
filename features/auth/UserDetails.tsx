@@ -73,7 +73,7 @@ export const UserDetails = ({ onSubmit, errors }: UserDetailsProps) => {
           autoComplete={"username"}
         />
         {errors?.username && (<ErrorText>{errors.username}</ErrorText>)}
-        <ButtonContainer>
+        <ButtonContainer width={150}>
           <ThemedButton text={"가입하기"} type={"green"} onPress={handleSubmit} />
         </ButtonContainer>
       </FormView>

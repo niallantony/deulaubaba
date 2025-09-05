@@ -45,7 +45,10 @@ export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListi
                 </ProfileAvatarPane >
                 <View style={{ flex: 1 }}>
                   <InfoLabel>의사소통내용</InfoLabel>
-                  <StyledText>{entry.title}</StyledText>
+                  <InfoPane>
+                    <StyledText>{entry.title}</StyledText>
+                  </InfoPane>
+
                   <InfoLabel>의사소통기능</InfoLabel>
                   <InfoPane>
                     {entry.category.map((category) => {

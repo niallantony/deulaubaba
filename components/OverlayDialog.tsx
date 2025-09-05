@@ -1,53 +1,50 @@
-import { PropsWithChildren} from "react";
-import { Modal, Pressable } from "react-native";
-import { ButtonTextTheme } from "./ThemedText";
-import { styled } from "styled-components/native";
+import { theme } from "@/themes/global";
+import { PropsWithChildren } from "react";
+import { Modal, Pressable, PressableProps, StyleSheet, View, ViewProps } from "react-native";
 
-const CenteredOverlay = styled.Pressable`
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-  background-color: rgba(0,0,0,0.4);
-`;
 
-const DialogBox = styled.View`
-  background-color: ${props => props.theme.colors.inputs};
-  padding: ${props => props.theme.spacing.default};
-  border-radius: ${props => props.theme.radii.xl};
-  width: 80%;
-  align-items: center;
-  shadow-color: #000;
-  shadow-opacity: 0.2;
-  shadow-radius: 8px;
-  elevation: 4;
-`;
+export const CenteredOverlay = ({ children, onPress }: PressableProps) => (
+  <Pressable style={styles.centeredOverlay} onPress={onPress}>
+    {children}
+  </Pressable>
+);
 
-const ButtonContainer = styled.View`
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`
+export const DialogBox = ({ children }: ViewProps) => (
+  <View style={styles.dialogBox}>
+    {children}
+  </View>
+);
 
-const ModalButton = styled.Pressable`
-  margin-top: ${props => props.theme.spacing.default};
-  padding: ${props => props.theme.spacing.small};
-`;
+const styles = StyleSheet.create({
+  centeredOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.4)",
+  },
+  dialogBox: {
+    backgroundColor: theme.colors.inputs,
+    padding: 24,
+    borderRadius: 16,
+    width: "80%",
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 0 },
+    elevation: 4,
+  },
+});
+
 
 type DialogProps = {
   onDismiss: () => void;
-  buttons?: {
-    text: string;
-    onPress: () => void;
-  }[];
   visible: boolean;
 } & PropsWithChildren;
 
 
 
-export const OverlayDialog = ({ children, onDismiss, buttons, visible }: DialogProps) => {
-  const handlePress = (cb: () => void) => {
-    cb()
-  }
+export const OverlayDialog = ({ children, onDismiss, visible }: DialogProps) => {
 
   const handleDismiss = () => {
     onDismiss();
@@ -64,13 +61,6 @@ export const OverlayDialog = ({ children, onDismiss, buttons, visible }: DialogP
         <Pressable onPress={(e) => e.stopPropagation()}>
           <DialogBox>
             {children}
-            <ButtonContainer>
-              {buttons && buttons.map((button) => (
-                <ModalButton key={button.text} onPress={() => handlePress(button.onPress)}>
-                  <ButtonTextTheme>{button.text}</ButtonTextTheme>
-                </ModalButton>)
-              )}
-            </ButtonContainer>
           </DialogBox>
         </Pressable>
       </CenteredOverlay>

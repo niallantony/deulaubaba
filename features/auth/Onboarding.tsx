@@ -7,7 +7,7 @@ export const Onboarding = ({ onPress }: { onPress: () => void }) => {
     <>
       <SemiboldText>처음 오셨군요!</SemiboldText>
       <StyledText>간단한 정보를 입력해 볼까요?</StyledText>
-      <ButtonContainer>
+      <ButtonContainer width={150}>
         <ThemedButton
           text="다음"
           onPress={onPress}

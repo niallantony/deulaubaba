@@ -1,6 +1,6 @@
+import { theme } from "@/themes/global";
 import React, { useRef } from "react";
-import { Pressable, TextInput, TextInputProps } from "react-native";
-import { styled } from "styled-components/native";
+import { Pressable, StyleSheet, TextInput, View, Text } from "react-native";
 
 export type InputCodeProps = {
   code: string;
@@ -8,32 +8,31 @@ export type InputCodeProps = {
   length: number;
 }
 
-const StyledCodeView = styled.View`
-    flex-direction: row;
-    justify-content: space-between;
-`
-
-const CodeBox = styled.View`
-    width: 40px;
-    height: 50px;
-    border-bottom-width: 1px;
-    border-color: ${props => props.theme.colors.accent};
-    align-items: center;
-    justify-content: center;
-    margin: 0 5px;
-`
-
-const CodeChar = styled.Text`
-    font-size: ${props => props.theme.sizes.lg};
-    font-weight: 800;
-`
-
-const InvisibleInput = styled.TextInput.attrs<TextInputProps>({})`
-    position: absolute;
-    opacity: 0;
-    width: 1px;
-    height: 1px;
-`
+const styles = StyleSheet.create({
+  view: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  box: {
+    width: 40,
+    height: 50,
+    borderBottomWidth: 1,
+    borderColor: theme.colors.accent,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginHorizontal: 5
+  },
+  char: {
+    fontSize: 24,
+    fontWeight: 800,
+  },
+  invisible: {
+    position: 'absolute',
+    opacity: 0,
+    width: 1,
+    height: 1,
+  }
+})
 
 export const InputCode = ({ code, setCode, length }: InputCodeProps) => {
   const inputRef = useRef<TextInput>(null);
@@ -50,13 +49,14 @@ export const InputCode = ({ code, setCode, length }: InputCodeProps) => {
 
   return (
     <Pressable onPress={handlePress}>
-      <StyledCodeView>
+      <View style={styles.view}>
         {[...Array(length)].map((_, i) => (
-          <CodeBox key={i}>
-            <CodeChar>{code[i] || ''}</CodeChar>
-          </CodeBox>
+          <View style={styles.box} key={i}>
+            <Text style={styles.char}>{code[i] || ''}</Text>
+          </View>
         ))}
-        <InvisibleInput
+        <TextInput
+          style={styles.invisible}
           ref={inputRef}
           value={code}
           onChangeText={handleChange}
@@ -64,7 +64,7 @@ export const InputCode = ({ code, setCode, length }: InputCodeProps) => {
           autoFocus
           autoCapitalize="none"
         />
-      </StyledCodeView>
+      </View>
     </Pressable>
   )
 

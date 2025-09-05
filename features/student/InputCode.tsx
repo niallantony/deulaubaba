@@ -1,8 +1,6 @@
 import { ButtonContainer } from "@/components/ButtonContainer"
 import { InputCode } from "@/components/CodeInput"
 import { ThemedButton } from "@/components/ThemedButton"
-import { StyledLink } from "@/components/ThemedLink"
-import { LinkText } from "@/components/ThemedText"
 import { PageTitleView } from "@/components/ThemedView"
 import { useState } from "react"
 import { View } from "react-native"

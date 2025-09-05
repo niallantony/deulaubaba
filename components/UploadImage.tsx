@@ -1,21 +1,33 @@
 import { API_BASE_URL } from "@/api/api";
 import { ImageBackground } from "expo-image";
-import { PressableProps, View, Image } from "react-native";
-import { styled } from "styled-components/native";
+import { PressableProps, View, Image, StyleSheet, Pressable } from "react-native";
 import * as ImagePicker from "expo-image-picker"
 // @ts-ignore
 import addPhoto from "@/assets/images/addPhotoDark.png"
+import { theme } from "@/themes/global";
 
-const StyledImageUpload = styled.Pressable`
-  width: 140px;
-  height: 140px;
-  background-color: ${props => props.theme.colors.inputs};
-  border-radius: ${props => props.theme.radii.xl};
-  margin-right: ${props => props.theme.spacing.small};
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-`
+const styles = StyleSheet.create({
+  pressable: {
+    width: 140,
+    backgroundColor: theme.colors.inputs,
+    borderRadius: 16,
+    marginRight: 12,
+    marginTop: 24,
+    marginBottom: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  }
+})
+
+const StyledImageUpload = ({ children, ...rest }: PressableProps) => {
+  return (
+    <Pressable style={styles.pressable} {...rest}>
+      {children}
+    </Pressable>
+  )
+}
+
 
 export const UploadImage = ({ setImage, image, preImage, ...rest }: { setImage: (s: string) => void, preImage?: string, image: string | null } & PressableProps) => {
 
