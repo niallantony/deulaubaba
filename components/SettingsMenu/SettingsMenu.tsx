@@ -74,7 +74,7 @@ export const DropdownMenu = ({
                 styles.menu,
                 {
                   top: position.y,
-                  left: position.x + position.width / 2 - dropdownWidth / 2,
+                  left: position.x + position.width - dropdownWidth,
                   width: dropdownWidth,
                 }
               ]}>

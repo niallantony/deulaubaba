@@ -2,7 +2,6 @@ import { ThemedTextInput } from "@/components/ThemedInput";
 import { ButtonContainer } from "@/components/ButtonContainer";
 import { ThemedButton } from "@/components/ThemedButton";
 import { useState } from "react";
-import { FullScreenView } from "@/components/FullScreenView";
 import { User } from "@/types/user";
 import { FormView } from "@/components/ThemedView";
 import { DropDownSelect } from "@/components/DropDownSelect";
@@ -11,6 +10,7 @@ import { RegistrationErrorType } from "@/types/registrationErrors";
 import { useAuth0 } from "react-native-auth0";
 import { View } from "react-native";
 import { UploadImage } from "@/components/UploadImage";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export type UserDetailsProps = {
   onSubmit: (user: User) => void;
@@ -46,7 +46,7 @@ export const UserDetails = ({ onSubmit, errors }: UserDetailsProps) => {
   }
 
   return (
-    <FullScreenView>
+    <KeyboardAwareScrollView>
       <View style={{ justifyContent: 'center', alignItems: 'center', }}>
         <UploadImage setImage={setImgsrc} image={imagesrc} preImage={user?.picture} />
       </View>
@@ -77,6 +77,6 @@ export const UserDetails = ({ onSubmit, errors }: UserDetailsProps) => {
           <ThemedButton text={"가입하기"} type={"green"} onPress={handleSubmit} />
         </ButtonContainer>
       </FormView>
-    </FullScreenView>
+    </KeyboardAwareScrollView>
   )
 }

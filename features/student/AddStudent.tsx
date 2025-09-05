@@ -1,13 +1,13 @@
 import { ButtonContainer } from "@/components/ButtonContainer"
-import { FullScreenView } from "@/components/FullScreenView"
 import { ThemedButton } from "@/components/ThemedButton"
-import { CenterText, LightText, LightTextVariable, LinkText } from "@/components/ThemedText"
+import { CenterText, LightText, LinkText } from "@/components/ThemedText"
 import { ThemedTextInput, ThemedTwinInput } from "@/components/ThemedInput"
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView"
 import { useState } from "react"
 import { Pressable, View } from "react-native"
 import { Student } from "@/types/student"
 import { UploadImage } from "@/components/UploadImage"
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 
 export type AddStudentProps = {
   onSubmit: (student: Student) => void;
@@ -37,7 +37,10 @@ export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => 
   }
 
   return (
-    <FullScreenView>
+    <KeyboardAwareScrollView
+      extraScrollHeight={80}
+      contentContainerStyle={{ paddingHorizontal: 24 }}
+    >
       <UploadImageFrame>
         <UploadImage setImage={setImgsrc} image={imgsrc} />
         <View style={{ flexGrow: 1, }}>
@@ -88,6 +91,6 @@ export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => 
           <LinkText> 학생 코드 입력하기</LinkText>
         </Pressable>
       </CenterText>
-    </FullScreenView>
+    </KeyboardAwareScrollView>
   )
 }

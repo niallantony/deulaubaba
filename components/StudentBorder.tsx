@@ -48,7 +48,7 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
             handleClose={() => setShowList(false)}
             trigger={
 
-              <PressableAvatarPane $size={imageSize + 8} onPress={toggleList}>
+              <PressableAvatarPane size={imageSize + 8} onPress={toggleList}>
                 <StudentAvatar url={student?.imagesrc} width={imageSize} height={imageSize} style="full" />
               </PressableAvatarPane>
             }

@@ -1,5 +1,4 @@
 import { RowButtonContainer } from "@/components/ButtonContainer";
-import { FullScreenView } from "@/components/FullScreenView";
 import { ThemedButton } from "@/components/ThemedButton";
 import { ThemedTextArea, ThemedTextInput, ThemedTwinInput } from "@/components/ThemedInput";
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView";
@@ -11,6 +10,7 @@ import { View } from "react-native";
 import { useUpdateStudent } from "@/hooks/useUpdateStudent";
 import { useSelectedStudent } from "@/hooks/useSelectedStudent";
 import { UploadImage } from "@/components/UploadImage";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function EditStudent() {
   const { data } = useSelectedStudent();
@@ -55,7 +55,13 @@ export default function EditStudent() {
   }
 
   return (
-    <FullScreenView style={{ backgroundColor: theme.colors.background }}>
+    <KeyboardAwareScrollView
+      style={{ paddingHorizontal: 24, backgroundColor: theme.colors.background }}
+      extraScrollHeight={120}
+      contentContainerStyle={{
+        paddingBottom: 180
+      }}
+    >
       <UploadImageFrame>
         <UploadImage setImage={setImgsrc} preImage={student?.imagesrc} image={imgsrc} />
         <View style={{ flexGrow: 1, }}>
@@ -116,7 +122,7 @@ export default function EditStudent() {
         <ThemedButton text={"취소"} row={true} type={"outline"} onPress={handleCancel} />
       </RowButtonContainer>
 
-    </FullScreenView>
+    </KeyboardAwareScrollView>
   )
 
 

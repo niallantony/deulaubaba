@@ -1,5 +1,4 @@
 import { ButtonContainer } from "@/components/ButtonContainer";
-import { FullScreenView } from "@/components/FullScreenView";
 import { OverlayDialog } from "@/components/OverlayDialog";
 import { InputLikeButton, ThemedButton } from "@/components/ThemedButton";
 import { ThemedTextArea } from "@/components/ThemedInput";
@@ -13,6 +12,7 @@ import down from "@/assets/images/down.png"
 import { CategoryIndicator, CategoryPicker } from "./CategoryPicker";
 import { useStudentStore } from "@/store/currentStudent";
 import { UploadImage } from "@/components/UploadImage";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 type DictionaryErrors = {
   titleError?: string,
@@ -66,7 +66,9 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
   }
 
   return (
-    <FullScreenView>
+    <KeyboardAwareScrollView
+      extraScrollHeight={280}
+    >
       <UploadImageFrame style={{ marginBottom: 12 }}>
         <UploadImage setImage={setImgsrc} image={imgsrc} preImage={entry?.imgsrc} />
         <View style={{ flexGrow: 1 }}>
@@ -110,7 +112,7 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
       <ButtonContainer width={150}>
         <ThemedButton text={"등록하기"} type={"green"} onPress={handleSubmit} />
       </ButtonContainer>
-    </FullScreenView>
+    </KeyboardAwareScrollView>
 
   )
 }

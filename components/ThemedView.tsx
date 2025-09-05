@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   themedScrollableView: {
     flex: 1,
     width: "100%",
-    padding: 24,
+    paddingHorizontal: 24,
     backgroundColor: theme.colors.background,
   },
   scrollViewContent: {

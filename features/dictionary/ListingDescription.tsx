@@ -4,7 +4,7 @@ import { ThemedButton } from "@/components/ThemedButton"
 import { InfoLabel, StyledText } from "@/components/ThemedText"
 import { ImageFrame, InfoPane, ProfileAvatarPane, ThemedScrollableView } from "@/components/ThemedView"
 import { DictionaryListing, DictionaryPosting } from "@/types/dictionary"
-import { View } from "react-native"
+import { ScrollView, View } from "react-native"
 import { CategoryIndicator } from "./CategoryPicker"
 import { useState } from "react"
 import { DictionaryForm } from "./DictionaryForm"
@@ -38,7 +38,7 @@ export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListi
           )
           :
           (
-            <ThemedScrollableView>
+            <ScrollView>
               <ImageFrame>
                 <ProfileAvatarPane>
                   <StudentAvatar style="full" url={entry.imgsrc} width={128} height={182} />
@@ -101,7 +101,7 @@ export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListi
                   />
                 </RowButtonContainer>
               </OverlayDialog>
-            </ThemedScrollableView >
+            </ScrollView >
           )
       }
     </>
