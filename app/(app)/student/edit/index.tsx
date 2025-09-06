@@ -15,15 +15,13 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 export default function EditStudent() {
   const { data } = useSelectedStudent();
   const student = data?.student
-  const { mutate: updateStudent } = useUpdateStudent();
+  const { updateDetails } = useUpdateStudent();
   const [name, setName] = useState(student?.name)
   const [school, setSchool] = useState(student?.school)
   const [age, setAge] = useState(student?.age)
   const [grade, setGrade] = useState(student?.grade)
   const [setting, setSetting] = useState(student?.setting)
   const [disability, setDisability] = useState(student?.disability)
-  const [communicationDetails, setCommunicationDetails] = useState(student?.communicationDetails)
-  const [challengesDetails, setChallengesDetails] = useState(student?.challengesDetails)
   const [imgsrc, setImgsrc] = useState<string | null>(null);
   const router = useRouter()
 
@@ -32,7 +30,7 @@ export default function EditStudent() {
     if (!name || !school || !age || !grade || !setting || !disability) {
       return
     }
-    const editStudent: Student = {
+    const editStudent: Omit<Student, "communicationDetails" | "challengesDetails"> = {
       studentId: student?.studentId,
       name,
       school,
@@ -40,12 +38,10 @@ export default function EditStudent() {
       grade,
       setting,
       disability,
-      communicationDetails,
-      challengesDetails,
       imagesrc: imgsrc ? imgsrc : undefined,
     }
     if (student?.studentId) {
-      updateStudent(editStudent);
+      updateDetails.mutate(editStudent);
       router.dismissAll();
     }
   }
@@ -57,10 +53,7 @@ export default function EditStudent() {
   return (
     <KeyboardAwareScrollView
       style={{ paddingHorizontal: 24, backgroundColor: theme.colors.background }}
-      extraScrollHeight={120}
-      contentContainerStyle={{
-        paddingBottom: 180
-      }}
+      extraScrollHeight={60}
     >
       <UploadImageFrame>
         <UploadImage setImage={setImgsrc} preImage={student?.imagesrc} image={imgsrc} />
@@ -102,20 +95,6 @@ export default function EditStudent() {
         label={"장애유형"}
         value={disability ? disability : ""}
         onChange={setDisability}
-      />
-      <ThemedTextArea
-        label={"주요 의사소통특성"}
-        value={communicationDetails ? communicationDetails : ""}
-        onChange={setCommunicationDetails}
-        height={3}
-        multiline={true}
-      />
-      <ThemedTextArea
-        label={"주요 도전행동 특성"}
-        value={challengesDetails ? challengesDetails : ""}
-        onChange={setChallengesDetails}
-        height={3}
-        multiline={true}
       />
       <RowButtonContainer>
         <ThemedButton text={"저장"} row={true} type={"green"} onPress={handleSubmit} />

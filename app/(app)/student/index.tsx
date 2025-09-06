@@ -3,10 +3,8 @@ import { NoStudent } from "@/features/student/NoStudent";
 import { StudentProfile } from "@/features/student/StudentProfile";
 import { useSelectedStudent } from "@/hooks/useSelectedStudent";
 import { useStudents } from "@/hooks/useStudents";
-import { useRouter } from "expo-router";
 
 export default function Student() {
-  const router = useRouter();
 
   const { data: selected } = useSelectedStudent();
   const { data } = useStudents();
@@ -23,6 +21,6 @@ export default function Student() {
 
 
   return (
-    <StudentProfile requestForm={() => router.push('/(app)/student/edit')} />
+    <StudentProfile />
   )
 }

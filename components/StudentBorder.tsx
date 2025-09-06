@@ -7,6 +7,7 @@ import { useRouter } from "expo-router";
 import { DropdownMenu, DropdownMenuOption } from "./SettingsMenu/SettingsMenu";
 import { StyleSheet, View } from "react-native";
 import { theme } from "@/themes/global";
+import { Divider } from "./Divider";
 
 
 type StudentBorderProps = {
@@ -53,6 +54,13 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
               </PressableAvatarPane>
             }
           >
+            <DropdownMenuOption onSelect={() => {
+              router.push('/student/edit')
+              setShowList(false)
+            }}>
+              <ClickableText>학생 정보 수정</ClickableText>
+            </DropdownMenuOption>
+            <Divider />
             <DropdownMenuOption onSelect={() => {
               router.push('/selectstudent')
               setShowList(false)

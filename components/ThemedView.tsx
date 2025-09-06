@@ -131,6 +131,14 @@ export const InfoPane = ({ children }: ViewProps) => {
     </View>
   )
 }
+export const PressableInfoPane = ({ children, ...rest }: PressableProps) => {
+
+  return (
+    <Pressable {...rest} style={styles.infoPane}>
+      {children}
+    </Pressable>
+  )
+}
 
 export const AvatarPane = ({ children }: ViewProps) => {
 

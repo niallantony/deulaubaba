@@ -9,7 +9,19 @@ export default function Root() {
           name="index"
         />
         <Stack.Screen
-          name="edit"
+          name="edit/index"
+        />
+        <Stack.Screen
+          name="edit/communication"
+          options={{
+            animation: 'slide_from_right'
+          }}
+        />
+        <Stack.Screen
+          name="edit/challenges"
+          options={{
+            animation: 'slide_from_right',
+          }}
         />
       </Stack>
     </StudentBorder>

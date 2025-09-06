@@ -6,9 +6,14 @@ export const DividerWithTitle = ({ title }: { title: string }) => {
   return (
     <View style={styles.view}>
       <LightText>{title}</LightText>
-      <View style={styles.divider} />
+      <View style={[styles.divider, { marginLeft: 12 }]} />
     </View>
   )
+}
+
+export const Divider = () => {
+  return (<View style={[styles.divider, { marginVertical: 12, backgroundColor: theme.colors.subtle }]} />)
+
 }
 
 const styles = StyleSheet.create({
@@ -19,11 +24,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   divider: {
-    width: '90%',
     height: 1,
     flex: 1,
     backgroundColor: theme.colors.light,
-    marginLeft: 12,
   }
 })
 

@@ -1,5 +1,5 @@
 import { ButtonTextTheme, LinkText } from './ThemedText';
-import { Pressable, PressableProps, StyleSheet, Text, Image, ImageSourcePropType, ImageStyle } from 'react-native';
+import { Pressable, PressableProps, StyleSheet, Text, Image, ImageSourcePropType, ImageStyle, View } from 'react-native';
 import { LinkProps, useRouter } from 'expo-router';
 import { theme } from '@/themes/global';
 import { ReactNode } from 'react';
@@ -171,6 +171,18 @@ export const BackButton = () => {
   )
 }
 
+export const BackHeader = () => {
+  return (
+    <View style={{
+      width: '100%',
+      flexDirection: 'row',
+      justifyContent: 'flex-start'
+    }}>
+      <BackButton />
+    </View>
+  )
+}
+
 
 export const AddButton = ({ href }: LinkProps) => {
   const router = useRouter();
@@ -204,7 +216,7 @@ export const IconLink = ({ text, href, size, imageSource, imageOptions }: IconLi
       }}
     >
       <Image source={imageSource} style={imageOptions} />
-      <LinkText $size={size}>{text}</LinkText>
+      <LinkText>{text}</LinkText>
     </Pressable>
   )
 }

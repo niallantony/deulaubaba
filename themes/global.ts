@@ -7,6 +7,7 @@ export const theme = {
     inputs: "#FFFFFF",
     error: "#FF4141",
     background: "#FBFBFB",
+    subtle: "#EAEAEA"
   },
   fontSizes: {
     md: 18,

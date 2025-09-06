@@ -171,7 +171,7 @@ const postStudent = async (student: Student) => {
   }
 }
 
-const putStudent = async (student: Student) => {
+const putStudentInfo = async (student: Omit<Student, "communicationDetails" | "challengesDetails">) => {
   try {
     const accessToken = await getAccessTokenHeader();
     const formData = new FormData()
@@ -184,8 +184,6 @@ const putStudent = async (student: Student) => {
         type: "image/jpeg",
       } as any)
     }
-    console.log(formData)
-    console.log(student)
 
     return await fetch(`${API_BASE_URL}/student/${student.studentId}`, {
       "method": "PUT",
@@ -199,8 +197,50 @@ const putStudent = async (student: Student) => {
     console.error("Thrown: ", err)
     return {
       status: 401,
-      students: null,
+      student: null,
       message: "Post Failed"
+    }
+  }
+}
+
+const putStudentCommunication = async (student: Pick<Student, "communicationDetails" | "studentId">) => {
+  try {
+    const accessToken = await getAccessTokenHeader();
+    return await fetch(`${API_BASE_URL}/student/${student.studentId}/communication`, {
+      "method": "PUT",
+      "headers": {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-type": "application/json"
+      },
+      "body": JSON.stringify({ communicationDetails: student.communicationDetails })
+    })
+  } catch (err) {
+    console.error("Thrown: ", err)
+    return {
+      status: 401,
+      student: null,
+      message: "Put failed"
+    }
+  }
+}
+
+const putStudentChallenge = async (student: Pick<Student, "challengesDetails" | "studentId">) => {
+  try {
+    const accessToken = await getAccessTokenHeader();
+    return await fetch(`${API_BASE_URL}/student/${student.studentId}/challenge`, {
+      "method": "PUT",
+      "headers": {
+        "Authorization": `Bearer ${accessToken}`,
+        "Content-type": "application/json"
+      },
+      "body": JSON.stringify({ communicationDetails: student.challengesDetails })
+    })
+  } catch (err) {
+    console.error("Thrown: ", err)
+    return {
+      status: 401,
+      student: null,
+      message: "Put failed"
     }
   }
 }
@@ -282,5 +322,7 @@ export default {
   getUsersFromStudent,
   getAllStudents,
   postStudent,
-  putStudent
+  putStudentInfo,
+  putStudentCommunication,
+  putStudentChallenge
 }

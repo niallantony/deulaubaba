@@ -50,6 +50,7 @@ export const ThemedTextArea = ({ label, value, onChange, error, height, ...rest 
         accessibilityLabel={label}
         textAlignVertical={"top"}
         value={value}
+        multiline={true}
         onChangeText={onChange}
         style={[
           styles.common,
