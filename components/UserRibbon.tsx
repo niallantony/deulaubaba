@@ -8,6 +8,7 @@ import { OverlayDialog } from "./OverlayDialog";
 import { useUserRibbon } from "@/hooks/useUserRibbon";
 import { useStudentStore } from "@/store/currentStudent";
 import { theme } from "@/themes/global";
+import { useModal } from "@/hooks/useModal";
 
 
 export const RibbonFrame = ({ children }: ViewProps) => (
@@ -121,8 +122,6 @@ export type UserRibbonProps = {
 }
 
 export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
-  const [userSelect, setUserSelect] = useState<UserAvatar | null>(null);
-  const [modalVisible, setModalVisible] = useState(false)
   const student = useStudentStore((s) => s.student);
 
   const { loading, users, fetchUsers } = useUserRibbon();
@@ -130,20 +129,8 @@ export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
     if (student?.studentId) {
       fetchUsers(student.studentId)
     }
-
   }, [student])
 
-  const handleUserClick = (user: UserAvatar) => {
-    setUserSelect(user);
-    setModalVisible(true);
-  }
-
-  const handleDismiss = () => {
-    setModalVisible(false)
-    setTimeout(() => {
-      setUserSelect(null);
-    }, 500);
-  }
   return (
     <RibbonFrame>
       <UserRibbonView>
@@ -154,24 +141,12 @@ export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
               <UserAvatarButton
                 key={user.id}
                 user={user}
-                onPress={() => handleUserClick(user)}
               />
             )
 
           })}
         </UserAvatars>
       </UserRibbonView>
-      <OverlayDialog
-        visible={modalVisible}
-        onDismiss={handleDismiss}
-      >
-        <StudentAvatar
-          url={userSelect?.src}
-          width={128}
-          height={128}
-        />
-        <UserLabelBig>{userSelect?.type}</UserLabelBig>
-      </OverlayDialog>
       <AddUserButton onPress={handleShowStudentCode}>
         <AddUserIcon source={addUser} />
         <AddUserText>초대하기</AddUserText>
@@ -181,9 +156,10 @@ export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
 
 }
 
-const UserAvatarButton = ({ user, onPress }: { user: UserAvatar, onPress: () => void }) => {
+const UserAvatarButton = ({ user }: { user: UserAvatar }) => {
+  const { show } = useModal();
   return (
-    <UserAvatarView onPress={onPress}>
+    <UserAvatarView onPress={() => show("userDialog", { user })}>
       <StudentAvatar
         url={user.src}
         width={32}

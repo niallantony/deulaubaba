@@ -1,3 +1,4 @@
+import { CenteredOverlay } from "@/components/CenteredOverlay";
 import { theme } from "@/themes/global";
 import { categoryKeys, CommunicationCategory, getCategoryColor, getCategoryTitle } from "@/types/dictionary";
 import { useState } from "react";
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
     padding: 12,
     justifyContent: "space-between",
     alignItems: "center",
+    width: '80%'
   },
   inactiveCategoryChip: {
     backgroundColor: theme.colors.inputs,
@@ -44,6 +46,7 @@ const styles = StyleSheet.create({
     padding: 12,
     justifyContent: "space-between",
     alignItems: "center",
+    width: '80%'
   },
   categoryColor: {
     height: 16,
@@ -61,9 +64,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export const CategoryPicker = ({ setCategory, category }: {
+export const CategoryPicker = ({ setCategory, category, onClose }: {
   setCategory: (c: CommunicationCategory[]) => void;
   category: CommunicationCategory[];
+  onClose: () => void;
 }) => {
   const [categories, setCategories] = useState<CommunicationCategory[]>(category);
 
@@ -86,7 +90,7 @@ export const CategoryPicker = ({ setCategory, category }: {
 
 
   return (
-    <View>
+    <CenteredOverlay>
       {categoryKeys && categoryKeys.map((category) => {
         return (
           <CategoryButton
@@ -98,7 +102,7 @@ export const CategoryPicker = ({ setCategory, category }: {
           />
         )
       })}
-    </View>
+    </CenteredOverlay>
   )
 
 }

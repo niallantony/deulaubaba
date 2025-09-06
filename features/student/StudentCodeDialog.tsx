@@ -11,7 +11,7 @@ export const StudentCodeModal = ({ student, onClose }: {
 
 
   return (
-    <CenteredOverlay onDismiss={onClose}>
+    <CenteredOverlay>
       <StudentAvatar
         url={student.imagesrc}
         width={128}
@@ -20,8 +20,8 @@ export const StudentCodeModal = ({ student, onClose }: {
       />
       <Text style={{ marginTop: 12 }}>{student.name}의 학생 코드:</Text>
       <SubtitleText>{student?.studentId}</SubtitleText>
-
     </CenteredOverlay>
+
   );
 };
 

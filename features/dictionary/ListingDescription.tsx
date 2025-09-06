@@ -2,22 +2,23 @@ import { RowButtonContainer } from "@/components/ButtonContainer"
 import { StudentAvatar } from "@/components/StudentAvatar"
 import { ThemedButton } from "@/components/ThemedButton"
 import { InfoLabel, StyledText } from "@/components/ThemedText"
-import { ImageFrame, InfoPane, ProfileAvatarPane, ThemedScrollableView } from "@/components/ThemedView"
+import { ImageFrame, InfoPane, ProfileAvatarPane } from "@/components/ThemedView"
 import { DictionaryListing, DictionaryPosting } from "@/types/dictionary"
 import { ScrollView, View } from "react-native"
 import { CategoryIndicator } from "./CategoryPicker"
 import { useState } from "react"
 import { DictionaryForm } from "./DictionaryForm"
-import { OverlayDialog } from "@/components/OverlayDialog"
 import { useDictionaryMutations } from "@/hooks/useDictionaryMutations"
+import { useModal } from "@/hooks/useModal"
 
 export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListing, onUpdate: () => void }) => {
   const [edit, setEdit] = useState(false);
-  const [overlayVisible, setOverlayVisible] = useState(false)
   const id = entry.id
 
   const { update, remove } = useDictionaryMutations();
 
+
+  const { show } = useModal();
 
   const handleEditSubmit = (dictionary: DictionaryPosting) => {
     update.mutate({ dictionary, id })
@@ -78,29 +79,13 @@ export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListi
                   text="삭체하기"
                   row={true}
                   type="outline"
-                  onPress={() => { setOverlayVisible(true) }}
+                  onPress={() => show("confirm", {
+                    text: "정말 삭제하겠습니까?",
+                    onConfirm: handleDelete,
+                    confirmText: "삭제"
+                  })}
                 />
               </RowButtonContainer>
-              <OverlayDialog
-                visible={overlayVisible}
-                onDismiss={() => setOverlayVisible(false)}
-              >
-                <StyledText>정말로 삭제하겠습니까?</StyledText>
-                <RowButtonContainer>
-                  <ThemedButton
-                    text="삭제"
-                    row={true}
-                    type="green"
-                    onPress={handleDelete}
-                  />
-                  <ThemedButton
-                    text="취소"
-                    row={true}
-                    type="outline"
-                    onPress={() => { setOverlayVisible(false) }}
-                  />
-                </RowButtonContainer>
-              </OverlayDialog>
             </ScrollView >
           )
       }

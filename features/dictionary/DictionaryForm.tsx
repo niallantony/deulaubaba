@@ -1,5 +1,4 @@
 import { ButtonContainer } from "@/components/ButtonContainer";
-import { OverlayDialog } from "@/components/OverlayDialog";
 import { InputLikeButton, ThemedButton } from "@/components/ThemedButton";
 import { ThemedTextArea } from "@/components/ThemedInput";
 import { ErrorText, LightText } from "@/components/ThemedText";
@@ -9,10 +8,11 @@ import { useState } from "react"
 import { Image, ScrollView, View } from "react-native";
 // @ts-ignore
 import down from "@/assets/images/down.png"
-import { CategoryIndicator, CategoryPicker } from "./CategoryPicker";
+import { CategoryIndicator } from "./CategoryPicker";
 import { useStudentStore } from "@/store/currentStudent";
 import { UploadImage } from "@/components/UploadImage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import { useModal } from "@/hooks/useModal";
 
 type DictionaryErrors = {
   titleError?: string,
@@ -28,9 +28,10 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
   const [category, setCategory] = useState<CommunicationCategory[]>(entry ? entry.category : [])
   const [imgsrc, setImgsrc] = useState<string | null>(null)
   const [description, setDescription] = useState<string | undefined>(entry?.description)
-  const [overlayVisible, setOverlayVisible] = useState(false)
   const [errors, setErrors] = useState<DictionaryErrors>({})
   const student = useStudentStore((s) => s.student)
+
+  const { show } = useModal();
 
   const validate = () => {
     const newErrors: DictionaryErrors = {}
@@ -85,7 +86,12 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
         </View>
       </UploadImageFrame>
       <LightText >의사소통 기능</LightText>
-      <InputLikeButton error={!!errors.categoryError} onPress={() => { setOverlayVisible(true) }}>
+      <InputLikeButton error={!!errors.categoryError} onPress={() => {
+        show("category", {
+          category,
+          setCategory
+        })
+      }}>
         <ScrollView contentContainerStyle={{ flexDirection: "row", alignItems: 'center', }} horizontal={true}>
           {category && category.map((category) => {
             return (<CategoryIndicator category={category} key={category} />)
@@ -95,12 +101,6 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
         <Image source={down} style={{ width: 24, height: 24 }} />
       </InputLikeButton>
       {errors.categoryError && <ErrorText>{errors.categoryError}</ErrorText>}
-      <OverlayDialog
-        visible={overlayVisible}
-        onDismiss={() => setOverlayVisible(false)}
-      >
-        <CategoryPicker setCategory={setCategory} category={category} />
-      </OverlayDialog>
       <ThemedTextArea
         label={"추가설명(선택)"}
         value={description ?? ""}
