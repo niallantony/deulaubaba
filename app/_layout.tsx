@@ -6,6 +6,7 @@ import { authConfig } from "@/config/authConfig";
 import { Auth0Provider, useAuth0 } from "react-native-auth0";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { ModalProvider } from "@/hooks/useModal";
 
 const queryClient = new QueryClient();
 
@@ -13,9 +14,11 @@ export default function RootLayout() {
   return (
 
     <Auth0Provider domain={authConfig.domain} clientId={authConfig.clientId}  >
-      <QueryClientProvider client={queryClient}>
-        <RootNavigator />
-      </QueryClientProvider>
+      <ModalProvider>
+        <QueryClientProvider client={queryClient}>
+          <RootNavigator />
+        </QueryClientProvider>
+      </ModalProvider>
     </Auth0Provider>
   );
 }

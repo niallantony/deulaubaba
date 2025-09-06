@@ -1,25 +1,19 @@
-import { OverlayDialog } from "@/components/OverlayDialog"
 import { StudentAvatar } from "@/components/StudentAvatar"
-import { InfoLabel, SemiboldText, StyledText, SubtitleText, TitleText } from "@/components/ThemedText"
+import { InfoLabel, SemiboldText, StyledText, TitleText } from "@/components/ThemedText"
 import { ImageFrame, PressableInfoPane, ProfileAvatarPane, RowText, ThemedScrollableView } from "@/components/ThemedView"
 import { UserRibbon } from "@/components/UserRibbon"
+import { useModal } from "@/hooks/useModal"
 import { useSelectedStudent } from "@/hooks/useSelectedStudent"
 import { useRouter } from "expo-router"
-import { useState } from "react"
-import { View, Text } from "react-native"
+import { View } from "react-native"
 
 export const StudentProfile = () => {
-  const [studentCodeVisible, setStudentCodeVisible] = useState(false)
 
   const { data } = useSelectedStudent()
 
   const router = useRouter();
 
-
-  const handleShowStudentCode = () => {
-    setStudentCodeVisible(true)
-  }
-
+  const { show } = useModal();
 
   return (
     <ThemedScrollableView>
@@ -41,7 +35,7 @@ export const StudentProfile = () => {
         </View>
       </ImageFrame>
       <InfoLabel>의사소통 팀 구성원</InfoLabel>
-      <UserRibbon handleShowStudentCode={handleShowStudentCode} />
+      <UserRibbon handleShowStudentCode={() => show("studentCode", { student: data?.student })} />
       <InfoLabel>주요 의사소통특성</InfoLabel>
       <PressableInfoPane onPress={() => router.push('/student/edit/communication')}>
         <StyledText>{data?.student?.communicationDetails}</StyledText>
@@ -50,20 +44,6 @@ export const StudentProfile = () => {
       <PressableInfoPane onPress={() => router.push('/student/edit/challenges')}>
         <StyledText>{data?.student?.challengesDetails}</StyledText>
       </PressableInfoPane>
-      <OverlayDialog
-        key="studentCodeDialog"
-        visible={studentCodeVisible}
-        onDismiss={() => setStudentCodeVisible(false)}
-      >
-        <StudentAvatar
-          url={data?.student?.imagesrc}
-          width={128}
-          height={128}
-          style="round"
-        />
-        <Text style={{ marginTop: 12 }}>{data?.student?.name}의 학생 코드:</Text>
-        <SubtitleText>{data?.student?.studentId}</SubtitleText>
-      </OverlayDialog>
     </ThemedScrollableView>
   )
 }

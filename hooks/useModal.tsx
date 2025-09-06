@@ -1,23 +1,34 @@
-import { createContext, PropsWithChildren, ReactNode, use, useState } from "react";
+import { StudentCodeModal } from "@/features/student/StudentCodeDialog";
+import { StudentIdAvatar } from "@/types/student";
+import { createContext, PropsWithChildren, use, useState } from "react";
 import { Modal, StyleSheet, View } from "react-native";
 
 type ModalProps = {
-  studentCode: { studentId: string }
+  studentCode: { student: StudentIdAvatar }
 }
 
 type ModalNames = keyof ModalProps
 
 type ModalState = { name: ModalNames, props: ModalProps[ModalNames] } | null
 
+const modalComponents: {
+  [K in ModalNames]: React.ComponentType<
+    ModalProps[K] & {
+      onClose: () => void
+    }>
+} = {
+  studentCode: StudentCodeModal,
+}
+
 export const ModalContext = createContext<{
-  show: (n: string, p: any) => void,
+  show: <K extends ModalNames>(name: K, props: ModalProps[K]) => void,
   hide: () => void
 }>({
   show: () => { },
   hide: () => { }
 })
 
-const useModal = () => {
+export const useModal = () => {
   const value = use(ModalContext);
   if (!value) {
     throw new Error("Must be wrapped with ModalProvider")
@@ -26,11 +37,11 @@ const useModal = () => {
   return value;
 }
 
-const ModalProvider = ({ children }: PropsWithChildren) => {
+export const ModalProvider = ({ children }: PropsWithChildren) => {
   const [modal, setModal] = useState<ModalState>(null)
 
-  const show = (name, props) => setModal({ name, props })
-  const hide = () => { }
+  const show = <K extends ModalNames>(name: K, props: ModalProps[K]) => setModal({ name, props })
+  const hide = () => setModal(null)
 
   return (
     <ModalContext value={{ show, hide }}>
@@ -42,7 +53,11 @@ const ModalProvider = ({ children }: PropsWithChildren) => {
           onRequestClose={hide}
         >
           <View style={styles.modalOverlay}>
-
+            {(() => {
+              console.log(modal)
+              const Component = modalComponents[modal.name]
+              return (<Component onClose={hide} {...modal.props} />)
+            })()}
           </View>
         </Modal>
       }
