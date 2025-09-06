@@ -1,16 +1,19 @@
 import { useCurrentUser } from "@/hooks/useCurrentUser"
-import { View, Image, Pressable } from "react-native"
+import { View, Image, TouchableWithoutFeedback } from "react-native"
 import { SemiboldText } from "./ThemedText"
 import { StudentAvatar } from "./StudentAvatar"
+// @ts-ignore
 import settings from '@/assets/images/settings.png'
 import { useAuth0 } from "react-native-auth0"
 import { useModal } from "@/hooks/useModal"
+import { useEffect, useRef, useState } from "react"
 
 
 export const UserToolbar = () => {
   const { data } = useCurrentUser()
   const { show } = useModal();
   const { clearSession } = useAuth0();
+  const [position, setPosition] = useState<{ x: number, y: number, width: number }>()
 
   const handleLogout = async () => {
     try {
@@ -20,11 +23,27 @@ export const UserToolbar = () => {
     }
   }
 
+  const settingsRef = useRef<View>(null)
+
+  useEffect(() => {
+    if (settingsRef.current) {
+      settingsRef.current.measure((fx, fy, width, height, px, py) => {
+        setPosition({
+          x: px,
+          y: py + 30,
+          width
+        })
+
+      })
+    }
+
+  }, [settingsRef])
+
 
   const handleSettings = () => {
     show("settings", {
       onLogout: handleLogout,
-
+      position: position,
     })
   }
   return (
@@ -43,9 +62,11 @@ export const UserToolbar = () => {
         {data?.user && (<SemiboldText>{data?.user.name}</SemiboldText>)}
 
       </View>
-      <Pressable onPress={handleSettings} style={{ alignItems: 'center', justifyContent: 'center', }}>
-        <Image source={settings} style={{ width: 32, height: 32 }} />
-      </Pressable>
+      <TouchableWithoutFeedback onPress={handleSettings}>
+        <View ref={settingsRef} style={{ alignItems: 'center', justifyContent: 'center', }}>
+          <Image source={settings} style={{ width: 32, height: 32 }} />
+        </View>
+      </TouchableWithoutFeedback>
     </View>
   )
 

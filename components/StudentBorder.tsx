@@ -1,12 +1,12 @@
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { StudentAvatar } from "./StudentAvatar";
 import { PressableAvatarPane, } from "./ThemedView";
-import { ClickableText, SemiboldLightText, TitleText } from "./ThemedText";
+import { SemiboldLightText, TitleText } from "./ThemedText";
 import { useStudentStore } from "@/store/currentStudent";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { theme } from "@/themes/global";
-import { Divider } from "./Divider";
+import { useModal } from "@/hooks/useModal";
 
 
 type StudentBorderProps = {
@@ -19,17 +19,34 @@ type StudentBorderProps = {
 
 export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps) => {
   const student = useStudentStore((s) => s.student)
-  const [showList, setShowList] = useState(false);
+  const [position, setPosition] = useState<{ x: number, y: number, width: number }>()
   const imageSize = 48
   const router = useRouter()
 
+  const { show } = useModal();
+  const buttonRef = useRef<View>(null)
+
+  useEffect(() => {
+    if (buttonRef.current) {
+      buttonRef.current.measure((fx, fy, width, height, px, py) => {
+        setPosition({
+          x: px,
+          y: py + 30,
+          width
+        })
+
+      })
+    }
+
+  }, [buttonRef])
 
   const toggleList = () => {
-    if (showList) {
-      setShowList(false);
-    } else {
-      setShowList(true);
-    }
+    show("studentAvatar", {
+      onRequestSelect: () => router.push('/selectstudent'),
+      onRequestEdit: () => router.push('/student/edit'),
+      position
+    })
+
   }
 
 
@@ -42,7 +59,10 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
             <SemiboldLightText>{subtitle}</SemiboldLightText>
           </View>
           <PressableAvatarPane size={imageSize + 8} onPress={toggleList}>
-            <StudentAvatar url={student?.imagesrc} width={imageSize} height={imageSize} style="full" />
+            <View ref={buttonRef}>
+
+              <StudentAvatar url={student?.imagesrc} width={imageSize} height={imageSize} style="full" />
+            </View>
           </PressableAvatarPane>
         </View>
       }

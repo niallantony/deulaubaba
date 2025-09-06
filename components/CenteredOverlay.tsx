@@ -1,30 +1,16 @@
 import { theme } from "@/themes/global";
-import { PropsWithChildren } from "react";
 import { Pressable, PressableProps, StyleSheet } from "react-native";
 
-const DialogBox = ({ children }: PressableProps) => (
-  <Pressable onPress={(e) => e.stopPropagation()} accessibilityViewIsModal style={styles.dialogBox}>
-    {children}
-  </Pressable>
-);
-
-export const CenteredOverlay = ({ children }: PropsWithChildren) => {
+export const CenteredOverlay = ({ children }: PressableProps) => {
   return (
-    <DialogBox>
+    <Pressable onPress={(e) => e.stopPropagation()} accessibilityViewIsModal style={styles.dialogBox}>
       {children}
-    </DialogBox>
+    </Pressable>
   )
 
 }
 
 const styles = StyleSheet.create({
-  centeredOverlay: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.4)",
-    width: '100%',
-  },
   dialogBox: {
     backgroundColor: theme.colors.inputs,
     padding: 24,

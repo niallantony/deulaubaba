@@ -2,6 +2,7 @@ import { ConfirmDialog } from "@/components/ConfirmDialog";
 import { SettingsMenu } from "@/components/SettingsMenu/SettingsMenu";
 import { CategoryPicker } from "@/features/dictionary/CategoryPicker";
 import { StudentCodeModal } from "@/features/student/StudentCodeDialog";
+import { StudentMenu } from "@/features/student/StudentMenu";
 import { UserDialog } from "@/features/student/UserDialog";
 import { CommunicationCategory } from "@/types/dictionary";
 import { StudentIdAvatar } from "@/types/student";
@@ -23,7 +24,13 @@ type ModalProps = {
   },
   settings: {
     onLogout: () => void,
+    position: { x: number, y: number, width: number },
   },
+  studentAvatar: {
+    onRequestSelect: () => void,
+    onRequestEdit: () => void,
+    position: { x: number, y: number, width: number },
+  }
 }
 
 type ModalNames = keyof ModalProps
@@ -38,7 +45,14 @@ type ModalState =
       category: CommunicationCategory[]
     }
   }
-  | { name: "settings", props: { onLogout: () => void } }
+  | { name: "settings", props: { onLogout: () => void, position: { x: number, y: number, width: number } } }
+  | {
+    name: "studentAvatar", props: {
+      onRequestSelect: () => void,
+      onRequestEdit: () => void,
+      position: { x: number, y: number, width: number },
+    }
+  }
   | null
 
 export const ModalContext = createContext<{
@@ -76,6 +90,7 @@ export const ModalProvider = ({ children }: PropsWithChildren) => {
             {modal.name === "confirm" && (<ConfirmDialog {...modal.props} onClose={hide} />)}
             {modal.name === "category" && (<CategoryPicker {...modal.props} onClose={hide} />)}
             {modal.name === "settings" && (<SettingsMenu {...modal.props} onClose={hide} />)}
+            {modal.name === "studentAvatar" && (<StudentMenu {...modal.props} onClose={hide} />)}
           </View>
         </TouchableWithoutFeedback>
       }

@@ -1,8 +1,7 @@
 import { ReactNode } from "react"
 import { Pressable, StyleSheet, View } from "react-native"
-import { SlideIn } from "../SlideIn"
-import { ClickableText, LinkText } from "../ThemedText"
-import { SafeAreaView } from "react-native-safe-area-context"
+import { ClickableText } from "../ThemedText"
+import { PositionedDialog } from "../PositionedDialog"
 
 export const DropdownMenuOption = ({
   onSelect,
@@ -22,26 +21,24 @@ export const DropdownMenuOption = ({
 
 export const SettingsMenu = ({
   onLogout,
-  onClose
+  position,
+  onClose,
 }: {
   onLogout: () => void,
+  position: { x: number, y: number, width: number },
   onClose: () => void,
 }) => {
 
   return (
-    <SlideIn side={"right"} amount={0.5}>
-      <SafeAreaView style={[
+    <PositionedDialog position={position} width={150} onClose={onClose}>
+      <View style={[
         styles.menu,
       ]}>
-        <View style={styles.top}>
-        </View>
-        <View style={styles.bottom}>
-          <DropdownMenuOption onSelect={onLogout}>
-            <ClickableText>로그아웃</ClickableText>
-          </DropdownMenuOption>
-        </View>
-      </SafeAreaView>
-    </SlideIn>
+        <DropdownMenuOption onSelect={onLogout}>
+          <ClickableText>로그아웃</ClickableText>
+        </DropdownMenuOption>
+      </View>
+    </PositionedDialog>
 
   )
 }
