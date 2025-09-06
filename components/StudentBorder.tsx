@@ -4,7 +4,6 @@ import { PressableAvatarPane, } from "./ThemedView";
 import { ClickableText, SemiboldLightText, TitleText } from "./ThemedText";
 import { useStudentStore } from "@/store/currentStudent";
 import { useRouter } from "expo-router";
-import { DropdownMenu, DropdownMenuOption } from "./SettingsMenu/SettingsMenu";
 import { StyleSheet, View } from "react-native";
 import { theme } from "@/themes/global";
 import { Divider } from "./Divider";
@@ -42,33 +41,9 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
             <TitleText>{title}</TitleText>
             <SemiboldLightText>{subtitle}</SemiboldLightText>
           </View>
-          <DropdownMenu
-            key={"changestudent"}
-            visible={showList}
-            handleOpen={() => setShowList(true)}
-            handleClose={() => setShowList(false)}
-            trigger={
-
-              <PressableAvatarPane size={imageSize + 8} onPress={toggleList}>
-                <StudentAvatar url={student?.imagesrc} width={imageSize} height={imageSize} style="full" />
-              </PressableAvatarPane>
-            }
-          >
-            <DropdownMenuOption onSelect={() => {
-              router.push('/student/edit')
-              setShowList(false)
-            }}>
-              <ClickableText>학생 정보 수정</ClickableText>
-            </DropdownMenuOption>
-            <Divider />
-            <DropdownMenuOption onSelect={() => {
-              router.push('/selectstudent')
-              setShowList(false)
-            }}>
-              <ClickableText>학생 변경</ClickableText>
-            </DropdownMenuOption>
-
-          </DropdownMenu>
+          <PressableAvatarPane size={imageSize + 8} onPress={toggleList}>
+            <StudentAvatar url={student?.imagesrc} width={imageSize} height={imageSize} style="full" />
+          </PressableAvatarPane>
         </View>
       }
       <View style={styles.content}>

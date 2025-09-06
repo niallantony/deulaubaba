@@ -1,4 +1,5 @@
 import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { SettingsMenu } from "@/components/SettingsMenu/SettingsMenu";
 import { CategoryPicker } from "@/features/dictionary/CategoryPicker";
 import { StudentCodeModal } from "@/features/student/StudentCodeDialog";
 import { UserDialog } from "@/features/student/UserDialog";
@@ -19,8 +20,10 @@ type ModalProps = {
   category: {
     setCategory: (c: CommunicationCategory[]) => void,
     category: CommunicationCategory[]
-  }
-
+  },
+  settings: {
+    onLogout: () => void,
+  },
 }
 
 type ModalNames = keyof ModalProps
@@ -35,6 +38,7 @@ type ModalState =
       category: CommunicationCategory[]
     }
   }
+  | { name: "settings", props: { onLogout: () => void } }
   | null
 
 export const ModalContext = createContext<{
@@ -71,6 +75,7 @@ export const ModalProvider = ({ children }: PropsWithChildren) => {
             {modal.name === "userDialog" && (<UserDialog {...modal.props} onClose={hide} />)}
             {modal.name === "confirm" && (<ConfirmDialog {...modal.props} onClose={hide} />)}
             {modal.name === "category" && (<CategoryPicker {...modal.props} onClose={hide} />)}
+            {modal.name === "settings" && (<SettingsMenu {...modal.props} onClose={hide} />)}
           </View>
         </TouchableWithoutFeedback>
       }
