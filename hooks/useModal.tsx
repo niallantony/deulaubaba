@@ -80,7 +80,7 @@ export const ModalProvider = ({ children }: PropsWithChildren) => {
   const hide = () => setModal(null)
 
   return (
-    <ModalContext value={{ show, hide }}>
+    <ModalContext.Provider value={{ show, hide }}>
       {children}
       {modal &&
         <TouchableWithoutFeedback onPress={hide}>
@@ -94,7 +94,7 @@ export const ModalProvider = ({ children }: PropsWithChildren) => {
           </View>
         </TouchableWithoutFeedback>
       }
-    </ModalContext>
+    </ModalContext.Provider>
   )
 }
 

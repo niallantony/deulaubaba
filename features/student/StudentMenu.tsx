@@ -23,11 +23,18 @@ export const StudentMenu = ({
       <View style={[
         styles.menu,
       ]}>
-        <DropdownMenuOption onSelect={onRequestEdit}>
+        <DropdownMenuOption onSelect={() => {
+          onRequestEdit()
+          onClose();
+        }}>
+
           <ClickableText>학생 정보 수정</ClickableText>
         </DropdownMenuOption>
         <Divider />
-        <DropdownMenuOption onSelect={onRequestSelect}>
+        <DropdownMenuOption onSelect={() => {
+          onRequestSelect()
+          onClose();
+        }}>
           <ClickableText>학생 변경</ClickableText>
         </DropdownMenuOption>
       </View>

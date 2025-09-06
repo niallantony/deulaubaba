@@ -233,7 +233,7 @@ const putStudentChallenge = async (student: Pick<Student, "challengesDetails" | 
         "Authorization": `Bearer ${accessToken}`,
         "Content-type": "application/json"
       },
-      "body": JSON.stringify({ communicationDetails: student.challengesDetails })
+      "body": JSON.stringify({ challengesDetails: student.challengesDetails })
     })
   } catch (err) {
     console.error("Thrown: ", err)
