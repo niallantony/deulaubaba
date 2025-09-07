@@ -12,7 +12,7 @@ export type DropDownType = {
   items: DropDownOption[];
   label: string;
   selectedValue: string;
-  placeholder: string;
+  placeholder?: string;
   onValueChange: (value: string) => void;
 }
 
