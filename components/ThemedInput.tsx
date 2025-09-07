@@ -1,16 +1,16 @@
 import { StyleSheet, TextInput, View, type TextInputProps } from "react-native";
-import { InfoLabel, LightText } from "./ThemedText";
+import { InfoLabel } from "./ThemedText";
 import { theme } from "@/themes/global";
 
 export type ThemedTextInputProps = {
   label: string;
-  value: string;
+  value?: string;
   onChange: (text: string) => void;
 } & Omit<TextInputProps, 'onChange' | 'value'>;
 
 export type ThemedTextAreaProps = {
   label: string;
-  value: string;
+  value?: string;
   onChange: (text: string) => void;
   error?: boolean;
   height: number;
