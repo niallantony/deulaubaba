@@ -8,7 +8,7 @@ export const ConfirmDialog = ({ onConfirm, text, onClose, confirmText = "확인"
   onConfirm: () => void,
   text: string,
   onClose: () => void,
-  confirmText: string,
+  confirmText?: string,
 }) => {
 
   return (
