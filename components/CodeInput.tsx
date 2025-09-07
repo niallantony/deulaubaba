@@ -42,17 +42,15 @@ export const InputCode = ({ code, setCode, length }: InputCodeProps) => {
   }
 
   const handleChange = (text: string) => {
-    if (text.length <= length) {
-      setCode(text);
-    }
+    setCode(text.slice(0, length));
   }
 
   return (
-    <Pressable onPress={handlePress}>
+    <Pressable onPress={handlePress} testID="overlay-pressable">
       <View style={styles.view}>
         {[...Array(length)].map((_, i) => (
-          <View style={styles.box} key={i}>
-            <Text style={styles.char}>{code[i] || ''}</Text>
+          <View style={styles.box} key={i} testID="code-box">
+            <Text style={styles.char} testID={`code-box-${i}`}>{code[i] || ''}</Text>
           </View>
         ))}
         <TextInput
@@ -63,6 +61,7 @@ export const InputCode = ({ code, setCode, length }: InputCodeProps) => {
           maxLength={length}
           autoFocus
           autoCapitalize="none"
+          testID="hidden-input"
         />
       </View>
     </Pressable>
