@@ -1,6 +1,6 @@
 import { ButtonContainer } from "@/components/ButtonContainer"
 import { ThemedButton } from "@/components/ThemedButton"
-import { CenterText, LightText, LinkText } from "@/components/ThemedText"
+import { CenterText, ErrorText, LightText, LinkText } from "@/components/ThemedText"
 import { ThemedTextInput, ThemedTwinInput } from "@/components/ThemedInput"
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView"
 import { useState } from "react"
@@ -57,7 +57,7 @@ export const StudentForm = ({ onSubmit, onSelectInput, student }: StudentFormPro
       newErrors.settingError = "배치유형 입력해주세요"
     }
     if (!disability?.trim()) {
-      newErrors.nameError = "장애유형 학교명 입력해주세요"
+      newErrors.disabilityError = "장애유형 학교명 입력해주세요"
     }
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -91,11 +91,13 @@ export const StudentForm = ({ onSubmit, onSelectInput, student }: StudentFormPro
             label={"학생 이름"}
             value={name}
             onChange={setName}
+            error={errors.nameError}
           />
           <ThemedTextInput
             label={"소속 학교명"}
             value={school}
             onChange={setSchool}
+            error={errors.schoolError}
           />
         </View>
       </UploadImageFrame>
@@ -106,6 +108,7 @@ export const StudentForm = ({ onSubmit, onSelectInput, student }: StudentFormPro
           label={"나이"}
           value={age}
           onChange={setAge}
+          error={errors.ageError}
         />
         <ThemedTwinInput
           inputMode="numeric"
@@ -113,17 +116,20 @@ export const StudentForm = ({ onSubmit, onSelectInput, student }: StudentFormPro
           label={"학년"}
           value={grade}
           onChange={setGrade}
+          error={errors.gradeError}
         />
       </TwinInputs>
       <ThemedTextInput
         label={"배치유형"}
         value={setting}
         onChange={setSetting}
+        error={errors.settingError}
       />
       <ThemedTextInput
         label={"장애유형"}
         value={disability}
         onChange={setDisability}
+        error={errors.disabilityError}
       />
       <ButtonContainer width={150}>
         <ThemedButton text={"학생 코드 만들기"} type={"green"} onPress={handleSubmit} />

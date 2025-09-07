@@ -1,18 +1,19 @@
 import { StyleSheet, TextInput, View, type TextInputProps } from "react-native";
-import { InfoLabel } from "./ThemedText";
+import { ErrorText, InfoLabel } from "./ThemedText";
 import { theme } from "@/themes/global";
 
 export type ThemedTextInputProps = {
   label: string;
   value?: string;
   onChange: (text: string) => void;
+  error?: string;
 } & Omit<TextInputProps, 'onChange' | 'value'>;
 
 export type ThemedTextAreaProps = {
   label: string;
   value?: string;
   onChange: (text: string) => void;
-  error?: boolean;
+  error?: string;
   height: number;
 } & Omit<TextInputProps, 'onChange' | 'value'>;
 
@@ -23,13 +24,14 @@ export type ThemedTwinInputProps = {
 
 
 
-export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextInputProps) => {
+export const ThemedTextInput = ({ label, error, value, onChange, ...rest }: ThemedTextInputProps) => {
   return (
     <View style={styles.container}>
       <InfoLabel>{label}</InfoLabel>
       <TextInput style={[
         styles.common,
         styles.text,
+        error ? styles.error : null,
       ]}
         accessibilityLabel={label}
         textAlignVertical={"center"}
@@ -37,6 +39,7 @@ export const ThemedTextInput = ({ label, value, onChange, ...rest }: ThemedTextI
         onChangeText={onChange}
         {...rest}
       />
+      {error && <ErrorText>{error}</ErrorText>}
     </View>
   )
 
@@ -60,12 +63,13 @@ export const ThemedTextArea = ({ label, value, onChange, error, height, ...rest 
         ]}
         {...rest}
       />
+      {error && <ErrorText>{error}</ErrorText>}
     </View>
   )
 
 }
 
-export const ThemedTwinInput = ({ position, label, value, onChange, ...rest }: ThemedTwinInputProps) => {
+export const ThemedTwinInput = ({ position, error, label, value, onChange, ...rest }: ThemedTwinInputProps) => {
   return (
     <View style={[
       styles.container,
@@ -76,6 +80,7 @@ export const ThemedTwinInput = ({ position, label, value, onChange, ...rest }: T
       <TextInput style={[
         styles.common,
         styles.text,
+        error ? styles.error : null,
       ]}
         accessibilityLabel={label}
         textAlignVertical={"center"}
@@ -83,6 +88,7 @@ export const ThemedTwinInput = ({ position, label, value, onChange, ...rest }: T
         onChangeText={onChange}
         {...rest}
       />
+      {error && <ErrorText>{error}</ErrorText>}
     </View>
   )
 

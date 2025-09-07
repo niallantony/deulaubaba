@@ -1,4 +1,4 @@
-import { ButtonTextTheme, LinkText } from './ThemedText';
+import { ButtonTextTheme, ErrorText, LinkText } from './ThemedText';
 import { Pressable, PressableProps, StyleSheet, Text, Image, ImageSourcePropType, ImageStyle, View } from 'react-native';
 import { LinkProps, useRouter } from 'expo-router';
 import { theme } from '@/themes/global';
@@ -12,16 +12,21 @@ export type ThemedButtonProps = {
 
 
 
-export const InputLikeButton = ({ error, children, ...rest }: { error?: boolean } & PressableProps) => {
+export const InputLikeButton = ({ error, children, ...rest }: { error?: string } & PressableProps) => {
   return (
-    <Pressable style={[
-      styles.inputLike,
-      error ? styles.error : null,
-    ]}
-      {...rest}
-    >
-      {children}
-    </Pressable>
+    <View>
+      <Pressable style={[
+        styles.inputLike,
+        error ? styles.error : null,
+      ]}
+        {...rest}
+      >
+        {children}
+      </Pressable>
+      <View style={{ marginTop: -12 }}>
+        {error && <ErrorText>{error}</ErrorText>}
+      </View>
+    </View >
   )
 }
 

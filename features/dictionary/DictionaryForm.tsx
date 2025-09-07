@@ -80,13 +80,12 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
             numberOfLines={5}
             multiline={true}
             height={3}
-            error={!!errors.titleError}
+            error={errors.titleError}
           />
-          {errors.titleError && <ErrorText>{errors.titleError}</ErrorText>}
         </View>
       </UploadImageFrame>
       <LightText >의사소통 기능</LightText>
-      <InputLikeButton error={!!errors.categoryError} onPress={() => {
+      <InputLikeButton error={errors.categoryError} onPress={() => {
         show("category", {
           category,
           setCategory
@@ -100,7 +99,6 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
         </ScrollView>
         <Image source={down} style={{ width: 24, height: 24 }} />
       </InputLikeButton>
-      {errors.categoryError && <ErrorText>{errors.categoryError}</ErrorText>}
       <ThemedTextArea
         label={"추가설명(선택)"}
         value={description ?? ""}
