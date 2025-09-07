@@ -8,29 +8,72 @@ import { Pressable, View } from "react-native"
 import { Student } from "@/types/student"
 import { UploadImage } from "@/components/UploadImage"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
+import { theme } from "@/themes/global"
 
-export type AddStudentProps = {
-  onSubmit: (student: Student) => void;
-  onSelectInput: () => void;
+type StudentFormErrors = {
+  nameError?: string,
+  schoolError?: string,
+  ageError?: string,
+  gradeError?: string,
+  settingError?: string,
+  disabilityError?: string,
 }
 
-export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => {
-  const [name, setName] = useState("")
-  const [school, setSchool] = useState("")
-  const [age, setAge] = useState("")
-  const [grade, setGrade] = useState("")
-  const [setting, setSetting] = useState("")
-  const [disability, setDisability] = useState("")
-  const [imgsrc, setImgsrc] = useState("")
+export type StudentFormProps = {
+  onSubmit: (student: Omit<Student, "communicationDetails" | "challengesDetails">) => void;
+  onSelectInput: () => void;
+  student?: Student;
+}
+
+export const StudentForm = ({ onSubmit, onSelectInput, student }: StudentFormProps) => {
+  const [name, setName] = useState(student?.name)
+  const [school, setSchool] = useState(student?.school)
+  const [age, setAge] = useState(student?.age.toString)
+  const [grade, setGrade] = useState(student?.grade.toString)
+  const [setting, setSetting] = useState(student?.setting)
+  const [disability, setDisability] = useState(student?.disability)
+  const [imgsrc, setImgsrc] = useState(student?.imagesrc ?? null)
+  const [errors, setErrors] = useState<StudentFormErrors>({})
+
+  const validate = () => {
+    const newErrors: StudentFormErrors = {}
+    if (!name?.trim()) {
+      newErrors.nameError = "학생 이름 입력해주세요"
+    }
+    if (!school?.trim()) {
+      newErrors.schoolError = "학생 소속 학교명 입력해주세요"
+    }
+    if (!age) {
+      newErrors.ageError = "학생 나이 입력해주세요"
+    } else if (!parseInt(age.trim())) {
+      newErrors.ageError = "학생 나이 숫자로 입력해주세요"
+    }
+    if (!grade) {
+      newErrors.gradeError = "학생 학년 입력해주세요"
+    } else if (!parseInt(grade.trim())) {
+      newErrors.gradeError = "학생 학년 숫자로 입력해주세요"
+    }
+    if (!setting?.trim()) {
+      newErrors.settingError = "배치유형 입력해주세요"
+    }
+    if (!disability?.trim()) {
+      newErrors.nameError = "장애유형 학교명 입력해주세요"
+    }
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleSubmit = () => {
-    const student: Student = {
-      name,
-      school,
-      age: parseInt(age),
-      grade: parseInt(grade),
-      setting,
-      disability,
+    if (!validate()) {
+      return
+    }
+    const student: Omit<Student, "communicationDetails" | "challengesDetails"> = {
+      name: name!,
+      school: school!,
+      age: parseInt(age!),
+      grade: parseInt(grade!),
+      setting: setting!,
+      disability: disability!,
       imagesrc: imgsrc ? imgsrc : undefined,
     }
     onSubmit(student)
@@ -39,7 +82,7 @@ export const AddStudentForm = ({ onSubmit, onSelectInput }: AddStudentProps) => 
   return (
     <KeyboardAwareScrollView
       extraScrollHeight={80}
-      contentContainerStyle={{ paddingHorizontal: 24 }}
+      contentContainerStyle={{ paddingHorizontal: 24, backgroundColor: theme.colors.background }}
     >
       <UploadImageFrame>
         <UploadImage setImage={setImgsrc} image={imgsrc} />
