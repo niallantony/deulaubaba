@@ -1,7 +1,7 @@
 import { ButtonContainer } from "@/components/ButtonContainer";
 import { InputLikeButton, ThemedButton } from "@/components/ThemedButton";
 import { ThemedTextArea } from "@/components/ThemedInput";
-import { ErrorText, LightText } from "@/components/ThemedText";
+import { LightText } from "@/components/ThemedText";
 import { UploadImageFrame } from "@/components/ThemedView";
 import { CommunicationCategory, DictionaryListing, DictionaryPosting, ExpressionType } from "@/types/dictionary"
 import { useState } from "react"

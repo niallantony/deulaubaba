@@ -1,9 +1,9 @@
-import { ButtonContainer } from "@/components/ButtonContainer"
+import { ButtonContainer, RowButtonContainer } from "@/components/ButtonContainer"
 import { ThemedButton } from "@/components/ThemedButton"
-import { CenterText, ErrorText, LightText, LinkText } from "@/components/ThemedText"
+import { CenterText, LightText, LinkText } from "@/components/ThemedText"
 import { ThemedTextInput, ThemedTwinInput } from "@/components/ThemedInput"
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView"
-import { useState } from "react"
+import { PropsWithChildren, useState } from "react"
 import { Pressable, View } from "react-native"
 import { Student } from "@/types/student"
 import { UploadImage } from "@/components/UploadImage"
@@ -21,15 +21,15 @@ type StudentFormErrors = {
 
 export type StudentFormProps = {
   onSubmit: (student: Omit<Student, "communicationDetails" | "challengesDetails">) => void;
-  onSelectInput: () => void;
+  onCancel: () => void;
   student?: Student;
 }
 
-export const StudentForm = ({ onSubmit, onSelectInput, student }: StudentFormProps) => {
+export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFormProps & PropsWithChildren) => {
   const [name, setName] = useState(student?.name)
   const [school, setSchool] = useState(student?.school)
-  const [age, setAge] = useState(student?.age.toString)
-  const [grade, setGrade] = useState(student?.grade.toString)
+  const [age, setAge] = useState(student?.age.toString())
+  const [grade, setGrade] = useState(student?.grade.toString())
   const [setting, setSetting] = useState(student?.setting)
   const [disability, setDisability] = useState(student?.disability)
   const [imgsrc, setImgsrc] = useState(student?.imagesrc ?? null)
@@ -85,7 +85,7 @@ export const StudentForm = ({ onSubmit, onSelectInput, student }: StudentFormPro
       contentContainerStyle={{ paddingHorizontal: 24, backgroundColor: theme.colors.background }}
     >
       <UploadImageFrame>
-        <UploadImage setImage={setImgsrc} image={imgsrc} />
+        <UploadImage setImage={setImgsrc} image={imgsrc} preImage={student?.imagesrc} />
         <View style={{ flexGrow: 1, }}>
           <ThemedTextInput
             label={"학생 이름"}
@@ -131,15 +131,12 @@ export const StudentForm = ({ onSubmit, onSelectInput, student }: StudentFormPro
         onChange={setDisability}
         error={errors.disabilityError}
       />
-      <ButtonContainer width={150}>
-        <ThemedButton text={"학생 코드 만들기"} type={"green"} onPress={handleSubmit} />
-      </ButtonContainer>
-      <CenterText style={{ marginTop: 28 }}>
-        <LightText style={{ fontSize: 18 }}>이미 코드가 있나요? </LightText>
-        <Pressable onPress={onSelectInput}>
-          <LinkText> 학생 코드 입력하기</LinkText>
-        </Pressable>
-      </CenterText>
+      <RowButtonContainer>
+        <ThemedButton text={"학생 등록"} row type={"green"} onPress={handleSubmit} />
+        <ThemedButton text={"취소"} row type={"outline"} onPress={onCancel} />
+      </RowButtonContainer>
+      {children}
+
     </KeyboardAwareScrollView>
   )
 }

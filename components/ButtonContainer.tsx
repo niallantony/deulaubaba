@@ -1,3 +1,4 @@
+import { theme } from '@/themes/global';
 import { ReactNode, useState } from 'react';
 import { View } from 'react-native';
 
@@ -6,9 +7,10 @@ export const RowButtonContainer = ({ children }: { children: ReactNode }) => {
   return (
     <View style={{
       flexDirection: 'row',
+      backgroundColor: theme.colors.background,
       justifyContent: 'space-between',
       width: '100%',
-      marginTop: 24
+      paddingBottom: 12
     }}>
       {children}
     </View>

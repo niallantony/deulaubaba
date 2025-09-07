@@ -44,7 +44,7 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
     show("studentAvatar", {
       onRequestSelect: () => router.push('/selectstudent'),
       onRequestEdit: () => router.push('/student/edit'),
-      position
+      position: position,
     })
 
   }

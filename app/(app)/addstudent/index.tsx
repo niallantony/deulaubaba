@@ -2,9 +2,11 @@ import { HasCode } from "@/features/student/HasCode";
 import { InputStudentCode } from "@/features/student/InputCode";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback } from "react";
-import { AddStudentForm } from "@/features/student/AddStudent";
+import { StudentForm } from "@/features/student/StudentForm";
 import { useAddStudent } from "@/hooks/useStudentCode";
 import { ConfirmStudent } from "@/features/student/ConfirmStudent";
+import { CenterText, LightText, LinkText } from "@/components/ThemedText";
+import { Pressable, View } from "react-native";
 
 
 export default function AddStudent() {
@@ -49,9 +51,22 @@ export default function AddStudent() {
   } else if (screen === "code") {
     return (<InputStudentCode onSubmit={handleStudentCode} onBack={() => reset()} />);
   } else if (screen === "register") {
-    return (<AddStudentForm
+    return (<StudentForm
       onSubmit={handleNewStudent}
-      onSelectInput={inputCode}
-    />);
+      onCancel={reset}
+
+    >
+      <View style={{ marginVertical: 12 }}>
+        <CenterText >
+          <LightText style={{ fontSize: 18 }}>이미 코드가 있나요? </LightText>
+          <Pressable onPress={inputCode}>
+            <LinkText> 학생 코드 입력하기</LinkText>
+          </Pressable>
+        </CenterText>
+      </View>
+    </StudentForm>
+
+
+    );
   }
 }
