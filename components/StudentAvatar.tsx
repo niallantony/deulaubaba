@@ -20,19 +20,21 @@ type AvatarStyleProps = {
 
 const NoAvatar = ({ height, width, style, children }: { children?: ReactNode } & AvatarStyleProps) => {
   return (
-    <View style={{
-      justifyContent: 'center',
-      backgroundColor: theme.colors.light,
-      borderRadius: style === "full" ? 128 : 8,
-      width: width,
-      height: height,
-    }}>
+    <View
+      testID="no-image"
+      style={{
+        justifyContent: 'center',
+        backgroundColor: theme.colors.light,
+        borderRadius: style === "full" ? 128 : 8,
+        width: width,
+        height: height,
+      }}>
       {children}
     </View>
   )
 }
 
-export const StudentAvatar = ({ url, width, height, style = "full" }: AvatarProps) => {
+export const StudentAvatar = ({ url, width, height, style = "full", ...rest }: AvatarProps) => {
   const [loaded, setLoaded] = useState(false);
 
   const imageurl = `${API_BASE_URL}/uploads/${url}`
@@ -44,11 +46,13 @@ export const StudentAvatar = ({ url, width, height, style = "full" }: AvatarProp
   return (
     <>
       {!loaded && (
-        <NoAvatar width={width} height={height} style={style}>
-          <ActivityIndicator />
+        <NoAvatar width={width} height={height} style={style} >
+          <ActivityIndicator testID="loader" />
         </NoAvatar>
       )}
       <Image
+        {...rest}
+        testID="image"
         source={{ uri: imageurl }}
         onLoadEnd={() => setLoaded(true)}
         onError={() => setLoaded(false)}

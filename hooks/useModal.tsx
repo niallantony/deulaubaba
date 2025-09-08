@@ -10,7 +10,7 @@ import { UserAvatar } from "@/types/user";
 import { createContext, PropsWithChildren, use, useState } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 
-type ModalProps = {
+export type ModalProps = {
   studentCode: { student: StudentIdAvatar },
   userDialog: { user: UserAvatar },
   confirm: {
@@ -33,7 +33,7 @@ type ModalProps = {
   }
 }
 
-type ModalNames = keyof ModalProps
+export type ModalNames = keyof ModalProps
 
 type ModalState =
   | { name: "studentCode", props: { student: StudentIdAvatar } }
