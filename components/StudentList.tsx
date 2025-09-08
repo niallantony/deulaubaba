@@ -5,16 +5,18 @@ import { FlatList, Pressable, StyleSheet, View, Text } from "react-native"
 import { StudentAvatar } from "./StudentAvatar"
 import { IconLink } from "./ThemedButton"
 import { useEffect, useState } from "react"
-import { useStudents } from "@/hooks/useStudents"
 import { useStudentStore } from '@/store/currentStudent'
-import { useRouter } from 'expo-router'
 import { theme } from '@/themes/global'
+import { StudentsResponse } from '@/api/student'
 
-export const StudentList = () => {
+export const StudentList = ({
+  studentsData,
+  selectedStudent,
+}: {
+  studentsData: StudentsResponse,
+  selectedStudent: StudentIdAvatar | null
+}) => {
   const [rows, setRows] = useState<StudentIdAvatar[]>();
-  const { data: studentsData } = useStudents();
-  const selectedStudent = useStudentStore((s) => s.student);
-  const router = useRouter();
 
   useEffect(() => {
     const addStudentIndicator: StudentIdAvatar = {
@@ -25,9 +27,6 @@ export const StudentList = () => {
     setRows(clonedData);
   }, [studentsData?.students]);
 
-  const onChange = () => {
-    router.push("/student");
-  }
 
 
   return (
@@ -48,19 +47,10 @@ export const StudentList = () => {
 
           if (item.studentId === "add") {
             return (
-              <Pressable style={styles.row}>
-                <IconLink
-                  text={"학생 추가"}
-                  href={'/addstudent'}
-                  size="md"
-                  imageSource={noStudent}
-                  imageOptions={{ width: 42, height: 42 }}
-                />
-              </Pressable>
-
+              <AddStudentRow />
             )
           } else {
-            return (<StudentRow student={item} selected={item.studentId === selectedStudent?.studentId} onChange={onChange} />)
+            return (<StudentRow student={item} selected={item.studentId === selectedStudent?.studentId} />)
           }
         }
         }
@@ -70,7 +60,23 @@ export const StudentList = () => {
   )
 }
 
-const StudentRow = ({ student, selected, onChange }: { student: StudentIdAvatar; selected: boolean; onChange: () => void }) => {
+const AddStudentRow = () => {
+  return (
+    <Pressable testID="add-student" style={styles.row}>
+      <IconLink
+        text={"학생 추가"}
+        href={'/addstudent'}
+        size="md"
+        imageSource={noStudent}
+        imageOptions={{ width: 42, height: 42 }}
+      />
+    </Pressable>
+
+  )
+
+}
+
+export const StudentRow = ({ student, selected }: { student: StudentIdAvatar; selected: boolean }) => {
   const selectStudent = useStudentStore((s) => s.setStudent)
 
   return (
@@ -80,7 +86,6 @@ const StudentRow = ({ student, selected, onChange }: { student: StudentIdAvatar;
     ]}
       onPress={() => {
         selectStudent(student)
-        onChange();
       }}
     >
       <StudentAvatar
