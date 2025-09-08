@@ -2,28 +2,28 @@ import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { StudentAvatar } from "./StudentAvatar";
 import { PressableAvatarPane, } from "./ThemedView";
 import { SemiboldLightText, TitleText } from "./ThemedText";
-import { useStudentStore } from "@/store/currentStudent";
 import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { theme } from "@/themes/global";
-import { useModal } from "@/hooks/useModal";
+import { StudentIdAvatar } from "@/types/student";
+import { ModalNames } from "@/hooks/useModal";
 
 
 type StudentBorderProps = {
+  student: StudentIdAvatar | null;
   title: string;
   subtitle: string;
+  showModal: (name: ModalNames, props: any) => void;
 } & PropsWithChildren;
 
 
 
 
-export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps) => {
-  const student = useStudentStore((s) => s.student)
+export const StudentBorder = ({ children, title, subtitle, student, showModal }: StudentBorderProps) => {
   const [position, setPosition] = useState<{ x: number, y: number, width: number }>()
   const imageSize = 48
   const router = useRouter()
 
-  const { show } = useModal();
   const buttonRef = useRef<View>(null)
 
   useEffect(() => {
@@ -41,7 +41,7 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
   }, [buttonRef])
 
   const toggleList = () => {
-    show("studentAvatar", {
+    showModal("studentAvatar", {
       onRequestSelect: () => router.push('/selectstudent'),
       onRequestEdit: () => router.push('/student/edit'),
       position: position,
@@ -58,7 +58,7 @@ export const StudentBorder = ({ children, title, subtitle }: StudentBorderProps)
             <TitleText>{title}</TitleText>
             <SemiboldLightText>{subtitle}</SemiboldLightText>
           </View>
-          <PressableAvatarPane size={imageSize + 8} onPress={toggleList}>
+          <PressableAvatarPane testID="avatar-pressable" size={imageSize + 8} onPress={toggleList}>
             <View ref={buttonRef}>
 
               <StudentAvatar url={student?.imagesrc} width={imageSize} height={imageSize} style="full" />
