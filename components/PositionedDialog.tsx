@@ -12,18 +12,22 @@ export const PositionedDialog = ({
   onClose: () => void,
   width: number,
 } & PropsWithChildren) => {
+
+  const getDialogStyle = (position: { x: number, y: number, width: number }, width: number) => ({
+    top: position.y,
+    left: position.x + position.width - width,
+    width
+  })
+
   return (
     <Pressable
       onPress={(e) => e.stopPropagation()}
       accessibilityViewIsModal
       style={[
         styles.dialogBox,
-        {
-          top: position.y,
-          left: position.x + position.width - width,
-          width
-        }
+        getDialogStyle(position, width)
       ]}
+      testID="pressable"
     >
       {children}
     </Pressable>
