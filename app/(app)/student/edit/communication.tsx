@@ -38,7 +38,7 @@ export default function Route() {
         label={"주요 의사소통특성"}
         value={content}
         onChange={setContent}
-        height={8}
+        rows={8}
       />
       {content !== initial && (
         <ButtonContainer width={150}>

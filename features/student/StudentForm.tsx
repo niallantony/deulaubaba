@@ -1,10 +1,9 @@
-import { ButtonContainer, RowButtonContainer } from "@/components/ButtonContainer"
+import { RowButtonContainer } from "@/components/ButtonContainer"
 import { ThemedButton } from "@/components/ThemedButton"
-import { CenterText, LightText, LinkText } from "@/components/ThemedText"
 import { ThemedTextInput, ThemedTwinInput } from "@/components/ThemedInput"
 import { TwinInputs, UploadImageFrame } from "@/components/ThemedView"
 import { PropsWithChildren, useState } from "react"
-import { Pressable, View } from "react-native"
+import { View } from "react-native"
 import { Student } from "@/types/student"
 import { UploadImage } from "@/components/UploadImage"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
@@ -104,7 +103,7 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
       <TwinInputs>
         <ThemedTwinInput
           inputMode="numeric"
-          position={"left"}
+          twinPosition={"left"}
           label={"나이"}
           value={age}
           onChange={setAge}
@@ -112,7 +111,7 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
         />
         <ThemedTwinInput
           inputMode="numeric"
-          position={"right"}
+          twinPosition={"right"}
           label={"학년"}
           value={grade}
           onChange={setGrade}

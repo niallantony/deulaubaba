@@ -11,6 +11,11 @@ export type ThemedButtonProps = {
 } & PressableProps
 
 
+const rippleColor = {
+  green: theme.colors.ripple.accent,
+  bare: theme.colors.ripple.bare,
+  outline: theme.colors.ripple.outline,
+}
 
 export const InputLikeButton = ({ error, children, ...rest }: { error?: string } & PressableProps) => {
   return (
@@ -52,13 +57,13 @@ const styles = StyleSheet.create({
   bare: {
 
   },
-  "text-green": {
+  textGreen: {
     color: theme.colors.lightText
   },
-  "text-outline": {
+  textOutline: {
     color: theme.colors.accent
   },
-  "text-bare": {
+  textBare: {
     color: theme.colors.accent,
     fontWeight: 400,
   },
@@ -97,7 +102,14 @@ const styles = StyleSheet.create({
 
 export const SubtleButton = ({ children, ...rest }: { children: ReactNode } & PressableProps) => {
   return (
-    <Pressable style={styles.subtle} {...rest}>
+    <Pressable
+      android_ripple={{ color: theme.colors.ripple.outline }}
+      accessibilityRole="button"
+      style={({ pressed }) => [
+        styles.subtle,
+        pressed && { opacity: 0.7 }
+      ]}
+      {...rest}>
       {children}
     </Pressable>
   )
@@ -106,24 +118,36 @@ export const SubtleButton = ({ children, ...rest }: { children: ReactNode } & Pr
 
 export const BigButton = ({ children, ...rest }: { children: ReactNode } & PressableProps) => {
   return (
-    <Pressable style={styles.big} {...rest}>
+    <Pressable
+      style={({ pressed }) => [
+        styles.big,
+        pressed && { opacity: 0.7 }
+      ]}
+      android_ripple={{ color: theme.colors.ripple.big }}
+      accessibilityRole="button"
+      {...rest}>
       {children}
     </Pressable>
   )
 }
 
 export function ThemedButton({ text, type = "green", row = false, ...rest }: ThemedButtonProps) {
+
   return (
-    <Pressable style={[
-      styles.common,
-      row ? { flex: 1, marginHorizontal: 6 } : null,
-      styles[type],
-    ]}
+    <Pressable
+      android_ripple={{ color: rippleColor[type] }}
+      accessibilityRole='button'
+      style={({ pressed }) => [
+        styles.common,
+        row ? { flex: 1, marginHorizontal: 6 } : null,
+        styles[type],
+        pressed && { opacity: 0.7 }
+      ]}
       {...rest}
     >
       <Text style={[
         styles.text,
-        styles[`text-${type}`]
+        styles[`text${type[0].toUpperCase() + type.slice(1)}`]
       ]}
       >
         {text}
@@ -143,9 +167,12 @@ export function LinkButton({
   const router = useRouter();
   return (
     <Pressable
-      style={[
+      android_ripple={{ color: rippleColor[type] }}
+      accessibilityRole='button'
+      style={({ pressed }) => [
         styles.common,
-        styles[type]
+        styles[type],
+        pressed && { opacity: 0.7 }
       ]}
       onPress={() => {
         router.push(href)
@@ -154,7 +181,7 @@ export function LinkButton({
     >
       <Text style={[
         styles.text,
-        styles[`text-${type}`]
+        styles[`text${type[0].toUpperCase() + type.slice(1)}`]
       ]}
       >
         {text}
@@ -193,7 +220,6 @@ export const AddButton = ({ href }: LinkProps) => {
   const router = useRouter();
   return (
     <SubtleButton
-      style={styles.subtle}
       onPress={() => {
         router.push(href)
       }}
@@ -215,7 +241,12 @@ export const IconLink = ({ text, href, size, imageSource, imageOptions }: IconLi
 
   return (
     <Pressable
-      style={{ alignItems: 'center' }}
+      android_ripple={{ color: rippleColor.outline }}
+      accessibilityRole='button'
+      style={({ pressed }) => [
+        { alignSelf: 'center', },
+        pressed && { opacity: 0.7 }
+      ]}
       onPress={() => {
         router.push(href)
       }}

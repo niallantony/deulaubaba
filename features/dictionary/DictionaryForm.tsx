@@ -79,7 +79,7 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
             onChange={setTitle}
             numberOfLines={5}
             multiline={true}
-            height={3}
+            rows={3}
             error={errors.titleError}
           />
         </View>
@@ -105,7 +105,7 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
         onChange={setDescription}
         numberOfLines={5}
         multiline={true}
-        height={3}
+        rows={3}
       />
       <ButtonContainer width={150}>
         <ThemedButton text={"등록하기"} type={"green"} onPress={handleSubmit} />

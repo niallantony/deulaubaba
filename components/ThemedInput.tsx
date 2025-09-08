@@ -2,97 +2,71 @@ import { StyleSheet, TextInput, View, type TextInputProps } from "react-native";
 import { ErrorText, InfoLabel } from "./ThemedText";
 import { theme } from "@/themes/global";
 
-export type ThemedTextInputProps = {
+type ThemedInputProps = {
   label: string;
   value?: string;
   onChange: (text: string) => void;
   error?: string;
-} & Omit<TextInputProps, 'onChange' | 'value'>;
+  variant?: "default" | "textarea" | "twin";
+  twinPosition?: "left" | "right";
+  rows?: number;
+} & Omit<TextInputProps, "onChange" | "value">;
 
-export type ThemedTextAreaProps = {
-  label: string;
-  value?: string;
-  onChange: (text: string) => void;
-  error?: string;
-  height: number;
-} & Omit<TextInputProps, 'onChange' | 'value'>;
+export const ThemedInput = ({
+  label,
+  error,
+  value,
+  onChange,
+  variant = "default",
+  twinPosition,
+  rows,
+  ...rest
+}: ThemedInputProps) => {
+  const isTextArea = variant === "textarea";
+  const isTwin = variant === "twin";
 
-export type ThemedTwinInputProps = {
-  position: "left" | "right";
-} & ThemedTextInputProps
-
-
-
-
-export const ThemedTextInput = ({ label, error, value, onChange, ...rest }: ThemedTextInputProps) => {
   return (
-    <View style={styles.container}>
-      <InfoLabel>{label}</InfoLabel>
-      <TextInput style={[
-        styles.common,
-        styles.text,
-        error ? styles.error : null,
+    <View
+      testID="container"
+      style={[
+        styles.container,
+        isTwin && styles.twin,
+        isTwin && twinPosition === "left" && styles.left,
       ]}
-        accessibilityLabel={label}
-        textAlignVertical={"center"}
-        value={value}
-        onChangeText={onChange}
-        {...rest}
-      />
-      {error && <ErrorText>{error}</ErrorText>}
-    </View>
-  )
-
-}
-
-export const ThemedTextArea = ({ label, value, onChange, error, height, ...rest }: ThemedTextAreaProps) => {
-  return (
-    <View style={styles.container}>
+    >
       <InfoLabel>{label}</InfoLabel>
       <TextInput
         accessibilityLabel={label}
-        textAlignVertical={"top"}
+        textAlignVertical={isTextArea ? "top" : "center"}
         value={value}
-        multiline={true}
         onChangeText={onChange}
+        multiline={isTextArea}
         style={[
           styles.common,
-          styles.textArea,
-          error ? styles.error : null,
-          { height: height * 32 }
+          isTextArea && styles.textArea,
+          error && styles.error,
+          isTextArea && rows ? { height: rows * 32 } : null,
         ]}
         {...rest}
       />
       {error && <ErrorText>{error}</ErrorText>}
     </View>
-  )
+  );
+};
 
-}
+export const ThemedTextInput = (props: ThemedInputProps) => (
+  <ThemedInput variant="default" {...props} />
+);
 
-export const ThemedTwinInput = ({ position, error, label, value, onChange, ...rest }: ThemedTwinInputProps) => {
-  return (
-    <View style={[
-      styles.container,
-      position === "left" ? styles.left : null,
-      styles.twin
-    ]}>
-      <InfoLabel>{label}</InfoLabel>
-      <TextInput style={[
-        styles.common,
-        styles.text,
-        error ? styles.error : null,
-      ]}
-        accessibilityLabel={label}
-        textAlignVertical={"center"}
-        value={value}
-        onChangeText={onChange}
-        {...rest}
-      />
-      {error && <ErrorText>{error}</ErrorText>}
-    </View>
-  )
+export const ThemedTextArea = (props: ThemedInputProps) => (
+  <ThemedInput variant="textarea" {...props} />
+);
 
-}
+export const ThemedTwinInput = (props: ThemedInputProps) => (
+  <ThemedInput variant="twin" {...props} />
+);
+
+
 
 const styles = StyleSheet.create({
   container: {
