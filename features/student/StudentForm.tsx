@@ -31,7 +31,7 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
   const [grade, setGrade] = useState(student?.grade.toString())
   const [setting, setSetting] = useState(student?.setting)
   const [disability, setDisability] = useState(student?.disability)
-  const [imgsrc, setImgsrc] = useState(student?.imagesrc ?? null)
+  const [imgsrc, setImgsrc] = useState(null)
   const [errors, setErrors] = useState<StudentFormErrors>({})
 
   const validate = () => {

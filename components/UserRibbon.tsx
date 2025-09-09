@@ -1,61 +1,71 @@
-import { ActivityIndicator, Pressable, ScrollView, View, Text, Image, ViewProps, ScrollViewProps, PressableProps, TextProps, ImageProps, StyleSheet } from "react-native"
+import { ActivityIndicator, Pressable, ScrollView, View, Text, Image, TextProps, StyleSheet } from "react-native"
 import { UserAvatar } from "@/types/user"
 import { StudentAvatar } from "./StudentAvatar";
 // @ts-ignore
 import addUser from "@/assets/images/addUser.png"
-import { useEffect, useState } from "react";
-import { OverlayDialog } from "./OverlayDialog";
+import { useEffect } from "react";
 import { useUserRibbon } from "@/hooks/useUserRibbon";
 import { useStudentStore } from "@/store/currentStudent";
 import { theme } from "@/themes/global";
 import { useModal } from "@/hooks/useModal";
 
-
-export const RibbonFrame = ({ children }: ViewProps) => (
-  <View style={styles.ribbonFrame}>{children}</View>
-);
-
-export const UserRibbonView = ({ children }: ViewProps) => (
-  <View style={styles.userRibbonView}>{children}</View>
-);
-
-export const UserAvatars = ({ children }: ScrollViewProps) => (
-  <ScrollView
-    horizontal
-    showsHorizontalScrollIndicator={false}
-    style={styles.userAvatars}
-  >
-    {children}
-  </ScrollView>
-);
-
-export const UserAvatarView = ({ children, onPress }: PressableProps) => (
-  <Pressable style={styles.userAvatarView} onPress={onPress}>
-    {children}
-  </Pressable>
-);
-
-export const UserLabel = ({ children }: TextProps) => (
-  <Text style={styles.userLabel}>{children}</Text>
-);
-
 export const UserLabelBig = ({ children }: TextProps) => (
   <Text style={styles.userLabelBig}>{children}</Text>
 );
 
-export const AddUserButton = ({ children, onPress }: PressableProps) => (
-  <Pressable style={styles.addUserButton} onPress={onPress}>
-    {children}
-  </Pressable>
-);
+export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
+  const student = useStudentStore((s) => s.student);
 
-export const AddUserIcon = ({ source }: ImageProps) => (
-  <Image source={source} style={styles.addUserIcon} />
-);
+  const { loading, users, fetchUsers } = useUserRibbon();
+  useEffect(() => {
+    if (student?.studentId) {
+      fetchUsers(student.studentId)
+    }
+  }, [student])
 
-export const AddUserText = ({ children }: TextProps) => (
-  <Text style={styles.addUserText}>{children}</Text>
-);
+  return (
+    <View style={styles.ribbonFrame}>
+      <View style={styles.userRibbonView}>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          style={styles.userAvatars}
+        >
+          {loading && <ActivityIndicator testID="loading" />}
+          {users && users.map((user) => {
+            return (
+              <UserAvatarButton
+                key={user.id}
+                user={user}
+              />
+            )
+
+          })}
+        </ScrollView>
+      </View>
+      <Pressable testID="show-code" style={styles.addUserButton} onPress={handleShowStudentCode}>
+        , <Image style={styles.addUserIcon} source={addUser} />
+        <Text style={styles.addUserButton}>초대하기</Text>
+      </Pressable>
+    </View>
+  )
+
+}
+
+const UserAvatarButton = ({ user }: { user: UserAvatar }) => {
+  const { show } = useModal();
+  return (
+    <Pressable style={styles.userAvatarView} onPress={() => show("userDialog", { user })}>
+      <StudentAvatar
+        url={user.src}
+        width={32}
+        height={32}
+      />
+      <Text style={styles.userLabel} numberOfLines={1}>{user.type}</Text>
+    </Pressable>
+  )
+
+}
 
 const styles = StyleSheet.create({
   ribbonFrame: {
@@ -121,52 +131,3 @@ export type UserRibbonProps = {
   handleShowStudentCode: () => void;
 }
 
-export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
-  const student = useStudentStore((s) => s.student);
-
-  const { loading, users, fetchUsers } = useUserRibbon();
-  useEffect(() => {
-    if (student?.studentId) {
-      fetchUsers(student.studentId)
-    }
-  }, [student])
-
-  return (
-    <RibbonFrame>
-      <UserRibbonView>
-        <UserAvatars horizontal={true}>
-          {loading && <ActivityIndicator />}
-          {users && users.map((user) => {
-            return (
-              <UserAvatarButton
-                key={user.id}
-                user={user}
-              />
-            )
-
-          })}
-        </UserAvatars>
-      </UserRibbonView>
-      <AddUserButton onPress={handleShowStudentCode}>
-        <AddUserIcon source={addUser} />
-        <AddUserText>초대하기</AddUserText>
-      </AddUserButton>
-    </RibbonFrame>
-  )
-
-}
-
-const UserAvatarButton = ({ user }: { user: UserAvatar }) => {
-  const { show } = useModal();
-  return (
-    <UserAvatarView onPress={() => show("userDialog", { user })}>
-      <StudentAvatar
-        url={user.src}
-        width={32}
-        height={32}
-      />
-      <UserLabel numberOfLines={1}>{user.type}</UserLabel>
-    </UserAvatarView>
-  )
-
-}

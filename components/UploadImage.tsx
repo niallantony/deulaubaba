@@ -9,6 +9,7 @@ import { theme } from "@/themes/global";
 const styles = StyleSheet.create({
   pressable: {
     width: 140,
+    height: 150,
     backgroundColor: theme.colors.inputs,
     borderRadius: 16,
     marginRight: 12,
@@ -17,23 +18,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
+  },
+  imageBox: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(255,255,255,0.5)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addIcon: {
+    width: 32,
+    height: 32
   }
 })
-
-const StyledImageUpload = ({ children, ...rest }: PressableProps) => {
-  return (
-    <Pressable style={styles.pressable} {...rest}>
-      {children}
-    </Pressable>
-  )
-}
-
 
 export const UploadImage = ({ setImage, image, preImage, ...rest }: { setImage: (s: string) => void, preImage?: string, image: string | null } & PressableProps) => {
 
   const resolveAvatarUrl = (avatar: string): string => {
     if (avatar.startsWith("http://") || avatar.startsWith("https://")) {
-      return avatar; // already absolute
+      return avatar;
     }
     return `${API_BASE_URL}/uploads/${avatar}`;
   }
@@ -53,31 +61,28 @@ export const UploadImage = ({ setImage, image, preImage, ...rest }: { setImage: 
 
 
   return (
-    <StyledImageUpload onPress={pickImage} accessibilityLabel="이미지" {...rest}>
-      <ImageBackground
-        source={preImage ? { uri: resolveAvatarUrl(preImage) } : undefined}
-        style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: 150, height: 150 }}
-      >
-        {preImage && (
-          <View
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(255,255,255, 0.5)',
-            }}
-          />
-        )}
-
-        {image ? (
-          <Image source={{ uri: image }} style={{ flex: 1, width: 150, height: 150 }} />
-        ) : (
-          <Image source={addPhoto} style={{ width: 32, height: 32 }} />
-        )}
-      </ImageBackground>
-    </StyledImageUpload>
+    <Pressable
+      style={styles.pressable}
+      accessibilityRole="button"
+      accessibilityLabel="프로필 이미지 업로드"
+      onPress={pickImage}
+      {...rest}
+    >
+      {image ? (
+        <Image testID="user-image" source={{ uri: image }} style={styles.imageBox} />
+      ) : preImage ? (
+        <ImageBackground
+          source={preImage ? { uri: resolveAvatarUrl(preImage) } : undefined}
+          style={styles.imageBox}
+        >
+          <View style={styles.overlay} testID="overlay">
+            <Image testID="add-photo-icon" source={addPhoto} style={styles.addIcon} />
+          </View>
+        </ImageBackground>
+      ) : (
+        <Image testID="add-photo-icon" source={addPhoto} style={styles.addIcon} />
+      )}
+    </Pressable>
   );
 };
 
