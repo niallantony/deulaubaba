@@ -48,7 +48,6 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
 
 
   const handleSubmit = async () => {
-    // TODO: Handle Validation
     if (!student || !student.studentId) {
       return
     }

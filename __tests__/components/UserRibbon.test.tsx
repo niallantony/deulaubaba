@@ -1,25 +1,26 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react-native";
 import { UserRibbon } from "@/components/UserRibbon";
+import { useUserRibbon } from "@/hooks/useUserRibbon";
+import { useStudentStore } from "@/store/currentStudent";
+import { useModal } from "@/hooks/useModal";
 
 // Mocks
 jest.mock("@/hooks/useUserRibbon", () => ({
+  __esModule: true,
   useUserRibbon: jest.fn(),
 }));
 
 jest.mock("@/store/currentStudent", () => ({
+  __esModule: true,
   useStudentStore: jest.fn(),
 }));
 
 jest.mock("@/hooks/useModal", () => ({
-  useModal: jest.fn(),
-}));
+  __esModule: true,
+  useModal: jest.fn()
 
-// Components
-// eslint ignore-next-line
-const mockUseUserRibbon = require("@/hooks/useUserRibbon").useUserRibbon;
-const mockUseStudentStore = require("@/store/currentStudent").useStudentStore;
-const mockUseModal = require("@/hooks/useModal").useModal;
+}));
 
 describe("UserRibbon", () => {
   const handleShowStudentCode = jest.fn();
@@ -28,29 +29,34 @@ describe("UserRibbon", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUseModal.mockReturnValue({ show });
   });
 
   it("shows loading state", () => {
-    mockUseUserRibbon.mockReturnValue({
+    (useUserRibbon as jest.Mock).mockReturnValue({
       loading: true,
       users: [],
       fetchUsers,
     });
-    mockUseStudentStore.mockReturnValue({ student: { studentId: "123" } });
+    // @ts-ignore
+    (useStudentStore as jest.Mock).mockReturnValue({ student: { studentId: "123" } });
 
     render(<UserRibbon handleShowStudentCode={handleShowStudentCode} />);
 
     expect(screen.getByTestId("loading")).toBeTruthy();
   });
 
+
   it("renders users when provided", async () => {
-    mockUseUserRibbon.mockReturnValue({
+    (useUserRibbon as jest.Mock).mockReturnValue({
       loading: false,
       users: [{ id: "u1", src: "http://example.com/img.png", type: "teacher" }],
       fetchUsers,
     });
-    mockUseStudentStore.mockReturnValue({ student: { studentId: "123" } });
+    // @ts-ignore
+    (useStudentStore as jest.Mock).mockReturnValue({ student: { studentId: "123" } });
+    (useModal as jest.Mock).mockReturnValue({
+      show: show
+    })
 
     render(<UserRibbon handleShowStudentCode={handleShowStudentCode} />);
 
@@ -58,12 +64,16 @@ describe("UserRibbon", () => {
   });
 
   it("clicking add user button calls handleShowStudentCode", () => {
-    mockUseUserRibbon.mockReturnValue({
+    (useUserRibbon as jest.Mock).mockReturnValue({
       loading: false,
       users: [],
       fetchUsers,
     });
-    mockUseStudentStore.mockReturnValue({ student: { studentId: "123" } });
+    // @ts-ignore
+    (useStudentStore as jest.Mock).mockReturnValue({ student: { studentId: "123" } });
+    (useModal as jest.Mock).mockReturnValue({
+      show: show
+    })
 
     render(<UserRibbon handleShowStudentCode={handleShowStudentCode} />);
 
@@ -74,12 +84,13 @@ describe("UserRibbon", () => {
   });
 
   it("clicking a user avatar opens modal", async () => {
-    mockUseUserRibbon.mockReturnValue({
+    (useUserRibbon as jest.Mock).mockReturnValue({
       loading: false,
       users: [{ id: "u1", src: "http://example.com/img.png", type: "teacher" }],
       fetchUsers,
     });
-    mockUseStudentStore.mockReturnValue({ student: { studentId: "123" } });
+    // @ts-ignore
+    (useStudentStore as jest.Mock).mockReturnValue({ student: { studentId: "123" } });
 
     render(<UserRibbon handleShowStudentCode={handleShowStudentCode} />);
 

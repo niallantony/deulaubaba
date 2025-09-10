@@ -21,7 +21,7 @@ export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
     if (student?.studentId) {
       fetchUsers(student.studentId)
     }
-  }, [student])
+  }, [student, fetchUsers])
 
   return (
     <View style={styles.ribbonFrame}>
