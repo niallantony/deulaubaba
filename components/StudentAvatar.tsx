@@ -52,10 +52,8 @@ export const StudentAvatar = ({ url, width, height, style = "full", ...rest }: A
         {...rest}
         testID="image"
         source={{ uri: imageurl }}
-        onLoad={(image) => {
+        onLoad={() => {
           setLoaded(true)
-          console.log(image)
-
         }}
         onError={() => setLoaded(false)}
         style={{ width, height }}
