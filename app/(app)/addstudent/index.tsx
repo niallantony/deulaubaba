@@ -3,7 +3,7 @@ import { InputStudentCode } from "@/features/student/InputCode";
 import { useFocusEffect, useRouter } from "expo-router";
 import { useCallback } from "react";
 import { StudentForm } from "@/features/student/StudentForm";
-import { useAddStudent } from "@/hooks/useStudentCode";
+import { useAddStudent } from "@/hooks/useAddStudent";
 import { ConfirmStudent } from "@/features/student/ConfirmStudent";
 import { CenterText, LightText, LinkText } from "@/components/ThemedText";
 import { Pressable, View } from "react-native";

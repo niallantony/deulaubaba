@@ -59,12 +59,12 @@ export default function Register() {
         <View style={{ justifyContent: "space-between", flex: 1, }}>
           <View style={{ width: '100%', flex: 1, marginTop: 36 }}>
             {screen === "intro" && (<Onboarding onPress={() => setScreen("user")} />)}
-            {screen === "user" && (<UserDetails onSubmit={handleUserSubmit} errors={errors} />)}
+            {screen === "user" && (<UserDetails onSubmit={handleUserSubmit} />)}
             {screen === "finish" && (<RegistrationComplete onPress={handleContinue} />)}
           </View>
           {screen !== "finish" &&
-            <View style={{ alignItems: "center" }}>
-              <SubtleButton onPress={handleCancel} style={{ width: 80 }}>
+            <View style={{ alignItems: "center", width: '100%', }}>
+              <SubtleButton onPress={handleCancel} style={{ width: 80, alignItems: 'center', }}>
                 <StyledText style={{ width: "100%", textAlign: "center" }}>취소</StyledText>
               </SubtleButton>
             </View>
