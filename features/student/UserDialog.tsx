@@ -1,11 +1,15 @@
 
+import { StyleSheet, Text, TextProps } from "react-native"
 import { CenteredOverlay } from "@/components/CenteredOverlay";
 import { StudentAvatar } from "@/components/StudentAvatar";
-import { UserLabelBig } from "@/components/UserRibbon";
 import { UserAvatar } from "@/types/user";
-import { View } from "react-native";
+import { theme } from "@/themes/global";
 
-export const UserDialog = ({ user, onClose }: {
+export const UserLabelBig = ({ children }: TextProps) => (
+  <Text style={styles.userLabelBig}>{children}</Text>
+);
+
+export const UserDialog = ({ user }: {
   user: UserAvatar,
   onClose: () => void
 }) => {
@@ -21,3 +25,12 @@ export const UserDialog = ({ user, onClose }: {
     </CenteredOverlay>
   );
 };
+
+const styles = StyleSheet.create({
+  userLabelBig: {
+    textAlign: "center",
+    fontSize: 18, // md
+    color: theme.colors.text,
+    marginTop: 12, // small
+  }
+})

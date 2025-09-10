@@ -5,7 +5,6 @@ import { useUserRibbon } from "@/hooks/useUserRibbon";
 import { useStudentStore } from "@/store/currentStudent";
 import { useModal } from "@/hooks/useModal";
 
-// Mocks
 jest.mock("@/hooks/useUserRibbon", () => ({
   __esModule: true,
   useUserRibbon: jest.fn(),
@@ -22,6 +21,7 @@ jest.mock("@/hooks/useModal", () => ({
 
 }));
 
+// TODO: add test for fetchUsers effect
 describe("UserRibbon", () => {
   const handleShowStudentCode = jest.fn();
   const fetchUsers = jest.fn();

@@ -1,5 +1,5 @@
 import { ReactNode, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import { API_BASE_URL } from "@/api/api";
 import { theme } from "@/themes/global";
@@ -22,13 +22,10 @@ const NoAvatar = ({ height, width, style, children }: { children?: ReactNode } &
   return (
     <View
       testID="no-image"
-      style={{
-        justifyContent: 'center',
-        backgroundColor: theme.colors.light,
-        borderRadius: style === "full" ? 128 : 8,
-        width: width,
-        height: height,
-      }}>
+      style={[
+        styles.empty,
+        { borderRadius: style === "full" ? 8 : 128, width: width, height: height, }
+      ]}>
       {children}
     </View>
   )
@@ -44,24 +41,43 @@ export const StudentAvatar = ({ url, width, height, style = "full", ...rest }: A
   }
 
   return (
-    <>
-      {!loaded && (
-        <NoAvatar width={width} height={height} style={style} >
-          <ActivityIndicator testID="loader" />
-        </NoAvatar>
-      )}
+    <View
+      testID='container'
+      style={[
+        { width, height, borderRadius: style === "full" ? 8 : 128 },
+        styles.container
+      ]}
+    >
       <Image
         {...rest}
         testID="image"
         source={{ uri: imageurl }}
-        onLoadEnd={() => setLoaded(true)}
-        onError={() => setLoaded(false)}
-        style={{
-          width,
-          height,
-          borderRadius: style === "full" ? 8 : 128,
+        onLoad={(image) => {
+          setLoaded(true)
+          console.log(image)
+
         }}
+        onError={() => setLoaded(false)}
+        style={{ width, height }}
       />
-    </>
+      {!loaded && (
+        <View style={[StyleSheet.absoluteFillObject, styles.empty]} >
+          <ActivityIndicator testID="loader" />
+        </View>
+      )}
+
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  empty: {
+    justifyContent: 'center',
+    backgroundColor: theme.colors.light,
+  }
+})

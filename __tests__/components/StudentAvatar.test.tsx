@@ -45,7 +45,7 @@ describe("StudentAvatar", () => {
       <StudentAvatar url="avatar.png" width={50} height={50} style="round" />
     );
 
-    const image = getByTestId("image");
+    const image = getByTestId("container");
     expect(image.props.style.borderRadius).toBe(128);
   });
 });
