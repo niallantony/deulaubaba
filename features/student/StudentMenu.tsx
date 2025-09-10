@@ -1,7 +1,9 @@
+import { CenteredOverlay } from "@/components/CenteredOverlay"
 import { Divider } from "@/components/Divider"
 import { PositionedDialog } from "@/components/PositionedDialog"
 import { DropdownMenuOption } from "@/components/SettingsMenu/SettingsMenu"
 import { ClickableText } from "@/components/ThemedText"
+import React from "react"
 import { StyleSheet, View } from "react-native"
 
 
@@ -9,17 +11,15 @@ import { StyleSheet, View } from "react-native"
 export const StudentMenu = ({
   onRequestSelect,
   onRequestEdit,
-  position,
   onClose,
 }: {
   onRequestSelect: () => void,
   onRequestEdit: () => void,
-  position: { x: number, y: number, width: number },
   onClose: () => void,
 }) => {
 
   return (
-    <PositionedDialog position={position} width={200} onClose={onClose}>
+    <CenteredOverlay  >
       <View style={[
         styles.menu,
       ]}>
@@ -38,14 +38,13 @@ export const StudentMenu = ({
           <ClickableText>학생 변경</ClickableText>
         </DropdownMenuOption>
       </View>
-    </PositionedDialog>
+    </CenteredOverlay>
 
   )
 }
 
 const styles = StyleSheet.create({
   menu: {
-    flex: 1,
     width: '100%',
     justifyContent: 'space-between',
   },
