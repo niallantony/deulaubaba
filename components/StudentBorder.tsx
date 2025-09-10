@@ -20,31 +20,14 @@ type StudentBorderProps = {
 
 
 export const StudentBorder = ({ children, title, subtitle, student, showModal }: StudentBorderProps) => {
-  const [position, setPosition] = useState<{ x: number, y: number, width: number }>()
   const imageSize = 48
   const router = useRouter()
 
-  const buttonRef = useRef<View>(null)
-
-  useEffect(() => {
-    if (buttonRef.current) {
-      buttonRef.current.measure((fx, fy, width, height, px, py) => {
-        setPosition({
-          x: px,
-          y: py + 30,
-          width
-        })
-
-      })
-    }
-
-  }, [buttonRef])
 
   const toggleList = () => {
     showModal("studentAvatar", {
       onRequestSelect: () => router.push('/selectstudent'),
       onRequestEdit: () => router.push('/student/edit'),
-      position: position,
     })
 
   }
@@ -59,10 +42,7 @@ export const StudentBorder = ({ children, title, subtitle, student, showModal }:
             <SemiboldLightText>{subtitle}</SemiboldLightText>
           </View>
           <PressableAvatarPane testID="avatar-pressable" size={imageSize + 8} onPress={toggleList}>
-            <View ref={buttonRef}>
-
-              <StudentAvatar url={student?.imagesrc} width={imageSize} height={imageSize} style="full" />
-            </View>
+            <StudentAvatar url={student?.imagesrc} width={imageSize} height={imageSize} style="full" />
           </PressableAvatarPane>
         </View>
       }

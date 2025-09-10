@@ -29,7 +29,6 @@ export type ModalProps = {
   studentAvatar: {
     onRequestSelect: () => void,
     onRequestEdit: () => void,
-    position: { x: number, y: number, width: number },
   }
 }
 
@@ -50,7 +49,6 @@ type ModalState =
     name: "studentAvatar", props: {
       onRequestSelect: () => void,
       onRequestEdit: () => void,
-      position: { x: number, y: number, width: number },
     }
   }
   | null
