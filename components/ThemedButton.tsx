@@ -244,7 +244,7 @@ export const IconLink = ({ text, href, size, imageSource, imageOptions }: IconLi
       android_ripple={{ color: rippleColor.outline }}
       accessibilityRole='button'
       style={({ pressed }) => [
-        { alignSelf: 'center', },
+        { alignItems: 'center', },
         pressed && { opacity: 0.7 }
       ]}
       onPress={() => {
