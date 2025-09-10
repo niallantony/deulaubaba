@@ -12,7 +12,7 @@ export const NoStudent = () => {
       </TitleText>
       <IconLink
         text="Add Student"
-        href={'/student/add'} size={"md"}
+        href={'/addstudent'} size={"md"}
         imageSource={noStudent}
         imageOptions={{ width: 64, height: 64, marginTop: 42 }}
       />
