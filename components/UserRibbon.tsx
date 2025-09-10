@@ -1,4 +1,4 @@
-import { ActivityIndicator, Pressable, ScrollView, View, Text, Image, TextProps, StyleSheet } from "react-native"
+import { ActivityIndicator, Pressable, ScrollView, View, Text, Image, StyleSheet } from "react-native"
 import { UserAvatar } from "@/types/user"
 import { StudentAvatar } from "./StudentAvatar";
 // @ts-ignore
@@ -9,9 +9,6 @@ import { useStudentStore } from "@/store/currentStudent";
 import { theme } from "@/themes/global";
 import { useModal } from "@/hooks/useModal";
 
-export const UserLabelBig = ({ children }: TextProps) => (
-  <Text style={styles.userLabelBig}>{children}</Text>
-);
 
 export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
   const student = useStudentStore((s) => s.student);
@@ -21,7 +18,7 @@ export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
     if (student?.studentId) {
       fetchUsers(student.studentId)
     }
-  }, [student, fetchUsers])
+  }, [student])
 
   return (
     <View style={styles.ribbonFrame}>
@@ -44,8 +41,8 @@ export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
         </ScrollView>
       </View>
       <Pressable testID="show-code" style={styles.addUserButton} onPress={handleShowStudentCode}>
-        , <Image style={styles.addUserIcon} source={addUser} />
-        <Text style={styles.addUserButton}>초대하기</Text>
+        <Image style={styles.addUserIcon} source={addUser} />
+        <Text style={styles.addUserText}>초대하기</Text>
       </Pressable>
     </View>
   )
@@ -78,17 +75,17 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 7 },
     shadowOpacity: 0.03,
     shadowRadius: 6,
-    borderRadius: 8, // md
-    padding: 12, // small
+    borderRadius: 8,
+    padding: 12,
     flex: 1,
-    marginRight: 12, // small
+    marginRight: 12,
   },
   userAvatars: {
     flex: 1,
   },
   userAvatarView: {
-    marginLeft: 4, // mini
-    marginRight: 4, // mini
+    marginLeft: 4,
+    marginRight: 4,
     alignItems: "center",
     width: 54,
   },
@@ -96,33 +93,30 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flex: 1,
     color: theme.colors.light,
-    marginTop: 4, // mini
-  },
-  userLabelBig: {
-    textAlign: "center",
-    fontSize: 18, // md
-    color: theme.colors.text,
-    marginTop: 12, // small
+    marginTop: 4,
   },
   addUserButton: {
+    flexShrink: 1,
     width: 60,
     height: 60,
     backgroundColor: theme.colors.accent,
-    borderRadius: 16, // xl
-    alignItems: "center",
-    justifyContent: "center",
+    borderRadius: 16,
+    color: '#FFF',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   addUserIcon: {
     width: 32,
     height: 32,
-    borderWidth: 2,
-    borderColor: theme.colors.lightText,
-    borderRadius: 128, // full
-    padding: 4, // mini
-    margin: 4, // mini
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 128,
+    margin: 4,
   },
   addUserText: {
-    fontSize: 10, // xs
+    textAlign: 'center',
+    width: '100%',
+    fontSize: 10,
     color: theme.colors.lightText,
   },
 });
