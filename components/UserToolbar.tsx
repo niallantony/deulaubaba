@@ -1,4 +1,5 @@
 import { useCurrentUser } from "@/hooks/useCurrentUser"
+
 import { View, Image, TouchableWithoutFeedback } from "react-native"
 import { SemiboldText } from "./ThemedText"
 import { StudentAvatar } from "./StudentAvatar"
@@ -43,12 +44,12 @@ export const UserToolbar = () => {
   const handleSettings = () => {
     show("settings", {
       onLogout: handleLogout,
-      position: position,
+      position: position!,
     })
   }
   return (
     <View style={{ flexDirection: "row", marginHorizontal: 24 }}>
-      <View>
+      <View style={{ alignItems: 'center', justifyContent: 'center', }}>
         <StudentAvatar
           url={data?.user?.imagesrc}
           width={48}
