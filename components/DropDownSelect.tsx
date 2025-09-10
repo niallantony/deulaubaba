@@ -12,7 +12,7 @@ export type DropDownType = {
   items: DropDownOption[];
   label: string;
   selectedValue: string;
-  placeholder?: string;
+  placeholder: string;
   onValueChange: (value: string) => void;
 }
 
@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: theme.colors.inputs,
     fontSize: 18,
+    marginTop: 12,
     padding: 12,
     borderRadius: 8,
     shadowColor: "#000",
