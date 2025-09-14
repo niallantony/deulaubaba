@@ -1,62 +1,7 @@
-import { ConfirmDialog } from "@/components/ConfirmDialog";
-import { FullSizeImageModal } from "@/components/FullSizeImageModal";
-import { SettingsMenu } from "@/components/SettingsMenu/SettingsMenu";
-import { CategoryPicker } from "@/features/dictionary/CategoryPicker";
-import { StudentCodeModal } from "@/features/student/StudentCodeDialog";
-import { StudentMenu } from "@/features/student/StudentMenu";
-import { UserDialog } from "@/features/student/UserDialog";
-import { CommunicationCategory } from "@/types/dictionary";
-import { StudentIdAvatar } from "@/types/student";
-import { UserAvatar } from "@/types/user";
+import { modalMap, ModalNames, ModalProps } from "@/types/modal";
 import { createContext, PropsWithChildren, use, useState } from "react";
 import { StyleSheet, TouchableWithoutFeedback, View } from "react-native";
 
-export type ModalProps = {
-  studentCode: { student: StudentIdAvatar },
-  userDialog: { user: UserAvatar },
-  confirm: {
-    onConfirm: () => void,
-    text: string,
-    confirmText: string
-  },
-  category: {
-    setCategory: (c: CommunicationCategory[]) => void,
-    category: CommunicationCategory[]
-  },
-  settings: {
-    onLogout: () => void,
-    position: { x: number, y: number, width: number },
-  },
-  studentAvatar: {
-    onRequestSelect: () => void,
-    onRequestEdit: () => void,
-  },
-  fullSizeImage: {
-    uri: string
-  }
-}
-
-export type ModalNames = keyof ModalProps
-
-type ModalState =
-  | { name: "studentCode", props: { student: StudentIdAvatar } }
-  | { name: "userDialog", props: { user: UserAvatar } }
-  | { name: "confirm", props: { onConfirm: () => void, text: string, confirmText: string } }
-  | {
-    name: "category", props: {
-      setCategory: (c: CommunicationCategory[]) => void,
-      category: CommunicationCategory[]
-    }
-  }
-  | { name: "settings", props: { onLogout: () => void, position: { x: number, y: number, width: number } } }
-  | {
-    name: "studentAvatar", props: {
-      onRequestSelect: () => void,
-      onRequestEdit: () => void,
-    }
-  }
-  | { name: "fullSizeImage", props: { uri: string } }
-  | null
 
 export const ModalContext = createContext<{
   show: <K extends ModalNames>(name: K, props: ModalProps[K]) => void,
@@ -76,25 +21,21 @@ export const useModal = () => {
 }
 
 export const ModalProvider = ({ children }: PropsWithChildren) => {
-  const [modal, setModal] = useState<ModalState>(null)
+  const [modal, setModal] = useState<{ name: ModalNames; props: any } | null>(null)
 
 
-  const show = <K extends ModalNames>(name: K, props: ModalProps[K]) => setModal({ name, props } as ModalState)
+  const show = <K extends ModalNames>(name: K, props: ModalProps[K]) => setModal({ name, props })
   const hide = () => setModal(null)
+
+  const ModalComponent = modal ? modalMap[modal.name] : null
 
   return (
     <ModalContext.Provider value={{ show, hide }}>
       {children}
-      {modal &&
+      {ModalComponent &&
         <TouchableWithoutFeedback onPress={hide}>
           <View style={styles.overlay} >
-            {modal.name === "studentCode" && (<StudentCodeModal {...modal.props} onClose={hide} />)}
-            {modal.name === "userDialog" && (<UserDialog {...modal.props} onClose={hide} />)}
-            {modal.name === "confirm" && (<ConfirmDialog {...modal.props} onClose={hide} />)}
-            {modal.name === "category" && (<CategoryPicker {...modal.props} onClose={hide} />)}
-            {modal.name === "settings" && (<SettingsMenu {...modal.props} onClose={hide} />)}
-            {modal.name === "studentAvatar" && (<StudentMenu {...modal.props} onClose={hide} />)}
-            {modal.name === "fullSizeImage" && (<FullSizeImageModal {...modal.props} onClose={hide} />)}
+            <ModalComponent {...modal?.props} onClose={hide} />
           </View>
         </TouchableWithoutFeedback>
       }
