@@ -126,6 +126,7 @@ const linkStudentFromCode = async (code: string): Promise<StudentResponse> => {
     }
   } catch (err) {
     console.error(err)
+    return Promise.reject(err)
   }
   return {
     status: 401,

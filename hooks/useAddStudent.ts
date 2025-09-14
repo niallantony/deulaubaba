@@ -101,7 +101,6 @@ export const useAddStudent = () => {
   const submitStudent = () => {
     if (student) {
       submitStudentMutation.mutate(student)
-      dispatch({ type: 'SET_STUDENT', student })
     }
   }
 
@@ -109,14 +108,14 @@ export const useAddStudent = () => {
     mutationFn: API.postStudent,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['students'] })
-    }
+    },
+    onError: (e) => dispatch({ type: 'SET_ERROR', error: `Student Submission failed: ${e.message}` })
   })
 
-  const handleNewStudent = async (student: Student) => {
+  const handleNewStudent = (student: Student) => {
     dispatch({ type: 'SET_STUDENT', student })
     dispatch({
       type: 'SET_PREVIEW', studentPreview: {
-        studentId: student.studentId,
         name: student.name,
         imagesrc: student.imagesrc,
       }
