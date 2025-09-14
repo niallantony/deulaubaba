@@ -39,10 +39,10 @@ export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListi
           )
           :
           (
-            <ScrollView>
+            <ScrollView style={{ paddingHorizontal: 4 }}>
               <ImageFrame>
                 <ProfileAvatarPane>
-                  <StudentAvatar style="full" url={entry.imgsrc} width={128} height={182} />
+                  <StudentAvatar style="full" pressable url={entry.imgsrc} width={128} height={182} />
                 </ProfileAvatarPane >
                 <View style={{ flex: 1 }}>
                   <InfoLabel>의사소통내용</InfoLabel>

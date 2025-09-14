@@ -19,7 +19,7 @@ export const StudentProfile = () => {
     <ThemedScrollableView>
       <ImageFrame>
         <ProfileAvatarPane>
-          <StudentAvatar style="full" url={data?.student?.imagesrc} width={128} height={182} />
+          <StudentAvatar style="full" pressable url={data?.student?.imagesrc} width={128} height={182} />
         </ProfileAvatarPane>
         <View>
           <RowText>

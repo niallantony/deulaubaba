@@ -1,4 +1,5 @@
 import { ConfirmDialog } from "@/components/ConfirmDialog";
+import { FullSizeImageModal } from "@/components/FullSizeImageModal";
 import { SettingsMenu } from "@/components/SettingsMenu/SettingsMenu";
 import { CategoryPicker } from "@/features/dictionary/CategoryPicker";
 import { StudentCodeModal } from "@/features/student/StudentCodeDialog";
@@ -29,6 +30,9 @@ export type ModalProps = {
   studentAvatar: {
     onRequestSelect: () => void,
     onRequestEdit: () => void,
+  },
+  fullSizeImage: {
+    uri: string
   }
 }
 
@@ -51,6 +55,7 @@ type ModalState =
       onRequestEdit: () => void,
     }
   }
+  | { name: "fullSizeImage", props: { uri: string } }
   | null
 
 export const ModalContext = createContext<{
@@ -89,6 +94,7 @@ export const ModalProvider = ({ children }: PropsWithChildren) => {
             {modal.name === "category" && (<CategoryPicker {...modal.props} onClose={hide} />)}
             {modal.name === "settings" && (<SettingsMenu {...modal.props} onClose={hide} />)}
             {modal.name === "studentAvatar" && (<StudentMenu {...modal.props} onClose={hide} />)}
+            {modal.name === "fullSizeImage" && (<FullSizeImageModal {...modal.props} onClose={hide} />)}
           </View>
         </TouchableWithoutFeedback>
       }
