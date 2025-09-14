@@ -46,6 +46,6 @@ describe("StudentAvatar", () => {
     );
 
     const image = getByTestId("container");
-    expect(image.props.style.borderRadius).toBe(128);
+    expect(image.props.style[0].borderRadius).toBe(128);
   });
 });

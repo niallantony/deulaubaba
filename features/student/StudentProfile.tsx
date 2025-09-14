@@ -1,15 +1,18 @@
 import { StudentAvatar } from "@/components/StudentAvatar"
 import { InfoLabel, SemiboldText, StyledText, TitleText } from "@/components/ThemedText"
 import { ImageFrame, PressableInfoPane, ProfileAvatarPane, RowText, ThemedScrollableView } from "@/components/ThemedView"
+import { TouchableAvatar } from "@/components/TouchableAvatar"
 import { UserRibbon } from "@/components/UserRibbon"
 import { useModal } from "@/hooks/useModal"
 import { useSelectedStudent } from "@/hooks/useSelectedStudent"
+import { useStudentStore } from "@/store/currentStudent"
 import { useRouter } from "expo-router"
 import { View } from "react-native"
 
 export const StudentProfile = () => {
 
   const { data } = useSelectedStudent()
+  const student = useStudentStore(s => s.student)
 
   const router = useRouter();
 
@@ -19,7 +22,9 @@ export const StudentProfile = () => {
     <ThemedScrollableView>
       <ImageFrame>
         <ProfileAvatarPane>
-          <StudentAvatar style="full" pressable url={data?.student?.imagesrc} width={128} height={182} />
+          <TouchableAvatar imagesrc={data?.student?.imagesrc}>
+            <StudentAvatar style="full" pressable url={data?.student?.imagesrc} width={128} height={182} />
+          </TouchableAvatar>
         </ProfileAvatarPane>
         <View>
           <RowText>
@@ -35,7 +40,9 @@ export const StudentProfile = () => {
         </View>
       </ImageFrame>
       <InfoLabel>의사소통 팀 구성원</InfoLabel>
-      <UserRibbon handleShowStudentCode={() => show("studentCode", { student: data?.student })} />
+      {student &&
+        <UserRibbon handleShowStudentCode={() => show("studentCode", { student })} />
+      }
       <InfoLabel>주요 의사소통특성</InfoLabel>
       <PressableInfoPane onPress={() => router.push('/student/edit/communication')}>
         <StyledText>{data?.student?.communicationDetails}</StyledText>
