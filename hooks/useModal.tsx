@@ -34,7 +34,7 @@ export const ModalProvider = ({ children }: PropsWithChildren) => {
       {children}
       {ModalComponent &&
         <TouchableWithoutFeedback onPress={hide}>
-          <View style={styles.overlay} >
+          <View style={styles.overlay} testID="modal-container" >
             <ModalComponent {...modal?.props} onClose={hide} />
           </View>
         </TouchableWithoutFeedback>
