@@ -1,6 +1,5 @@
 import { CenteredOverlay } from "@/components/CenteredOverlay"
 import { Divider } from "@/components/Divider"
-import { PositionedDialog } from "@/components/PositionedDialog"
 import { DropdownMenuOption } from "@/components/SettingsMenu/SettingsMenu"
 import { ClickableText } from "@/components/ThemedText"
 import React from "react"

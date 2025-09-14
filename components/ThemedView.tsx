@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.03,
     shadowRadius: 6,
     elevation: 3,
+    marginVertical: 12,
   },
   avatarPane: {
     backgroundColor: theme.colors.inputs,
