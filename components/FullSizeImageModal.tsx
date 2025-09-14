@@ -51,15 +51,15 @@ export const FullSizeImageModal = ({ uri, onClose, ...rest }: { uri: string, onC
         {...rest}
         testID="image"
         source={{ uri: imageurl }}
-        width={width - 12}
+        width={width}
         resizeMode="contain"
         onLoad={() => {
           setLoaded(true)
         }}
+        // TODO: Show error
         onError={() => setLoaded(false)}
         style={[
-          styles.image,
-          { height: height - 12 }
+          { height: height }
         ]}
       />
       {!loaded && (
@@ -91,6 +91,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: theme.colors.light,
   },
-  image: {
-  }
 });
