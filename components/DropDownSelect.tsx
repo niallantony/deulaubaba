@@ -24,6 +24,7 @@ export const DropDownSelect = ({ items, label, selectedValue, onValueChange, pla
     <View>
       <LightText style={{ marginBottom: 12 }}>{label}</LightText>
       <ModalSelector
+        accessibilityLabel={label}
         testID="modal-select"
         data={items}
         initValue={placeholder}
