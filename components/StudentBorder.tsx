@@ -1,4 +1,4 @@
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import { PropsWithChildren } from "react";
 import { StudentAvatar } from "./StudentAvatar";
 import { PressableAvatarPane, } from "./ThemedView";
 import { SemiboldLightText, TitleText } from "./ThemedText";
@@ -6,7 +6,7 @@ import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { theme } from "@/themes/global";
 import { StudentIdAvatar } from "@/types/student";
-import { ModalNames } from "@/hooks/useModal";
+import { ModalNames } from "@/types/modal";
 
 
 type StudentBorderProps = {
