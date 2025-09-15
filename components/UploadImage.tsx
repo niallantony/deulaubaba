@@ -63,6 +63,7 @@ export const UploadImage = ({ setImage, image, preImage, ...rest }: { setImage: 
   return (
     <Pressable
       style={styles.pressable}
+      testID="upload-image"
       accessibilityRole="button"
       accessibilityLabel="프로필 이미지 업로드"
       onPress={pickImage}

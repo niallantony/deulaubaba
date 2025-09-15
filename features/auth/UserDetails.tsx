@@ -81,20 +81,20 @@ export const UserDetails = ({ onSubmit }: UserDetailsProps) => {
           placeholder="선택하세요"
           onValueChange={setUserType}
         />
-        {errors?.usertypeError && (<ErrorText>{errors.usertypeError}</ErrorText>)}
+        {errors?.usertypeError && !userType && (<ErrorText>{errors.usertypeError}</ErrorText>)}
         <ThemedTextInput
           label={"성함"}
           value={name}
           onChange={setName}
           autoComplete={"name"}
-          error={errors?.nameError}
+          error={!name ? errors?.nameError : undefined}
         />
         <ThemedTextInput
           label={"아이디"}
           value={username}
           onChange={setUsername}
           autoComplete={"username"}
-          error={errors?.usernameError}
+          error={!username ? errors?.usernameError : undefined}
         />
         <ButtonContainer width={150}>
           <ThemedButton text={"가입하기"} type={"green"} onPress={handleSubmit} />
