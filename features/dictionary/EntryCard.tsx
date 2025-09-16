@@ -4,7 +4,7 @@ import { DictionaryListing, getCategoryColor } from "@/types/dictionary";
 import { Pressable, PressableProps, TextProps, View, ViewProps, Text, StyleSheet } from "react-native";
 
 export const Card = ({ children, onPress }: PressableProps) => (
-  <Pressable style={styles.card} onPress={onPress}>
+  <Pressable testID="entry-button" style={styles.card} onPress={onPress}>
     {children}
   </Pressable>
 );
@@ -28,7 +28,7 @@ export const CategoryMarker = ({ color }: { color: string }) => (
 );
 
 export const CardDescriptionHolder = ({ children }: ViewProps) => (
-  <View style={styles.cardDescriptionHolder}>{children}</View>
+  <View testID="category-marker" style={styles.cardDescriptionHolder}>{children}</View>
 );
 
 export const CardDescription = ({ children }: TextProps) => (
