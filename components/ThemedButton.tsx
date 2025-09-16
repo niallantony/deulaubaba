@@ -25,6 +25,7 @@ export const InputLikeButton = ({ error, children, ...rest }: { error?: string }
         error ? styles.error : null,
       ]}
         {...rest}
+        testID='input-like-button'
       >
         {children}
       </Pressable>
