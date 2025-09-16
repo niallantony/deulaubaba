@@ -48,10 +48,10 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
 
 
   const handleSubmit = async () => {
-    if (!student || !student.studentId) {
+    if (!validate()) {
       return
     }
-    if (!validate()) {
+    if (!student || !student.studentId) {
       return
     }
     const listing: DictionaryPosting = {
@@ -79,12 +79,12 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
             numberOfLines={5}
             multiline={true}
             rows={3}
-            error={errors.titleError}
+            error={title ? undefined : errors.titleError}
           />
         </View>
       </UploadImageFrame>
       <LightText >의사소통 기능</LightText>
-      <InputLikeButton error={errors.categoryError} onPress={() => {
+      <InputLikeButton error={category.length > 0 ? undefined : errors.categoryError} onPress={() => {
         show("category", {
           category,
           setCategory
