@@ -5,20 +5,22 @@ import { StudentAvatar } from "./StudentAvatar";
 import addUser from "@/assets/images/addUser.png"
 import { useEffect } from "react";
 import { useUserRibbon } from "@/hooks/useUserRibbon";
-import { useStudentStore } from "@/store/currentStudent";
 import { theme } from "@/themes/global";
 import { useModal } from "@/hooks/useModal";
 
 
-export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
-  const student = useStudentStore((s) => s.student);
+export const UserRibbon = ({
+  onPressShowStudentCode,
+  studentId
+}: UserRibbonProps) => {
 
   const { loading, users, fetchUsers } = useUserRibbon();
+
   useEffect(() => {
-    if (student?.studentId) {
-      fetchUsers(student.studentId)
+    if (studentId) {
+      fetchUsers(studentId)
     }
-  }, [student])
+  }, [studentId])
 
   return (
     <View style={styles.ribbonFrame}>
@@ -40,7 +42,11 @@ export const UserRibbon = ({ handleShowStudentCode }: UserRibbonProps) => {
           })}
         </ScrollView>
       </View>
-      <Pressable testID="show-code" style={styles.addUserButton} onPress={handleShowStudentCode}>
+      <Pressable
+        testID="show-code"
+        style={styles.addUserButton}
+        onPress={onPressShowStudentCode}
+      >
         <Image style={styles.addUserIcon} source={addUser} />
         <Text style={styles.addUserText}>초대하기</Text>
       </Pressable>
@@ -123,6 +129,7 @@ const styles = StyleSheet.create({
 });
 
 export type UserRibbonProps = {
-  handleShowStudentCode: () => void;
+  onPressShowStudentCode: () => void;
+  studentId: string | undefined;
 }
 

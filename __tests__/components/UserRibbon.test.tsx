@@ -2,17 +2,11 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react-native";
 import { UserRibbon } from "@/components/UserRibbon";
 import { useUserRibbon } from "@/hooks/useUserRibbon";
-import { useStudentStore } from "@/store/currentStudent";
 import { useModal } from "@/hooks/useModal";
 
 jest.mock("@/hooks/useUserRibbon", () => ({
   __esModule: true,
   useUserRibbon: jest.fn(),
-}));
-
-jest.mock("@/store/currentStudent", () => ({
-  __esModule: true,
-  useStudentStore: jest.fn(),
 }));
 
 jest.mock("@/hooks/useModal", () => ({
@@ -38,9 +32,12 @@ describe("UserRibbon", () => {
       fetchUsers,
     });
     // @ts-ignore
-    (useStudentStore as jest.Mock).mockReturnValue({ student: { studentId: "123" } });
-
-    render(<UserRibbon handleShowStudentCode={handleShowStudentCode} />);
+    render(
+      <UserRibbon
+        onPressShowStudentCode={handleShowStudentCode}
+        studentId="123"
+      />
+    );
 
     expect(screen.getByTestId("loading")).toBeTruthy();
   });
@@ -52,13 +49,16 @@ describe("UserRibbon", () => {
       users: [{ id: "u1", src: "http://example.com/img.png", type: "teacher" }],
       fetchUsers,
     });
-    // @ts-ignore
-    (useStudentStore as jest.Mock).mockReturnValue({ student: { studentId: "123" } });
     (useModal as jest.Mock).mockReturnValue({
       show: show
     })
 
-    render(<UserRibbon handleShowStudentCode={handleShowStudentCode} />);
+    render(
+      <UserRibbon
+        onPressShowStudentCode={handleShowStudentCode}
+        studentId="123"
+      />
+    );
 
     expect(await screen.findByText("teacher")).toBeTruthy();
   });
@@ -69,13 +69,16 @@ describe("UserRibbon", () => {
       users: [],
       fetchUsers,
     });
-    // @ts-ignore
-    (useStudentStore as jest.Mock).mockReturnValue({ student: { studentId: "123" } });
     (useModal as jest.Mock).mockReturnValue({
       show: show
     })
 
-    render(<UserRibbon handleShowStudentCode={handleShowStudentCode} />);
+    render(
+      <UserRibbon
+        onPressShowStudentCode={handleShowStudentCode}
+        studentId="123"
+      />
+    )
 
 
     const button = screen.getByTestId("show-code");
@@ -89,10 +92,13 @@ describe("UserRibbon", () => {
       users: [{ id: "u1", src: "http://example.com/img.png", type: "teacher" }],
       fetchUsers,
     });
-    // @ts-ignore
-    (useStudentStore as jest.Mock).mockReturnValue({ student: { studentId: "123" } });
 
-    render(<UserRibbon handleShowStudentCode={handleShowStudentCode} />);
+    render(
+      <UserRibbon
+        onPressShowStudentCode={handleShowStudentCode}
+        studentId="123"
+      />
+    )
 
     const avatar = await screen.findByText("teacher");
     fireEvent.press(avatar.parent as any); // press the wrapping Pressable
