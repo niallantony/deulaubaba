@@ -9,14 +9,10 @@ import { UploadImage } from "@/components/UploadImage"
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"
 import { theme } from "@/themes/global"
 
-type StudentFormErrors = {
-  nameError?: string,
-  schoolError?: string,
-  ageError?: string,
-  gradeError?: string,
-  settingError?: string,
-  disabilityError?: string,
-}
+type StudentFormErrors = Partial<Record<
+  "name" | "school" | "age" | "grade" | "setting" | "disability",
+  string
+>>
 
 export type StudentFormProps = {
   onSubmit: (student: Omit<Student, "communicationDetails" | "challengesDetails">) => void;
@@ -31,32 +27,32 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
   const [grade, setGrade] = useState(student?.grade.toString())
   const [setting, setSetting] = useState(student?.setting)
   const [disability, setDisability] = useState(student?.disability)
-  const [imgsrc, setImgsrc] = useState(null)
+  const [imgsrc, setImgsrc] = useState<string | null>(null)
   const [errors, setErrors] = useState<StudentFormErrors>({})
 
   const validate = () => {
     const newErrors: StudentFormErrors = {}
     if (!name?.trim()) {
-      newErrors.nameError = "학생 이름 입력해주세요"
+      newErrors.name = "학생 이름 입력해주세요"
     }
     if (!school?.trim()) {
-      newErrors.schoolError = "학생 소속 학교명 입력해주세요"
+      newErrors.school = "학생 소속 학교명 입력해주세요"
     }
     if (!age) {
-      newErrors.ageError = "학생 나이 입력해주세요"
+      newErrors.age = "학생 나이 입력해주세요"
     } else if (!parseInt(age.trim())) {
-      newErrors.ageError = "학생 나이 숫자로 입력해주세요"
+      newErrors.age = "학생 나이 숫자로 입력해주세요"
     }
     if (!grade) {
-      newErrors.gradeError = "학생 학년 입력해주세요"
+      newErrors.grade = "학생 학년 입력해주세요"
     } else if (!parseInt(grade.trim())) {
-      newErrors.gradeError = "학생 학년 숫자로 입력해주세요"
+      newErrors.grade = "학생 학년 숫자로 입력해주세요"
     }
     if (!setting?.trim()) {
-      newErrors.settingError = "배치유형 입력해주세요"
+      newErrors.setting = "배치유형 입력해주세요"
     }
     if (!disability?.trim()) {
-      newErrors.disabilityError = "장애유형 학교명 입력해주세요"
+      newErrors.disability = "장애유형 입력해주세요"
     }
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -66,7 +62,8 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
     if (!validate()) {
       return
     }
-    const student: Omit<Student, "communicationDetails" | "challengesDetails"> = {
+
+    const newStudent: Omit<Student, "communicationDetails" | "challengesDetails"> = {
       name: name!,
       school: school!,
       age: parseInt(age!),
@@ -75,7 +72,7 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
       disability: disability!,
       imagesrc: imgsrc ? imgsrc : undefined,
     }
-    onSubmit(student)
+    onSubmit(newStudent)
   }
 
   return (
@@ -84,19 +81,23 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
       contentContainerStyle={{ paddingHorizontal: 24, backgroundColor: theme.colors.background }}
     >
       <UploadImageFrame>
-        <UploadImage setImage={setImgsrc} image={imgsrc} preImage={student?.imagesrc} />
+        <UploadImage
+          setImage={setImgsrc}
+          image={imgsrc}
+          preImage={student?.imagesrc}
+        />
         <View style={{ flexGrow: 1, }}>
           <ThemedTextInput
             label={"학생 이름"}
             value={name}
             onChange={setName}
-            error={errors.nameError}
+            error={errors.name}
           />
           <ThemedTextInput
             label={"소속 학교명"}
             value={school}
             onChange={setSchool}
-            error={errors.schoolError}
+            error={errors.school}
           />
         </View>
       </UploadImageFrame>
@@ -107,7 +108,7 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
           label={"나이"}
           value={age}
           onChange={setAge}
-          error={errors.ageError}
+          error={errors.age}
         />
         <ThemedTwinInput
           inputMode="numeric"
@@ -115,20 +116,20 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
           label={"학년"}
           value={grade}
           onChange={setGrade}
-          error={errors.gradeError}
+          error={errors.grade}
         />
       </TwinInputs>
       <ThemedTextInput
         label={"배치유형"}
         value={setting}
         onChange={setSetting}
-        error={errors.settingError}
+        error={errors.setting}
       />
       <ThemedTextInput
         label={"장애유형"}
         value={disability}
         onChange={setDisability}
-        error={errors.disabilityError}
+        error={errors.disability}
       />
       <RowButtonContainer>
         <ThemedButton text={"학생 등록"} row type={"green"} onPress={handleSubmit} />
