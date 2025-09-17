@@ -20,6 +20,10 @@ export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListi
     confirmText: "삭제"
   }))
 
+  const handleShowForm = () => {
+    setEdit(true);
+  }
+
   const handleEditSubmit = (dictionary: DictionaryPosting) => {
     update.mutate({ dictionary, id })
     onUpdate();
@@ -39,7 +43,7 @@ export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListi
           )
           :
           (
-            <DictionaryView entry={entry} onDeleteRequest={handleModal} handleEdit={() => setEdit(true)} />
+            <DictionaryView entry={entry} onDeleteRequest={handleModal} onEditPress={handleShowForm} />
           )
       }
     </>
