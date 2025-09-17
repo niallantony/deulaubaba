@@ -28,14 +28,18 @@ describe("addStudentReducer", () => {
     screen: "add" as const,
     student: null,
     studentPreview: null,
-    error: ""
+    error: {
+      preview: null,
+      link: null,
+      post: null
+    }
   }
 
   it("resets to initial state", () => {
     const state = {
       ...baseState,
       screen: "confirm_new" as const,
-      error: "bad",
+      error: { ...baseState.error, preview: "bad" },
     }
     const next = addStudentReducer(state, { type: "RESET" })
     expect(next).toEqual(baseState);
@@ -75,8 +79,8 @@ describe("addStudentReducer", () => {
   })
 
   it("sets an error", () => {
-    const next = addStudentReducer(baseState, { type: "SET_ERROR", error: "bad" })
-    expect(next.error).toBe("bad")
+    const next = addStudentReducer(baseState, { type: "SET_ERROR", op: "preview", message: "bad" })
+    expect(next.error.preview).toBe("bad")
   })
 
   it("sets a preview", () => {
@@ -143,7 +147,7 @@ describe("useAddStudent", () => {
       expect(ok).toBe(false)
     })
 
-    expect(result.current.error).toBe("invalid code")
+    expect(result.current.error.preview).toBe("invalid code")
   })
 
   it("handles error when thrown", async () => {
@@ -156,7 +160,7 @@ describe("useAddStudent", () => {
       expect(ok).toBe(false)
     })
 
-    expect(result.current.error).toBe("Attempt Failed: Error: error ")
+    expect(result.current.error.preview).toBe("Attempt Failed: Error: error ")
   })
 
   it("handles new student", async () => {
@@ -280,7 +284,7 @@ describe("useAddStudent", () => {
     await act(async () => {
       result.current.submitStudent()
     })
-    expect(result.current.error).toBe("Student Submission failed: Not Posted")
+    expect(result.current.error.post).toBe("Student Submission failed: Not Posted")
 
   })
 
@@ -323,7 +327,7 @@ describe("useAddStudent", () => {
       result.current.linkStudent();
     })
 
-    expect(result.current.error).toBe("Link failed: No such student")
+    expect(result.current.error.link).toBe("Link failed: No such student")
   })
 
   it("doesn't link when studentId is missing", async () => {

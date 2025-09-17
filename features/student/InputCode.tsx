@@ -18,8 +18,8 @@ export const InputStudentCode = ({ onSubmit, onBack, error }: InputStudentCodePr
 
   const handleSubmit = () => {
     if (code.length < 6) {
-      console.log("Length Error")
       setInputError("글자 6 자리 입력해 주세요")
+      return
     }
     setInputError("")
     onSubmit(code);
@@ -46,7 +46,13 @@ export const InputStudentCode = ({ onSubmit, onBack, error }: InputStudentCodePr
 
       <View style={{ marginTop: 32, justifyContent: 'center', alignItems: 'center' }}>
         <ButtonContainer width={150}>
-          <ThemedButton text={"확인"} type={"green"} onPress={handleSubmit} accessibilityLabel="확인" />
+          <ThemedButton
+            text={"확인"}
+            type={"green"}
+            onPress={handleSubmit}
+            accessibilityLabel="확인"
+            testID="submit-code"
+          />
           <ThemedButton
             onPress={onBack}
             type="bare"

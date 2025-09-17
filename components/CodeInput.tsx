@@ -6,7 +6,7 @@ export type InputCodeProps = {
   code: string;
   setCode: (code: string) => void;
   length: number;
-  error: boolean;
+  error?: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export const InputCode = ({ code, setCode, length, error }: InputCodeProps) => {
+export const InputCode = ({ code, setCode, length, error = false }: InputCodeProps) => {
   const inputRef = useRef<TextInput>(null);
 
   const handlePress = () => {
