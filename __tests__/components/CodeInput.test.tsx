@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, render, screen } from "@testing-library/react-native";
 import { InputCode } from "@/components/CodeInput"
-import { TextInput } from "react-native";
+import { TextInput, StyleSheet } from "react-native";
 
 describe("InputCode", () => {
 
@@ -32,6 +32,17 @@ describe("InputCode", () => {
     fireEvent.changeText(input, "123");
     expect(setCode).toHaveBeenCalledWith("123");
   });
+
+  it("renders in error style when error present", () => {
+    const { getAllByTestId, getByTestId } = render(
+      <InputCode code="" setCode={jest.fn()} length={6} error={true} />
+    )
+    const boxStyle = StyleSheet.flatten(getAllByTestId("code-box")[0].props.style)
+    const charStyle = StyleSheet.flatten(getByTestId("code-box-0").props.style)
+
+    expect(boxStyle.borderColor).toBe('#FF4141')
+    expect(charStyle.color).toBe('#FF4141')
+  })
 
   it("does not allow input longer than length", () => {
     const setCode = jest.fn();
