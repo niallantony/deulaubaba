@@ -5,9 +5,12 @@ import { useCallback, useReducer } from "react"
 
 type Screen = "add" | "code" | "register" | "confirm_new" | "confirm_link";
 
+type Operation = "preview" | "link" | "post";
+type Errors = Record<Operation, string | null>
+
 type AddStudentState = {
   screen: Screen;
-  error: string;
+  error: Errors;
   student: Student | null;
   studentPreview: Pick<Student, 'studentId' | 'name' | 'imagesrc'> | null;
 }
@@ -16,7 +19,7 @@ type Action =
   | { type: "RESET" }
   | { type: 'INPUT_CODE' }
   | { type: 'MAKE_CODE' }
-  | { type: 'SET_ERROR', error: string }
+  | { type: 'SET_ERROR', op: Operation, message: string | null }
   | { type: 'SET_STUDENT', student: Student }
   | { type: 'SET_PREVIEW', studentPreview: AddStudentState['studentPreview'] }
   | { type: 'CONFIRM_NEW' }
@@ -30,14 +33,18 @@ export const addStudentReducer = (state: AddStudentState, action: Action): AddSt
         screen: 'add',
         student: null,
         studentPreview: null,
-        error: '',
+        error: {
+          preview: null,
+          link: null,
+          post: null,
+        }
       };
     case "INPUT_CODE":
       return { ...state, screen: "code" };
     case "MAKE_CODE":
       return { ...state, screen: "register" }
     case "SET_ERROR":
-      return { ...state, error: action.error }
+      return { ...state, error: { ...state.error, [action.op]: action.message } }
     case "SET_STUDENT":
       return { ...state, student: action.student }
     case "SET_PREVIEW":
@@ -59,7 +66,11 @@ export const useAddStudent = () => {
     screen: 'add',
     student: null,
     studentPreview: null,
-    error: '',
+    error: {
+      preview: null,
+      link: null,
+      post: null,
+    }
   })
 
   const { student, studentPreview, screen, error } = state;
@@ -75,7 +86,11 @@ export const useAddStudent = () => {
     try {
       const response = await API.getStudentPreviewFromCode(code);
       if (response.status === 401 && response.message) {
-        dispatch({ type: 'SET_ERROR', error: response.message })
+        dispatch({ type: 'SET_ERROR', op: "preview", message: response.message })
+        return false
+      }
+      if (response.status === 404 && response.message) {
+        dispatch({ type: "SET_ERROR", op: "preview", message: response.message })
         return false
       }
       if (response.status === 200 && response.student) {
@@ -85,7 +100,7 @@ export const useAddStudent = () => {
       }
     } catch (err) {
       console.error(err)
-      dispatch({ type: 'SET_ERROR', error: `Attempt Failed: ${err} ` })
+      dispatch({ type: 'SET_ERROR', op: "preview", message: `Attempt Failed: ${err} ` })
       return false;
     }
   }
@@ -95,7 +110,7 @@ export const useAddStudent = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['students'] })
     },
-    onError: (e) => dispatch({ type: 'SET_ERROR', error: `Link failed: ${e.message}` })
+    onError: (e) => dispatch({ type: 'SET_ERROR', op: "link", message: `Link failed: ${e.message}` })
   })
 
   const submitStudent = () => {
@@ -109,7 +124,7 @@ export const useAddStudent = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['students'] })
     },
-    onError: (e) => dispatch({ type: 'SET_ERROR', error: `Student Submission failed: ${e.message}` })
+    onError: (e) => dispatch({ type: 'SET_ERROR', op: "post", message: `Student Submission failed: ${e.message}` })
   })
 
   const handleNewStudent = (student: Student) => {

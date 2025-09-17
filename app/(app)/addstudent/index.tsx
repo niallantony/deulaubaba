@@ -20,6 +20,7 @@ export default function AddStudent() {
     inputCode,
     makeCode,
     studentPreview,
+    error,
   } = useAddStudent();
 
   const router = useRouter();
@@ -49,7 +50,13 @@ export default function AddStudent() {
       makeCode={makeCode}
     />)
   } else if (screen === "code") {
-    return (<InputStudentCode onSubmit={handleStudentCode} onBack={() => reset()} />);
+    return (
+      <InputStudentCode
+        onSubmit={handleStudentCode}
+        onBack={() => reset()}
+        error={error.preview}
+      />
+    );
   } else if (screen === "register") {
     return (<StudentForm
       onSubmit={handleNewStudent}

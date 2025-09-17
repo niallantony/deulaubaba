@@ -6,6 +6,7 @@ export type InputCodeProps = {
   code: string;
   setCode: (code: string) => void;
   length: number;
+  error: boolean;
 }
 
 const styles = StyleSheet.create({
@@ -17,10 +18,18 @@ const styles = StyleSheet.create({
     width: 40,
     height: 50,
     borderBottomWidth: 1,
-    borderColor: theme.colors.accent,
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 5
+  },
+  boxColor: {
+    borderColor: theme.colors.accent,
+  },
+  errorBox: {
+    borderColor: theme.colors.error,
+  },
+  errorChar: {
+    color: theme.colors.error,
   },
   char: {
     fontSize: 24,
@@ -34,7 +43,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export const InputCode = ({ code, setCode, length }: InputCodeProps) => {
+export const InputCode = ({ code, setCode, length, error }: InputCodeProps) => {
   const inputRef = useRef<TextInput>(null);
 
   const handlePress = () => {
@@ -49,8 +58,14 @@ export const InputCode = ({ code, setCode, length }: InputCodeProps) => {
     <Pressable onPress={handlePress} testID="overlay-pressable">
       <View style={styles.view}>
         {[...Array(length)].map((_, i) => (
-          <View style={styles.box} key={i} testID="code-box">
-            <Text style={styles.char} testID={`code-box-${i}`}>{code[i] || ''}</Text>
+          <View style={[
+            styles.box,
+            error ? styles.errorBox : styles.boxColor
+          ]} key={i} testID="code-box">
+            <Text style={[
+              styles.char,
+              error ? styles.errorChar : null
+            ]} testID={`code-box-${i}`}>{code[i] || ''}</Text>
           </View>
         ))}
         <TextInput
