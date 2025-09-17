@@ -13,10 +13,10 @@ export const ConfirmStudent = ({ student, onConfirm }: { student: Pick<Student, 
           <View style={{ justifyContent: 'center', alignItems: 'center', }}>
             <StudentAvatar style="round" url={student.imagesrc} width={64} height={64} />
             <View style={{ marginBottom: 24 }}>
-              <SemiboldText>Add student {student.name}?</SemiboldText>
+              <SemiboldText>{student.name} 학생을 추가하시겠습니까?</SemiboldText>
             </View>
             <ThemedButton
-              text={"Confirm"}
+              text={"확인"}
               type="green"
               onPress={onConfirm}
             />
@@ -25,7 +25,7 @@ export const ConfirmStudent = ({ student, onConfirm }: { student: Pick<Student, 
       }
       {
         !student &&
-        (<LightText>Error, no student found</LightText>)
+        (<LightText>오류: 학생을 찾을 수 없습니다</LightText>)
       }
     </FullView >
   )
