@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent, screen } from "@testing-library/react-native";
+import { render, screen } from "@testing-library/react-native";
 import { DropDownSelect, DropDownOption } from "@/components/DropDownSelect";
 
 describe("DropDownSelect", () => {

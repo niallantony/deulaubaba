@@ -241,7 +241,7 @@ export type IconLinkProps = {
   size: "sm" | "md" | "lg";
 } & ThemedButtonProps & LinkProps
 
-export const IconLink = ({ text, href, size, imageSource, imageOptions }: IconLinkProps) => {
+export const IconLink = ({ text, href, imageSource, imageOptions }: IconLinkProps) => {
   const router = useRouter()
 
   return (
