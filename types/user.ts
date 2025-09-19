@@ -12,6 +12,7 @@ export type UserResponse = {
   imagesrc: string;
   role: { id: number, name: string };
   userType: string;
+  username: string;
 }
 
 export type UserAvatar = {
