@@ -3,6 +3,7 @@ import { ThemedButton } from "@/components/ThemedButton";
 import { FullView } from "@/components/ThemedView";
 import { ActivityIndicator, Image, View } from "react-native";
 import { useAuth0 } from "react-native-auth0";
+// @ts-ignore
 import Logo from "@/assets/images/logo.png"
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 

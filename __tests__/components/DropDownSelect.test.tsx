@@ -24,6 +24,7 @@ describe("DropDownSelect", () => {
   it("renders the selected value correctly", () => {
     render(
       <DropDownSelect
+          placeholder="Select"
         items={items}
         label="Test Label"
         selectedValue="2"

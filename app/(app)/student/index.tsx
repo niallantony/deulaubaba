@@ -31,7 +31,7 @@ export default function Student() {
 
   return (
     <StudentProfile
-      data={selected}
+      data={selected.student}
       onChallengesPress={handleChallengeRoute}
       onCommunicationPress={handleCommunicationRoute}
     />

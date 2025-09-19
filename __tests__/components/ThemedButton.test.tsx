@@ -40,7 +40,7 @@ describe("ThemedButton components", () => {
   });
 
   it("navigates with LinkButton", () => {
-    const { getByText } = render(<LinkButton text="Go" href="/next" />);
+    const { getByText } = render(<LinkButton text="Go" href="./next" />);
     fireEvent.press(getByText("Go"));
     expect(mockPush).toHaveBeenCalledWith("/next");
   });
@@ -52,7 +52,7 @@ describe("ThemedButton components", () => {
   });
 
   it("navigates with AddButton", () => {
-    const { getByText } = render(<AddButton href="/add" />);
+    const { getByText } = render(<AddButton href="./add" />);
     fireEvent.press(getByText("+ 추가하기"));
     expect(mockPush).toHaveBeenCalledWith("/add");
   });
@@ -61,7 +61,7 @@ describe("ThemedButton components", () => {
     const { getByText } = render(
       <IconLink
         text="Profile"
-        href="/profile"
+        href="./profile"
         size="md"
         imageSource={{ uri: "test.png" }}
         imageOptions={{ width: 10, height: 10 }}

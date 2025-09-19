@@ -36,6 +36,8 @@ export const InputLikeButton = ({ error, children, ...rest }: { error?: string }
   )
 }
 
+type textStyles = "textGreen" | "textBare" | "textOutline"
+
 const styles = StyleSheet.create({
   inputLike: {
     backgroundColor: theme.colors.inputs,
@@ -134,6 +136,7 @@ export const BigButton = ({ children, ...rest }: { children: ReactNode } & Press
 
 export function ThemedButton({ text, type = "green", row = false, ...rest }: ThemedButtonProps) {
 
+  const textStyle: textStyles = `text${type[0].toUpperCase() + type.slice(1)}` as textStyles;
   return (
     <Pressable
       android_ripple={{ color: rippleColor[type] }}
@@ -148,7 +151,7 @@ export function ThemedButton({ text, type = "green", row = false, ...rest }: The
     >
       <Text style={[
         styles.text,
-        styles[`text${type[0].toUpperCase() + type.slice(1)}`]
+        styles[textStyle]
       ]}
       >
         {text}
@@ -166,6 +169,7 @@ export function LinkButton({
   href: string
 } & ThemedButtonProps & LinkProps) {
   const router = useRouter();
+  const textStyle: textStyles = `text${type[0].toUpperCase() + type.slice(1)}` as textStyles;
   return (
     <Pressable
       android_ripple={{ color: rippleColor[type] }}
@@ -182,7 +186,7 @@ export function LinkButton({
     >
       <Text style={[
         styles.text,
-        styles[`text${type[0].toUpperCase() + type.slice(1)}`]
+        styles[textStyle]
       ]}
       >
         {text}

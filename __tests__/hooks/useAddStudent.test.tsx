@@ -93,6 +93,7 @@ describe("addStudentReducer", () => {
   })
 
   it("returns previous state on unhandled action", () => {
+    // @ts-ignore
     const next = addStudentReducer(baseState, { type: "UNHANDLED" })
     expect(next).toEqual(baseState)
   })

@@ -1,4 +1,3 @@
-
 import { StyleSheet, Text, TextProps } from "react-native"
 import { CenteredOverlay } from "@/components/CenteredOverlay";
 import { StudentAvatar } from "@/components/StudentAvatar";
