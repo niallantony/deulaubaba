@@ -42,7 +42,7 @@ describe("ThemedButton components", () => {
   it("navigates with LinkButton", () => {
     const { getByText } = render(<LinkButton text="Go" href="./next" />);
     fireEvent.press(getByText("Go"));
-    expect(mockPush).toHaveBeenCalledWith("/next");
+    expect(mockPush).toHaveBeenCalledWith("./next");
   });
 
   it("calls router.back with BackButton", () => {
@@ -54,7 +54,7 @@ describe("ThemedButton components", () => {
   it("navigates with AddButton", () => {
     const { getByText } = render(<AddButton href="./add" />);
     fireEvent.press(getByText("+ 추가하기"));
-    expect(mockPush).toHaveBeenCalledWith("/add");
+    expect(mockPush).toHaveBeenCalledWith("./add");
   });
 
   it("navigates with IconLink", () => {
@@ -68,7 +68,7 @@ describe("ThemedButton components", () => {
       />
     );
     fireEvent.press(getByText("Profile"));
-    expect(mockPush).toHaveBeenCalledWith("/profile");
+    expect(mockPush).toHaveBeenCalledWith("./profile");
   });
 
   it("renders SubtleButton children", () => {
