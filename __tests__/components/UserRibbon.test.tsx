@@ -46,7 +46,7 @@ describe("UserRibbon", () => {
   it("renders users when provided", async () => {
     (useUserRibbon as jest.Mock).mockReturnValue({
       loading: false,
-      users: [{ id: "u1", src: "http://example.com/img.png", type: "teacher" }],
+      users: [{ username: "u1", imagesrc: "http://example.com/img.png", userType: "teacher" }],
       fetchUsers,
     });
     (useModal as jest.Mock).mockReturnValue({
@@ -89,7 +89,7 @@ describe("UserRibbon", () => {
   it("clicking a user avatar opens modal", async () => {
     (useUserRibbon as jest.Mock).mockReturnValue({
       loading: false,
-      users: [{ id: "u1", src: "http://example.com/img.png", type: "teacher" }],
+      users: [{ username: "u1", imagesrc: "http://example.com/img.png", userType: "teacher" }],
       fetchUsers,
     });
 
@@ -102,6 +102,6 @@ describe("UserRibbon", () => {
 
     const avatar = await screen.findByText("teacher");
     fireEvent.press(avatar.parent as any); // press the wrapping Pressable
-    expect(show).toHaveBeenCalledWith("userDialog", { user: { id: "u1", src: "http://example.com/img.png", type: "teacher" } });
+    expect(show).toHaveBeenCalledWith("userDialog", { user: { username: "u1", imagesrc: "http://example.com/img.png", userType: "teacher" } });
   });
 });
