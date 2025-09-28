@@ -20,7 +20,7 @@ describe("useUserRibbon", () => {
     const mockUsers = {
       users:
         [
-          { id: "u1", type: "student", src: "abc.png" },
+          { username: "u1", userType: "student", imagesrc: "abc.png" },
         ]
     };
 

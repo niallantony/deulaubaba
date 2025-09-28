@@ -16,7 +16,7 @@ export type UserResponse = {
 }
 
 export type UserAvatar = {
-  id: string;
-  src: string;
-  type: string;
+  username: string;
+  imagesrc: string;
+  userType: string;
 }

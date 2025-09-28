@@ -34,7 +34,7 @@ export const UserRibbon = ({
           {users && users.map((user) => {
             return (
               <UserAvatarButton
-                key={user.id}
+                key={user.username}
                 user={user}
               />
             )
@@ -60,11 +60,11 @@ const UserAvatarButton = ({ user }: { user: UserAvatar }) => {
   return (
     <Pressable style={styles.userAvatarView} onPress={() => show("userDialog", { user })}>
       <StudentAvatar
-        url={user.src}
+        url={user.imagesrc}
         width={32}
         height={32}
       />
-      <Text style={styles.userLabel} numberOfLines={1}>{user.type}</Text>
+      <Text style={styles.userLabel} numberOfLines={1}>{user.userType}</Text>
     </Pressable>
   )
 

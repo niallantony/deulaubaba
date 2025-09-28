@@ -15,11 +15,11 @@ export const UserDialog = ({ user }: {
   return (
     <CenteredOverlay>
       <StudentAvatar
-        url={user.src}
+        url={user.imagesrc}
         width={128}
         height={128}
       />
-      <UserLabelBig>{user.type}</UserLabelBig>
+      <UserLabelBig>{user.userType}</UserLabelBig>
 
     </CenteredOverlay>
   );
