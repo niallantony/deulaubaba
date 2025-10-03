@@ -81,9 +81,10 @@ const postDictionary = async (dictionary: DictionaryPosting): Promise<Dictionary
   try {
     const accessToken = await getAccessToken();
     const formData = new FormData();
-    formData.append("data", JSON.stringify(dictionary))
-    if (dictionary.imgsrc) {
-      const compressed = await compressImage(dictionary.imgsrc);
+    const { imgsrc, ...dictionaryData } = dictionary;
+    formData.append("data", JSON.stringify(dictionaryData))
+    if (imgsrc) {
+      const compressed = await compressImage(imgsrc);
       formData.append("image", {
         uri: compressed.uri,
         name: `${dictionary.studentId}.jpg`,
@@ -131,9 +132,10 @@ const putDictionary = async ({ dictionary, id }: { dictionary: DictionaryPosting
   try {
     const accessToken = await getAccessToken();
     const formData = new FormData();
-    formData.append("data", JSON.stringify({ id, ...dictionary }))
-    if (dictionary.imgsrc) {
-      const compressed = await compressImage(dictionary.imgsrc);
+    const { imgsrc, ...dictionaryData } = dictionary;
+    formData.append("data", JSON.stringify({ id, ...dictionaryData }))
+    if (imgsrc) {
+      const compressed = await compressImage(imgsrc);
       formData.append("image", {
         uri: compressed.uri,
         name: `${dictionary.studentId}.jpg`,
