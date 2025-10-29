@@ -1,10 +1,11 @@
 import { useStudentStore } from "@/store/currentStudent"
 import API from "@/api/feed";
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react";
 
 export const useStudentFeed = () => {
   const student = useStudentStore((s) => s.student)
+  const queryClient = useQueryClient();
 
   const [page, setPage] = useState(0)
 
@@ -13,6 +14,11 @@ export const useStudentFeed = () => {
       setPage(page + 1)
     }
   }
+
+  const create = useMutation({
+    mutationFn: API.postFeed,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['feed'] })
+  })
 
   const { data } = useQuery({
     queryKey: ['feed', student, page],
@@ -25,6 +31,7 @@ export const useStudentFeed = () => {
 
   return {
     data,
-    nextPage
+    nextPage,
+    create
   }
 }

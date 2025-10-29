@@ -17,7 +17,3 @@ export type FeedItem = {
   createdAt: Date;
 }
 
-export type FeedResponse = {
-  feed: FeedItem[] | null;
-  hasNext: boolean;
-}
