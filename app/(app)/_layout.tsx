@@ -32,6 +32,14 @@ export default function Root() {
         }}
       />
       <Tabs.Screen
+        name='feed'
+        options={{
+          title: 'Feed',
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color }) => <FontAwesome size={28} name="comments" color={color} />
+        }}
+      />
+      <Tabs.Screen
         name="addstudent/index"
         options={{
           href: null,
