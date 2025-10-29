@@ -19,4 +19,5 @@ export type FeedItem = {
 
 export type FeedResponse = {
   feed: FeedItem[] | null;
+  hasNext: boolean;
 }
