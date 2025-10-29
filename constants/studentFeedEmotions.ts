@@ -1,29 +1,29 @@
 export const StudentFeedEmotions = {
   HAPPY: {
-    emoji: "&#x1F60A;"
+    emoji: "0x1F60A"
   },
   SAVORING: {
-    emoji: "&#x1F60B;"
+    emoji: "0x1F60B"
   },
   SLEEPY: {
-    emoji: "&#x1F634;"
+    emoji: "0x1F634"
   },
   ANGRY: {
-    emoji: "&#x1F621;"
+    emoji: "0x1F621"
   },
   SAD: {
-    emoji: "&#x1F62D;"
+    emoji: "0x1F62D"
   },
   THOUGHTFUL: {
-    emoji: "&#x1F914;"
+    emoji: "0x1F914"
   },
   SICK: {
-    emoji: "&#x1F912;"
+    emoji: "0x1F912"
   },
   TIRED: {
-    emoji: "&#x1F971;"
+    emoji: "0x1F971"
   },
   QUIET: {
-    emoji: "&#x1F910;"
+    emoji: "0x1F910"
   }
 } as const;
