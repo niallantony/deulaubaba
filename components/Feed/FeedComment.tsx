@@ -1,4 +1,4 @@
-import { FeedItem } from "@/types/feed"
+import { FeedItem, getFeedEmotionEmoji, StudentFeedEmotionName } from "@/types/feed"
 import { View, Text, StyleSheet } from "react-native"
 import { UserAvatarButton } from "../UserRibbon"
 import { theme } from "@/themes/global"
@@ -11,7 +11,7 @@ export const FeedComment = ({ feedItem, own }: { feedItem: FeedItem, own: boolea
       <View style={styles.avatarColumn}>
         <UserAvatarButton user={feedItem.user} />
       </View>
-      <View>
+      <View >
         <View style={[
           styles.comment,
           own ? styles.commentOwn : styles.commentOther
@@ -21,7 +21,10 @@ export const FeedComment = ({ feedItem, own }: { feedItem: FeedItem, own: boolea
           >{feedItem.body}</Text>
 
         </View>
-        <CommentDate date={new Date(feedItem.createdAt)} />
+        <View style={[{ flexDirection: own ? "row" : "row-reverse" }, styles.under]}>
+          <EmojiGroup emotions={feedItem.emotions} />
+          <CommentDate date={new Date(feedItem.createdAt)} />
+        </View>
       </View>
       <View style={styles.emptyColumn}>
       </View>
@@ -38,15 +41,48 @@ const CommentDate = ({ date }: { date: Date }) => {
   )
 }
 
+const EmojiGroup = ({ emotions }: { emotions: StudentFeedEmotionName[] | null }) => {
+  if (emotions?.length) {
+    return (
+      <View style={styles.commentEmotions}>
+        {emotions.map(emotion => (
+          <Text key={emotion} style={styles.emoji}>{String.fromCodePoint(getFeedEmotionEmoji(emotion))}</Text>
+        ))}
+      </View>
+    )
+  }
+
+}
+
 const styles = StyleSheet.create({
+  under: {
+    marginTop: -15,
+  },
   containerOther: {
     flexDirection: "row"
   },
   containerOwn: {
     flexDirection: "row-reverse"
   },
+  emoji: {
+    marginHorizontal: 4,
+    fontSize: 14,
+  },
+  commentEmotions: {
+    flexWrap: "wrap",
+    maxWidth: 131,
+    backgroundColor: theme.colors.inputs,
+    borderRadius: 12,
+    padding: 2,
+    shadowColor: "#000",
+    shadowOpacity: 0.03,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 7 },
+    elevation: 3,
+    flexDirection: "row"
+  },
   date: {
-    marginTop: -8,
+    marginTop: 6,
     fontSize: 12,
     marginHorizontal: 6,
   },
