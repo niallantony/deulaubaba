@@ -39,7 +39,6 @@ export default function Root() {
         id: student.studentId,
         body
       }
-      console.log(request)
       create.mutate(request)
       setComment("")
       setEmojis([])
@@ -62,18 +61,19 @@ export default function Root() {
     >
       <View style={{ flex: 1, paddingHorizontal: 16 }}>
 
+
+        <FeedScrollBox
+          data={data?.pages}
+          username={user!.user?.username}
+          handleNextPage={handleNextPage}
+        />
+
         <FeedCommentBox
           value={comment}
           onChange={onCommentChange}
           onSubmit={commentSubmit}
           emojis={emojis}
           onEmojiPress={handleEmojiPress}
-        />
-
-        <FeedScrollBox
-          data={data?.pages}
-          username={user!.user?.username}
-          handleNextPage={handleNextPage}
         />
 
       </View>
