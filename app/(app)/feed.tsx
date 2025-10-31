@@ -1,17 +1,16 @@
-import { FeedComment } from "@/components/Feed/FeedComment";
 import { FeedCommentBox } from "@/components/Feed/FeedCommentBox";
+import { FeedScrollBox } from "@/components/Feed/FeedScrollView";
 import { StudentBorder } from "@/components/StudentBorder";
-import { ErrorText } from "@/components/ThemedText";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useModal } from "@/hooks/useModal";
 import { useStudentFeed } from "@/hooks/useStudentFeed";
 import { useStudentStore } from "@/store/currentStudent";
 import { StudentFeedEmotionName } from "@/types/feed";
 import { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View } from "react-native";
 
 export default function Root() {
-  const { data, nextPage, create } = useStudentFeed();
+  const { data, fetchNextPage, isFetchingNextPage, create } = useStudentFeed();
   const [comment, setComment] = useState("");
   const [emojis, setEmojis] = useState<StudentFeedEmotionName[]>([])
   const student = useStudentStore((s) => s.student)
@@ -47,8 +46,13 @@ export default function Root() {
     }
   }
 
-  console.log("In component: ")
-  console.log(data)
+  const handleNextPage = () => {
+    if (!isFetchingNextPage) {
+      fetchNextPage();
+    }
+  }
+
+
   return (
     <StudentBorder
       title={"Good Morning :)"}
@@ -56,7 +60,7 @@ export default function Root() {
       student={student}
       showModal={show}
     >
-      <View style={{ paddingHorizontal: 16 }}>
+      <View style={{ flex: 1, paddingHorizontal: 16 }}>
 
         <FeedCommentBox
           value={comment}
@@ -66,17 +70,12 @@ export default function Root() {
           onEmojiPress={handleEmojiPress}
         />
 
-        <ScrollView onScrollEndDrag={nextPage}>
-          {data?.message && (
-            <ErrorText>{data.message}</ErrorText>
-          )}
-          {data?.feed ?
-            data.feed.map(item => (
-              <FeedComment key={item.id} feedItem={item} own={item.user.username === user!.user?.username} />
-            )) :
-            <Text>댓글 없습니다!</Text>
-          }
-        </ScrollView>
+        <FeedScrollBox
+          data={data?.pages}
+          username={user!.user?.username}
+          handleNextPage={handleNextPage}
+        />
+
       </View>
     </StudentBorder>
   )

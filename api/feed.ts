@@ -32,7 +32,6 @@ const getFeed = async (id: string, page: number = 0): Promise<GetFeedResponse> =
       }
     })
     const json = await response.json();
-    console.log(json)
     if (response.status === 404 || response.status === 401 || response.status === 400) {
       return {
         message: json.message

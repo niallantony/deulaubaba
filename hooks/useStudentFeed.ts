@@ -1,18 +1,16 @@
 import { useStudentStore } from "@/store/currentStudent"
 import API from "@/api/feed";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { useState } from "react";
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 export const useStudentFeed = () => {
   const student = useStudentStore((s) => s.student)
   const queryClient = useQueryClient();
 
-  const [page, setPage] = useState(0)
 
-  const nextPage = () => {
-    if (data?.body?.hasNext) {
-      setPage(page + 1)
-    }
+
+  const fetchFeed = ({ pageParam = 0 }) => {
+    if (!student?.studentId) throw new Error("No student selected");
+    return API.getFeed(student?.studentId, pageParam)
   }
 
   const create = useMutation({
@@ -20,18 +18,19 @@ export const useStudentFeed = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['feed'] })
   })
 
-  const { data } = useQuery({
-    queryKey: ['feed', student, page],
-    queryFn: () => {
-      if (!student) throw new Error("No student selected");
-      return API.getFeed(student.studentId, page)
-    },
-    enabled: !!student
+  const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
+    queryKey: ['feed', student],
+    queryFn: fetchFeed,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.hasNext ? allPages.length : undefined;
+    }
   })
 
   return {
     data,
-    nextPage,
+    isFetchingNextPage,
+    fetchNextPage,
     create
   }
 }

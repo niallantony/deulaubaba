@@ -40,7 +40,11 @@ export const FeedCommentBox = ({
         ))}
         <Pressable
           onPress={onSubmit}
-          style={styles.submitButton}
+          style={({ pressed }) => [
+            styles.submitButton,
+            pressed && { opacity: 0.7 }
+          ]}
+          android_ripple={{ color: theme.colors.ripple.accent }}
         >
           <FontAwesome size={28} name="send" color={theme.colors.inputs} />
         </Pressable>

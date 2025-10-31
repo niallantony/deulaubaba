@@ -37,6 +37,7 @@ export default function Root() {
           title: 'Feed',
           tabBarShowLabel: false,
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="comments" color={color} />
+
         }}
       />
       <Tabs.Screen

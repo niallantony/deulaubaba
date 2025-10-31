@@ -6,12 +6,12 @@ import { theme } from "@/themes/global"
 export const FeedComment = ({ feedItem, own }: { feedItem: FeedItem, own: boolean }) => {
   return (
     <View style={[
-      own ? styles.containerOwn : styles.containerOther
+      own ? styles.containerOwn : styles.containerOther,
     ]}>
       <View style={styles.avatarColumn}>
         <UserAvatarButton user={feedItem.user} />
       </View>
-      <View >
+      <View style={{ maxWidth: "70%" }}>
         <View style={[
           styles.comment,
           own ? styles.commentOwn : styles.commentOther
@@ -27,6 +27,16 @@ export const FeedComment = ({ feedItem, own }: { feedItem: FeedItem, own: boolea
         </View>
       </View>
       <View style={styles.emptyColumn}>
+      </View>
+    </View>
+  )
+}
+
+export const DateMarker = ({ date }: { date: string }) => {
+  return (
+    <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'center', }}>
+      <View style={styles.dateMarker}>
+        <Text>{date}</Text>
       </View>
     </View>
   )
@@ -55,6 +65,14 @@ const EmojiGroup = ({ emotions }: { emotions: StudentFeedEmotionName[] | null })
 }
 
 const styles = StyleSheet.create({
+  dateMarker: {
+    backgroundColor: theme.colors.subtle,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    textAlign: 'center',
+    marginVertical: 10,
+  },
   under: {
     marginTop: -15,
   },
@@ -87,7 +105,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 6,
   },
   comment: {
-    flex: 1,
     marginVertical: 8,
     padding: 18,
     shadowColor: "#000",
