@@ -107,11 +107,6 @@ const styles = StyleSheet.create({
   comment: {
     marginVertical: 8,
     padding: 18,
-    shadowColor: "#000",
-    shadowOpacity: 0.03,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 7 },
-    elevation: 3,
     borderBottomRightRadius: 24,
     borderBottomLeftRadius: 24,
   },

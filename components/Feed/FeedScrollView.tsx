@@ -1,7 +1,8 @@
-import { ScrollView } from "react-native"
+import { ScrollView, View } from "react-native"
 import { GetFeedResponse } from "@/api/feed";
 import { FeedItem } from "@/types/feed";
 import { DateMarker, FeedComment } from "./FeedComment";
+import { transform } from "@babel/core";
 
 type DatedFeed = {
   [key: string]: FeedItem[]
@@ -22,7 +23,6 @@ export const FeedScrollBox = ({
   const datedFeed: DatedFeed = {}
   const today = new Date(Date.now())
   const fToday = Array.from([today.getFullYear(), today.getMonth() + 1, today.getDate()]).join("-")
-  console.log(fToday)
 
   data.forEach(page => {
     page.feed?.forEach(item => {
@@ -39,12 +39,12 @@ export const FeedScrollBox = ({
 
 
   return (
-    <ScrollView style={{ flex: 1 }} onScrollEndDrag={handleNextPage}>
+    <ScrollView style={{ flex: 1, transform: [{ scaleY: -1 }] }} onScrollEndDrag={handleNextPage}>
       {Object.keys(datedFeed).map(date => {
         return (
-          <>
+          <View key={date} style={{ transform: [{ scaleY: -1 }] }}>
             <DateMarker date={date} key={date} />
-            {datedFeed[date].map(item => (
+            {datedFeed[date].reverse().map(item => (
               <FeedComment
                 key={item.id}
                 feedItem={item}
@@ -52,7 +52,7 @@ export const FeedScrollBox = ({
               />
 
             ))}
-          </>
+          </View>
         )
       })}
 
