@@ -55,7 +55,7 @@ export const UserRibbon = ({
 
 }
 
-const UserAvatarButton = ({ user }: { user: UserAvatar }) => {
+export const UserAvatarButton = ({ user }: { user: UserAvatar }) => {
   const { show } = useModal();
   return (
     <Pressable style={styles.userAvatarView} onPress={() => show("userDialog", { user })}>

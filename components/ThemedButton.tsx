@@ -25,6 +25,7 @@ export const InputLikeButton = ({ error, children, ...rest }: { error?: string }
         error ? styles.error : null,
       ]}
         {...rest}
+        android_ripple={{ color: theme.colors.ripple.outline }}
         testID='input-like-button'
       >
         {children}
