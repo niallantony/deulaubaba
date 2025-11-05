@@ -30,7 +30,9 @@ Development uses **TypeScript**.
 
 ### Authentication
 
-![Initial login page](screenshots/splash.png)
+<p align="middle">
+  <img src="/screenshots/splash.png" width="200" alt="splash page" />
+</p>
 
 A JWT authentication flow using Auth0 allows ensures security through a trusted
 third-party authentication service.
@@ -55,10 +57,8 @@ users to share details of a student's progress or behaviour. The feed loads
 comments dynamically when the student scrolls up.
 
 <p align="middle">
-    <img src="/screenshots/new_student" width="200" alt="adding a new student"
-    />
-    <img src="/screenshots/new_student_form" width="200" alt="new student form"
-    />
+    <img src="/screenshots/new_student.png" width="200" alt="adding a new student" />
+    <img src="/screenshots/new_student_form.png" width="200" alt="new student form" />
 </p>
 
 When adding a new student users can manually input the details themselves with
@@ -66,10 +66,8 @@ the relevent details. This student is then added to their list and they can
 begin sharing it with other stakeholders.
 
 <p align="middle">
-    <img src="/screenshots/new_student_code" width="200" alt="adding a new student"
-    />
-    <img src="/screenshots/new_student_confirm" width="200" alt="new student form"
-    />
+    <img src="/screenshots/new_student_code.png" width="200" alt="adding a new student" />
+    <img src="/screenshots/new_student_confirm.png" width="200" alt="new student form" />
 </p>
 
 Users can also add students which are already in the database using a code they
