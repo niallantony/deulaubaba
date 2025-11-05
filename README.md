@@ -1,8 +1,82 @@
 # 들어바바 (Deulaubaba)
 
-들어바바 (Deulaubaba) is an application developed in conjunction with researchers in the Special Education of Ewha Women's University in South Korea, with the aim of simplifying collaboration between educators and parent/guardians of students with special needs. The application allows dictionaries of student's communicative behaviours to be synchronised between stakeholders, and for 'projects' aimed at teaching new behaviours to be done collaboratively between stakeholders.
+## What is it?
+
+들어바바 (Deulaubaba) is an application developed in conjunction with
+researchers in the Special Education of Ewha Women's University in South Korea,
+with the aim of simplifying collaboration between educators and parent/guardians
+of students with special needs. The application allows dictionaries of student's
+communicative behaviours to be synchronised between stakeholders, and for
+'projects' aimed at teaching new behaviours to be done collaboratively between
+stakeholders.
 
 ## Tech Stack
 
-The user facing application was created using React Native through the Expo framework. This was to simplify the creation of a prototype and allow rapid development for both Android and iOS platforms concurrently. 
-The project is implemented using TypeScript for type safety.
+### Application:
+<a href="https://skillicons.dev">
+  <img src="https://skillicons.dev/icons?i=react,ts,jest" />
+</a>
+
+The mobile application was developed in **React-Native** using the **Expo** framework.
+
+Server-side state management is handled using **Tanstack-Query** and local state
+management using **Zustand**.
+
+Testing is done using **Jest** and **Testing-Library**
+
+Development uses **TypeScript**.
+
+## Features
+
+### Authentication
+
+![Initial login page](screenshots/splash.png)
+
+A JWT authentication flow using Auth0 allows ensures security through a trusted
+third-party authentication service.
+
+### Student Management
+
+<p align="middle">
+  <img src="/screenshots/student.png" width="100" alt="student profile page" />
+  <img src="/screenshots/student_code.png" width="100" alt="student sharing" />
+</p>
+
+Student information is kept to only relevent details like age, schools,
+education setting and disability. Students are shared through a code which can
+be accessed by any user connected with the student. 
+
+<p align="middle">
+  <img src="/screenshots/student_feed.png" width="100" alt="a student's feed" />
+</p>
+
+Users also have access to a student feed which can be used by all associated
+users to share details of a student's progress or behaviour. The feed loads
+comments dynamically when the student scrolls up.
+
+
+### Dictionaries
+
+<p align="middle">
+  <img src="/screenshots/dictionary_entry.png" width="100" alt="a dictionary
+  entry" />
+  <img src="/screenshots/student_entries.png" width="100" alt="all entries" />
+</p>
+
+Student's personal 'dictionaries' are created and shared by stakeholders. The
+entries in these dictionaries outline the student's communicative behaviours for
+other stakeholders to reference. These entries are organised by 'communication
+types' (verbal, facial, etc) and 'communication purpose' (pain, refusal, etc).
+
+<p align="middle">
+  <img src="/screenshots/dictionary_new_entry_1.png" width="100" alt="making a
+  new entry" />
+  <img src="/screenshots/student_new_entry_2.png" width="100" alt="entering
+  details" />
+  <img src="/screenshots/category_picker.png" width="100" alt="picking the
+  communication category" />
+</p>
+
+Users can create new dictionary entries easily, and each entry is sorted by
+'communication type'. The creator of the entry can also edit any details.
+
