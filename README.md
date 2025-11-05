@@ -26,6 +26,18 @@ Testing is done using **Jest** and **Testing-Library**
 
 Development uses **TypeScript**.
 
+### [Backend](https://github.com/niallantony/deuleubabaServer)
+<a href="https://skillicons.dev">
+  <img src="https://skillicons.dev/icons?i=spring,java,postgres" />
+</a>
+
+The backend is a Spring REST API using a PostgreSQL database for persistance.
+
+Unit testing uses **JUnit*** and **Mockito** and integration testing is
+performed with the help of **Testcontainers**.
+
+
+
 ## Features
 
 ### Authentication
