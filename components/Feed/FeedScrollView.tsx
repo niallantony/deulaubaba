@@ -21,7 +21,7 @@ export const FeedScrollBox = ({
 
   const datedFeed: DatedFeed = {}
   const today = new Date(Date.now())
-  const fToday = Array.from([today.getFullYear(), today.getMonth() + 1, today.getDate()]).join("-")
+  const fToday = Array.from([today.getFullYear(), today.getMonth() + 1, String(today.getDate()).padStart(2, 0)]).join("-")
 
   data.forEach(page => {
     page.feed?.forEach(item => {

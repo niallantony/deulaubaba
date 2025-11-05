@@ -1,6 +1,7 @@
 import { FeedCommentBox } from "@/components/Feed/FeedCommentBox";
 import { FeedScrollBox } from "@/components/Feed/FeedScrollView";
 import { StudentBorder } from "@/components/StudentBorder";
+import { NoSelectedStudent } from "@/features/student/NoSelectedStudent";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useModal } from "@/hooks/useModal";
 import { useStudentFeed } from "@/hooks/useStudentFeed";
@@ -50,6 +51,8 @@ export default function Root() {
       fetchNextPage();
     }
   }
+
+  if (!student) return <NoSelectedStudent />
 
 
   return (
