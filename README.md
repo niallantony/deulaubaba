@@ -38,8 +38,8 @@ third-party authentication service.
 ### Student Management
 
 <p align="middle">
-  <img src="/screenshots/student.png" width="100" alt="student profile page" />
-  <img src="/screenshots/student_code.png" width="100" alt="student sharing" />
+  <img src="/screenshots/student.png" width="200" alt="student profile page" />
+  <img src="/screenshots/student_code.png" width="200" alt="student sharing" />
 </p>
 
 Student information is kept to only relevent details like age, schools,
@@ -47,20 +47,40 @@ education setting and disability. Students are shared through a code which can
 be accessed by any user connected with the student. 
 
 <p align="middle">
-  <img src="/screenshots/student_feed.png" width="100" alt="a student's feed" />
+  <img src="/screenshots/student_feed.png" width="200" alt="a student's feed" />
 </p>
 
 Users also have access to a student feed which can be used by all associated
 users to share details of a student's progress or behaviour. The feed loads
 comments dynamically when the student scrolls up.
 
+<p align="middle">
+    <img src="/screenshots/new_student" width="200" alt="adding a new student"
+    />
+    <img src="/screenshots/new_student_form" width="200" alt="new student form"
+    />
+</p>
+
+When adding a new student users can manually input the details themselves with
+the relevent details. This student is then added to their list and they can
+begin sharing it with other stakeholders.
+
+<p align="middle">
+    <img src="/screenshots/new_student_code" width="200" alt="adding a new student"
+    />
+    <img src="/screenshots/new_student_confirm" width="200" alt="new student form"
+    />
+</p>
+
+Users can also add students which are already in the database using a code they
+have received from another user.
 
 ### Dictionaries
 
 <p align="middle">
-  <img src="/screenshots/dictionary_entry.png" width="100" alt="a dictionary
+  <img src="/screenshots/dictionary_entry.png" width="200" alt="a dictionary
   entry" />
-  <img src="/screenshots/student_entries.png" width="100" alt="all entries" />
+  <img src="/screenshots/dictionary_entries.png" width="200" alt="all entries" />
 </p>
 
 Student's personal 'dictionaries' are created and shared by stakeholders. The
@@ -69,11 +89,11 @@ other stakeholders to reference. These entries are organised by 'communication
 types' (verbal, facial, etc) and 'communication purpose' (pain, refusal, etc).
 
 <p align="middle">
-  <img src="/screenshots/dictionary_new_entry_1.png" width="100" alt="making a
+  <img src="/screenshots/dictionary_new_entry_1.png" width="200" alt="making a
   new entry" />
-  <img src="/screenshots/student_new_entry_2.png" width="100" alt="entering
+  <img src="/screenshots/dictionary_new_entry_2.png" width="200" alt="entering
   details" />
-  <img src="/screenshots/category_picker.png" width="100" alt="picking the
+  <img src="/screenshots/category_picker.png" width="200" alt="picking the
   communication category" />
 </p>
 
