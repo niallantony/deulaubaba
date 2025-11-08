@@ -10,8 +10,8 @@ export default function Root() {
     <StudentBorder
       student={student}
       showModal={show}
-      title={"의사소통 사전"}
-      subtitle={student ? `${student.name}이 어떻게 표현하나요?` : ""}
+      title={"프로젝트"}
+      subtitle={student ? `${student.name}을 위한 계획을 공유해요` : ""}
     >
       <Stack screenOptions={{ headerShown: false, animation: "none" }}>
         <Stack.Screen
