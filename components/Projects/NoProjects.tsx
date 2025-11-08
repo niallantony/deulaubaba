@@ -4,8 +4,7 @@ import { StatusSlider } from "./StatusSlider"
 export const NoProjects = () => {
 
   return (
-    <View style={{ flex: 1, width: "100%", alignItems: 'center', }}>
-      <StatusSlider />
+    <View >
       <Text> No Projects </Text>
     </View>)
 }

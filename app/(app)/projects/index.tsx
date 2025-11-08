@@ -1,4 +1,4 @@
-import { ProjectList } from "@/features/project/ProjectList"
+import { ProjectsView } from "@/components/Projects/ProjectsView"
 import { NoSelectedStudent } from "@/features/student/NoSelectedStudent"
 import { useStudentStore } from "@/store/currentStudent"
 
@@ -7,7 +7,7 @@ export default function Route() {
 
   if (student) {
     return (
-      <ProjectList />
+      <ProjectsView />
     )
   } else {
     return (<NoSelectedStudent />)

@@ -1,27 +1,39 @@
+import { AllProjectsResponse } from "@/api/project";
 import { NoProjects } from "@/components/Projects/NoProjects";
 import { ErrorText } from "@/components/ThemedText";
-import { useProject } from "@/hooks/useProject"
-import { ActivityIndicator, Text, View } from "react-native";
+import { Project } from "@/types/project";
+import { Text } from "react-native";
 
-export const ProjectList = () => {
-  const { allProjects } = useProject();
+export const ProjectList = ({ data, status }: {
+  data: AllProjectsResponse,
+  status: "pending" | "current" | "completed"
+}) => {
 
-  if (allProjects.isLoading) return <ActivityIndicator />
-
-  if (!allProjects.data) {
+  if (!data) {
     return (<ErrorText>No Data</ErrorText>)
   }
 
-  if (allProjects.data.status !== 200 && allProjects.data.status !== 204) {
-    return (<ErrorText>{allProjects.data.message}</ErrorText>)
+  if (data.status !== 200 && data.status !== 204) {
+    return (<ErrorText>{data.message}</ErrorText>)
   }
 
-  if (allProjects.data.status === 204) {
+  if (data.status === 204) {
     return (<NoProjects />)
   }
 
+  if (!data[status]) {
+    return (<ErrorText>Status missing</ErrorText>)
+  }
+
+  const projects: Project[] = data[status]
+
   return (
-    <Text>Projects Found</Text>
+    <>
+      {projects.map(project => (
+        <Text key={project.id}>{project.objective}</Text>
+      ))}
+    </>
+
   )
 
 
