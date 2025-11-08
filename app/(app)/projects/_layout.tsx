@@ -1,0 +1,22 @@
+import { StudentBorder } from "@/components/StudentBorder";
+import { useStudentStore } from "@/store/currentStudent";
+import { useModal } from "@/hooks/useModal";
+import { Stack } from "expo-router";
+
+export default function Root() {
+  const student = useStudentStore((s) => s.student)
+  const { show } = useModal()
+  return (
+    <StudentBorder
+      student={student}
+      showModal={show}
+      title={"의사소통 사전"}
+      subtitle={student ? `${student.name}이 어떻게 표현하나요?` : ""}
+    >
+      <Stack screenOptions={{ headerShown: false, animation: "none" }}>
+        <Stack.Screen
+          name="index" />
+      </Stack>
+    </StudentBorder>
+  )
+}
