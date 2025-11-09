@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   common: {
     backgroundColor: theme.colors.inputs,
-    fontSize: theme.fontSizes.md,
+    fontSize: theme.fontSizes.mdd,
     padding: 12,
     borderRadius: 8,
     shadowColor: "#000",
