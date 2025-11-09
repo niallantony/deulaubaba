@@ -1,11 +1,11 @@
-import { Project } from "@/types/project";
+import { ProjectPostDTO, ProjectPreview } from "@/types/project";
 import auth0 from "./auth";
 import { API_BASE_URL } from "./api";
 
 export type AllProjectsResponse = {
-  current?: Project[];
-  pending?: Project[];
-  completed?: Project[];
+  current?: ProjectPreview[];
+  pending?: ProjectPreview[];
+  completed?: ProjectPreview[];
   status: number;
   message?: string;
 }
@@ -53,6 +53,11 @@ const getProjectsOfStudent = async (id: string): Promise<AllProjectsResponse> =>
   }
 }
 
+const postProject = (project: ProjectPostDTO) => {
+  console.log(project)
+}
+
 export default {
   getProjectsOfStudent,
+  postProject,
 }

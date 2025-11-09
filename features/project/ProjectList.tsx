@@ -1,7 +1,7 @@
 import { AllProjectsResponse } from "@/api/project";
 import { NoProjects } from "@/components/Projects/NoProjects";
 import { ErrorText } from "@/components/ThemedText";
-import { Project } from "@/types/project";
+import { ProjectPreview } from "@/types/project";
 import { Text } from "react-native";
 
 export const ProjectList = ({ data, status }: {
@@ -25,7 +25,7 @@ export const ProjectList = ({ data, status }: {
     return (<ErrorText>Status missing</ErrorText>)
   }
 
-  const projects: Project[] = data[status]
+  const projects: ProjectPreview[] = data[status]
 
   return (
     <>
