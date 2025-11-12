@@ -1,9 +1,15 @@
 import { useStudentStore } from "@/store/currentStudent"
 import API from "@/api/project"
-import { useQuery } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 export const useProject = () => {
   const student = useStudentStore((s) => s.student)
+  const queryClient = useQueryClient();
+
+  const create = useMutation({
+    mutationFn: API.postProject,
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', student] }),
+  })
 
   const allProjects = useQuery({
     queryKey: ['projects', student],
@@ -15,6 +21,7 @@ export const useProject = () => {
   })
 
   return {
-    allProjects
+    allProjects,
+    create
   }
 }

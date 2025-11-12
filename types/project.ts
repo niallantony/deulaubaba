@@ -7,11 +7,11 @@ export type Project = {
   description?: string,
   objective: string,
   imgsrc?: string,
-  startedOn: Date,
+  startedOn: string,
   categories: CommunicationCategory[],
   isOwnProject: boolean,
   completedOn: Date | null,
-  projectType: ProjectType,
+  type: ProjectType,
   userStatuses: {
     user: UserAvatar,
     completed: boolean,

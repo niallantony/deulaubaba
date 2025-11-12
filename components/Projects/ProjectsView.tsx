@@ -4,13 +4,13 @@ import { theme } from "@/themes/global"
 import { StyleSheet, View } from "react-native"
 import { StatusSlider } from "./StatusSlider"
 import { useState } from "react"
-import { NoProjects } from "./NoProjects"
 import { ButtonContainer } from "../ButtonContainer"
 import { AddButton } from "../ThemedButton"
 
 export const ProjectsView = () => {
   const { allProjects } = useProject()
   const [statusSelection, setStatusSelection] = useState<"pending" | "current" | "completed">("current")
+  console.log(allProjects.data)
 
   return (
     <View style={styles.container}>

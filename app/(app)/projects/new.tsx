@@ -7,12 +7,16 @@ import { ProjectDetails, ProjectPostDTO, ProjectType } from "@/types/project";
 import { useEffect, useState } from "react";
 import API from "@/api/project"
 import { View, Text } from "react-native";
+import { useProject } from "@/hooks/useProject";
+import { useRouter } from "expo-router";
 
 export default function Root() {
   const [type, setType] = useState<ProjectType | null>(null);
   const [details, setDetails] = useState<ProjectDetails>();
   const [selectedUsers, setSelectedUsers] = useState<string[]>([])
   const [screen, setScreen] = useState<"DETAILS" | "USERS" | "TYPE">("TYPE")
+  const { create } = useProject();
+  const router = useRouter();
 
   const student = useStudentStore((s) => s.student)
   const { users, fetchUsers } = useUserRibbon();
@@ -28,10 +32,13 @@ export default function Root() {
     const postRequest: ProjectPostDTO = {
       ...details,
       usernames: selectedUsers,
-      projectType: type,
+      type: type,
       studentId: student?.studentId
     }
-    API.postProject(postRequest)
+    create.mutate(postRequest);
+    if (create.isSuccess) {
+      router.dismissAll()
+    }
 
   }
 

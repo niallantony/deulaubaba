@@ -53,6 +53,12 @@ export const ProjectForm = ({
     return Object.keys(newErrors).length === 0
   }
 
+  const formatDate = (d?: number) => {
+    if (!d) return "2000-01-01"
+    const [month, day, year] = new Date(d).toLocaleDateString().split('/')
+    return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
+  }
+
   const handleSubmit = async () => {
     if (!validate()) {
       return
@@ -61,7 +67,7 @@ export const ProjectForm = ({
       description,
       objective: objective!.trim(),
       imgsrc: imgsrc ? imgsrc : undefined,
-      startedOn: new Date(startedOn!),
+      startedOn: formatDate(startedOn),
       categories,
     }
     onSubmit(post);
