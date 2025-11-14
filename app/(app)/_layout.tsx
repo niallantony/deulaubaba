@@ -45,7 +45,8 @@ export default function Root() {
         options={{
           title: 'Projects',
           tabBarShowLabel: false,
-          tabBarIcon: ({ color }) => <FontAwesome name="pencil" size={28} color={color} />
+          tabBarIcon: ({ color }) => <FontAwesome name="pencil" size={28} color={color} />,
+          popToTopOnBlur: true,
         }}
       />
       <Tabs.Screen

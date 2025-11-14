@@ -1,4 +1,4 @@
-import { ProjectPostDTO, ProjectPreview } from "@/types/project";
+import { Project, ProjectPostDTO, ProjectPreview } from "@/types/project";
 import auth0 from "./auth";
 import { API_BASE_URL } from "./api";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
@@ -59,6 +59,24 @@ const getProjectsOfStudent = async (id: string): Promise<AllProjectsResponse> =>
   }
 }
 
+
+const getProject = async (id: string): Promise<Project> => {
+  const accessToken = await getAccessToken();
+  const response = await fetch(`${API_BASE_URL}/project?id=${id}`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${accessToken}`
+    }
+  })
+  if (response.status === 200) {
+    const json: Project = await response.json()
+    return json
+  }
+  else throw new Error(response.toString())
+
+
+}
+
 const compressImage = async (uri: string) => {
   const imageContext = ImageManipulator.manipulate(uri);
   const manipulated = await imageContext
@@ -69,53 +87,42 @@ const compressImage = async (uri: string) => {
 };
 
 const postProject = async (project: ProjectPostDTO): Promise<PostProjectResponse> => {
-  try {
-    const accessToken = await getAccessToken();
-    const formData = new FormData();
-    const { imgsrc, ...projectData } = project;
-    formData.append("data", JSON.stringify(projectData))
-    if (imgsrc) {
-      const compressed = await compressImage(imgsrc);
-      formData.append("image", {
-        uri: compressed.uri,
-        name: `${project.studentId}.jpg`,
-        type: "image/jpeg"
-      } as any)
-    }
-    console.log(formData)
-
-    const response = await fetch(`${API_BASE_URL}/project`, {
-      method: "POST",
-      headers: {
-        "Content-type": "multipart/form-data",
-        "Authorization": `Bearer ${accessToken}`
-      },
-      body: formData
-    })
-    const json = await response.json();
-    if (response.status === 201) {
-      console.log(json)
-      return {
-        status: 201,
-        message: "Successful"
-      }
-    } else {
-      console.log(json)
-      return {
-        status: response.status,
-        message: json.message
-      }
-    }
-  } catch (err) {
-    console.error(err)
+  const accessToken = await getAccessToken();
+  const formData = new FormData();
+  const { imgsrc, ...projectData } = project;
+  formData.append("data", JSON.stringify(projectData))
+  if (imgsrc) {
+    const compressed = await compressImage(imgsrc);
+    formData.append("image", {
+      uri: compressed.uri,
+      name: `${project.studentId}.jpg`,
+      type: "image/jpeg"
+    } as any)
   }
-  console.log("Not firing...")
-  return {
-    status: 500
+  console.log(formData)
+
+  const response = await fetch(`${API_BASE_URL}/project`, {
+    method: "POST",
+    headers: {
+      "Content-type": "multipart/form-data",
+      "Authorization": `Bearer ${accessToken}`
+    },
+    body: formData
+  })
+  const json = await response.json();
+  if (response.status === 201) {
+    console.log(json)
+    return {
+      status: 201,
+      message: "Successful"
+    }
+  } else {
+    throw new Error(json.message)
   }
 }
 
 export default {
   getProjectsOfStudent,
   postProject,
+  getProject
 }

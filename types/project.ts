@@ -1,4 +1,4 @@
-import { CommunicationCategory } from "./dictionary"
+import { CommunicationCategory, CommunicationCategoryDTO } from "./dictionary"
 import { UserAvatar } from "./user"
 
 export type Project = {
@@ -8,7 +8,7 @@ export type Project = {
   objective: string,
   imgsrc?: string,
   startedOn: string,
-  categories: CommunicationCategory[],
+  categories: CommunicationCategoryDTO[],
   isOwnProject: boolean,
   completedOn: Date | null,
   type: ProjectType,

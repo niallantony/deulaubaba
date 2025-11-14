@@ -1,13 +1,22 @@
 import { AllProjectsResponse } from "@/api/project";
 import { NoProjects } from "@/components/Projects/NoProjects";
+import { ProjectBriefCard } from "@/components/Projects/ProjectBriefCard";
 import { ErrorText } from "@/components/ThemedText";
 import { ProjectPreview } from "@/types/project";
-import { Text } from "react-native";
+import { useRouter } from "expo-router";
 
 export const ProjectList = ({ data, status }: {
   data: AllProjectsResponse,
   status: "pending" | "current" | "completed"
 }) => {
+
+  const router = useRouter();
+
+  const handlePress = (id: number) => {
+    router.push(`/(app)/projects/view/${id}`)
+
+
+  }
 
   if (!data) {
     return (<ErrorText>No Data</ErrorText>)
@@ -30,7 +39,7 @@ export const ProjectList = ({ data, status }: {
   return (
     <>
       {projects.map(project => (
-        <Text key={project.id}>{project.objective}</Text>
+        <ProjectBriefCard key={project.id} project={project} onPress={() => handlePress(project.id)} />
       ))}
     </>
 

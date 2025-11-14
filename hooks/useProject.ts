@@ -20,8 +20,17 @@ export const useProject = () => {
     enabled: !!student,
   })
 
+
   return {
     allProjects,
-    create
+    create,
   }
+}
+
+export const useCurrentProject = ({ id }: { id: string }) => {
+  return useQuery({
+    queryKey: ['project', id],
+    queryFn: () => API.getProject(id)
+  })
+
 }

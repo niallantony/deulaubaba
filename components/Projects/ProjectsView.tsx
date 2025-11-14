@@ -10,7 +10,6 @@ import { AddButton } from "../ThemedButton"
 export const ProjectsView = () => {
   const { allProjects } = useProject()
   const [statusSelection, setStatusSelection] = useState<"pending" | "current" | "completed">("current")
-  console.log(allProjects.data)
 
   return (
     <View style={styles.container}>
@@ -27,7 +26,7 @@ export const ProjectsView = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: theme.colors.inputs,
+    backgroundColor: theme.colors.background,
     flex: 1,
     width: "100%",
     alignItems: 'center'

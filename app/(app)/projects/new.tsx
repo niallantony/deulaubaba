@@ -5,18 +5,20 @@ import { useUserRibbon } from "@/hooks/useUserRibbon";
 import { useStudentStore } from "@/store/currentStudent";
 import { ProjectDetails, ProjectPostDTO, ProjectType } from "@/types/project";
 import { useEffect, useState } from "react";
-import API from "@/api/project"
 import { View, Text } from "react-native";
 import { useProject } from "@/hooks/useProject";
 import { useRouter } from "expo-router";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function Root() {
+  const { data } = useCurrentUser();
+
   const [type, setType] = useState<ProjectType | null>(null);
   const [details, setDetails] = useState<ProjectDetails>();
-  const [selectedUsers, setSelectedUsers] = useState<string[]>([])
+  const [selectedUsers, setSelectedUsers] = useState<string[]>(data?.user?.username ? [data.user.username] : [])
   const [screen, setScreen] = useState<"DETAILS" | "USERS" | "TYPE">("TYPE")
   const { create } = useProject();
-  const router = useRouter();
+  const router = useRouter()
 
   const student = useStudentStore((s) => s.student)
   const { users, fetchUsers } = useUserRibbon();
@@ -39,6 +41,14 @@ export default function Root() {
     if (create.isSuccess) {
       router.dismissAll()
     }
+  }
+
+  const onSetSelectedUsers = (username: string) => {
+    if (username === data?.user?.username) return; // TODO: Put toast here
+    const updated = selectedUsers.includes(username) ?
+      selectedUsers.filter((u) => u !== username) :
+      [...selectedUsers, username];
+    setSelectedUsers(updated);
 
   }
 
@@ -68,12 +78,7 @@ export default function Root() {
       <ProjectUsersPick
         users={users}
         selected={selectedUsers}
-        setSelected={(username: string) => {
-          const updated = selectedUsers.includes(username) ?
-            selectedUsers.filter((u) => u !== username) :
-            [...selectedUsers, username];
-          setSelectedUsers(updated);
-        }}
+        setSelected={(username: string) => onSetSelectedUsers(username)}
         onBack={() => setScreen("DETAILS")}
         onSubmit={() => handleSubmit()}
       />
