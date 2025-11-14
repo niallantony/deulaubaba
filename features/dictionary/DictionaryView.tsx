@@ -3,9 +3,10 @@ import { StudentAvatar } from "@/components/StudentAvatar"
 import { InfoLabel, StyledText } from "@/components/ThemedText"
 import { ImageFrame, InfoPane, ProfileAvatarPane } from "@/components/ThemedView"
 import { DictionaryListing } from "@/types/dictionary"
-import { ScrollView, View } from "react-native"
+import { ScrollView, TouchableOpacity, View } from "react-native"
 import { CategoryIndicator } from "./CategoryPicker"
 import { ThemedButton } from "@/components/ThemedButton"
+import { TouchableAvatar } from "@/components/TouchableAvatar"
 
 export const DictionaryView = ({ entry, onDeleteRequest, onEditPress }: {
   entry: DictionaryListing,
@@ -18,7 +19,9 @@ export const DictionaryView = ({ entry, onDeleteRequest, onEditPress }: {
     <ScrollView style={{ paddingHorizontal: 4 }}>
       <ImageFrame>
         <ProfileAvatarPane>
-          <StudentAvatar style="full" pressable url={entry.imgsrc} width={128} height={182} />
+          <TouchableAvatar imagesrc={entry.imgsrc}>
+            <StudentAvatar style="full" url={entry.imgsrc} width={128} height={182} />
+          </TouchableAvatar>
         </ProfileAvatarPane >
         <View style={{ flex: 1 }}>
           <InfoLabel>의사소통내용</InfoLabel>
