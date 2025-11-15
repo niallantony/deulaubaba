@@ -143,10 +143,34 @@ const updateProjectDetails = async ({
   }
 }
 
+const addUserToProject = async ({
+  id,
+  toAdd,
+}: {
+  id: string,
+  toAdd: string[],
+}) => {
+  const accessToken = await getAccessToken();
+  console.log(JSON.stringify({ "toAdd": toAdd }))
+  const response = await fetch(`${API_BASE_URL}/project/${id}/add-user`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      "Authorization": `Bearer ${accessToken}`
+    },
+    body: JSON.stringify({ "toAdd": toAdd })
+  })
+  if (!response.ok) {
+    const json = await response.json()
+    throw new Error(json.message)
+  }
+}
+
 export default {
   getProjectsOfStudent,
   postProject,
   getProject,
   updateProjectStatus,
-  updateProjectDetails
+  updateProjectDetails,
+  addUserToProject
 }

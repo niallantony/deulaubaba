@@ -1,3 +1,4 @@
+import { RowButtonContainer } from "@/components/ButtonContainer";
 import { DividerWithTitle } from "@/components/Divider";
 import { StudentAvatar } from "@/components/StudentAvatar";
 import { ThemedButton } from "@/components/ThemedButton";
@@ -36,8 +37,8 @@ export const ProjectUsersPick = ({ users, selected, setSelected, onBack, onSubmi
         })}
       </ScrollView>
       <View style={{ flexDirection: 'row', justifyContent: "space-evenly", marginTop: 18 }} >
-        <ThemedButton text={"  뒤로  "} type={"green"} onPress={onBack} />
-        <ThemedButton text={"  등록  "} type={"green"} onPress={onSubmit} />
+        <ThemedButton row={true} text={"  뒤로  "} type={"green"} onPress={onBack} />
+        <ThemedButton row={true} text={"  등록  "} type={"green"} onPress={onSubmit} />
       </View>
     </View>
   )

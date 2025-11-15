@@ -12,15 +12,19 @@ export const SettingsMenuProject = ({ id }: { id: number }) => {
   const handlePress = () => {
     show("projectSettings", {
       onDelete: () => { },
-      onAddUser: () => { },
+      onAddUser: handleAddUser,
       onEdit: handleEdit,
 
     })
   }
 
   const handleEdit = () => {
-    console.log("Edit pressed")
     router.push(`/(app)/projects/view/${id}/edit`);
+    hide();
+  }
+
+  const handleAddUser = () => {
+    router.push(`/(app)/projects/view/${id}/addUser`);
     hide();
   }
 

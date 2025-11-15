@@ -72,11 +72,29 @@ export const useCurrentProject = ({ id }: { id: string }) => {
     }
   })
 
+  const addUsers = useMutation({
+    mutationFn: (toAdd: string[]) => {
+      if (!student?.studentId) throw new Error("No Student");
+      return API.addUserToProject({ id, toAdd })
+    },
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['project', id] }),
+        queryClient.invalidateQueries({ queryKey: ['projects', student] }),
+      ])
+    },
+    onError: (error, v, ctx) => {
+      console.log(error)
+
+    }
+  })
+
 
   return {
     query,
     updateStatus,
-    updateDetails
+    updateDetails,
+    addUsers
   }
 
 }

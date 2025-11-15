@@ -17,7 +17,7 @@ export const UserStatusHolder = ({
   }[]
 }) => {
 
-  const completeCount = userStatuses.reduce((acc, cur) => { return cur.completed ? 1 : 0 }, 0)
+  const completeCount = userStatuses.filter(u => u.completed).length
 
   return (
     <TouchableOpacity style={styles.wrapper} onPress={onPress}>
