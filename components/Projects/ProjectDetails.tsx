@@ -7,7 +7,7 @@ import { CategoryIndicator } from "@/features/dictionary/CategoryPicker"
 import { CommunicationCategoryDTO } from "@/types/dictionary"
 import { UserStatusHolder } from "./UserStatus"
 
-export const ProjectDetails = ({ project }: { project: Project }) => {
+export const ProjectDetails = ({ project, onStatusChange }: { project: Project, onStatusChange: () => void }) => {
 
   const formatDate = (date: string) => {
     const [year, month, day] = date.split("-")
@@ -49,7 +49,7 @@ export const ProjectDetails = ({ project }: { project: Project }) => {
         <Text style={styles.text} lineBreakStrategyIOS="hangul-word">{project.description}</Text>
       </View>
 
-      <UserStatusHolder onPress={() => { }} userStatuses={project.userStatuses} />
+      <UserStatusHolder onPress={onStatusChange} userStatuses={project.userStatuses} />
 
     </View>
 

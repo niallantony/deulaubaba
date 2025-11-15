@@ -7,8 +7,6 @@ export type AllProjectsResponse = {
   current?: ProjectPreview[];
   pending?: ProjectPreview[];
   completed?: ProjectPreview[];
-  status: number;
-  message?: string;
 }
 
 export type PostProjectResponse = {
@@ -21,46 +19,27 @@ const getAccessToken = async () => {
 }
 
 const getProjectsOfStudent = async (id: string): Promise<AllProjectsResponse> => {
-  try {
-    const accessToken = await getAccessToken();
-    const response = await fetch(`${API_BASE_URL}/project/all/${id}`, {
-      method: "GET",
-      "headers": {
-        "Authorization": `Bearer ${accessToken}`,
-      }
-    })
-    if (response.status === 404) {
-      return {
-        message: "Student Not Found",
-        status: 404
-      }
+  const accessToken = await getAccessToken();
+  const response = await fetch(`${API_BASE_URL}/project/all/${id}`, {
+    method: "GET",
+    "headers": {
+      "Authorization": `Bearer ${accessToken}`,
     }
-    if (response.status === 204) {
-      return {
-        message: "No projects",
-        status: 204
-      }
-    }
-    if (response.status === 401) {
-      return {
-        message: "Unauthorized",
-        status: 401
-      }
-    }
-    const json: AllProjectsResponse = await response.json();
-    return { ...json, status: 200 }
-
-  } catch (e) {
-    console.error(e)
-    return {
-      message: "Server Error",
-      status: 500,
-    }
+  })
+  const json = await response.json();
+  if (!response.ok) {
+    throw new Error(json.message)
+  }
+  return {
+    current: json.current,
+    pending: json.pending,
+    completed: json.completed
   }
 }
 
 
 const getProject = async (id: string): Promise<Project> => {
+  console.log("Getting project")
   const accessToken = await getAccessToken();
   const response = await fetch(`${API_BASE_URL}/project?id=${id}`, {
     method: "GET",
@@ -68,7 +47,7 @@ const getProject = async (id: string): Promise<Project> => {
       "Authorization": `Bearer ${accessToken}`
     }
   })
-  if (response.status === 200) {
+  if (response.ok) {
     const json: Project = await response.json()
     return json
   }
@@ -111,7 +90,6 @@ const postProject = async (project: ProjectPostDTO): Promise<PostProjectResponse
   })
   const json = await response.json();
   if (response.status === 201) {
-    console.log(json)
     return {
       status: 201,
       message: "Successful"
@@ -121,8 +99,29 @@ const postProject = async (project: ProjectPostDTO): Promise<PostProjectResponse
   }
 }
 
+const updateProjectStatus = async ({ id, value }: { id: string, value: boolean }) => {
+  const accessToken = await getAccessToken();
+  const data = { isCompleted: value }
+  const response = await fetch(`${API_BASE_URL}/project/status/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Authorization": `Bearer ${accessToken}`
+    },
+    body: JSON.stringify(data)
+  })
+  if (response.ok) {
+    return
+  } else {
+    const json = await response.json()
+    throw new Error(json.message)
+  }
+
+
+}
+
 export default {
   getProjectsOfStudent,
   postProject,
-  getProject
+  getProject,
+  updateProjectStatus
 }

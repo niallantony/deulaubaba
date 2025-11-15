@@ -11,6 +11,7 @@ import { StudentMenu } from "@/features/student/StudentMenu"
 import { FullSizeImageModal } from "@/components/FullSizeImageModal"
 import { DateType } from "react-native-ui-datepicker"
 import { DatePickerModal } from "@/components/DatePickerModal"
+import { ChangeStatusModal } from "@/features/project/ChangeStatusModal"
 
 export type ModalProps = {
   studentCode: { student: StudentIdAvatar },
@@ -38,6 +39,11 @@ export type ModalProps = {
   },
   fullSizeImage: {
     uri: string
+  },
+  changeStatus: {
+    onChange: () => void,
+    onClose: () => void,
+    isCompleted: boolean
   }
 }
 
@@ -52,4 +58,5 @@ export const modalMap: Record<ModalNames, ComponentType<any>> = {
   studentAvatar: StudentMenu,
   fullSizeImage: FullSizeImageModal,
   date: DatePickerModal,
+  changeStatus: ChangeStatusModal
 }

@@ -11,6 +11,7 @@ export const useProject = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', student] }),
   })
 
+
   const allProjects = useQuery({
     queryKey: ['projects', student],
     queryFn: () => {
@@ -28,9 +29,38 @@ export const useProject = () => {
 }
 
 export const useCurrentProject = ({ id }: { id: string }) => {
-  return useQuery({
+  const student = useStudentStore((s) => s.student)
+  const queryClient = useQueryClient();
+
+  const query = useQuery({
     queryKey: ['project', id],
     queryFn: () => API.getProject(id)
   })
+
+  const updateStatus = useMutation({
+    mutationFn: (value: boolean) => {
+      console.log("Mutating ", id)
+      return API.updateProjectStatus({ id: id, value: value })
+    },
+    onSuccess: async () => {
+      console.log("SUCCESS!")
+      console.log("Invalidating: ", id)
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['project', id] }),
+        queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
+      ])
+    },
+    onError: (error, v, ctx) => {
+      console.log(error)
+
+    }
+
+  })
+
+
+  return {
+    query,
+    updateStatus
+  }
 
 }

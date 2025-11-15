@@ -3,10 +3,17 @@ import { theme } from "@/themes/global"
 import { Project } from "@/types/project"
 import { View } from "react-native"
 
-export const ProjectPage = ({ project }: { project: Project }) => {
+export const ProjectPage = ({
+  project,
+  onStatusChange,
+}: {
+  project: Project,
+  onStatusChange: () => void,
+}) => {
+
   return (
     <View style={{ backgroundColor: theme.colors.background }}>
-      <ProjectDetails project={project} />
+      <ProjectDetails project={project} onStatusChange={onStatusChange} />
     </View>
   )
 }
