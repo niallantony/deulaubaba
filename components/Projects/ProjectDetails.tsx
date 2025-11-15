@@ -14,6 +14,7 @@ export const ProjectDetails = ({ project, onStatusChange }: { project: Project, 
     return `${year}년 ${month}월 ${day}일`
 
   }
+  console.log(project)
   return (
     <View style={styles.container}>
       <Text style={styles.subtitle}>{formatDate(project.startedOn)}</Text>

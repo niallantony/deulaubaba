@@ -44,7 +44,7 @@ export const useCurrentProject = ({ id }: { id: string }) => {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['project', id] }),
-        queryClient.invalidateQueries({ queryKey: ['projects', student] }),
+        queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
       ])
     },
     onError: (error, v, ctx) => {
