@@ -39,12 +39,9 @@ export const useCurrentProject = ({ id }: { id: string }) => {
 
   const updateStatus = useMutation({
     mutationFn: (value: boolean) => {
-      console.log("Mutating ", id)
       return API.updateProjectStatus({ id: id, value: value })
     },
     onSuccess: async () => {
-      console.log("SUCCESS!")
-      console.log("Invalidating: ", id)
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['project', id] }),
         queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),

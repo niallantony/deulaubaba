@@ -117,7 +117,6 @@ const CategoryButton = ({ category, active, onToggle }: {
 }
 
 export const CategoryIndicator = ({ category }: { category: CommunicationCategory }) => {
-  console.log(category)
   const color = getCategoryColor(category);
   return (
     <View style={{ flexDirection: 'row', alignItems: 'center', overflow: 'hidden', maxWidth: '100%' }}>

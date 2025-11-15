@@ -26,7 +26,6 @@ export default function Root() {
 
   useEffect(() => {
     fetchUsers(student!.studentId)
-    console.log(users)
   }, [student])
 
   const handleSubmit = () => {

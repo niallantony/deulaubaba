@@ -38,7 +38,6 @@ export const FullSizeImageModal = ({ uri, onClose, ...rest }: { uri: string, onC
     })
   }, [uri, windowWidth, windowHeight])
 
-  console.log(loaded)
 
   return (
     <View
