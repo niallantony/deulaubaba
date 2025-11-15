@@ -166,11 +166,26 @@ const addUserToProject = async ({
   }
 }
 
+const deleteProject = async (id: string) => {
+  const accessToken = await getAccessToken();
+  const response = await fetch(`${API_BASE_URL}/project/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${accessToken}`
+    },
+  })
+  if (!response.ok) {
+    const json = await response.json()
+    throw new Error(json.message)
+  }
+}
+
 export default {
   getProjectsOfStudent,
   postProject,
   getProject,
   updateProjectStatus,
   updateProjectDetails,
-  addUserToProject
+  addUserToProject,
+  deleteProject
 }

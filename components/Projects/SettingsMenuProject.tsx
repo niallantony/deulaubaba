@@ -3,15 +3,17 @@ import { Image, StyleSheet, TouchableOpacity, View } from "react-native"
 import hamburger from "@/assets/images/hamburger.png"
 import { useModal } from "@/hooks/useModal"
 import { useRouter } from "expo-router";
+import { useProject } from "@/hooks/useProject";
 
 export const SettingsMenuProject = ({ id }: { id: number }) => {
 
   const { show, hide } = useModal();
+  const { deleteProject } = useProject();
   const router = useRouter();
 
   const handlePress = () => {
     show("projectSettings", {
-      onDelete: () => { },
+      onDelete: handleDelete,
       onAddUser: handleAddUser,
       onEdit: handleEdit,
 
@@ -25,6 +27,12 @@ export const SettingsMenuProject = ({ id }: { id: number }) => {
 
   const handleAddUser = () => {
     router.push(`/(app)/projects/view/${id}/addUser`);
+    hide();
+  }
+
+  const handleDelete = () => {
+    deleteProject.mutate(id.toString())
+    router.dismissAll();
     hide();
   }
 

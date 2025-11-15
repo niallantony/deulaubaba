@@ -12,6 +12,16 @@ export const useProject = () => {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', student] }),
   })
 
+  const deleteProject = useMutation({
+    mutationFn: (id: number) => {
+      if (!student?.studentId) throw new Error("No Student");
+      return API.deleteProject(id)
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', student] }),
+    onError: (error, v, ctx) => {
+      console.log(error)
+    }
+  })
 
   const allProjects = useQuery({
     queryKey: ['projects', student],
@@ -23,9 +33,11 @@ export const useProject = () => {
   })
 
 
+
   return {
     allProjects,
     create,
+    deleteProject
   }
 }
 
@@ -94,7 +106,7 @@ export const useCurrentProject = ({ id }: { id: string }) => {
     query,
     updateStatus,
     updateDetails,
-    addUsers
+    addUsers,
   }
 
 }

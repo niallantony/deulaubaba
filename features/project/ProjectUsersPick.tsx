@@ -1,4 +1,3 @@
-import { RowButtonContainer } from "@/components/ButtonContainer";
 import { DividerWithTitle } from "@/components/Divider";
 import { StudentAvatar } from "@/components/StudentAvatar";
 import { ThemedButton } from "@/components/ThemedButton";
