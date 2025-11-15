@@ -8,8 +8,6 @@ export const ProjectBriefCard = ({ project, onPress }: { project: ProjectPreview
     return date.replaceAll("-", ". ")
   }
 
-  // Placeholder image?
-
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.image}>
@@ -17,12 +15,15 @@ export const ProjectBriefCard = ({ project, onPress }: { project: ProjectPreview
       </View>
       <View style={styles.info}>
         <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">{project.objective}</Text>
-        <Text style={styles.date}>{formatDate(project.startedOn)}</Text>
+        <View style={styles.dates}>
+          <Text style={styles.date}>{formatDate(project.startedOn)}</Text>
+          {project.completedOn && (<Text style={styles.date}> ~ {formatDate(project.completedOn)}</Text>)}
+        </View>
         <Text style={styles.description}>{project.description}</Text>
       </View>
 
 
-    </TouchableOpacity>
+    </TouchableOpacity >
   )
 }
 
@@ -61,6 +62,9 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 12,
     color: theme.colors.light
+  },
+  dates: {
+    flexDirection: "row"
   },
   description: {
     fontWeight: "500",

@@ -1,4 +1,4 @@
-import { CommunicationCategory, CommunicationCategoryDTO } from "./dictionary"
+import { CommunicationCategoryDTO } from "./dictionary"
 import { UserAvatar } from "./user"
 
 export type Project = {
@@ -10,7 +10,7 @@ export type Project = {
   startedOn: string,
   categories: CommunicationCategoryDTO[],
   isOwnProject: boolean,
-  completedOn: Date | null,
+  completedOn: string | null,
   type: ProjectType,
   userStatuses: {
     user: UserAvatar,
@@ -26,7 +26,7 @@ export type ProjectDetails = Pick<Project, "objective" | "categories" | "imgsrc"
 
 export type ProjectType = "COMMUNICATION" | "CHALLENGE"
 
-export type ProjectPreview = Omit<Project, "categories" | "isOwnProject" | "completedOn" | "projectType" | "userStatuses" | "studentId">
+export type ProjectPreview = Omit<Project, "categories" | "isOwnProject" | "projectType" | "userStatuses" | "studentId">
 
 export type ProjectFeedItem = {
   id: number,

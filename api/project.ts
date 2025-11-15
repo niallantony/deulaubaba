@@ -9,10 +9,6 @@ export type AllProjectsResponse = {
   completed?: ProjectPreview[];
 }
 
-export type PostProjectResponse = {
-  status: number,
-  message?: string,
-}
 const getAccessToken = async () => {
   const credentials = await auth0.credentialsManager.getCredentials();
   return credentials.accessToken;
@@ -65,7 +61,7 @@ const compressImage = async (uri: string) => {
   return await manipulated.saveAsync({ compress: 0.7, format: SaveFormat.JPEG })
 };
 
-const postProject = async (project: ProjectPostDTO): Promise<PostProjectResponse> => {
+const postProject = async (project: ProjectPostDTO) => {
   const accessToken = await getAccessToken();
   const formData = new FormData();
   const { imgsrc, ...projectData } = project;
@@ -78,7 +74,6 @@ const postProject = async (project: ProjectPostDTO): Promise<PostProjectResponse
       type: "image/jpeg"
     } as any)
   }
-  console.log(formData)
 
   const response = await fetch(`${API_BASE_URL}/project`, {
     method: "POST",
@@ -89,11 +84,8 @@ const postProject = async (project: ProjectPostDTO): Promise<PostProjectResponse
     body: formData
   })
   const json = await response.json();
-  if (response.status === 201) {
-    return {
-      status: 201,
-      message: "Successful"
-    }
+  if (response.ok) {
+    return;
   } else {
     throw new Error(json.message)
   }
