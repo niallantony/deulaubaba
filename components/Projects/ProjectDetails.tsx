@@ -6,18 +6,23 @@ import { StudentAvatar } from "../StudentAvatar"
 import { CategoryIndicator } from "@/features/dictionary/CategoryPicker"
 import { CommunicationCategoryDTO } from "@/types/dictionary"
 import { UserStatusHolder } from "./UserStatus"
+import { SettingsMenuProject } from "./SettingsMenuProject"
 
 export const ProjectDetails = ({ project, onStatusChange }: { project: Project, onStatusChange: () => void }) => {
 
   const formatDate = (date: string) => {
     const [year, month, day] = date.split("-")
     return `${year}년 ${month}월 ${day}일`
-
   }
-  console.log(project)
   return (
     <View style={styles.container}>
-      <Text style={styles.subtitle}>{formatDate(project.startedOn)}</Text>
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={styles.dates}>
+          <Text style={styles.subtitle}>{formatDate(project.startedOn)}</Text>
+          {project.completedOn && (<Text style={styles.subtitle}> ~ {formatDate(project.completedOn)}</Text>)}
+        </View>
+        {project.ownProject && (<SettingsMenuProject id={project.id} />)}
+      </View>
 
       <View style={styles.topDetails}>
         <TouchableAvatar imagesrc={project.imgsrc}>
@@ -84,6 +89,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: theme.colors.light
 
+  },
+  dates: {
+    flexDirection: "row",
   }
 
 

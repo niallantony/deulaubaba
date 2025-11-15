@@ -29,7 +29,7 @@ export const ProjectForm = ({
 }) => {
   const [objective, setObjective] = useState<string | undefined>(project?.objective);
   const [startedOn, setStartedOn] = useState<number>(Date.now());
-  const [categories, setCategories] = useState<CommunicationCategory[]>(project ? project.categories : [])
+  const [categories, setCategories] = useState<CommunicationCategory[]>(project ? project.categories.map(dto => dto.label) : [])
   const [imgsrc, setImgsrc] = useState<string | null>(null)
   const [description, setDescription] = useState<string | undefined>(project?.description)
   const [errors, setErrors] = useState<ProjectErrors>({})
@@ -127,8 +127,8 @@ export const ProjectForm = ({
           rows={3}
         />
         <View style={{ flexDirection: 'row', justifyContent: "space-evenly", marginTop: 18 }} >
-          <ThemedButton text={"  뒤로  "} type={"green"} onPress={onBack} />
-          <ThemedButton text={"  다음  "} type={"green"} onPress={handleSubmit} />
+          <ThemedButton text={"  뒤로  "} type={"green"} onPress={onBack} row={true} />
+          <ThemedButton text={"  다음  "} type={"green"} onPress={handleSubmit} row={true} />
         </View>
       </KeyboardAwareScrollView>
     </View>

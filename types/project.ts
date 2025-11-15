@@ -1,4 +1,4 @@
-import { CommunicationCategoryDTO } from "./dictionary"
+import { CommunicationCategory, CommunicationCategoryDTO } from "./dictionary"
 import { UserAvatar } from "./user"
 
 export type Project = {
@@ -8,8 +8,8 @@ export type Project = {
   objective: string,
   imgsrc?: string,
   startedOn: string,
-  categories: CommunicationCategoryDTO[],
-  isOwnProject: boolean,
+  categories: CommunicationCategoryDTO[] | CommunicationCategory[],
+  ownProject: boolean,
   completedOn: string | null,
   type: ProjectType,
   userStatuses: {
@@ -20,13 +20,13 @@ export type Project = {
   studentId: string
 }
 
-export type ProjectPostDTO = Omit<Project, "id" | "completed" | "isOwnProject" | "completedOn" | "userStatuses"> & { usernames: string[] }
+export type ProjectPostDTO = Omit<Project, "id" | "completed" | "ownProject" | "completedOn" | "userStatuses"> & { usernames: string[] }
 
 export type ProjectDetails = Pick<Project, "objective" | "categories" | "imgsrc" | "startedOn" | "description">;
 
 export type ProjectType = "COMMUNICATION" | "CHALLENGE"
 
-export type ProjectPreview = Omit<Project, "categories" | "isOwnProject" | "projectType" | "userStatuses" | "studentId">
+export type ProjectPreview = Omit<Project, "categories" | "ownProject" | "projectType" | "userStatuses" | "studentId">
 
 export type ProjectFeedItem = {
   id: number,

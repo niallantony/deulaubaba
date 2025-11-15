@@ -1,4 +1,4 @@
-import { Project, ProjectPostDTO, ProjectPreview } from "@/types/project";
+import { Project, ProjectDetails, ProjectPostDTO, ProjectPreview } from "@/types/project";
 import auth0 from "./auth";
 import { API_BASE_URL } from "./api";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
@@ -65,6 +65,7 @@ const postProject = async (project: ProjectPostDTO) => {
   const formData = new FormData();
   const { imgsrc, ...projectData } = project;
   formData.append("data", JSON.stringify(projectData))
+
   if (imgsrc) {
     const compressed = await compressImage(imgsrc);
     formData.append("image", {
@@ -73,7 +74,6 @@ const postProject = async (project: ProjectPostDTO) => {
       type: "image/jpeg"
     } as any)
   }
-
   const response = await fetch(`${API_BASE_URL}/project`, {
     method: "POST",
     headers: {
@@ -106,13 +106,47 @@ const updateProjectStatus = async ({ id, value }: { id: string, value: boolean }
     const json = await response.json()
     throw new Error(json.message)
   }
+}
 
-
+const updateProjectDetails = async ({
+  id,
+  projectDetails,
+  studentId,
+}: {
+  id: string,
+  projectDetails: ProjectDetails,
+  studentId: string,
+}) => {
+  const accessToken = await getAccessToken();
+  const formData = new FormData();
+  const { imgsrc, ...projectData } = projectDetails;
+  formData.append("data", JSON.stringify(projectData))
+  if (imgsrc) {
+    const compressed = await compressImage(imgsrc);
+    formData.append("image", {
+      uri: compressed.uri,
+      name: `${studentId}.jpg`,
+      type: "image/jpeg"
+    } as any)
+  }
+  const response = await fetch(`${API_BASE_URL}/project/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "multipart/form-data",
+      "Authorization": `Bearer ${accessToken}`
+    },
+    body: formData
+  })
+  if (!response.ok) {
+    const json = await response.json();
+    throw new Error(json.message)
+  }
 }
 
 export default {
   getProjectsOfStudent,
   postProject,
   getProject,
-  updateProjectStatus
+  updateProjectStatus,
+  updateProjectDetails
 }

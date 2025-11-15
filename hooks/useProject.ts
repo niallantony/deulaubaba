@@ -1,6 +1,7 @@
 import { useStudentStore } from "@/store/currentStudent"
 import API from "@/api/project"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+import { ProjectDetails } from "@/types/project"
 
 export const useProject = () => {
   const student = useStudentStore((s) => s.student)
@@ -44,7 +45,7 @@ export const useCurrentProject = ({ id }: { id: string }) => {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['project', id] }),
-        queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
+        queryClient.invalidateQueries({ queryKey: ['projects', student] }),
       ])
     },
     onError: (error, v, ctx) => {
@@ -54,10 +55,28 @@ export const useCurrentProject = ({ id }: { id: string }) => {
 
   })
 
+  const updateDetails = useMutation({
+    mutationFn: (projectDetails: ProjectDetails) => {
+      if (!student?.studentId) throw new Error("No Student")
+      return API.updateProjectDetails({ id, projectDetails, studentId: student?.studentId })
+    },
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['project', id] }),
+        queryClient.invalidateQueries({ queryKey: ['projects', student] }),
+      ])
+    },
+    onError: (error, v, ctx) => {
+      console.log(error)
+
+    }
+  })
+
 
   return {
     query,
-    updateStatus
+    updateStatus,
+    updateDetails
   }
 
 }
