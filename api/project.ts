@@ -15,6 +15,7 @@ const getAccessToken = async () => {
 }
 
 const getProjectsOfStudent = async (id: string): Promise<AllProjectsResponse> => {
+  console.log("Fetching projects")
   const accessToken = await getAccessToken();
   const response = await fetch(`${API_BASE_URL}/project/all/${id}`, {
     method: "GET",
