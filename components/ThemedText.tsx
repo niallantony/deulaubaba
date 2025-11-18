@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
   },
   semiboldLight: {
     fontWeight: "600",
-    fontSize: 24,
+    fontSize: 20,
     color: theme.colors.light,
   },
   infoLabel: {

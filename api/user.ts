@@ -77,7 +77,6 @@ const postUser = async (user: User): Promise<PostUserResult> => {
       "body": formData
     })
 
-    console.log(response)
     if (response.status === 200) {
       return { success: true }
     }

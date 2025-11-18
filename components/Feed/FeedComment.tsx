@@ -1,9 +1,9 @@
 import { FeedItem, getFeedEmotionEmoji, StudentFeedEmotionName } from "@/types/feed"
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native"
 import { UserAvatarButton } from "../UserRibbon"
 import { theme } from "@/themes/global"
 
-export const FeedComment = ({ feedItem, own }: { feedItem: FeedItem, own: boolean }) => {
+export const FeedComment = ({ feedItem, own, onDelete }: { feedItem: FeedItem, own: boolean, onDelete?: () => void }) => {
   return (
     <View style={[
       own ? styles.containerOwn : styles.containerOther,
@@ -12,17 +12,19 @@ export const FeedComment = ({ feedItem, own }: { feedItem: FeedItem, own: boolea
         <UserAvatarButton user={feedItem.user} />
       </View>
       <View style={{ maxWidth: "70%" }}>
-        <View style={[
+        <TouchableOpacity style={[
           styles.comment,
           own ? styles.commentOwn : styles.commentOther
-        ]}>
+        ]}
+          onLongPress={onDelete}
+        >
           <Text
             style={own ? styles.textOwn : styles.textOther}
           >{feedItem.body}</Text>
 
-        </View>
+        </TouchableOpacity>
         <View style={[{ flexDirection: own ? "row" : "row-reverse" }, styles.under]}>
-          <EmojiGroup emotions={feedItem.emotions} />
+          {feedItem.emotions && <EmojiGroup emotions={feedItem.emotions} />}
           <CommentDate date={new Date(feedItem.createdAt)} />
         </View>
       </View>
@@ -103,8 +105,9 @@ const styles = StyleSheet.create({
   },
   date: {
     marginTop: 6,
-    fontSize: 12,
     marginHorizontal: 6,
+    fontSize: 10,
+    color: theme.colors.light
   },
   comment: {
     marginVertical: 8,

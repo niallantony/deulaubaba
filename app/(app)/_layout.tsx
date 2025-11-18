@@ -41,6 +41,15 @@ export default function Root() {
         }}
       />
       <Tabs.Screen
+        name='projects'
+        options={{
+          title: 'Projects',
+          tabBarShowLabel: false,
+          tabBarIcon: ({ color }) => <FontAwesome name="pencil" size={28} color={color} />,
+          popToTopOnBlur: true,
+        }}
+      />
+      <Tabs.Screen
         name="addstudent/index"
         options={{
           href: null,

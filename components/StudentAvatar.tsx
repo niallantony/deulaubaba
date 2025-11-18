@@ -10,6 +10,7 @@ type AvatarProps = {
   height: number;
   pressable?: boolean;
   style?: "full" | "round";
+  deactivated?: boolean
 }
 
 type AvatarStyleProps = {
@@ -32,7 +33,7 @@ const NoAvatar = ({ height, width, style, children }: { children?: ReactNode } &
   )
 }
 
-export const StudentAvatar = ({ url, width, height, style = "full", ...rest }: AvatarProps) => {
+export const StudentAvatar = ({ url, width, height, style = "full", deactivated = false, ...rest }: AvatarProps) => {
   const [loaded, setLoaded] = useState(false);
 
   const imageurl = `${API_BASE_URL}/uploads/${url}`
@@ -57,7 +58,7 @@ export const StudentAvatar = ({ url, width, height, style = "full", ...rest }: A
           setLoaded(true)
         }}
         onError={() => setLoaded(false)}
-        style={{ width, height }}
+        style={[{ width, height }, deactivated ? { opacity: 0.5 } : null,]}
       />
       {!loaded && (
         <View style={[StyleSheet.absoluteFillObject, styles.empty]} >

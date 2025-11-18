@@ -67,7 +67,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   },
   headerTextFrame: {
-    width: "80%"
+    width: "80%",
+    overflow: "hidden"
+
   },
   content: {
     flex: 1,

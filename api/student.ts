@@ -158,7 +158,6 @@ const postStudent = async (student: Student) => {
       } as any)
     }
 
-    console.log(formData)
     return await fetch(`${API_BASE_URL}/student`, {
       "method": "POST",
       "headers": {

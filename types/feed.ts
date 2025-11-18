@@ -12,7 +12,7 @@ export function getFeedEmotionEmoji(emotion: StudentFeedEmotionName) {
 export type FeedItem = {
   id: number;
   user: UserAvatar;
-  emotions: StudentFeedEmotionName[] | null;
+  emotions?: StudentFeedEmotionName[] | null;
   body: string;
   createdAt: Date;
 }

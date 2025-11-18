@@ -25,10 +25,9 @@ export const FullSizeImageModal = ({ uri, onClose, ...rest }: { uri: string, onC
   const [height, setHeight] = useState(0);
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
 
-  const imageurl = `${API_BASE_URL}/uploads/${uri}`
 
   useEffect(() => {
-    Image.getSize(imageurl, (width, height) => {
+    Image.getSize(uri, (width, height) => {
       const { width: realWidth, height: realHeight } = calculateDimensions(
         { width, height },
         { width: windowWidth, height: windowHeight },
@@ -37,7 +36,7 @@ export const FullSizeImageModal = ({ uri, onClose, ...rest }: { uri: string, onC
       setWidth(realWidth)
       setHeight(realHeight)
     })
-  }, [imageurl, windowWidth, windowHeight])
+  }, [uri, windowWidth, windowHeight])
 
 
   return (
@@ -50,14 +49,17 @@ export const FullSizeImageModal = ({ uri, onClose, ...rest }: { uri: string, onC
       <Image
         {...rest}
         testID="image"
-        source={{ uri: imageurl }}
+        source={{ uri: uri }}
         width={width}
         resizeMode="contain"
         onLoad={() => {
           setLoaded(true)
         }}
         // TODO: Show error
-        onError={() => setLoaded(false)}
+        onError={(err) => {
+          setLoaded(false)
+          console.error(err)
+        }}
         style={[
           { height: height }
         ]}

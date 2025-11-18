@@ -6,7 +6,7 @@ import { ReactNode } from 'react';
 
 export type ThemedButtonProps = {
   text: string;
-  type?: "green" | "outline" | "bare";
+  type?: "green" | "outline" | "bare" | "red";
   row?: boolean;
 } & PressableProps
 
@@ -15,6 +15,7 @@ const rippleColor = {
   green: theme.colors.ripple.accent,
   bare: theme.colors.ripple.bare,
   outline: theme.colors.ripple.outline,
+  red: theme.colors.ripple.bare,
 }
 
 export const InputLikeButton = ({ error, children, ...rest }: { error?: string } & PressableProps) => {
@@ -37,7 +38,7 @@ export const InputLikeButton = ({ error, children, ...rest }: { error?: string }
   )
 }
 
-type textStyles = "textGreen" | "textBare" | "textOutline"
+type textStyles = "textGreen" | "textBare" | "textOutline" | "textRed"
 
 const styles = StyleSheet.create({
   inputLike: {
@@ -60,6 +61,13 @@ const styles = StyleSheet.create({
   },
   bare: {
 
+  },
+  red: {
+
+  },
+  textRed: {
+    color: theme.colors.error,
+    fontWeight: 500,
   },
   textGreen: {
     color: theme.colors.lightText

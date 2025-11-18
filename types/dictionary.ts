@@ -28,6 +28,11 @@ export type DictionaryPostingResponse = {
   message?: string;
 }
 
+export type CommunicationCategoryDTO = {
+  id: number;
+  label: CommunicationCategory
+}
+
 export type CommunicationCategory = keyof typeof CommunicationCategories;
 
 export const categoryKeys: CommunicationCategory[] = Object.keys(CommunicationCategories) as CommunicationCategory[]

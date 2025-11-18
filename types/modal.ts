@@ -9,6 +9,10 @@ import { CategoryPicker } from "@/features/dictionary/CategoryPicker"
 import { SettingsMenu } from "@/components/SettingsMenu/SettingsMenu"
 import { StudentMenu } from "@/features/student/StudentMenu"
 import { FullSizeImageModal } from "@/components/FullSizeImageModal"
+import { DateType } from "react-native-ui-datepicker"
+import { DatePickerModal } from "@/components/DatePickerModal"
+import { ChangeStatusModal } from "@/features/project/ChangeStatusModal"
+import { ProjectSettingsModal } from "@/components/Projects/ProjectSettingsModal"
 
 export type ModalProps = {
   studentCode: { student: StudentIdAvatar },
@@ -18,6 +22,10 @@ export type ModalProps = {
     text: string,
     confirmText: string
   },
+  date: {
+    date: DateType,
+    onSelect: (s: number) => void
+  }
   category: {
     setCategory: (c: CommunicationCategory[]) => void,
     category: CommunicationCategory[]
@@ -32,6 +40,16 @@ export type ModalProps = {
   },
   fullSizeImage: {
     uri: string
+  },
+  changeStatus: {
+    onChange: () => void,
+    onClose: () => void,
+    isCompleted: boolean
+  },
+  projectSettings: {
+    onEdit: () => void,
+    onDelete: () => void,
+    onAddUser: () => void,
   }
 }
 
@@ -45,4 +63,7 @@ export const modalMap: Record<ModalNames, ComponentType<any>> = {
   settings: SettingsMenu,
   studentAvatar: StudentMenu,
   fullSizeImage: FullSizeImageModal,
+  date: DatePickerModal,
+  changeStatus: ChangeStatusModal,
+  projectSettings: ProjectSettingsModal
 }
