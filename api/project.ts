@@ -1,4 +1,4 @@
-import { Project, ProjectDetails, ProjectPostDTO, ProjectPreview } from "@/types/project";
+import { Project, ProjectDetails, ProjectFeedItem, ProjectPostDTO, ProjectPreview } from "@/types/project";
 import auth0 from "./auth";
 import { API_BASE_URL } from "./api";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
@@ -7,6 +7,10 @@ export type AllProjectsResponse = {
   current?: ProjectPreview[];
   pending?: ProjectPreview[];
   completed?: ProjectPreview[];
+}
+
+export type ProjectFeedResponse = {
+  feed: ProjectFeedItem[]
 }
 
 const getAccessToken = async () => {
@@ -180,6 +184,54 @@ const deleteProject = async (id: string) => {
   }
 }
 
+const getProjectFeed = async (id: string): Promise<ProjectFeedResponse> => {
+  const accessToken = await getAccessToken();
+  const response = await fetch(`${API_BASE_URL}/project/${id}/feed`, {
+    method: "GET",
+    headers: {
+      "Authorization": `Bearer ${accessToken}`
+    },
+  })
+  if (!response.ok) {
+    const json = await response.json();
+    throw new Error(json.message)
+  }
+  const json: ProjectFeedResponse = await response.json();
+  return json
+}
+
+const postProjectComment = async ({ id, body }: { id: string, body: string }) => {
+  const accessToken = await getAccessToken();
+  const data = { body: body }
+  const response = await fetch(`${API_BASE_URL}/project/${id}/comment`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${accessToken}`
+    },
+    body: JSON.stringify(data),
+
+  })
+  if (!response.ok) {
+    const json = await response.json();
+    throw new Error(json.message)
+  }
+}
+
+const deleteComment = async (id: string) => {
+  const accessToken = await getAccessToken();
+  const response = await fetch(`${API_BASE_URL}/project/comment/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": `Bearer ${accessToken}`
+    },
+
+  })
+  if (!response.ok) {
+    const json = await response.json();
+    throw new Error(json.message)
+  }
+}
+
 export default {
   getProjectsOfStudent,
   postProject,
@@ -187,5 +239,8 @@ export default {
   updateProjectStatus,
   updateProjectDetails,
   addUserToProject,
-  deleteProject
+  deleteProject,
+  getProjectFeed,
+  postProjectComment,
+  deleteComment
 }

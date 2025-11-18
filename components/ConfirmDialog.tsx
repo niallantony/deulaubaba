@@ -1,4 +1,4 @@
-import { View } from "react-native"
+import { StyleSheet, Text, View } from "react-native"
 import { RowButtonContainer } from "./ButtonContainer"
 import { CenteredOverlay } from "./CenteredOverlay"
 import { ThemedButton } from "./ThemedButton"
@@ -14,7 +14,7 @@ export const ConfirmDialog = ({ onConfirm, text, onClose, confirmText = "확인"
   return (
     <CenteredOverlay>
       <View style={{ width: '80%', justifyContent: 'center', alignItems: 'center', }}>
-        <StyledText>{text}</StyledText>
+        <Text style={styles.text}>{text}</Text>
         <RowButtonContainer>
           <ThemedButton
             text={confirmText}
@@ -33,3 +33,11 @@ export const ConfirmDialog = ({ onConfirm, text, onClose, confirmText = "확인"
     </CenteredOverlay>
   )
 }
+
+const styles = StyleSheet.create({
+  text: {
+    fontSize: 20,
+    marginBottom: 14,
+
+  }
+})
