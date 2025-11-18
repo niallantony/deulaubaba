@@ -7,6 +7,7 @@ import { useStudentFeed } from "@/hooks/useStudentFeed";
 import { StudentIdAvatar } from "@/types/student";
 import { useState } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { useModal } from "@/hooks/useModal";
 
 export const Feed = ({ student }: { student: StudentIdAvatar | null }) => {
 
@@ -14,11 +15,23 @@ export const Feed = ({ student }: { student: StudentIdAvatar | null }) => {
   const [emojis, setEmojis] = useState<StudentFeedEmotionName[]>([])
   const { data: user } = useCurrentUser();
 
-  const { data, fetchNextPage, isFetchingNextPage, create } = useStudentFeed();
+  const { data, fetchNextPage, isFetchingNextPage, create, deleteItem } = useStudentFeed();
+  const { show, hide } = useModal();
 
 
   const onCommentChange = (value: string) => {
     setComment(value);
+  }
+
+  const handleDelete = (id: number) => {
+    show("confirm", {
+      text: "댓글 삭제하겠습니까?",
+      confirmText: "삭제",
+      onConfirm: () => {
+        deleteItem.mutate(id.toString())
+        hide();
+      }
+    })
   }
 
   const handleEmojiPress = (pressed: StudentFeedEmotionName) => {
@@ -61,6 +74,7 @@ export const Feed = ({ student }: { student: StudentIdAvatar | null }) => {
         data={data?.pages}
         username={user!.user?.username}
         handleNextPage={handleNextPage}
+        onDelete={handleDelete}
       />
 
       <FeedCommentBox

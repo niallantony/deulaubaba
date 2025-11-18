@@ -23,60 +23,57 @@ const getAccessToken = async () => {
 }
 
 const getFeed = async (id: string, page: number = 0): Promise<GetFeedResponse> => {
-  try {
-    const accessToken = await getAccessToken();
-    const response = await fetch(`${API_BASE_URL}/feed/${id}?page=${page}`, {
-      method: "GET",
-      "headers": {
-        "Authorization": `Bearer ${accessToken}`,
-      }
-    })
-    const json = await response.json();
-    if (response.status === 404 || response.status === 401 || response.status === 400) {
-      return {
-        message: json.message
-      }
+  const accessToken = await getAccessToken();
+  const response = await fetch(`${API_BASE_URL}/feed/${id}?page=${page}`, {
+    method: "GET",
+    "headers": {
+      "Authorization": `Bearer ${accessToken}`,
     }
+  })
+  const json = await response.json();
+  if (response.ok) {
     return {
       feed: json.feed,
       hasNext: json.hasNext
     }
-  } catch (err) {
-    console.error("Feed error: " + err)
   }
-  return {
-    message: "Server Error"
+  throw new Error(json.message ? json.message : "Server Error")
+}
+
+const postFeed = async ({ id, body }: { id: string, body: PostFeedBody }) => {
+  const accessToken = await getAccessToken();
+  const response = await fetch(`${API_BASE_URL}/feed/${id}`, {
+    method: "POST",
+    "headers": {
+      "Authorization": `Bearer ${accessToken}`,
+    },
+    body: JSON.stringify(body),
+  })
+  if (!response.ok) {
+    const json = await response.json();
+    return { message: json.message }
   }
 }
 
-const postFeed = async ({ id, body }: { id: string, body: PostFeedBody }): Promise<PostFeedResponse> => {
-  try {
-    const accessToken = await getAccessToken();
-    const response = await fetch(`${API_BASE_URL}/feed/${id}`, {
-      method: "POST",
-      "headers": {
-        "Authorization": `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify(body),
-    })
-    if (response.status === 403 || response.status === 401 || response.status === 404) {
-      const json = await response.json();
-      return { message: json.message }
-    }
-    if (response.status === 204) {
-      return {
-        message: "Comment Posted"
-      }
-    }
-  } catch (err) {
-    console.error(err)
-  }
-  return {
-    message: "Server Error"
+const deleteFeedItem = async (id: string) => {
+  const accessToken = await getAccessToken();
+  const response = await fetch(`${API_BASE_URL}/feed/${id}`, {
+    method: "DELETE",
+    "headers": {
+      "Authorization": `Bearer ${accessToken}`,
+    },
+  })
+  if (!response.ok) {
+    const json = await response.json();
+    return { message: json.message }
   }
 }
+
+
+
 
 export default {
   getFeed,
-  postFeed
+  postFeed,
+  deleteFeedItem
 }

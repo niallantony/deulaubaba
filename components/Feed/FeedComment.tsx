@@ -4,6 +4,11 @@ import { UserAvatarButton } from "../UserRibbon"
 import { theme } from "@/themes/global"
 
 export const FeedComment = ({ feedItem, own, onDelete }: { feedItem: FeedItem, own: boolean, onDelete?: () => void }) => {
+
+  const handleLongPressDelete = () => {
+    if (own && onDelete) onDelete();
+  }
+
   return (
     <View style={[
       own ? styles.containerOwn : styles.containerOther,
@@ -16,7 +21,7 @@ export const FeedComment = ({ feedItem, own, onDelete }: { feedItem: FeedItem, o
           styles.comment,
           own ? styles.commentOwn : styles.commentOther
         ]}
-          onLongPress={onDelete}
+          onLongPress={handleLongPressDelete}
         >
           <Text
             style={own ? styles.textOwn : styles.textOther}

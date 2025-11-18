@@ -12,10 +12,12 @@ export const FeedScrollBox = ({
   data,
   handleNextPage,
   username,
+  onDelete
 }: {
   data: GetFeedResponse[] | undefined;
   handleNextPage: () => void;
   username: string | undefined;
+  onDelete: (id: number) => void;
 }) => {
   if (!data) return
 
@@ -48,6 +50,7 @@ export const FeedScrollBox = ({
                 key={item.id}
                 feedItem={item}
                 own={username === item.user.username}
+                onDelete={() => onDelete(item.id)}
               />
 
             ))}
