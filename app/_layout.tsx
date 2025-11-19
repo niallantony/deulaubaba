@@ -53,6 +53,7 @@ function RootNavigator() {
         <Stack.Protected guard={!isSignedIn}>
           <Stack.Screen name="index" options={{ headerShown: false }} />
         </Stack.Protected>
+        <Stack.Screen name="callback" options={{ headerShown: false }} />
       </Stack>
     </View>
   )

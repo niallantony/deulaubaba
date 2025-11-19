@@ -7,17 +7,9 @@ export default function Root() {
   return (
     <Tabs ref={navRef} screenOptions={{ headerShown: false, tabBarActiveTintColor: "#15673D" }}>
       <Tabs.Screen
-        name="index"
+        name="(home)"
         options={{
           title: 'Home',
-          tabBarShowLabel: false,
-          tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />
-        }}
-      />
-      <Tabs.Screen
-        name="student"
-        options={{
-          title: 'Student',
           tabBarShowLabel: false,
           tabBarIcon: ({ color }) => <FontAwesome size={28} name="user-circle" color={color} />,
           popToTopOnBlur: true,
@@ -60,6 +52,14 @@ export default function Root() {
         name="selectstudent/index"
         options={{
           href: null,
+          tabBarShowLabel: false,
+        }}
+      />
+      <Tabs.Screen
+        name="student"
+        options={{
+          href: null,
+          popToTopOnBlur: true,
           tabBarShowLabel: false,
         }}
       />

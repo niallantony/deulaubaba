@@ -17,7 +17,7 @@ export const useProjectFeed = (id: string) => {
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['project-feed', id] }),
     onError: (error, v, ctx) => {
-      console.error("Error from mutation: ", error)
+      console.log(error)
     }
   })
 

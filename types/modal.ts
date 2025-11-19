@@ -6,7 +6,7 @@ import { StudentCodeModal } from "@/features/student/StudentCodeDialog"
 import { UserDialog } from "@/features/student/UserDialog"
 import { ConfirmDialog } from "@/components/ConfirmDialog"
 import { CategoryPicker } from "@/features/dictionary/CategoryPicker"
-import { SettingsMenu } from "@/components/SettingsMenu/SettingsMenu"
+import { SettingsMenu, SettingsMenuWithStudent } from "@/components/SettingsMenu/SettingsMenu"
 import { StudentMenu } from "@/features/student/StudentMenu"
 import { FullSizeImageModal } from "@/components/FullSizeImageModal"
 import { DateType } from "react-native-ui-datepicker"
@@ -31,6 +31,12 @@ export type ModalProps = {
     category: CommunicationCategory[]
   },
   settings: {
+    onLogout: () => void,
+    position: { x: number, y: number, width: number },
+  },
+  settingsWithStudent: {
+    onRequestSelect: () => void,
+    onRequestEdit: () => void,
     onLogout: () => void,
     position: { x: number, y: number, width: number },
   },
@@ -65,5 +71,6 @@ export const modalMap: Record<ModalNames, ComponentType<any>> = {
   fullSizeImage: FullSizeImageModal,
   date: DatePickerModal,
   changeStatus: ChangeStatusModal,
-  projectSettings: ProjectSettingsModal
+  projectSettings: ProjectSettingsModal,
+  settingsWithStudent: SettingsMenuWithStudent,
 }

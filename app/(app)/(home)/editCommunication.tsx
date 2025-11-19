@@ -1,5 +1,5 @@
 import { ButtonContainer } from "@/components/ButtonContainer";
-import { ThemedButton } from "@/components/ThemedButton";
+import { BackHeader, ThemedButton } from "@/components/ThemedButton";
 import { ThemedTextArea } from "@/components/ThemedInput"
 import { useSelectedStudent } from "@/hooks/useSelectedStudent"
 import { useUpdateStudent } from "@/hooks/useUpdateStudent";
@@ -33,6 +33,7 @@ export default function Route() {
         backgroundColor: theme.colors.background,
         paddingHorizontal: 24
       }}>
+      <BackHeader />
       <ThemedTextArea
         label={"주요 의사소통특성"}
         value={content}
