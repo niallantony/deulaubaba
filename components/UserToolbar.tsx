@@ -8,17 +8,20 @@ import settings from '@/assets/images/settings.png'
 import { useAuth0 } from "react-native-auth0"
 import { useModal } from "@/hooks/useModal"
 import { useEffect, useRef, useState } from "react"
+import { useRouter } from "expo-router"
 
 
-export const UserToolbar = () => {
+export const UserToolbar = ({ studentSelected }: { studentSelected: boolean }) => {
   const { data } = useCurrentUser()
-  const { show } = useModal();
+  const { show, hide } = useModal();
   const { clearSession } = useAuth0();
   const [position, setPosition] = useState<{ x: number, y: number, width: number }>()
+  const router = useRouter();
 
   const handleLogout = async () => {
     try {
       await clearSession();
+      hide();
     } catch (e) {
       console.error(e)
     }
@@ -42,11 +45,27 @@ export const UserToolbar = () => {
 
 
   const handleSettings = () => {
-    show("settings", {
-      onLogout: handleLogout,
-      position: position!,
-    })
+    if (studentSelected) {
+      show("settingsWithStudent", {
+        onLogout: handleLogout,
+        position: position!,
+        onRequestSelect: () => {
+          router.push("/selectstudent")
+          hide()
+        },
+        onRequestEdit: () => {
+          router.push("/edit")
+          hide()
+        },
+      })
+    } else {
+      show("settings", {
+        onLogout: handleLogout,
+        position: position!,
+      })
+    }
   }
+
   return (
     <View style={{ flexDirection: "row", marginHorizontal: 24 }}>
       <View style={{ alignItems: 'center', justifyContent: 'center', }}>

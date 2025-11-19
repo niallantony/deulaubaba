@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     paddingBottom: 12,
+    marginVertical: 24,
   },
   outer: {
     width: "100%",

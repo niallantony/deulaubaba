@@ -1,6 +1,7 @@
 import { ReactNode, useState } from "react";
 import { ActivityIndicator, StyleSheet, View, Pressable } from "react-native";
 import { Image } from "expo-image";
+import noImage from "@/assets/images/noImage.png"
 import { API_BASE_URL } from "@/api/api";
 import { theme } from "@/themes/global";
 
@@ -28,6 +29,7 @@ const NoAvatar = ({ height, width, style, children }: { children?: ReactNode } &
         styles.empty,
         { borderRadius: style === "full" ? 8 : 128, width: width, height: height, }
       ]}>
+      <Image source={noImage} style={styles.noImage} />
       {children}
     </View>
   )
@@ -78,6 +80,12 @@ const styles = StyleSheet.create({
   },
   empty: {
     justifyContent: 'center',
-    backgroundColor: theme.colors.light,
+    alignItems: 'center',
+    backgroundColor: theme.colors.subtle,
+  },
+  noImage: {
+    width: 48,
+    height: 48
   }
+
 })

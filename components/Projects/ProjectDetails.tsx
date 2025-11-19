@@ -65,7 +65,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: theme.colors.inputs,
     marginHorizontal: 24,
-    padding: 24,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 16,
+    shadowOffset: { width: 0, height: 7 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 3,
 
   },
   topDetails: {

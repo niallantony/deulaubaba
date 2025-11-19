@@ -8,6 +8,7 @@ import { useEffect, useState } from "react"
 import { useStudentStore } from '@/store/currentStudent'
 import { theme } from '@/themes/global'
 import { StudentsResponse } from '@/api/student'
+import { useRouter } from 'expo-router'
 
 export const StudentList = ({
   studentsData,
@@ -78,6 +79,8 @@ const AddStudentRow = () => {
 
 export const StudentRow = ({ student, selected }: { student: StudentIdAvatar; selected: boolean }) => {
   const selectStudent = useStudentStore((s) => s.setStudent)
+  const router = useRouter();
+
 
   return (
     <Pressable style={[
@@ -86,6 +89,7 @@ export const StudentRow = ({ student, selected }: { student: StudentIdAvatar; se
     ]}
       onPress={() => {
         selectStudent(student)
+        router.push('/')
       }}
     >
       <StudentAvatar

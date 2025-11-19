@@ -4,7 +4,7 @@ import { StyleSheet, Text, TextProps, View, ViewProps } from 'react-native';
 
 export const styles = StyleSheet.create({
   styled: {
-    fontSize: 18,
+    fontSize: 14,
     color: theme.colors.text,
   },
   title: {
