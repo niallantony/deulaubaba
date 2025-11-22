@@ -1,4 +1,3 @@
-import { API_BASE_URL } from "@/api/api";
 import { theme } from "@/themes/global";
 import { useEffect, useState } from "react";
 import { StyleSheet, View, Image, ActivityIndicator, useWindowDimensions } from "react-native";
@@ -7,15 +6,18 @@ export const calculateDimensions = (
   image: { width: number, height: number },
   window: { width: number, height: number },
   padding: number
-): { width: number, height: number } => {
-  const landscape = image.height < image.width
-  const aspect = image.width / image.height
-  if (landscape) {
-    const realWidth = image.width > window.width ? window.width : image.width
-    return { width: realWidth - padding, height: (realWidth / aspect) - padding }
-  } else {
-    const realHeight = image.height > window.height ? window.height : image.height
-    return { width: (realHeight * aspect) - padding, height: realHeight - padding }
+) => {
+  const maxWidth = window.width - padding * 2
+  const maxHeight = window.height - padding * 2
+
+  const widthRatio = maxWidth / image.width
+  const heightRatio = maxHeight / image.height
+
+  const ratio = Math.min(widthRatio, heightRatio, 1) // Never scale up
+
+  return {
+    width: image.width * ratio,
+    height: image.height * ratio
   }
 }
 
@@ -51,6 +53,7 @@ export const FullSizeImageModal = ({ uri, onClose, ...rest }: { uri: string, onC
         testID="image"
         source={{ uri: uri }}
         width={width}
+        style={{ width, height }}
         resizeMode="contain"
         onLoad={() => {
           setLoaded(true)
@@ -60,9 +63,6 @@ export const FullSizeImageModal = ({ uri, onClose, ...rest }: { uri: string, onC
           setLoaded(false)
           console.error(err)
         }}
-        style={[
-          { height: height }
-        ]}
       />
       {!loaded && (
         <View style={[StyleSheet.absoluteFillObject, styles.empty]} >
