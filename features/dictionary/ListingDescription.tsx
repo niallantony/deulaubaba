@@ -12,7 +12,7 @@ export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListi
   const { update, remove } = useDictionaryMutations();
 
 
-  const { show } = useModal();
+  const { show, hide } = useModal();
 
   const handleModal = (() => show("confirm", {
     text: "정말 삭제하겠습니까?",
@@ -32,6 +32,7 @@ export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListi
   const handleDelete = () => {
     remove.mutate(entry.id);
     onUpdate();
+    hide();
   }
 
   return (
