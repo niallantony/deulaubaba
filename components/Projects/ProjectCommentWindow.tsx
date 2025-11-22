@@ -24,7 +24,6 @@ export const ProjectCommentWindow = ({ onSubmit }: { onSubmit: (v: string) => vo
     onSubmit(value);
   }
 
-  console.log(animatedWidth)
 
 
 

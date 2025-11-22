@@ -22,7 +22,6 @@ export const ProjectPage = ({
   const { show, hide } = useModal();
 
   const { comment, deleteComment } = useProjectFeed(project.id.toString());
-  console.log(deleteComment)
 
   const handleSubmit = (body: string) => {
     comment.mutate(body)

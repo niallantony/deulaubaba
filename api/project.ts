@@ -155,7 +155,6 @@ const addUserToProject = async ({
   toAdd: string[],
 }) => {
   const accessToken = await getAccessToken();
-  console.log(JSON.stringify({ "toAdd": toAdd }))
   const response = await fetch(`${API_BASE_URL}/project/${id}/add-user`, {
     method: "PATCH",
     headers: {
