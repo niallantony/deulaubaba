@@ -38,8 +38,6 @@ const NoAvatar = ({ height, width, style, children }: { children?: ReactNode } &
 export const StudentAvatar = ({ url, width, height, style = "full", deactivated = false, ...rest }: AvatarProps) => {
   const [loaded, setLoaded] = useState(false);
 
-  const imageurl = `${API_BASE_URL}/uploads/${url}`
-
   if (!url) {
     return <NoAvatar width={width} height={height} style={style} />;
   }
@@ -55,7 +53,7 @@ export const StudentAvatar = ({ url, width, height, style = "full", deactivated 
       <Image
         {...rest}
         testID="image"
-        source={{ uri: imageurl }}
+        source={{ uri: url }}
         onLoad={() => {
           setLoaded(true)
         }}
