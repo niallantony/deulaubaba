@@ -55,7 +55,7 @@ export const ProjectForm = ({
 
   const formatDate = (d?: number) => {
     if (!d) return "2000-01-01"
-    const [month, day, year] = new Date(d).toLocaleDateString().split('/')
+    const [day, month, year] = new Date(d).toLocaleDateString().split('/')
     return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`
   }
 

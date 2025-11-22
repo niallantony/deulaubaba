@@ -71,6 +71,7 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
       setting: setting!,
       disability: disability!,
       imagesrc: imgsrc ? imgsrc : undefined,
+      studentId: student?.studentId ? student.studentId : undefined
     }
     onSubmit(newStudent)
   }
