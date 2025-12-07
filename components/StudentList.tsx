@@ -89,7 +89,7 @@ export const StudentRow = ({ student, selected }: { student: StudentIdAvatar; se
     ]}
       onPress={() => {
         selectStudent(student)
-        router.push('/')
+        router.push('/home')
       }}
     >
       <StudentAvatar

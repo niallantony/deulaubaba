@@ -4,7 +4,7 @@ import auth0 from "./auth";
 import { RegistrationErrorType } from "@/types/registrationErrors";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 
-type GetUserResult =
+export type GetUserResult =
   | { ok: true; user: UserResponse }
   | { ok: false; user: null; reason: "not_found" }
   | { ok: false; user: null; reason: "error"; error: unknown }

@@ -31,7 +31,7 @@ export const StudentBorder = ({ children, title, subtitle, student, showModal }:
             <TitleText>{title}</TitleText>
             <SemiboldLightText>{subtitle}</SemiboldLightText>
           </View>
-          <PressableAvatarPane testID="avatar-pressable" size={imageSize + 8} onPress={() => router.push('/')}>
+          <PressableAvatarPane testID="avatar-pressable" size={imageSize + 8} onPress={() => router.push('/home')}>
             <StudentAvatar url={student?.imagesrc} width={imageSize} height={imageSize} style="full" />
           </PressableAvatarPane>
         </View>

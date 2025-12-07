@@ -4,10 +4,11 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 export default function Root() {
   const navRef = useNavigationContainerRef();
 
+
   return (
     <Tabs ref={navRef} screenOptions={{ headerShown: false, tabBarActiveTintColor: "#15673D" }}>
       <Tabs.Screen
-        name="(home)"
+        name="home"
         options={{
           title: 'Home',
           tabBarShowLabel: false,

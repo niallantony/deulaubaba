@@ -8,8 +8,24 @@
       "developmentClient": true,
       "distribution": "internal"
     },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleDebug"
+      }
+    },
     "preview": {
       "distribution": "internal"
+    },
+    "productionPreview": {
+      "distribution": "internal",
+      "env": {
+        "EXPO_PUBLIC_AUTH_DOMAIN": "dev-51x43bln4su24q1p.us.auth0.com",
+        "EXPO_PUBLIC_AUTH_CLIENTID": "4QxjswWCftPyYhGq40gu88hg95AGXpRk"
+      },
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      }
     },
     "production": {
       "autoIncrement": true

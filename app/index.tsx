@@ -1,16 +1,14 @@
 import { ButtonContainer } from "@/components/ButtonContainer";
 import { ThemedButton } from "@/components/ThemedButton";
 import { FullView } from "@/components/ThemedView";
-import { ActivityIndicator, Image, View } from "react-native";
+import { Image, View } from "react-native";
 import { useAuth0 } from "react-native-auth0";
 // @ts-ignore
 import Logo from "@/assets/images/logo.png"
-import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 export default function Index() {
 
   const { authorize } = useAuth0();
-  const { isLoading } = useCurrentUser();
   const onPress = async () => {
     try {
       await authorize({
@@ -22,9 +20,6 @@ export default function Index() {
     }
   }
 
-  if (isLoading) {
-    return (<ActivityIndicator />)
-  }
   return (
     <FullView style={{ justifyContent: 'space-between', flex: 1, paddingTop: 50, paddingBottom: 50 }}>
       <View style={{ alignItems: 'center' }}>

@@ -24,7 +24,7 @@ export const HasCode = ({ inputCode, makeCode }: HasCodeActions) => {
         </BigButton>
         <LinkButton
           text="홈으로"
-          href={'/'}
+          href={'/home'}
           type="bare"
         />
       </View>
