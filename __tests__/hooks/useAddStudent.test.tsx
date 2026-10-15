@@ -118,10 +118,7 @@ describe("useAddStudent", () => {
   })
 
   it("handles valid student code", async () => {
-    (API.getStudentPreviewFromCode as jest.Mock).mockResolvedValue({
-      status: 200,
-      student: { studentId: "123", name: "Jane", imagesrc: "/img" }
-    })
+    (API.getStudentPreviewFromCode as jest.Mock).mockResolvedValue({ studentId: "123", name: "Jane", imagesrc: "/img" })
 
     const { result } = renderHook(() => useAddStudent(), { wrapper })
 
@@ -135,11 +132,8 @@ describe("useAddStudent", () => {
     expect(result.current.screen).toBe("confirm_link")
   })
 
-  it("handles error from student code", async () => {
-    (API.getStudentPreviewFromCode as jest.Mock).mockResolvedValueOnce({
-      status: 401,
-      message: "invalid code"
-    })
+  it("shows a message when no student has the code", async () => {
+    (API.getStudentPreviewFromCode as jest.Mock).mockResolvedValueOnce(null)
 
     const { result } = renderHook(() => useAddStudent(), { wrapper })
 
@@ -148,7 +142,7 @@ describe("useAddStudent", () => {
       expect(ok).toBe(false)
     })
 
-    expect(result.current.error.preview).toBe("invalid code")
+    expect(result.current.error.preview).toBe("학생을 찾을 수 없습니다")
   })
 
   it("handles error when thrown", async () => {
@@ -161,7 +155,7 @@ describe("useAddStudent", () => {
       expect(ok).toBe(false)
     })
 
-    expect(result.current.error.preview).toBe("Attempt Failed: Error: error ")
+    expect(result.current.error.preview).toBe("error")
   })
 
   it("handles new student", async () => {
@@ -290,10 +284,7 @@ describe("useAddStudent", () => {
   })
 
   it("calls linkStudent with student preview's code", async () => {
-    (API.getStudentPreviewFromCode as jest.Mock).mockResolvedValue({
-      status: 200,
-      student: { studentId: "123", name: "Jane", imagesrc: "/img" }
-    })
+    (API.getStudentPreviewFromCode as jest.Mock).mockResolvedValue({ studentId: "123", name: "Jane", imagesrc: "/img" })
 
     const { result } = renderHook(() => useAddStudent(), { wrapper })
 
@@ -311,10 +302,7 @@ describe("useAddStudent", () => {
   })
 
   it("handles errors when linkStudent fails", async () => {
-    (API.getStudentPreviewFromCode as jest.Mock).mockResolvedValue({
-      status: 200,
-      student: { studentId: "123", name: "Jane", imagesrc: "/img" }
-    });
+    (API.getStudentPreviewFromCode as jest.Mock).mockResolvedValue({ studentId: "123", name: "Jane", imagesrc: "/img" });
     (API.linkStudentFromCode as jest.Mock).mockRejectedValue(new Error("No such student"))
 
     const { result } = renderHook(() => useAddStudent(), { wrapper })

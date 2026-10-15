@@ -7,14 +7,13 @@ import { IconLink } from "./ThemedButton"
 import { useEffect, useState } from "react"
 import { useStudentStore } from '@/store/currentStudent'
 import { theme } from '@/themes/global'
-import { StudentsResponse } from '@/api/student'
 import { useRouter } from 'expo-router'
 
 export const StudentList = ({
-  studentsData,
+  students,
   selectedStudent,
 }: {
-  studentsData: StudentsResponse,
+  students: StudentIdAvatar[],
   selectedStudent: StudentIdAvatar | null
 }) => {
   const [rows, setRows] = useState<StudentIdAvatar[]>();
@@ -24,9 +23,8 @@ export const StudentList = ({
       name: "",
       studentId: "add",
     }
-    const clonedData = studentsData?.students ? [...studentsData.students, addStudentIndicator] : [addStudentIndicator]
-    setRows(clonedData);
-  }, [studentsData?.students]);
+    setRows([...students, addStudentIndicator]);
+  }, [students]);
 
 
 

@@ -18,20 +18,20 @@ export default function Student() {
     router.push('/student/edit/challenges')
   }
 
-  if (!selected?.student && !data?.students) {
+  if (!selected && !data?.length) {
     return (
       <NoStudent />
     )
   }
 
-  if (!selected?.student) {
+  if (!selected) {
     return (<NoSelectedStudent />)
   }
 
 
   return (
     <StudentProfile
-      data={selected.student}
+      data={selected}
       onChallengesPress={handleChallengeRoute}
       onCommunicationPress={handleCommunicationRoute}
     />

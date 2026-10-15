@@ -33,15 +33,13 @@ export default function AddStudent() {
 
 
   if (studentPreview && screen === "confirm_new") {
-    return (<ConfirmStudent student={studentPreview} onConfirm={() => {
-      submitStudent();
-      router.navigate('/student');
+    return (<ConfirmStudent student={studentPreview} error={error.post} onConfirm={() => {
+      submitStudent(() => router.navigate('/student'));
     }} />)
   }
   if (studentPreview && screen === "confirm_link") {
-    return (<ConfirmStudent student={studentPreview} onConfirm={() => {
-      linkStudent()
-      router.navigate('/student');
+    return (<ConfirmStudent student={studentPreview} error={error.link} onConfirm={() => {
+      linkStudent(() => router.navigate('/student'));
     }} />)
   }
   if (screen === "add") {

@@ -1,11 +1,15 @@
 import { StudentAvatar } from "@/components/StudentAvatar";
 import { ThemedButton } from "@/components/ThemedButton";
-import { LightText, SemiboldText } from "@/components/ThemedText";
+import { ErrorText, LightText, SemiboldText } from "@/components/ThemedText";
 import { FullView } from "@/components/ThemedView";
 import { Student } from "@/types/student";
 import { View } from "react-native";
 
-export const ConfirmStudent = ({ student, onConfirm }: { student: Pick<Student, "studentId" | "name" | "imagesrc"> | null; onConfirm: () => void }) => {
+export const ConfirmStudent = ({ student, onConfirm, error }: {
+  student: Pick<Student, "studentId" | "name" | "imagesrc"> | null;
+  onConfirm: () => void;
+  error?: string | null;
+}) => {
   return (
     <FullView>
       {student &&
@@ -20,6 +24,7 @@ export const ConfirmStudent = ({ student, onConfirm }: { student: Pick<Student, 
               type="green"
               onPress={onConfirm}
             />
+            {error && (<ErrorText>{error}</ErrorText>)}
           </View>
         )
       }

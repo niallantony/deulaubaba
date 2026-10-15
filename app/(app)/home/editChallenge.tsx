@@ -13,16 +13,17 @@ export default function Route() {
   const { data } = useSelectedStudent();
   const { updateChallenge } = useUpdateStudent()
   const router = useRouter();
-  const initial = data?.student?.challengesDetails ?? ""
+  const initial = data?.challengesDetails ?? ""
   const [content, setContent] = useState(initial);
 
   const onSubmit = () => {
     const student: Pick<Student, "challengesDetails" | "studentId"> = {
       challengesDetails: content,
-      studentId: data?.student?.studentId,
+      studentId: data?.studentId,
     }
-    updateChallenge.mutate(student)
-    router.dismissAll();
+    updateChallenge.mutate(student, {
+      onSuccess: () => router.dismissAll(),
+    })
   }
   return (
     <KeyboardAwareScrollView

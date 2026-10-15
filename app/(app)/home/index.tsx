@@ -29,9 +29,9 @@ export default function Index() {
       <UserToolbar studentSelected={!!student} data={userData} />
       <FullView >
         {!student && (<NoSelectedStudent />)}
-        {data?.student && (
+        {data && (
           <StudentProfile
-            data={data.student}
+            data={data}
             onChallengesPress={handleChallengeRoute}
             onCommunicationPress={handleCommunicationRoute}
           />

@@ -26,15 +26,30 @@ describe("mock API (demo mode)", () => {
   });
 
   it("links a student by share code", async () => {
-    expect((await studentApi.getAllStudents()).students).toHaveLength(2);
+    expect(await studentApi.getAllStudents()).toHaveLength(2);
     const preview = await studentApi.getStudentPreviewFromCode(STUDENT_CODES.doyun.toUpperCase());
-    expect(preview.student?.name).toBe("박도윤");
+    expect(preview?.name).toBe("박도윤");
     await studentApi.linkStudentFromCode(STUDENT_CODES.doyun);
-    expect((await studentApi.getAllStudents()).students).toHaveLength(3);
+    expect(await studentApi.getAllStudents()).toHaveLength(3);
   });
 
-  it("rejects an unknown share code", async () => {
-    expect((await studentApi.getStudentPreviewFromCode("999999")).status).toBe(404);
+  it("returns null for an unknown share code", async () => {
+    expect(await studentApi.getStudentPreviewFromCode("999999")).toBeNull();
+  });
+
+  it("returns no students for a new user", async () => {
+    setCurrentUserId("demo|nobody");
+    await expect(studentApi.getAllStudents()).resolves.toEqual([]);
+  });
+
+  it("rejects an invalid student", async () => {
+    await expect(studentApi.postStudent({ name: "", school: "", age: 1, grade: 1, setting: "", disability: "" }))
+      .rejects.toMatchObject({ status: 400 });
+  });
+
+  it("won't show a student to someone not linked to them", async () => {
+    setCurrentUserId(USERS.parent);
+    await expect(studentApi.getStudentFromCode(STUDENT_CODES.seoyeon)).rejects.toMatchObject({ status: 401 });
   });
 
   it("adds a dictionary entry", async () => {

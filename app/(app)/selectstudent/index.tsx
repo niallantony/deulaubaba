@@ -10,14 +10,14 @@ export default function SelectStudent() {
   const { data } = useStudents();
   const student = useStudentStore((s) => s.student);
 
-  if (!data?.students) {
+  if (!data?.length) {
     return (<NoStudent />)
   }
   return (
     <FullView>
       <SemiboldText style={{ paddingLeft: 24, width: "100%", textAlign: "left" }}>학생 선택해 주세요</SemiboldText>
       <DividerWithTitle title={"학생 목록"} />
-      <StudentList studentsData={data} selectedStudent={student} />
+      <StudentList students={data} selectedStudent={student} />
     </FullView>
   )
 

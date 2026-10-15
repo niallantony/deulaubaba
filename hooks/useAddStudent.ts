@@ -3,6 +3,9 @@ import { Student } from "@/types/student";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useCallback, useReducer } from "react"
 
+const errorMessage = (err: unknown) =>
+  err instanceof Error ? err.message : "오류가 발생했습니다";
+
 type Screen = "add" | "code" | "register" | "confirm_new" | "confirm_link";
 
 type Operation = "preview" | "link" | "post";
@@ -84,23 +87,16 @@ export const useAddStudent = () => {
 
   const handleStudentCode = async (code: string) => {
     try {
-      const response = await API.getStudentPreviewFromCode(code);
-      if (response.status === 401 && response.message) {
-        dispatch({ type: 'SET_ERROR', op: "preview", message: response.message })
+      const preview = await API.getStudentPreviewFromCode(code);
+      if (!preview) {
+        dispatch({ type: "SET_ERROR", op: "preview", message: "학생을 찾을 수 없습니다" })
         return false
       }
-      if (response.status === 404 && response.message) {
-        dispatch({ type: "SET_ERROR", op: "preview", message: response.message })
-        return false
-      }
-      if (response.status === 200 && response.student) {
-        dispatch({ type: "SET_PREVIEW", studentPreview: response.student })
-        dispatch({ type: "CONFIRM_LINK" })
-        return true;
-      }
+      dispatch({ type: "SET_PREVIEW", studentPreview: preview })
+      dispatch({ type: "CONFIRM_LINK" })
+      return true;
     } catch (err) {
-      console.error(err)
-      dispatch({ type: 'SET_ERROR', op: "preview", message: `Attempt Failed: ${err} ` })
+      dispatch({ type: 'SET_ERROR', op: "preview", message: errorMessage(err) })
       return false;
     }
   }
@@ -113,14 +109,14 @@ export const useAddStudent = () => {
     onError: (e) => dispatch({ type: 'SET_ERROR', op: "link", message: `Link failed: ${e.message}` })
   })
 
-  const submitStudent = () => {
+  const submitStudent = (onSuccess?: () => void) => {
     if (student) {
-      submitStudentMutation.mutate(student)
+      submitStudentMutation.mutate(student, { onSuccess })
     }
   }
 
   const submitStudentMutation = useMutation({
-    mutationFn: API.postStudent,
+    mutationFn: (student: Student) => API.postStudent(student),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['students'] })
     },
@@ -138,9 +134,9 @@ export const useAddStudent = () => {
     dispatch({ type: 'CONFIRM_NEW' })
   }
 
-  const linkStudent = async () => {
+  const linkStudent = (onSuccess?: () => void) => {
     if (studentPreview?.studentId) {
-      linkStudentMutation.mutate(studentPreview?.studentId)
+      linkStudentMutation.mutate(studentPreview.studentId, { onSuccess })
     }
   }
 

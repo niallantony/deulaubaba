@@ -25,7 +25,7 @@ describe("useUserRibbon", () => {
     };
 
 
-    (API.getUsersFromStudent as jest.Mock).mockResolvedValueOnce(mockUsers)
+    (API.getUsersFromStudent as jest.Mock).mockResolvedValueOnce(mockUsers.users)
 
     const { result } = renderHook(() => useUserRibbon());
 
@@ -41,15 +41,15 @@ describe("useUserRibbon", () => {
     expect(API.getUsersFromStudent).toHaveBeenCalledWith("student123");
   });
 
-  it("handles empty response", async () => {
-    (API.getUsersFromStudent as jest.Mock).mockResolvedValue({ users: null });
+  it("handles a student with no team", async () => {
+    (API.getUsersFromStudent as jest.Mock).mockResolvedValue([]);
     const { result } = renderHook(() => useUserRibbon());
 
     await act(async () => {
       await result.current.fetchUsers("student123");
     });
 
-    expect(result.current.users).toBe(null);
+    expect(result.current.users).toEqual([]);
     expect(result.current.loading).toBe(false);
   });
 

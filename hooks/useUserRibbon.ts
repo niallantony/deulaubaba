@@ -9,10 +9,7 @@ export const useUserRibbon = () => {
   const fetchUsers = async (studentId: string) => {
     try {
       setLoading(true)
-      const fetchedUsers = await API.getUsersFromStudent(studentId);
-      if (fetchedUsers.users) {
-        setUsers(fetchedUsers.users);
-      }
+      setUsers(await API.getUsersFromStudent(studentId));
     } catch (err) {
       console.error(err);
     } finally {

@@ -1,43 +1,38 @@
 import type remote from "../remote/student";
-import { StudentResponse, StudentSmallResponse, StudentsResponse, UsersResponse } from "../remote/student";
-import { Student } from "@/types/student";
+import { ApiError } from "../errors";
+import { Student, StudentIdAvatar } from "@/types/student";
+import { UserAvatar } from "@/types/user";
 import { authorisedStudent, db, DbStudent, findUser, getCurrentUserId, respond, toAvatar } from "./db";
-
-const ok = () => new Response(null, { status: 200 });
 
 const toStudent = ({ userIds, ...student }: DbStudent): Student => student;
 
-const findStudent = (code: string) => db.students.find(s => s.studentId === code.toLowerCase());
-
-const getStudentPreviewFromCode = async (code: string): Promise<StudentSmallResponse> => {
-  const student = findStudent(code);
-  if (!student) {
-    return respond({ status: 404, student: null, message: "학생을 찾을 수 없습니다" });
-  }
-  return respond({
-    status: 200,
-    student: { studentId: student.studentId, name: student.name, imagesrc: student.imagesrc },
-  });
+const findStudent = (code: string) => {
+  const student = db.students.find(s => s.studentId === code.toLowerCase());
+  if (!student) throw new ApiError(404, "Student not found");
+  return student;
 }
 
-const getStudentFromCode = async (code: string): Promise<StudentResponse> => {
-  const student = findStudent(code);
-  if (!student) {
-    return respond({ status: 404, student: null, message: "Student Not Found" });
+const validate = (student: Omit<Student, "communicationDetails" | "challengesDetails">) => {
+  if (!student.name || !student.school || student.age == null || student.grade == null || !student.disability || !student.setting) {
+    throw new ApiError(400, "Invalid student data");
   }
-  return respond({ status: 200, student: toStudent(student) });
 }
 
-const linkStudentFromCode = async (code: string): Promise<StudentResponse> => {
+const getStudentPreviewFromCode = async (code: string): Promise<StudentIdAvatar | null> => {
+  const student = db.students.find(s => s.studentId === code.toLowerCase());
+  return respond(student ? { studentId: student.studentId, name: student.name, imagesrc: student.imagesrc } : null);
+}
+
+const getStudentFromCode = async (code: string): Promise<Student> =>
+  respond(toStudent(authorisedStudent(code)));
+
+const linkStudentFromCode = async (code: string): Promise<Student> => {
   const student = findStudent(code);
-  if (!student) {
-    return respond({ status: 404, student: null, message: "Student Not Found" });
-  }
   const userId = getCurrentUserId();
   if (!student.userIds.includes(userId)) {
     student.userIds.push(userId);
   }
-  return respond({ status: 200, student: toStudent(student) });
+  return respond(toStudent(student));
 }
 
 const generateCode = () => {
@@ -45,20 +40,22 @@ const generateCode = () => {
   let code: string;
   do {
     code = Array.from({ length: 6 }, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join("");
-  } while (findStudent(code));
+  } while (db.students.some(s => s.studentId === code));
   return code;
 }
 
 const postStudent = async (student: Student) => {
+  validate(student);
   db.students.push({
     ...student,
     studentId: generateCode(),
     userIds: [getCurrentUserId()],
   });
-  return respond(undefined).then(ok);
+  return respond(undefined);
 }
 
 const putStudentInfo = async (student: Omit<Student, "communicationDetails" | "challengesDetails">) => {
+  validate(student);
   const existing = authorisedStudent(student.studentId!);
   Object.assign(existing, {
     name: student.name,
@@ -69,37 +66,28 @@ const putStudentInfo = async (student: Omit<Student, "communicationDetails" | "c
     setting: student.setting,
     imagesrc: student.imagesrc ?? existing.imagesrc,
   });
-  return respond(undefined).then(ok);
+  return respond(undefined);
 }
 
 const putStudentCommunication = async (student: Pick<Student, "communicationDetails" | "studentId">) => {
   authorisedStudent(student.studentId!).communicationDetails = student.communicationDetails;
-  return respond(undefined).then(ok);
+  return respond(undefined);
 }
 
 const putStudentChallenge = async (student: Pick<Student, "challengesDetails" | "studentId">) => {
   authorisedStudent(student.studentId!).challengesDetails = student.challengesDetails;
-  return respond(undefined).then(ok);
+  return respond(undefined);
 }
 
-const getAllStudents = async (): Promise<StudentsResponse> => {
+const getAllStudents = async (): Promise<StudentIdAvatar[]> => {
   const userId = getCurrentUserId();
-  const students = db.students
+  return respond(db.students
     .filter(s => s.userIds.includes(userId))
-    .map(s => ({ studentId: s.studentId, name: s.name, imagesrc: s.imagesrc }));
-  if (students.length === 0) {
-    return respond({ status: 404, students: null, message: "Students not found" });
-  }
-  return respond({ status: 200, students });
+    .map(s => ({ studentId: s.studentId, name: s.name, imagesrc: s.imagesrc })));
 }
 
-const getUsersFromStudent = async (studentId: string): Promise<UsersResponse> => {
-  const student = findStudent(studentId);
-  if (!student) {
-    return respond({ status: 404, users: null, message: "Students not found" });
-  }
-  return respond({ status: 200, users: student.userIds.map(id => toAvatar(findUser(id))) });
-}
+const getUsersFromStudent = async (studentId: string): Promise<UserAvatar[]> =>
+  respond(authorisedStudent(studentId).userIds.map(id => toAvatar(findUser(id))));
 
 const api: typeof remote = {
   getStudentFromCode,
