@@ -91,7 +91,6 @@ const postDictionary = async (dictionary: DictionaryPosting): Promise<Dictionary
     const response = await fetch(`${API_BASE_URL}/dictionary`, {
       method: "POST",
       headers: {
-        "Content-type": "multipart/form-data",
         "Authorization": `Bearer ${accessToken}`
       },
       body: formData,
@@ -142,7 +141,6 @@ const putDictionary = async ({ dictionary, id }: { dictionary: DictionaryPosting
     const response = await fetch(`${API_BASE_URL}/dictionary`, {
       method: "PUT",
       headers: {
-        "Content-type": "multipart/form-data",
         "Authorization": `Bearer ${accessToken}`
       },
       body: formData,

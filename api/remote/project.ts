@@ -76,7 +76,6 @@ const postProject = async (project: ProjectPostDTO) => {
   const response = await fetch(`${API_BASE_URL}/project`, {
     method: "POST",
     headers: {
-      "Content-type": "multipart/form-data",
       "Authorization": `Bearer ${accessToken}`
     },
     body: formData
@@ -131,7 +130,6 @@ const updateProjectDetails = async ({
   const response = await fetch(`${API_BASE_URL}/project/${id}`, {
     method: "PATCH",
     headers: {
-      "Content-type": "multipart/form-data",
       "Authorization": `Bearer ${accessToken}`
     },
     body: formData
