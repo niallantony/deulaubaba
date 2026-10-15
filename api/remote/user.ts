@@ -67,7 +67,6 @@ const postUser = async (user: User): Promise<PostUserResult> => {
       method: "POST",
       "headers": {
         "Authorization": `Bearer ${accessToken}`,
-        "Content-type": "multipart/form-data",
       },
       "body": formData
     })
