@@ -1,5 +1,5 @@
 import { useStudentStore } from "@/store/currentStudent"
-import API from "@/api/feed";
+import API, { PostFeedBody } from "@/api/feed";
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 
 export const useStudentFeed = () => {
@@ -14,23 +14,23 @@ export const useStudentFeed = () => {
   }
 
   const create = useMutation({
-    mutationFn: API.postFeed,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['feed', student] }),
+    mutationFn: (post: { id: string, body: PostFeedBody }) => API.postFeed(post),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['feed', student?.studentId] }),
     onError: (error, v, ctx) => {
       console.error(error)
     }
   })
 
   const deleteItem = useMutation({
-    mutationFn: API.deleteFeedItem,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['feed', student] }),
+    mutationFn: (id: string) => API.deleteFeedItem(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['feed', student?.studentId] }),
     onError: (error, v, ctx) => {
       console.error(error)
     }
   })
 
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
-    queryKey: ['feed', student],
+    queryKey: ['feed', student?.studentId],
     queryFn: fetchFeed,
     initialPageParam: 0,
     getNextPageParam: (lastPage, allPages) => {

@@ -6,7 +6,7 @@ export const useDictionary = () => {
   const student = useStudentStore((s) => s.student)
 
   return useQuery({
-    queryKey: ['dictionary', student],
+    queryKey: ['dictionary', student?.studentId],
     queryFn: () => {
       if (!student) throw new Error("No student selected");
       return API.getDictionaryListings(student?.studentId)

@@ -1,27 +1,27 @@
 import { useStudentStore } from "@/store/currentStudent"
 import API from "@/api/project"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ProjectDetails } from "@/types/project"
+import { ProjectDetails, ProjectPostDTO } from "@/types/project"
 
 export const useProject = () => {
   const student = useStudentStore((s) => s.student)
   const queryClient = useQueryClient();
 
   const create = useMutation({
-    mutationFn: API.postProject,
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', student] }),
+    mutationFn: (project: ProjectPostDTO) => API.postProject(project),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
   })
 
   const deleteProject = useMutation({
     mutationFn: (id: number) => API.deleteProject(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', student] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
     onError: (error, v, ctx) => {
       console.log(error)
     }
   })
 
   const allProjects = useQuery({
-    queryKey: ['projects', student],
+    queryKey: ['projects', student?.studentId],
     queryFn: () => {
       if (!student) throw new Error("No student selected");
       return API.getProjectsOfStudent(student?.studentId)
@@ -54,7 +54,7 @@ export const useCurrentProject = ({ id }: { id: string }) => {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['project', id] }),
-        queryClient.invalidateQueries({ queryKey: ['projects', student] }),
+        queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
       ])
     },
     onError: (error, v, ctx) => {
@@ -72,7 +72,7 @@ export const useCurrentProject = ({ id }: { id: string }) => {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['project', id] }),
-        queryClient.invalidateQueries({ queryKey: ['projects', student] }),
+        queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
       ])
     },
     onError: (error, v, ctx) => {
@@ -89,7 +89,7 @@ export const useCurrentProject = ({ id }: { id: string }) => {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['project', id] }),
-        queryClient.invalidateQueries({ queryKey: ['projects', student] }),
+        queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
       ])
     },
     onError: (error, v, ctx) => {
