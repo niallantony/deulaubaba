@@ -36,9 +36,9 @@ const NoAvatar = ({ height, width, style, children }: { children?: ReactNode } &
 }
 
 export const StudentAvatar = ({ url, width, height, style = "full", deactivated = false, ...rest }: AvatarProps) => {
-  const [loaded, setLoaded] = useState(false);
+  const [status, setStatus] = useState<"loading" | "loaded" | "error">("loading");
 
-  if (!url) {
+  if (!url || status === "error") {
     return <NoAvatar width={width} height={height} style={style} />;
   }
 
@@ -54,13 +54,11 @@ export const StudentAvatar = ({ url, width, height, style = "full", deactivated 
         {...rest}
         testID="image"
         source={{ uri: url }}
-        onLoad={() => {
-          setLoaded(true)
-        }}
-        onError={() => setLoaded(false)}
+        onLoad={() => setStatus("loaded")}
+        onError={() => setStatus("error")}
         style={[{ width, height }, deactivated ? { opacity: 0.5 } : null,]}
       />
-      {!loaded && (
+      {status === "loading" && (
         <View style={[StyleSheet.absoluteFillObject, styles.empty]} >
           <ActivityIndicator testID="loader" />
         </View>

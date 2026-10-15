@@ -40,6 +40,29 @@ describe("StudentAvatar", () => {
     expect(getByTestId("loader")).toBeTruthy();
   });
 
+  it("hides loader once the image loads", () => {
+    const { getByTestId, queryByTestId } = render(
+      <StudentAvatar url="avatar.png" width={50} height={50} />
+    );
+
+    fireEvent(getByTestId("image"), "load", { nativeEvent: {} });
+
+    expect(queryByTestId("loader")).toBeNull();
+    expect(getByTestId("image")).toBeOnTheScreen();
+  });
+
+  it("renders fallback avatar when the image fails to load", () => {
+    const { getByTestId, queryByTestId } = render(
+      <StudentAvatar url="expired.png" width={50} height={50} />
+    );
+
+    fireEvent(getByTestId("image"), "error", { nativeEvent: { error: "expired" } });
+
+    expect(queryByTestId("loader")).toBeNull();
+    expect(queryByTestId("image")).toBeNull();
+    expect(getByTestId("no-image")).toBeOnTheScreen();
+  });
+
   it("applies correct border radius for full vs round style", () => {
     const { getByTestId } = render(
       <StudentAvatar url="avatar.png" width={50} height={50} style="round" />
