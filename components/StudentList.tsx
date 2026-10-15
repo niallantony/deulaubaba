@@ -1,4 +1,3 @@
-// @ts-ignore
 import noStudent from '@/assets/images/personSearch.png'
 import { StudentIdAvatar } from "@/types/student"
 import { FlatList, Pressable, StyleSheet, View, Text } from "react-native"

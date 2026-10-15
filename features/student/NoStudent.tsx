@@ -1,5 +1,4 @@
 import { TitleText } from "@/components/ThemedText"
-// @ts-ignore
 import noStudent from '@/assets/images/personSearch.png'
 import { IconLink } from "@/components/ThemedButton"
 import { FullView } from "@/components/ThemedView"

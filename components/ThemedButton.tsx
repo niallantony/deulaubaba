@@ -1,6 +1,6 @@
 import { ButtonTextTheme, ErrorText, LinkText } from './ThemedText';
 import { Pressable, PressableProps, StyleSheet, Text, Image, ImageSourcePropType, ImageStyle, View } from 'react-native';
-import { LinkProps, useRouter } from 'expo-router';
+import { Href, LinkProps, useRouter } from 'expo-router';
 import { theme } from '@/themes/global';
 import { ReactNode } from 'react';
 
@@ -175,8 +175,8 @@ export function LinkButton({
   href,
   ...rest
 }: {
-  href: string
-} & ThemedButtonProps & LinkProps) {
+  href: Href
+} & ThemedButtonProps) {
   const router = useRouter();
   const textStyle: textStyles = `text${type[0].toUpperCase() + type.slice(1)}` as textStyles;
   return (

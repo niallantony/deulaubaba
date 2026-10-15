@@ -3,7 +3,6 @@ import { useCurrentUser } from "@/hooks/useCurrentUser"
 import { View, Image, TouchableWithoutFeedback } from "react-native"
 import { SemiboldText } from "./ThemedText"
 import { StudentAvatar } from "./StudentAvatar"
-// @ts-ignore
 import settings from '@/assets/images/settings.png'
 import { useLogout } from "@/auth/useLogout"
 import { useModal } from "@/hooks/useModal"

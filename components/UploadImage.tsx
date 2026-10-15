@@ -2,7 +2,6 @@ import { API_BASE_URL } from "@/api/api";
 import { ImageBackground } from "expo-image";
 import { PressableProps, View, Image, StyleSheet, Pressable } from "react-native";
 import * as ImagePicker from "expo-image-picker"
-// @ts-ignore
 import addPhoto from "@/assets/images/addPhotoDark.png"
 import { theme } from "@/themes/global";
 

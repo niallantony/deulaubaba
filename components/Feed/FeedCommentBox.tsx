@@ -58,7 +58,7 @@ const EmojiButton = ({
   selected,
   onPress
 }: {
-  emoji: string;
+  emoji: number;
   selected: boolean;
   onPress: () => void;
 }) => {

@@ -8,7 +8,7 @@ export type Project = {
   objective: string,
   imagesrc?: string,
   startedOn: string,
-  categories: CommunicationCategoryDTO[] | CommunicationCategory[],
+  categories: CommunicationCategoryDTO[],
   ownProject: boolean,
   completedOn: string | null,
   type: ProjectType,
@@ -20,13 +20,17 @@ export type Project = {
   studentId: string
 }
 
-export type ProjectPostDTO = Omit<Project, "id" | "completed" | "ownProject" | "completedOn" | "userStatuses"> & { usernames: string[] }
+// What the app sends: categories go up as plain labels, but come back from the
+// server as { id, label } objects (see Project above).
+export type ProjectDetails = Pick<Project, "objective" | "imagesrc" | "startedOn" | "description"> & {
+  categories: CommunicationCategory[],
+}
 
-export type ProjectDetails = Pick<Project, "objective" | "categories" | "imagesrc" | "startedOn" | "description">;
+export type ProjectPostDTO = ProjectDetails & Pick<Project, "type" | "studentId"> & { usernames: string[] }
 
 export type ProjectType = "COMMUNICATION" | "CHALLENGE"
 
-export type ProjectPreview = Omit<Project, "categories" | "ownProject" | "projectType" | "userStatuses" | "studentId">
+export type ProjectPreview = Omit<Project, "categories" | "ownProject" | "type" | "userStatuses" | "studentId">
 
 export type ProjectFeedItem = {
   id: number,

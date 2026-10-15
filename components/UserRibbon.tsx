@@ -1,7 +1,6 @@
 import { ActivityIndicator, Pressable, ScrollView, View, Text, Image, StyleSheet } from "react-native"
 import { UserAvatar } from "@/types/user"
 import { StudentAvatar } from "./StudentAvatar";
-// @ts-ignore
 import addUser from "@/assets/images/addUser.png"
 import { useEffect } from "react";
 import { useUserRibbon } from "@/hooks/useUserRibbon";

@@ -7,8 +7,6 @@ import { authorisedStudent, db, DbProject, DbUser, findUser, getCurrentUserId, n
 
 const toCategoryDTO = (label: CommunicationCategory) => ({ id: categoryKeys.indexOf(label) + 1, label });
 
-const toLabels = (categories: ProjectDetails["categories"]): CommunicationCategory[] =>
-  categories.map(c => typeof c === "string" ? c : c.label);
 
 const findProject = (id: string | number) => {
   const project = db.projects.find(p => p.id === Number(id));
@@ -58,7 +56,6 @@ const getProjectsOfStudent = async (id: string): Promise<AllProjectsResponse> =>
         imagesrc: p.imagesrc,
         startedOn: p.startedOn,
         completedOn: p.completedOn,
-        type: p.type,
       };
       if (p.completed) collections.completed.push(preview);
       else if (p.startedOn > today()) collections.pending.push(preview);
@@ -106,7 +103,7 @@ const postProject = async (post: ProjectPostDTO) => {
     completed: false,
     completedOn: null,
     type: post.type,
-    categories: toLabels(post.categories),
+    categories: post.categories,
     users: users.map(u => ({ userId: u.userId, completed: false, completedOn: null })),
   };
   db.projects.push(project);
@@ -142,7 +139,7 @@ const updateProjectDetails = async ({ id, projectDetails }: { id: string | numbe
   project.objective = projectDetails.objective;
   project.description = projectDetails.description;
   project.startedOn = projectDetails.startedOn;
-  project.categories = toLabels(projectDetails.categories);
+  project.categories = projectDetails.categories;
   if (projectDetails.imagesrc) project.imagesrc = projectDetails.imagesrc;
   addEvent(project, "프로젝트 업데이트 되었습니다");
   return respond(undefined);

@@ -53,7 +53,7 @@ const CommentDate = ({ date }: { date: Date }) => {
   const isAfternoon = date.getHours() > 12;
   return (
     <Text style={styles.date}>
-      {date.getFullYear()}년 {date.getMonth() + 1}월 {date.getDate()}일 {isAfternoon ? "오후" : "오전"} {date.getHours() % 12}:{String(date.getMinutes()).padStart(2, 0)}
+      {date.getFullYear()}년 {date.getMonth() + 1}월 {date.getDate()}일 {isAfternoon ? "오후" : "오전"} {date.getHours() % 12}:{String(date.getMinutes()).padStart(2, "0")}
 
     </Text>
 

@@ -6,7 +6,6 @@ import { UploadImageFrame } from "@/components/ThemedView";
 import { CommunicationCategory, DictionaryListing, DictionaryPosting, ExpressionType } from "@/types/dictionary"
 import { useState } from "react"
 import { Image, ScrollView, View } from "react-native";
-// @ts-ignore
 import down from "@/assets/images/down.png"
 import { CategoryIndicator } from "./CategoryPicker";
 import { useStudentStore } from "@/store/currentStudent";

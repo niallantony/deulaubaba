@@ -1,5 +1,4 @@
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native"
-// @ts-ignore
 import hamburger from "@/assets/images/hamburger.png"
 import { useModal } from "@/hooks/useModal"
 import { useRouter } from "expo-router";

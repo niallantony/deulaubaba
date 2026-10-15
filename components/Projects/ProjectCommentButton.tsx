@@ -1,5 +1,4 @@
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native"
-//@ts-ignore
 import comment from "@/assets/images/comment.png"
 import { theme } from "@/themes/global"
 

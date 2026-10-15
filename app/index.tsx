@@ -5,7 +5,6 @@ import { Image, View } from "react-native";
 import { useAuth } from "@/auth/AuthProvider";
 import { DEMO_MODE } from "@/config/demo";
 import { DEMO_PERSONAS } from "@/api/mock/personas";
-// @ts-ignore
 import Logo from "@/assets/images/logo.png"
 
 export default function Index() {
