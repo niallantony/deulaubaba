@@ -52,9 +52,12 @@ export const Feed = ({ student }: { student: StudentIdAvatar | null }) => {
         id: student.studentId,
         body
       }
-      create.mutate(request)
-      setComment("")
-      setEmojis([])
+      create.mutate(request, {
+        onSuccess: () => {
+          setComment("")
+          setEmojis([])
+        }
+      })
     }
   }
 

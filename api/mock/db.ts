@@ -2,6 +2,7 @@ import { CommunicationCategory, ExpressionType } from "@/types/dictionary";
 import { StudentFeedEmotionName } from "@/types/feed";
 import { ProjectType } from "@/types/project";
 import { UserAvatar } from "@/types/user";
+import { ApiError } from "../errors";
 
 // In-memory stand-in for the Spring/Postgres backend used in demo mode.
 // State lives for the lifetime of the JS bundle, so reloading the app resets
@@ -320,7 +321,7 @@ export const setCurrentUserId = (userId: string | null) => {
 }
 
 export const getCurrentUserId = () => {
-  if (!currentUserId) throw new Error("Not logged in");
+  if (!currentUserId) throw new ApiError(401, "Not logged in");
   return currentUserId;
 }
 
@@ -328,7 +329,7 @@ export const findUser = (userId: string) => db.users.find(u => u.userId === user
 
 export const currentUser = () => {
   const user = findUser(getCurrentUserId());
-  if (!user) throw new Error("User not found");
+  if (!user) throw new ApiError(404, "User not found");
   return user;
 }
 
@@ -340,8 +341,8 @@ export const toAvatar = (user: DbUser | undefined): UserAvatar => ({
 
 export const authorisedStudent = (studentId: string) => {
   const student = db.students.find(s => s.studentId === studentId.toLowerCase());
-  if (!student) throw new Error("Student not found");
-  if (!student.userIds.includes(getCurrentUserId())) throw new Error("Unauthorized access");
+  if (!student) throw new ApiError(404, "Student not found");
+  if (!student.userIds.includes(getCurrentUserId())) throw new ApiError(401, "Unauthorized access");
   return student;
 }
 

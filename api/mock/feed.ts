@@ -1,5 +1,6 @@
 import type remote from "../remote/feed";
 import { GetFeedResponse, PostFeedBody } from "../remote/feed";
+import { ApiError } from "../errors";
 import { authorisedStudent, db, findUser, getCurrentUserId, newId, now, respond, toAvatar } from "./db";
 
 const PAGE_SIZE = 10;
@@ -21,7 +22,7 @@ const getFeed = async (id: string, page: number = 0): Promise<GetFeedResponse> =
 
 const postFeed = async ({ id, body }: { id: string, body: PostFeedBody }) => {
   if (!body.body.trim()) {
-    return respond({ message: "Empty body" });
+    throw new ApiError(400, "Empty body");
   }
   const student = authorisedStudent(id);
   db.feed.push({
@@ -37,8 +38,11 @@ const postFeed = async ({ id, body }: { id: string, body: PostFeedBody }) => {
 
 const deleteFeedItem = async (id: string) => {
   const item = db.feed.find(i => i.id === Number(id));
-  if (!item || item.userId !== getCurrentUserId()) {
-    return respond({ message: "Unauthorized access" });
+  if (!item) {
+    throw new ApiError(404, "Comment not found");
+  }
+  if (item.userId !== getCurrentUserId()) {
+    throw new ApiError(401, "Unauthorized access");
   }
   db.feed = db.feed.filter(i => i !== item);
   return respond(undefined);

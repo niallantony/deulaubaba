@@ -6,8 +6,17 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ModalProvider } from "@/hooks/useModal";
 import { AuthProvider, useAuth } from "@/auth/AuthProvider";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { isApiError } from "@/api/errors";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // Client errors (4xx) won't succeed on retry; network failures and 5xx might.
+      retry: (failureCount, error) =>
+        !(isApiError(error) && error.status >= 400 && error.status < 500) && failureCount < 3,
+    },
+  },
+});
 
 export default function RootLayout() {
   return (
