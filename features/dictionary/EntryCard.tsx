@@ -76,7 +76,7 @@ export const EntryCard = ({ entry, onClick }: { entry: DictionaryListing, onClic
   return (
     <Card onPress={onClick}>
       <StudentAvatar
-        url={entry.imgsrc} width={64} height={64} />
+        url={entry.imagesrc} width={64} height={64} />
       <CardInterior>
         <CardTitleHolder>
           <CardTitle > {entry.title} </CardTitle>

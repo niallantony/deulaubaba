@@ -55,7 +55,7 @@ const getProjectsOfStudent = async (id: string): Promise<AllProjectsResponse> =>
         completed: p.completed,
         description: p.description,
         objective: p.objective,
-        imgsrc: p.imgsrc,
+        imagesrc: p.imagesrc,
         startedOn: p.startedOn,
         completedOn: p.completedOn,
         type: p.type,
@@ -73,7 +73,7 @@ const getProject = async (id: string | number): Promise<Project> => {
     id: project.id,
     objective: project.objective,
     description: project.description,
-    imgsrc: project.imgsrc,
+    imagesrc: project.imagesrc,
     startedOn: project.startedOn,
     completed: project.completed,
     completedOn: project.completedOn,
@@ -101,7 +101,7 @@ const postProject = async (post: ProjectPostDTO) => {
     createdBy: getCurrentUserId(),
     objective: post.objective,
     description: post.description,
-    imgsrc: post.imgsrc,
+    imagesrc: post.imagesrc,
     startedOn: post.startedOn,
     completed: false,
     completedOn: null,
@@ -143,7 +143,7 @@ const updateProjectDetails = async ({ id, projectDetails }: { id: string | numbe
   project.description = projectDetails.description;
   project.startedOn = projectDetails.startedOn;
   project.categories = toLabels(projectDetails.categories);
-  if (projectDetails.imgsrc) project.imgsrc = projectDetails.imgsrc;
+  if (projectDetails.imagesrc) project.imagesrc = projectDetails.imagesrc;
   addEvent(project, "프로젝트 업데이트 되었습니다");
   return respond(undefined);
 }

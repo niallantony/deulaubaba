@@ -30,7 +30,7 @@ export const ProjectForm = ({
   const [objective, setObjective] = useState<string | undefined>(project?.objective);
   const [startedOn, setStartedOn] = useState<number>(Date.now());
   const [categories, setCategories] = useState<CommunicationCategory[]>(project ? project.categories.map(dto => dto.label) : [])
-  const [imgsrc, setImgsrc] = useState<string | null>(null)
+  const [imagesrc, setImagesrc] = useState<string | null>(null)
   const [description, setDescription] = useState<string | undefined>(project?.description)
   const [errors, setErrors] = useState<ProjectErrors>({})
   const { show } = useModal();
@@ -66,7 +66,7 @@ export const ProjectForm = ({
     const post: ProjectDetails = {
       description,
       objective: objective!.trim(),
-      imgsrc: imgsrc ? imgsrc : undefined,
+      imagesrc: imagesrc ? imagesrc : undefined,
       startedOn: formatDate(startedOn),
       categories,
     }
@@ -79,7 +79,7 @@ export const ProjectForm = ({
         extraScrollHeight={280}
       >
         <UploadImageFrame style={{ marginBottom: 12 }}>
-          <UploadImage setImage={setImgsrc} image={imgsrc} preImage={project?.imgsrc} />
+          <UploadImage setImage={setImagesrc} image={imagesrc} preImage={project?.imagesrc} />
           <View style={{ flexGrow: 1 }}>
             <ThemedTextArea
               label={"프로젝트 목표"}

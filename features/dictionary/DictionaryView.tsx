@@ -19,8 +19,8 @@ export const DictionaryView = ({ entry, onDeleteRequest, onEditPress }: {
     <ScrollView style={{ paddingHorizontal: 4 }}>
       <ImageFrame>
         <ProfileAvatarPane>
-          <TouchableAvatar imagesrc={entry.imgsrc}>
-            <StudentAvatar style="full" url={entry.imgsrc} width={128} height={182} />
+          <TouchableAvatar imagesrc={entry.imagesrc}>
+            <StudentAvatar style="full" url={entry.imagesrc} width={128} height={182} />
           </TouchableAvatar>
         </ProfileAvatarPane >
         <View style={{ flex: 1 }}>

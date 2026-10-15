@@ -22,8 +22,8 @@ const getProjectsOfStudent = (studentId: string) =>
 const getProject = (id: Id) =>
   request<Project>(`/project?id=${id}`);
 
-const postProject = async ({ imgsrc, ...project }: ProjectPostDTO) => {
-  const body = await buildFormData(project, imgsrc ? { uri: imgsrc, name: project.studentId } : undefined);
+const postProject = async ({ imagesrc, ...project }: ProjectPostDTO) => {
+  const body = await buildFormData(project, imagesrc ? { uri: imagesrc, name: project.studentId } : undefined);
   await request("/project", { method: "POST", body });
 }
 
@@ -35,8 +35,8 @@ const updateProjectDetails = async ({ id, projectDetails, studentId }: {
   projectDetails: ProjectDetails,
   studentId: string,
 }) => {
-  const { imgsrc, ...details } = projectDetails;
-  const body = await buildFormData(details, imgsrc ? { uri: imgsrc, name: studentId } : undefined);
+  const { imagesrc, ...details } = projectDetails;
+  const body = await buildFormData(details, imagesrc ? { uri: imagesrc, name: studentId } : undefined);
   await request(`/project/${id}`, { method: "PATCH", body });
 }
 

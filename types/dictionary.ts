@@ -5,7 +5,7 @@ export type DictionaryListing = {
   type: ExpressionType;
   title: string;
   category: CommunicationCategory[];
-  imgsrc?: string;
+  imagesrc?: string;
   description?: string;
 }
 
@@ -15,7 +15,7 @@ export type DictionaryPosting = {
   type: ExpressionType;
   title: string;
   category: CommunicationCategory[];
-  imgsrc?: string;
+  imagesrc?: string;
   description?: string;
 }
 

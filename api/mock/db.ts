@@ -37,7 +37,7 @@ export type DbDictionaryEntry = {
   type: ExpressionType;
   title: string;
   category: CommunicationCategory[];
-  imgsrc?: string;
+  imagesrc?: string;
   description?: string;
 }
 
@@ -62,7 +62,7 @@ export type DbProject = {
   createdBy: string;
   objective: string;
   description?: string;
-  imgsrc?: string;
+  imagesrc?: string;
   startedOn: string;
   completed: boolean;
   completedOn: string | null;

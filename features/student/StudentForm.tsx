@@ -27,7 +27,7 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
   const [grade, setGrade] = useState(student?.grade.toString())
   const [setting, setSetting] = useState(student?.setting)
   const [disability, setDisability] = useState(student?.disability)
-  const [imgsrc, setImgsrc] = useState<string | null>(null)
+  const [imagesrc, setImagesrc] = useState<string | null>(null)
   const [errors, setErrors] = useState<StudentFormErrors>({})
 
   const validate = () => {
@@ -70,7 +70,7 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
       grade: parseInt(grade!),
       setting: setting!,
       disability: disability!,
-      imagesrc: imgsrc ? imgsrc : undefined,
+      imagesrc: imagesrc ? imagesrc : undefined,
       studentId: student?.studentId ? student.studentId : undefined
     }
     onSubmit(newStudent)
@@ -83,8 +83,8 @@ export const StudentForm = ({ onSubmit, onCancel, student, children }: StudentFo
     >
       <UploadImageFrame>
         <UploadImage
-          setImage={setImgsrc}
-          image={imgsrc}
+          setImage={setImagesrc}
+          image={imagesrc}
           preImage={student?.imagesrc}
         />
         <View style={{ flexGrow: 1, }}>

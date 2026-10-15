@@ -7,7 +7,7 @@ const mockEntry: DictionaryListing = {
   title: "Test Title",
   description: "This is a test description",
   category: ["HELP"],
-  imgsrc: "http://example.com/avatar.png",
+  imagesrc: "http://example.com/avatar.png",
   type: "BODY",
 };
 

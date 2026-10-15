@@ -36,7 +36,7 @@ export const UserDetails = ({ onSubmit }: UserDetailsProps) => {
   const [userType, setUserType] = useState("")
   const [name, setName] = useState("")
   const [username, setUsername] = useState("")
-  const [imagesrc, setImgsrc] = useState("")
+  const [imagesrc, setImagesrc] = useState("")
   const [errors, setErrors] = useState<UserErrors>({})
   const { user } = useAuth();
 
@@ -71,7 +71,7 @@ export const UserDetails = ({ onSubmit }: UserDetailsProps) => {
   return (
     <KeyboardAwareScrollView>
       <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-        <UploadImage setImage={setImgsrc} image={imagesrc} preImage={user?.picture} />
+        <UploadImage setImage={setImagesrc} image={imagesrc} preImage={user?.picture} />
       </View>
       <FormView>
         <DropDownSelect

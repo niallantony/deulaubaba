@@ -25,8 +25,8 @@ export const ProjectDetails = ({ project, onStatusChange }: { project: Project, 
       </View>
 
       <View style={styles.topDetails}>
-        <TouchableAvatar imagesrc={project.imgsrc}>
-          <StudentAvatar url={project.imgsrc} width={150} height={180} />
+        <TouchableAvatar imagesrc={project.imagesrc}>
+          <StudentAvatar url={project.imagesrc} width={150} height={180} />
         </TouchableAvatar>
         <View style={styles.sideDetails}>
           <View>

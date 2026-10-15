@@ -26,7 +26,7 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
 }) => {
   const [title, setTitle] = useState<string | undefined>(entry?.title)
   const [category, setCategory] = useState<CommunicationCategory[]>(entry ? entry.category : [])
-  const [imgsrc, setImgsrc] = useState<string | null>(null)
+  const [imagesrc, setImagesrc] = useState<string | null>(null)
   const [description, setDescription] = useState<string | undefined>(entry?.description)
   const [errors, setErrors] = useState<DictionaryErrors>({})
   const student = useStudentStore((s) => s.student)
@@ -59,7 +59,7 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
       type,
       title: title!.trim(),
       category,
-      imgsrc: imgsrc ? imgsrc : undefined,
+      imagesrc: imagesrc ? imagesrc : undefined,
       description,
     }
     onSubmit(listing);
@@ -70,7 +70,7 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
       extraScrollHeight={280}
     >
       <UploadImageFrame style={{ marginBottom: 12 }}>
-        <UploadImage setImage={setImgsrc} image={imgsrc} preImage={entry?.imgsrc} />
+        <UploadImage setImage={setImagesrc} image={imagesrc} preImage={entry?.imagesrc} />
         <View style={{ flexGrow: 1 }}>
           <ThemedTextArea
             label={"의사소통 내용"}

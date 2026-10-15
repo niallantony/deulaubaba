@@ -11,7 +11,7 @@ export const ProjectBriefCard = ({ project, onPress }: { project: ProjectPreview
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.image}>
-        <StudentAvatar url={project.imgsrc} width={100} height={100} style="full" />
+        <StudentAvatar url={project.imagesrc} width={100} height={100} style="full" />
       </View>
       <View style={styles.info}>
         <Text style={styles.title} numberOfLines={2} ellipsizeMode="tail">{project.objective}</Text>

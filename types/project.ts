@@ -6,7 +6,7 @@ export type Project = {
   completed: boolean,
   description?: string,
   objective: string,
-  imgsrc?: string,
+  imagesrc?: string,
   startedOn: string,
   categories: CommunicationCategoryDTO[] | CommunicationCategory[],
   ownProject: boolean,
@@ -22,7 +22,7 @@ export type Project = {
 
 export type ProjectPostDTO = Omit<Project, "id" | "completed" | "ownProject" | "completedOn" | "userStatuses"> & { usernames: string[] }
 
-export type ProjectDetails = Pick<Project, "objective" | "categories" | "imgsrc" | "startedOn" | "description">;
+export type ProjectDetails = Pick<Project, "objective" | "categories" | "imagesrc" | "startedOn" | "description">;
 
 export type ProjectType = "COMMUNICATION" | "CHALLENGE"
 

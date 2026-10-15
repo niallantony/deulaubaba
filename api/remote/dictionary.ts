@@ -16,8 +16,8 @@ const getDictionaryListings = async (id: string): Promise<DictionaryListings> =>
   }
 }
 
-const toFormData = ({ imgsrc, ...data }: DictionaryPosting & { id?: number }) =>
-  buildFormData(data, imgsrc ? { uri: imgsrc, name: data.studentId } : undefined);
+const toFormData = ({ imagesrc, ...data }: DictionaryPosting & { id?: number }) =>
+  buildFormData(data, imagesrc ? { uri: imagesrc, name: data.studentId } : undefined);
 
 const postDictionary = async (dictionary: DictionaryPosting) => {
   await request("/dictionary", { method: "POST", body: await toFormData(dictionary) });

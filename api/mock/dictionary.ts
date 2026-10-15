@@ -36,7 +36,7 @@ const putDictionary = async ({ dictionary, id }: { dictionary: DictionaryPosting
   validate(dictionary);
   authorisedStudent(dictionary.studentId);
   const entry = findEntry(id);
-  Object.assign(entry, { ...dictionary, imgsrc: dictionary.imgsrc ?? entry.imgsrc });
+  Object.assign(entry, { ...dictionary, imagesrc: dictionary.imagesrc ?? entry.imagesrc });
   return respond(undefined);
 }
 
