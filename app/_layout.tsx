@@ -1,34 +1,34 @@
 import { Stack } from "expo-router";
 import { theme } from "@/themes/global";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { View } from "react-native";
-import { authConfig } from "@/config/authConfig";
-import { Auth0Provider, useAuth0 } from "react-native-auth0";
+import { ActivityIndicator, View } from "react-native";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ModalProvider } from "@/hooks/useModal";
-import API from "@/api/user"
+import { AuthProvider, useAuth } from "@/auth/AuthProvider";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
   return (
-
-    <Auth0Provider domain={authConfig.domain} clientId={authConfig.clientId}  >
-      <ModalProvider>
-        <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <ModalProvider>
           <RootNavigator />
-        </QueryClientProvider>
-      </ModalProvider>
-    </Auth0Provider>
+        </ModalProvider>
+      </AuthProvider>
+    </QueryClientProvider>
   );
 }
 
 function RootNavigator() {
   const insets = useSafeAreaInsets();
-  const { user } = useAuth0();
+  const { user } = useAuth();
+  const { data, isLoading } = useCurrentUser();
 
-  const isSignedIn = user !== undefined && user !== null;
-
+  const isSignedIn = !!user;
+  const isRegistered = isSignedIn && data?.ok === true;
+  const needsRegistration = isSignedIn && data?.ok === false && data.reason === "not_found";
 
   return (
     <View style={{
@@ -39,17 +39,21 @@ function RootNavigator() {
       paddingRight: insets.right,
       backgroundColor: theme.colors.background,
     }}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Protected guard={isSignedIn}>
-          <Stack.Screen name="(app)" options={{ headerShown: false, freezeOnBlur: false }} />
-        </Stack.Protected>
-        <Stack.Protected guard={isSignedIn}>
-          <Stack.Screen name="register" options={{ headerShown: false }} />
-        </Stack.Protected>
-        <Stack.Protected guard={!isSignedIn}>
-          <Stack.Screen name="index" options={{ headerShown: false }} />
-        </Stack.Protected>
-      </Stack>
+      {isSignedIn && isLoading ? (
+        <ActivityIndicator style={{ flex: 1 }} />
+      ) : (
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Protected guard={isRegistered}>
+            <Stack.Screen name="(app)" options={{ headerShown: false, freezeOnBlur: false }} />
+          </Stack.Protected>
+          <Stack.Protected guard={needsRegistration}>
+            <Stack.Screen name="register" options={{ headerShown: false }} />
+          </Stack.Protected>
+          <Stack.Protected guard={!isRegistered && !needsRegistration}>
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+          </Stack.Protected>
+        </Stack>
+      )}
     </View >
   )
 }

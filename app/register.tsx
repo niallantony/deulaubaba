@@ -7,7 +7,7 @@ import { PageTitleView } from "@/components/ThemedView";
 import { Onboarding } from "@/features/auth/Onboarding";
 import { ActivityIndicator, View } from "react-native";
 import { SubtleButton } from "@/components/ThemedButton";
-import { useAuth0 } from "react-native-auth0";
+import { useLogout } from "@/auth/useLogout";
 import { StyledText } from "@/components/ThemedText";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -21,7 +21,7 @@ export default function Register() {
   const [screen, setScreen] = useState<Screen>("intro");
   const [errors, setErrors] = useState<RegistrationErrorType>();
   const queryClient = useQueryClient();
-  const { clearSession } = useAuth0()
+  const logout = useLogout()
   const query = useCurrentUser();
 
   const handleUserSubmit = async (user: User) => {
@@ -40,7 +40,7 @@ export default function Register() {
 
   const handleCancel = async () => {
     try {
-      await clearSession()
+      await logout()
     } catch (e) {
       console.error(e)
     }

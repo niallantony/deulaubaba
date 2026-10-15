@@ -2,11 +2,11 @@ import { UploadImage } from "@/components/UploadImage";
 import { UserDetails } from "@/features/auth/UserDetails"
 import { fireEvent, render, waitFor } from "@testing-library/react-native"
 import { Pressable } from "react-native";
-import { useAuth0 } from "react-native-auth0"
+import { useAuth } from "@/auth/AuthProvider"
 
-jest.mock("react-native-auth0", () => ({
+jest.mock("@/auth/AuthProvider", () => ({
   __esModule: true,
-  useAuth0: jest.fn(),
+  useAuth: jest.fn(),
 }))
 
 
@@ -25,7 +25,7 @@ describe('UserDetails', () => {
       />
     ));
 
-    (useAuth0 as jest.Mock).mockReturnValue({ user: mockUser });
+    (useAuth as jest.Mock).mockReturnValue({ user: mockUser });
     mockOnSubmit.mockClear()
 
   })
@@ -124,7 +124,7 @@ describe('UserDetails', () => {
 
 
   it("submits correctly when fields are filled", async () => {
-    (useAuth0 as jest.Mock).mockReturnValue({ user: { email: "jane@example.com" } });
+    (useAuth as jest.Mock).mockReturnValue({ user: { email: "jane@example.com" } });
     const { getByText, getByLabelText } = render(
       <UserDetails onSubmit={mockOnSubmit} />
     );

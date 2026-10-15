@@ -36,10 +36,9 @@ export default function Root() {
       type: type,
       studentId: student?.studentId
     }
-    create.mutate(postRequest);
-    if (create.isSuccess) {
-      router.dismissAll()
-    }
+    create.mutate(postRequest, {
+      onSuccess: () => router.dismissAll(),
+    });
   }
 
   const onSetSelectedUsers = (username: string) => {

@@ -4,25 +4,16 @@ import { NoSelectedStudent } from "@/features/student/NoSelectedStudent";
 import { StudentProfile } from "@/features/student/StudentProfile";
 import { useSelectedStudent } from "@/hooks/useSelectedStudent";
 import { useStudentStore } from "@/store/currentStudent";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { useAuth0 } from "react-native-auth0";
-import API from "@/api/user"
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { ActivityIndicator } from "react-native";
 
 export default function Index() {
-  const { user } = useAuth0();
   const student = useStudentStore(s => s.student)
   const { data } = useSelectedStudent();
   const router = useRouter();
 
-  const isLoggedIn = user && user.sub;
-
-  const { data: userData, isLoading } = useQuery({
-    queryKey: ['user'],
-    queryFn: API.getUser,
-    enabled: !!isLoggedIn,
-  })
+  const { data: userData, isLoading } = useCurrentUser();
 
   const handleCommunicationRoute = () => {
     router.push('/home/editCommunication')

@@ -4,7 +4,6 @@ interface AuthConfig {
 }
 
 export const authConfig: AuthConfig = {
-  domain: process.env.EXPO_PUBLIC_AUTH_DOMAIN ?? (() => { throw new Error("Missing domain"); })(),
-  clientId: process.env.EXPO_PUBLIC_AUTH_CLIENTID ?? (() => { throw new Error("Missing clientId"); })(),
+  domain: process.env.EXPO_PUBLIC_AUTH_DOMAIN ?? "",
+  clientId: process.env.EXPO_PUBLIC_AUTH_CLIENTID ?? "",
 };
-

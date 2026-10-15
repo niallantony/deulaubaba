@@ -38,6 +38,31 @@ performed with the help of **Testcontainers**.
 
 
 
+## Running the demo
+
+The app runs in **demo mode** by default: Auth0 and the Spring API are swapped
+for a mock login and an in-memory backend (`api/mock`) seeded with sample data,
+so no deployed infrastructure is needed. Data resets whenever the app reloads.
+
+```sh
+npm ci
+npx expo run:ios      # or run:android, or `npx expo start --web`
+```
+
+The login screen offers three personas:
+
+| Persona | Who | Notes |
+| --- | --- | --- |
+| 교사로 로그인 | 김지영 (특수교사) | Linked to 김민준 and 이서연 |
+| 부모로 로그인 | 박수진 (부모) | Linked to 김민준 |
+| 새 사용자로 가입 | — | Goes through registration |
+
+Student share codes: `a3f9c2` (김민준), `7b2e15` (이서연), `c81d4e` (박도윤,
+not linked to any persona, so it's useful for showing the "add by code" flow).
+
+Set `EXPO_PUBLIC_DEMO_MODE=false` (with `EXPO_PUBLIC_AUTH_DOMAIN` and
+`EXPO_PUBLIC_AUTH_CLIENTID`) to use the real Auth0 + server flow.
+
 ## Features
 
 ### Authentication

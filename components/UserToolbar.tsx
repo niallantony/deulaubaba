@@ -5,26 +5,23 @@ import { SemiboldText } from "./ThemedText"
 import { StudentAvatar } from "./StudentAvatar"
 // @ts-ignore
 import settings from '@/assets/images/settings.png'
-import { useAuth0 } from "react-native-auth0"
+import { useLogout } from "@/auth/useLogout"
 import { useModal } from "@/hooks/useModal"
 import { useEffect, useRef, useState } from "react"
 import { useRouter } from "expo-router"
-import { useQueryClient } from "@tanstack/react-query"
 import { GetUserResult } from "@/api/user"
 
 
 export const UserToolbar = ({ studentSelected, data }: { studentSelected: boolean, data: GetUserResult | undefined }) => {
   const { show, hide } = useModal();
-  const { clearSession } = useAuth0();
+  const logout = useLogout();
   const [position, setPosition] = useState<{ x: number, y: number, width: number }>()
   const router = useRouter();
-  const queryClient = useQueryClient();
 
   const handleLogout = async () => {
     try {
-      await clearSession();
-      queryClient.invalidateQueries({ queryKey: ["user"] })
       hide();
+      await logout();
     } catch (e) {
 
       console.error(e)

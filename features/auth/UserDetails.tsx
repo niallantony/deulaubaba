@@ -6,7 +6,7 @@ import { User } from "@/types/user";
 import { FormView } from "@/components/ThemedView";
 import { DropDownSelect } from "@/components/DropDownSelect";
 import { ErrorText } from "@/components/ThemedText";
-import { useAuth0 } from "react-native-auth0";
+import { useAuth } from "@/auth/AuthProvider";
 import { View } from "react-native";
 import { UploadImage } from "@/components/UploadImage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
@@ -38,7 +38,7 @@ export const UserDetails = ({ onSubmit }: UserDetailsProps) => {
   const [username, setUsername] = useState("")
   const [imagesrc, setImgsrc] = useState("")
   const [errors, setErrors] = useState<UserErrors>({})
-  const { user } = useAuth0();
+  const { user } = useAuth();
 
   const validate = () => {
     const newErrors: UserErrors = {}
