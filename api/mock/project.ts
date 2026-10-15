@@ -1,5 +1,6 @@
 import type remote from "../remote/project";
 import { AllProjectsResponse, ProjectFeedResponse } from "../remote/project";
+import { ApiError } from "../errors";
 import { categoryKeys, CommunicationCategory } from "@/types/dictionary";
 import { Project, ProjectDetails, ProjectPostDTO, ProjectPreview } from "@/types/project";
 import { authorisedStudent, db, DbProject, DbUser, findUser, getCurrentUserId, newId, now, respond, toAvatar, today } from "./db";
@@ -11,19 +12,19 @@ const toLabels = (categories: ProjectDetails["categories"]): CommunicationCatego
 
 const findProject = (id: string | number) => {
   const project = db.projects.find(p => p.id === Number(id));
-  if (!project) throw new Error("Project not found");
+  if (!project) throw new ApiError(404, "Project not found");
   return project;
 }
 
 const assignedProject = (id: string | number) => {
   const project = findProject(id);
-  if (!project.users.some(u => u.userId === getCurrentUserId())) throw new Error("Unauthorized access");
+  if (!project.users.some(u => u.userId === getCurrentUserId())) throw new ApiError(401, "Unauthorized access");
   return project;
 }
 
 const createdProject = (id: string | number) => {
   const project = findProject(id);
-  if (project.createdBy !== getCurrentUserId()) throw new Error("Unauthorized access");
+  if (project.createdBy !== getCurrentUserId()) throw new ApiError(401, "Unauthorized access");
   return project;
 }
 
@@ -66,7 +67,7 @@ const getProjectsOfStudent = async (id: string): Promise<AllProjectsResponse> =>
   return respond(collections);
 }
 
-const getProject = async (id: string): Promise<Project> => {
+const getProject = async (id: string | number): Promise<Project> => {
   const project = assignedProject(id);
   return respond({
     id: project.id,
@@ -91,7 +92,7 @@ const getProject = async (id: string): Promise<Project> => {
 const postProject = async (post: ProjectPostDTO) => {
   authorisedStudent(post.studentId);
   if (!post.startedOn || !post.type || post.usernames.length === 0) {
-    throw new Error("Invalid request");
+    throw new ApiError(400, "Invalid request");
   }
   const users = db.users.filter(u => post.usernames.includes(u.username));
   const project: DbProject = {
@@ -114,10 +115,10 @@ const postProject = async (post: ProjectPostDTO) => {
   return respond(undefined);
 }
 
-const updateProjectStatus = async ({ id, value }: { id: string, value: boolean }) => {
+const updateProjectStatus = async ({ id, value }: { id: string | number, value: boolean }) => {
   const project = findProject(id);
   const relation = project.users.find(u => u.userId === getCurrentUserId());
-  if (!relation) throw new Error("Project user not found");
+  if (!relation) throw new ApiError(404, "Project user not found");
   if (relation.completed !== value) {
     relation.completed = value;
     relation.completedOn = value ? today() : null;
@@ -133,10 +134,10 @@ const updateProjectStatus = async ({ id, value }: { id: string, value: boolean }
   return respond(undefined);
 }
 
-const updateProjectDetails = async ({ id, projectDetails }: { id: string, projectDetails: ProjectDetails, studentId: string }) => {
+const updateProjectDetails = async ({ id, projectDetails }: { id: string | number, projectDetails: ProjectDetails, studentId: string }) => {
   const project = createdProject(id);
   if (!projectDetails.objective || !projectDetails.startedOn || projectDetails.categories.length === 0) {
-    throw new Error("Invalid patch request");
+    throw new ApiError(400, "Invalid patch request");
   }
   project.objective = projectDetails.objective;
   project.description = projectDetails.description;
@@ -147,7 +148,7 @@ const updateProjectDetails = async ({ id, projectDetails }: { id: string, projec
   return respond(undefined);
 }
 
-const addUserToProject = async ({ id, toAdd }: { id: string, toAdd: string[] }) => {
+const addUserToProject = async ({ id, toAdd }: { id: string | number, toAdd: string[] }) => {
   const project = createdProject(id);
   const newUsers = db.users.filter(u =>
     toAdd.includes(u.username) && !project.users.some(pu => pu.userId === u.userId)
@@ -159,14 +160,14 @@ const addUserToProject = async ({ id, toAdd }: { id: string, toAdd: string[] }) 
   return respond(undefined);
 }
 
-const deleteProject = async (id: string) => {
+const deleteProject = async (id: string | number) => {
   const project = createdProject(id);
   db.projects = db.projects.filter(p => p !== project);
   db.projectFeed = db.projectFeed.filter(item => item.projectId !== project.id);
   return respond(undefined);
 }
 
-const getProjectFeed = async (id: string): Promise<ProjectFeedResponse> => {
+const getProjectFeed = async (id: string | number): Promise<ProjectFeedResponse> => {
   const project = assignedProject(id);
   const feed = db.projectFeed
     .filter(item => item.projectId === project.id)
@@ -179,9 +180,9 @@ const getProjectFeed = async (id: string): Promise<ProjectFeedResponse> => {
   return respond({ feed });
 }
 
-const postProjectComment = async ({ id, body }: { id: string, body: string }) => {
+const postProjectComment = async ({ id, body }: { id: string | number, body: string }) => {
   const project = assignedProject(id);
-  if (!body.trim()) throw new Error("Comment is empty");
+  if (!body.trim()) throw new ApiError(400, "Comment is empty");
   db.projectFeed.push({
     id: newId(),
     projectId: project.id,
@@ -193,13 +194,13 @@ const postProjectComment = async ({ id, body }: { id: string, body: string }) =>
   return respond(undefined);
 }
 
-const deleteComment = async (id: string) => {
+const deleteComment = async (id: string | number) => {
   const comment = db.projectFeed.find(item => item.id === Number(id));
-  if (!comment) throw new Error("Comment not found");
-  if (comment.type !== "COMMENT") throw new Error("Feed item cannot be deleted");
+  if (!comment) throw new ApiError(404, "Comment not found");
+  if (comment.type !== "COMMENT") throw new ApiError(403, "Feed item cannot be deleted");
   const userId = getCurrentUserId();
   if (comment.userId !== userId && findProject(comment.projectId).createdBy !== userId) {
-    throw new Error("Unauthorized access");
+    throw new ApiError(401, "Unauthorized access");
   }
   db.projectFeed = db.projectFeed.filter(item => item !== comment);
   return respond(undefined);

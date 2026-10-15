@@ -1,228 +1,59 @@
 import { Project, ProjectDetails, ProjectFeedItem, ProjectPostDTO, ProjectPreview } from "@/types/project";
-import { getAccessToken } from "../auth";
-import { API_BASE_URL } from "../api";
-import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
+import { buildFormData } from "../formData";
+import { request } from "../request";
 
 export type AllProjectsResponse = {
-  current?: ProjectPreview[];
-  pending?: ProjectPreview[];
-  completed?: ProjectPreview[];
+  current: ProjectPreview[];
+  pending: ProjectPreview[];
+  completed: ProjectPreview[];
 }
 
 export type ProjectFeedResponse = {
   feed: ProjectFeedItem[]
 }
 
-const getProjectsOfStudent = async (id: string): Promise<AllProjectsResponse> => {
-  const accessToken = await getAccessToken();
-  const response = await fetch(`${API_BASE_URL}/project/all/${id}`, {
-    method: "GET",
-    "headers": {
-      "Authorization": `Bearer ${accessToken}`,
-    }
-  })
-  const json = await response.json();
-  if (!response.ok) {
-    throw new Error(json.message)
-  }
-  return {
-    current: json.current,
-    pending: json.pending,
-    completed: json.completed
-  }
+// Project and comment IDs are numbers on the server, but arrive as strings from
+// route params, so accept either.
+type Id = number | string;
+
+const getProjectsOfStudent = (studentId: string) =>
+  request<AllProjectsResponse>(`/project/all/${studentId}`);
+
+const getProject = (id: Id) =>
+  request<Project>(`/project?id=${id}`);
+
+const postProject = async ({ imgsrc, ...project }: ProjectPostDTO) => {
+  const body = await buildFormData(project, imgsrc ? { uri: imgsrc, name: project.studentId } : undefined);
+  await request("/project", { method: "POST", body });
 }
 
+const updateProjectStatus = ({ id, value }: { id: Id, value: boolean }) =>
+  request(`/project/status/${id}`, { method: "PATCH", body: { isCompleted: value } });
 
-const getProject = async (id: string): Promise<Project> => {
-  const accessToken = await getAccessToken();
-  const response = await fetch(`${API_BASE_URL}/project?id=${id}`, {
-    method: "GET",
-    headers: {
-      "Authorization": `Bearer ${accessToken}`
-    }
-  })
-  if (response.ok) {
-    const json: Project = await response.json()
-    return json
-  }
-  else throw new Error(response.toString())
-
-
-}
-
-const compressImage = async (uri: string) => {
-  const imageContext = ImageManipulator.manipulate(uri);
-  const manipulated = await imageContext
-    .resize({ width: 1000 })
-    .renderAsync()
-
-  return await manipulated.saveAsync({ compress: 0.7, format: SaveFormat.JPEG })
-};
-
-const postProject = async (project: ProjectPostDTO) => {
-  const accessToken = await getAccessToken();
-  const formData = new FormData();
-  const { imgsrc, ...projectData } = project;
-  formData.append("data", JSON.stringify(projectData))
-
-  if (imgsrc) {
-    const compressed = await compressImage(imgsrc);
-    formData.append("image", {
-      uri: compressed.uri,
-      name: `${project.studentId}.jpg`,
-      type: "image/jpeg"
-    } as any)
-  }
-  const response = await fetch(`${API_BASE_URL}/project`, {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${accessToken}`
-    },
-    body: formData
-  })
-  const json = await response.json();
-  if (response.ok) {
-    return;
-  } else {
-    throw new Error(json.message)
-  }
-}
-
-const updateProjectStatus = async ({ id, value }: { id: string, value: boolean }) => {
-  const accessToken = await getAccessToken();
-  const data = { isCompleted: value }
-  const response = await fetch(`${API_BASE_URL}/project/status/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Authorization": `Bearer ${accessToken}`
-    },
-    body: JSON.stringify(data)
-  })
-  if (response.ok) {
-    return
-  } else {
-    const json = await response.json()
-    throw new Error(json.message)
-  }
-}
-
-const updateProjectDetails = async ({
-  id,
-  projectDetails,
-  studentId,
-}: {
-  id: string,
+const updateProjectDetails = async ({ id, projectDetails, studentId }: {
+  id: Id,
   projectDetails: ProjectDetails,
   studentId: string,
 }) => {
-  const accessToken = await getAccessToken();
-  const formData = new FormData();
-  const { imgsrc, ...projectData } = projectDetails;
-  formData.append("data", JSON.stringify(projectData))
-  if (imgsrc) {
-    const compressed = await compressImage(imgsrc);
-    formData.append("image", {
-      uri: compressed.uri,
-      name: `${studentId}.jpg`,
-      type: "image/jpeg"
-    } as any)
-  }
-  const response = await fetch(`${API_BASE_URL}/project/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Authorization": `Bearer ${accessToken}`
-    },
-    body: formData
-  })
-  if (!response.ok) {
-    const json = await response.json();
-    throw new Error(json.message)
-  }
+  const { imgsrc, ...details } = projectDetails;
+  const body = await buildFormData(details, imgsrc ? { uri: imgsrc, name: studentId } : undefined);
+  await request(`/project/${id}`, { method: "PATCH", body });
 }
 
-const addUserToProject = async ({
-  id,
-  toAdd,
-}: {
-  id: string,
-  toAdd: string[],
-}) => {
-  const accessToken = await getAccessToken();
-  const response = await fetch(`${API_BASE_URL}/project/${id}/add-user`, {
-    method: "PATCH",
-    headers: {
-      "Content-type": "application/json",
-      "Authorization": `Bearer ${accessToken}`
-    },
-    body: JSON.stringify({ "toAdd": toAdd })
-  })
-  if (!response.ok) {
-    const json = await response.json()
-    throw new Error(json.message)
-  }
-}
+const addUserToProject = ({ id, toAdd }: { id: Id, toAdd: string[] }) =>
+  request(`/project/${id}/add-user`, { method: "PATCH", body: { toAdd } });
 
-const deleteProject = async (id: string) => {
-  const accessToken = await getAccessToken();
-  const response = await fetch(`${API_BASE_URL}/project/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Authorization": `Bearer ${accessToken}`
-    },
-  })
-  if (!response.ok) {
-    const json = await response.json()
-    throw new Error(json.message)
-  }
-}
+const deleteProject = (id: Id) =>
+  request(`/project/${id}`, { method: "DELETE" });
 
-const getProjectFeed = async (id: string): Promise<ProjectFeedResponse> => {
-  const accessToken = await getAccessToken();
-  const response = await fetch(`${API_BASE_URL}/project/${id}/feed`, {
-    method: "GET",
-    headers: {
-      "Authorization": `Bearer ${accessToken}`
-    },
-  })
-  if (!response.ok) {
-    const json = await response.json();
-    throw new Error(json.message)
-  }
-  const json: ProjectFeedResponse = await response.json();
-  return json
-}
+const getProjectFeed = (id: Id) =>
+  request<ProjectFeedResponse>(`/project/${id}/feed`);
 
-const postProjectComment = async ({ id, body }: { id: string, body: string }) => {
-  const accessToken = await getAccessToken();
-  const data = { body: body }
-  const response = await fetch(`${API_BASE_URL}/project/${id}/comment`, {
-    method: "POST",
-    headers: {
-      "Authorization": `Bearer ${accessToken}`
-    },
-    body: JSON.stringify(data),
+const postProjectComment = ({ id, body }: { id: Id, body: string }) =>
+  request(`/project/${id}/comment`, { method: "POST", body: { body } });
 
-  })
-  if (!response.ok) {
-    const json = await response.json();
-    throw new Error(json.message)
-  }
-}
-
-const deleteComment = async (id: string) => {
-  const accessToken = await getAccessToken();
-  const response = await fetch(`${API_BASE_URL}/project/comment/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Authorization": `Bearer ${accessToken}`
-    },
-
-  })
-  if (!response.ok) {
-    const json = await response.json();
-    throw new Error(json.message)
-  }
-}
+const deleteComment = (id: Id) =>
+  request(`/project/comment/${id}`, { method: "DELETE" });
 
 export default {
   getProjectsOfStudent,

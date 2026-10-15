@@ -13,10 +13,7 @@ export const useProject = () => {
   })
 
   const deleteProject = useMutation({
-    mutationFn: (id: number) => {
-      if (!student?.studentId) throw new Error("No Student");
-      return API.deleteProject(id)
-    },
+    mutationFn: (id: number) => API.deleteProject(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', student] }),
     onError: (error, v, ctx) => {
       console.log(error)

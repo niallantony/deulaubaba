@@ -22,7 +22,7 @@ export const useProjectFeed = (id: string) => {
   })
 
   const deleteComment = useMutation({
-    mutationFn: (commentId: string) => {
+    mutationFn: (commentId: number) => {
       return API.deleteComment(commentId)
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['project-feed', id] }),

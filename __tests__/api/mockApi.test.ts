@@ -99,9 +99,19 @@ describe("mock API (demo mode)", () => {
     expect(feed.feed[0]).toMatchObject({ type: "EVENT", body: "프로젝트 완료되었다" });
   });
 
+  it("refuses to delete system events from a project feed", async () => {
+    const { feed } = await projectApi.getProjectFeed(1);
+    const event = feed.find(item => item.type === "EVENT")!;
+    await expect(projectApi.deleteComment(event.id)).rejects.toMatchObject({ status: 403 });
+  });
+
+  it("returns 404 for a missing project", async () => {
+    await expect(projectApi.getProject(99999)).rejects.toMatchObject({ status: 404 });
+  });
+
   it("only lets the creator edit a project", async () => {
     expect((await projectApi.getProject("1")).ownProject).toBe(true);
     expect((await projectApi.getProject("2")).ownProject).toBe(false);
-    await expect(projectApi.deleteProject("2")).rejects.toThrow("Unauthorized access");
+    await expect(projectApi.deleteProject("2")).rejects.toMatchObject({ status: 401, message: "Unauthorized access" });
   });
 });

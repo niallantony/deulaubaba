@@ -31,9 +31,10 @@ export const SettingsMenuProject = ({ id }: { id: number }) => {
   }
 
   const handleDelete = () => {
-    deleteProject.mutate(id.toString())
-    router.dismissAll();
     hide();
+    deleteProject.mutate(id, {
+      onSuccess: () => router.dismissAll(),
+    })
   }
 
   return (

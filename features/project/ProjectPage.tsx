@@ -24,8 +24,9 @@ export const ProjectPage = ({
   const { comment, deleteComment } = useProjectFeed(project.id.toString());
 
   const handleSubmit = (body: string) => {
-    comment.mutate(body)
-    setShowComment(false)
+    comment.mutate(body, {
+      onSuccess: () => setShowComment(false),
+    })
   }
 
   const handleDelete = (id: number) => {
@@ -33,7 +34,7 @@ export const ProjectPage = ({
       text: "댓글 삭제하겠습니까?",
       confirmText: "삭제",
       onConfirm: () => {
-        deleteComment.mutate(id.toString())
+        deleteComment.mutate(id)
         hide();
       }
     })

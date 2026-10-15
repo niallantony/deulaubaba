@@ -30,10 +30,10 @@ export default function Root() {
   )
 
   const handleSubmit = () => {
-    if (selected) {
-      addUsers.mutate(selected);
-    }
-    router.back()
+    if (!selected) return;
+    addUsers.mutate(selected, {
+      onSuccess: () => router.back(),
+    });
   }
 
   const onSetSelected = (username: string) => {

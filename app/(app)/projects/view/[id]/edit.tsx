@@ -16,8 +16,9 @@ export default function Root() {
   )
 
   const handleSubmit = (details: ProjectDetails) => {
-    updateDetails.mutate(details);
-    router.back()
+    updateDetails.mutate(details, {
+      onSuccess: () => router.back(),
+    });
   }
 
 
