@@ -1,6 +1,7 @@
 import { AllProjectsResponse } from "@/api/project";
 import { ProjectBriefCard } from "@/components/Projects/ProjectBriefCard";
 import { ErrorText } from "@/components/ThemedText";
+import { NoProjects } from "@/components/Projects/NoProjects";
 import { ProjectPreview } from "@/types/project";
 import { useRouter } from "expo-router";
 
@@ -23,9 +24,13 @@ export const ProjectList = ({ data, status }: {
 
   const projects: ProjectPreview[] | undefined = data[status]
 
+  if (!projects || projects.length === 0) {
+    return (<NoProjects />)
+  }
+
   return (
     <>
-      {projects && projects.map(project => (
+      {projects.map(project => (
         <ProjectBriefCard key={project.id} project={project} onPress={() => handlePress(project.id)} />
       ))}
     </>

@@ -1,10 +1,10 @@
-import { Text, View } from "react-native"
-import { StatusSlider } from "./StatusSlider"
+import { View } from "react-native"
+import { SemiboldLightText } from "../ThemedText"
 
 export const NoProjects = () => {
 
   return (
-    <View >
-      <Text> No Projects </Text>
+    <View style={{ paddingVertical: 48, alignItems: "center" }}>
+      <SemiboldLightText>프로젝트가 없습니다</SemiboldLightText>
     </View>)
 }
