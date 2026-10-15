@@ -14,15 +14,20 @@ describe("mock API (demo mode)", () => {
   beforeEach(() => setCurrentUserId(USERS.teacher));
 
   it("returns the logged in persona", async () => {
-    const result = await userApi.getUser();
-    expect(result.ok && result.user.name).toBe("김지영");
+    expect((await userApi.getUser())?.name).toBe("김지영");
   });
 
   it("registers a new user", async () => {
     setCurrentUserId(USERS.newUser);
-    expect(await userApi.getUser()).toMatchObject({ ok: false, reason: "not_found" });
+    expect(await userApi.getUser()).toBeNull();
     await userApi.postUser({ name: "최유나", username: "yuna", userType: "부모", email: "" });
-    expect(await userApi.getUser()).toMatchObject({ ok: true, user: { username: "yuna" } });
+    expect(await userApi.getUser()).toMatchObject({ username: "yuna" });
+  });
+
+  it("rejects a username that's already taken", async () => {
+    setCurrentUserId("demo|another");
+    await expect(userApi.postUser({ name: "김", username: "jiyoung_kim", userType: "부모", email: "" }))
+      .rejects.toEqual(new ApiError(400, "Username is already taken"));
   });
 
   it("links a student by share code", async () => {

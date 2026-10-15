@@ -75,7 +75,7 @@ export const Feed = ({ student }: { student: StudentIdAvatar | null }) => {
 
       <FeedScrollBox
         data={data?.pages}
-        username={user!.user?.username}
+        username={user?.username}
         handleNextPage={handleNextPage}
         onDelete={handleDelete}
       />

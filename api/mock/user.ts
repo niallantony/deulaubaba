@@ -1,30 +1,31 @@
 import type remote from "../remote/user";
-import { GetUserResult, PostUserResult } from "../remote/user";
-import { User } from "@/types/user";
+import { ApiError } from "../errors";
+import { User, UserResponse } from "@/types/user";
 import { db, findUser, getCurrentUserId, respond } from "./db";
 
-const getUser = async (): Promise<GetUserResult> => {
+const getUser = async (): Promise<UserResponse | null> => {
   const user = findUser(getCurrentUserId());
-  if (!user) {
-    return respond({ ok: false, reason: "not_found", user: null });
-  }
+  if (!user) return respond(null);
   return respond({
-    ok: true,
-    user: {
-      name: user.name,
-      email: user.email,
-      imagesrc: user.imagesrc ?? "",
-      role: { id: 1, name: "USER" },
-      userType: user.userType,
-      username: user.username,
-    }
+    name: user.name,
+    email: user.email,
+    imagesrc: user.imagesrc ?? "",
+    role: { id: 1, name: "USER" },
+    userType: user.userType,
+    username: user.username,
   });
 }
 
-const postUser = async (user: User): Promise<PostUserResult> => {
+const postUser = async (user: User) => {
   const userId = getCurrentUserId();
-  if (findUser(userId) || db.users.some(u => u.username === user.username)) {
-    return respond({ success: false });
+  if (!user.name || !user.username || !user.userType) {
+    throw new ApiError(400, "Missing required user fields");
+  }
+  if (db.users.some(u => u.username === user.username)) {
+    throw new ApiError(400, "Username is already taken");
+  }
+  if (findUser(userId)) {
+    throw new ApiError(400, "User already registered");
   }
   db.users.push({
     userId,
@@ -34,7 +35,7 @@ const postUser = async (user: User): Promise<PostUserResult> => {
     userType: user.userType,
     imagesrc: user.imagesrc,
   });
-  return respond({ success: true });
+  return respond(undefined);
 }
 
 const api: typeof remote = {

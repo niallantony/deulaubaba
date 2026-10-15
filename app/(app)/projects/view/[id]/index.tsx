@@ -16,7 +16,7 @@ export default function Root() {
 
   const handleStatusChange = () => {
     if (!query.data) return;
-    const user = userQuery?.user?.username
+    const user = userQuery?.username
     if (!user) return;
     const userStatus = query.data.userStatuses.filter(userStatus => userStatus.user.username === user).pop();
     if (!userStatus) return;

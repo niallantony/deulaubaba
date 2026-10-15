@@ -15,7 +15,7 @@ export default function Root() {
 
   const [type, setType] = useState<ProjectType | null>(null);
   const [details, setDetails] = useState<ProjectDetails>();
-  const [selectedUsers, setSelectedUsers] = useState<string[]>(data?.user?.username ? [data.user.username] : [])
+  const [selectedUsers, setSelectedUsers] = useState<string[]>(data?.username ? [data.username] : [])
   const [screen, setScreen] = useState<"DETAILS" | "USERS" | "TYPE">("TYPE")
   const { create } = useProject();
   const router = useRouter()
@@ -42,7 +42,7 @@ export default function Root() {
   }
 
   const onSetSelectedUsers = (username: string) => {
-    if (username === data?.user?.username) return; // TODO: Put toast here
+    if (username === data?.username) return; // TODO: Put toast here
     const updated = selectedUsers.includes(username) ?
       selectedUsers.filter((u) => u !== username) :
       [...selectedUsers, username];

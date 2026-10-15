@@ -9,10 +9,10 @@ import { useLogout } from "@/auth/useLogout"
 import { useModal } from "@/hooks/useModal"
 import { useEffect, useRef, useState } from "react"
 import { useRouter } from "expo-router"
-import { GetUserResult } from "@/api/user"
+import { UserResponse } from "@/types/user"
 
 
-export const UserToolbar = ({ studentSelected, data }: { studentSelected: boolean, data: GetUserResult | undefined }) => {
+export const UserToolbar = ({ studentSelected, data }: { studentSelected: boolean, data: UserResponse | null | undefined }) => {
   const { show, hide } = useModal();
   const logout = useLogout();
   const [position, setPosition] = useState<{ x: number, y: number, width: number }>()
@@ -71,7 +71,7 @@ export const UserToolbar = ({ studentSelected, data }: { studentSelected: boolea
     <View style={{ flexDirection: "row", marginHorizontal: 24 }}>
       <View style={{ alignItems: 'center', justifyContent: 'center', }}>
         <StudentAvatar
-          url={data?.user?.imagesrc}
+          url={data?.imagesrc}
           width={48}
           height={48}
           style="round"
@@ -80,7 +80,7 @@ export const UserToolbar = ({ studentSelected, data }: { studentSelected: boolea
 
       <View style={{ flex: 1, justifyContent: "center", marginHorizontal: 12 }}>
         <SemiboldText>안녕하세요</SemiboldText>
-        {data?.user && (<SemiboldText>{data?.user.name}</SemiboldText>)}
+        {data && (<SemiboldText>{data.name}</SemiboldText>)}
 
       </View>
       <TouchableWithoutFeedback onPress={handleSettings}>

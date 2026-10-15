@@ -37,7 +37,7 @@ export default function Root() {
   }
 
   const onSetSelected = (username: string) => {
-    if (username === data?.user?.username) return; // TODO: Put toast here
+    if (username === data?.username) return; // TODO: Put toast here
     const updated = selected!.includes(username) ? selected! : [...selected!, username];
     setSelected(updated);
 

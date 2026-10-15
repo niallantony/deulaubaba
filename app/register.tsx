@@ -1,14 +1,13 @@
 import { UserDetails } from "@/features/auth/UserDetails";
 import { useState } from "react";
 import { RegistrationComplete } from "@/features/auth/RegistrationComplete";
-import { RegistrationErrorType } from "@/types/registrationErrors";
 import { User } from "@/types/user";
 import { PageTitleView } from "@/components/ThemedView";
 import { Onboarding } from "@/features/auth/Onboarding";
 import { ActivityIndicator, View } from "react-native";
 import { SubtleButton } from "@/components/ThemedButton";
 import { useLogout } from "@/auth/useLogout";
-import { StyledText } from "@/components/ThemedText";
+import { ErrorText, StyledText } from "@/components/ThemedText";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import API from "@/api/user"
@@ -19,7 +18,6 @@ type Screen = "user" | "intro" | "finish"
 
 export default function Register() {
   const [screen, setScreen] = useState<Screen>("intro");
-  const [errors, setErrors] = useState<RegistrationErrorType>();
   const queryClient = useQueryClient();
   const logout = useLogout()
   const query = useCurrentUser();
@@ -29,13 +27,10 @@ export default function Register() {
   }
 
   const submitUserMutation = useMutation({
-    mutationFn: API.postUser,
+    mutationFn: (user: User) => API.postUser(user),
     onSuccess: () => {
       setScreen("finish")
     },
-    onError: (error: any) => {
-      setErrors(error)
-    }
   })
 
   const handleCancel = async () => {
@@ -60,6 +55,9 @@ export default function Register() {
           <View style={{ width: '100%', flex: 1, marginTop: 36 }}>
             {screen === "intro" && (<Onboarding onPress={() => setScreen("user")} />)}
             {screen === "user" && (<UserDetails onSubmit={handleUserSubmit} />)}
+            {screen === "user" && submitUserMutation.error && (
+              <ErrorText>{submitUserMutation.error.message}</ErrorText>
+            )}
             {screen === "finish" && (<RegistrationComplete onPress={handleContinue} />)}
           </View>
           {screen !== "finish" &&

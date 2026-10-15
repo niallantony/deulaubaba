@@ -46,7 +46,7 @@ export const ProjectPage = ({
         <ProjectDetails project={project} onStatusChange={onStatusChange} />
         <ProjectComments
           id={project.id}
-          username={data?.user?.username}
+          username={data?.username}
           onDelete={handleDelete}
         />
 
