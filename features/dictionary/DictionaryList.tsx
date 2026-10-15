@@ -10,7 +10,8 @@ import { View } from "react-native";
 export const DictionaryList = () => {
   const { data } = useDictionary()
 
-  const types = data?.body?.expressiontypes
+  const types = data?.expressiontypes ?? []
+  const hasEntries = types.length > 0
 
   return (
     <FullView >
@@ -20,15 +21,15 @@ export const DictionaryList = () => {
         width: "100%",
         padding: 12,
       }}>
-        {types && types.map((expression: ExpressionType) => (
+        {types.map((expression: ExpressionType) => (
           <ExpressionTypeButton expression={expression} key={expression} />
         ))}
-        {!types && (
+        {!hasEntries && (
           <ButtonContainer width={150}>
             <LinkButton type="green" text="입력하기" href={"/dictionary/new"} />
           </ButtonContainer>
         )}
-        {types && (
+        {hasEntries && (
           <ButtonContainer width={150}>
             <AddButton href={"/dictionary/new"} />
           </ButtonContainer>

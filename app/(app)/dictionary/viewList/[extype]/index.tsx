@@ -14,7 +14,7 @@ import { ScrollView, View } from "react-native";
 export default function Route() {
   const { extype } = useLocalSearchParams<{ extype: ExpressionType }>()
   const { data } = useDictionary();
-  const results = data?.body?.listings?.filter((entry) => entry.type === extype) || [];
+  const results = data?.listings.filter((entry) => entry.type === extype) ?? [];
   const [viewEntry, setViewEntry] = useState<DictionaryListing | null>(null);
 
   const { title } = getExpressionType(extype);

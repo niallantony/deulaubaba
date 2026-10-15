@@ -19,15 +19,6 @@ export type DictionaryPosting = {
   description?: string;
 }
 
-export type DictionaryPostingResponse = {
-  status: number;
-  body: {
-    listings: DictionaryListing[] | null;
-    expressiontypes: ExpressionType[] | null;
-  } | null;
-  message?: string;
-}
-
 export type CommunicationCategoryDTO = {
   id: number;
   label: CommunicationCategory

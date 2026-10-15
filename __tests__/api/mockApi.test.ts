@@ -43,8 +43,24 @@ describe("mock API (demo mode)", () => {
       studentId: STUDENT_CODES.minjun, type: "MISC", title: "안아주세요", category: ["ATTENTION"],
     });
     const after = await dictionaryApi.getDictionaryListings(STUDENT_CODES.minjun);
-    expect(after.body?.listings).toHaveLength(before.body!.listings!.length + 1);
-    expect(after.body?.expressiontypes).toContain("MISC");
+    expect(after.listings).toHaveLength(before.listings.length + 1);
+    expect(after.expressiontypes).toContain("MISC");
+  });
+
+  it("returns empty lists for a student with no dictionary entries", async () => {
+    setCurrentUserId(USERS.therapist);
+    await expect(dictionaryApi.getDictionaryListings(STUDENT_CODES.doyun))
+      .resolves.toEqual({ listings: [], expressiontypes: [] });
+  });
+
+  it("rejects an invalid dictionary entry", async () => {
+    await expect(dictionaryApi.postDictionary({
+      studentId: STUDENT_CODES.minjun, type: "MISC", title: "", category: [],
+    })).rejects.toMatchObject({ status: 400 });
+  });
+
+  it("returns 404 when deleting a missing dictionary entry", async () => {
+    await expect(dictionaryApi.deleteDictionary(99999)).rejects.toMatchObject({ status: 404 });
   });
 
   it("pages the student feed newest first", async () => {

@@ -17,8 +17,9 @@ export default function Route() {
   const router = useRouter();
 
   const handleSubmit = (listing: DictionaryPosting) => {
-    create.mutate(listing);
-    router.dismissAll();
+    create.mutate(listing, {
+      onSuccess: () => router.dismissAll(),
+    });
   }
 
   return (

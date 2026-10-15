@@ -25,14 +25,16 @@ export const ListingDescription = ({ entry, onUpdate }: { entry: DictionaryListi
   }
 
   const handleEditSubmit = (dictionary: DictionaryPosting) => {
-    update.mutate({ dictionary, id })
-    onUpdate();
+    update.mutate({ dictionary, id }, {
+      onSuccess: onUpdate,
+    })
   }
 
   const handleDelete = () => {
-    remove.mutate(entry.id);
-    onUpdate();
     hide();
+    remove.mutate(entry.id, {
+      onSuccess: onUpdate,
+    });
   }
 
   return (
