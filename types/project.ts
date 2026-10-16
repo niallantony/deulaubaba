@@ -12,11 +12,7 @@ export type Project = {
   ownProject: boolean,
   completedOn: string | null,
   type: ProjectType,
-  userStatuses: {
-    user: UserAvatar,
-    completed: boolean,
-    completedOn: Date | null
-  }[],
+  userStatuses: ProjectUserStatus[],
   studentId: string
 }
 
@@ -32,10 +28,18 @@ export type ProjectType = "COMMUNICATION" | "CHALLENGE"
 
 export type ProjectPreview = Omit<Project, "categories" | "ownProject" | "type" | "userStatuses" | "studentId">
 
+export type ProjectUserStatus = {
+  user: UserAvatar,
+  completed: boolean,
+  completedOn: string | null, // ISO date ("2025-01-31")
+}
+
+// System events have no author; comments and new-user notices always do.
 export type ProjectFeedItem = {
   id: number,
   body: string,
-  type: "COMMENT" | "NEW_USER" | "EVENT",
-  user: UserAvatar,
-  createdAt: Date
-}
+  createdAt: string, // ISO date-time from the server
+} & (
+    | { type: "COMMENT" | "NEW_USER", user: UserAvatar }
+    | { type: "EVENT", user: null }
+  )

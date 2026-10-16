@@ -18,8 +18,9 @@ export const ProjectComments = ({
   const { getFeed } = useProjectFeed(id.toString());
   const feed = getFeed.data?.feed;
 
-  const formatDate = (date: Date) => {
-    return date.toLocaleString().split("T").join("  ").split(".")[0]
+  // "2025-01-31T09:05:12.123" -> "2025-01-31  09:05:12"
+  const formatDate = (date: string) => {
+    return date.split("T").join("  ").split(".")[0]
   }
 
 

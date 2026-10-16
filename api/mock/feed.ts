@@ -12,11 +12,7 @@ const getFeed = async (id: string, page: number = 0): Promise<GetFeedResponse> =
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt));
   const feed = items
     .slice(page * PAGE_SIZE, (page + 1) * PAGE_SIZE)
-    .map(({ studentId, userId, createdAt, ...item }) => ({
-      ...item,
-      user: toAvatar(findUser(userId)),
-      createdAt: createdAt as unknown as Date,
-    }));
+    .map(({ studentId, userId, ...item }) => ({ ...item, user: toAvatar(findUser(userId)) }));
   return respond({ feed, hasNext: items.length > (page + 1) * PAGE_SIZE });
 }
 

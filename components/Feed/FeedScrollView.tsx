@@ -27,7 +27,7 @@ export const FeedScrollBox = ({
 
   data.forEach(page => {
     page.feed?.forEach(item => {
-      const date = item.createdAt.toString().split("T")[0];
+      const date = item.createdAt.split("T")[0];
       const fDate = date === fToday ? "오늘" : date;
 
       if (!Object.keys(datedFeed).includes(fDate)) {

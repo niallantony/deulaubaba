@@ -2,7 +2,7 @@ import type remote from "../remote/project";
 import { AllProjectsResponse, ProjectFeedResponse } from "../remote/project";
 import { ApiError } from "../errors";
 import { categoryKeys, CommunicationCategory } from "@/types/dictionary";
-import { Project, ProjectDetails, ProjectPostDTO, ProjectPreview } from "@/types/project";
+import { Project, ProjectDetails, ProjectFeedItem, ProjectPostDTO, ProjectPreview } from "@/types/project";
 import { authorisedStudent, db, DbProject, DbUser, findUser, getCurrentUserId, newId, now, respond, toAvatar, today } from "./db";
 
 const toCategoryDTO = (label: CommunicationCategory) => ({ id: categoryKeys.indexOf(label) + 1, label });
@@ -81,7 +81,7 @@ const getProject = async (id: string | number): Promise<Project> => {
     userStatuses: project.users.map(u => ({
       user: toAvatar(findUser(u.userId)),
       completed: u.completed,
-      completedOn: u.completedOn as unknown as Date | null,
+      completedOn: u.completedOn,
     })),
   });
 }
@@ -169,11 +169,11 @@ const getProjectFeed = async (id: string | number): Promise<ProjectFeedResponse>
   const feed = db.projectFeed
     .filter(item => item.projectId === project.id)
     .sort((a, b) => b.createdAt.localeCompare(a.createdAt) || b.id - a.id)
-    .map(({ projectId, userId, createdAt, ...item }) => ({
-      ...item,
-      user: userId ? toAvatar(findUser(userId)) : (null as any),
-      createdAt: createdAt as unknown as Date,
-    }));
+    .map(({ projectId, userId, ...item }): ProjectFeedItem =>
+      item.type === "EVENT"
+        ? { ...item, type: item.type, user: null }
+        : { ...item, type: item.type, user: toAvatar(findUser(userId!)) }
+    );
   return respond({ feed });
 }
 

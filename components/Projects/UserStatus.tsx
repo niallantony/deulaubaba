@@ -1,5 +1,5 @@
 import { theme } from "@/themes/global"
-import { UserAvatar } from "@/types/user"
+import { ProjectUserStatus } from "@/types/project"
 import { Image } from "expo-image"
 import { View, StyleSheet, Text, TouchableOpacity } from "react-native"
 import { StudentAvatar } from "../StudentAvatar"
@@ -10,11 +10,7 @@ export const UserStatusHolder = ({
 
 }: {
   onPress: () => void,
-  userStatuses: {
-    user: UserAvatar,
-    completed: boolean,
-    completedOn: Date | null,
-  }[]
+  userStatuses: ProjectUserStatus[]
 }) => {
 
   const completeCount = userStatuses.filter(u => u.completed).length
@@ -32,7 +28,7 @@ export const UserStatusHolder = ({
   )
 }
 
-const UserIndicator = ({ userStatus }: { userStatus: { user: UserAvatar, completed: boolean, completedOn: Date | null } }) => {
+const UserIndicator = ({ userStatus }: { userStatus: ProjectUserStatus }) => {
   return (
     <View style={{ backgroundColor: "#000", borderRadius: 16 }}>
       <StudentAvatar url={userStatus.user.imagesrc} width={24} height={24} style="round" deactivated={!userStatus.completed} />

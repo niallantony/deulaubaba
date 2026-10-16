@@ -119,6 +119,13 @@ describe("mock API (demo mode)", () => {
     expect(feed.feed[0]).toMatchObject({ type: "EVENT", body: "프로젝트 완료되었다" });
   });
 
+  it("returns project feed events without a user and comments with one", async () => {
+    const { feed } = await projectApi.getProjectFeed(1);
+    expect(feed.filter(item => item.type === "EVENT").every(item => item.user === null)).toBe(true);
+    expect(feed.filter(item => item.type !== "EVENT").every(item => item.user?.username)).toBe(true);
+    expect(feed[0].createdAt).toMatch(/^\d{4}-\d{2}-\d{2}T/);
+  });
+
   it("refuses to delete system events from a project feed", async () => {
     const { feed } = await projectApi.getProjectFeed(1);
     const event = feed.find(item => item.type === "EVENT")!;

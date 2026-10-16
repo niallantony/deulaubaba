@@ -14,6 +14,6 @@ export type FeedItem = {
   user: UserAvatar;
   emotions?: StudentFeedEmotionName[] | null;
   body: string;
-  createdAt: Date;
+  createdAt: string; // ISO date-time from the server
 }
 
