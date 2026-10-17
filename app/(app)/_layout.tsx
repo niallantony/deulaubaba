@@ -1,12 +1,9 @@
-import { Tabs, useNavigationContainerRef } from "expo-router";
+import { Tabs } from "expo-router";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function Root() {
-  const navRef = useNavigationContainerRef();
-
-
   return (
-    <Tabs ref={navRef} screenOptions={{ headerShown: false, tabBarActiveTintColor: "#15673D" }}>
+    <Tabs screenOptions={{ headerShown: false, tabBarActiveTintColor: "#15673D" }}>
       <Tabs.Screen
         name="home"
         options={{
