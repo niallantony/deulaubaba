@@ -6,20 +6,18 @@ import { useRouter } from "expo-router";
 import { StyleSheet, View } from "react-native";
 import { theme } from "@/themes/global";
 import { StudentIdAvatar } from "@/types/student";
-import { ModalNames } from "@/types/modal";
 
 
 type StudentBorderProps = {
   student: StudentIdAvatar | null;
   title: string;
   subtitle: string;
-  showModal: (name: ModalNames, props: any) => void;
 } & PropsWithChildren;
 
 
 
 
-export const StudentBorder = ({ children, title, subtitle, student, showModal }: StudentBorderProps) => {
+export const StudentBorder = ({ children, title, subtitle, student }: StudentBorderProps) => {
   const imageSize = 48
   const router = useRouter()
 

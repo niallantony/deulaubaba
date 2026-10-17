@@ -1,7 +1,4 @@
 import { Stack } from "expo-router";
-import { StudentBorder } from "@/components/StudentBorder";
-import { useStudentStore } from "@/store/currentStudent";
-import { useModal } from "@/hooks/useModal";
 
 export default function Root() {
   return (

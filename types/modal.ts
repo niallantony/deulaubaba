@@ -7,7 +7,6 @@ import { UserDialog } from "@/features/student/UserDialog"
 import { ConfirmDialog } from "@/components/ConfirmDialog"
 import { CategoryPicker } from "@/features/dictionary/CategoryPicker"
 import { SettingsMenu, SettingsMenuWithStudent } from "@/components/SettingsMenu/SettingsMenu"
-import { StudentMenu } from "@/features/student/StudentMenu"
 import { FullSizeImageModal } from "@/components/FullSizeImageModal"
 import { DateType } from "react-native-ui-datepicker"
 import { DatePickerModal } from "@/components/DatePickerModal"
@@ -40,10 +39,6 @@ export type ModalProps = {
     onLogout: () => void,
     position: { x: number, y: number, width: number },
   },
-  studentAvatar: {
-    onRequestSelect: () => void,
-    onRequestEdit: () => void,
-  },
   fullSizeImage: {
     uri: string
   },
@@ -67,7 +62,6 @@ export const modalMap: Record<ModalNames, ComponentType<any>> = {
   confirm: ConfirmDialog,
   category: CategoryPicker,
   settings: SettingsMenu,
-  studentAvatar: StudentMenu,
   fullSizeImage: FullSizeImageModal,
   date: DatePickerModal,
   changeStatus: ChangeStatusModal,
