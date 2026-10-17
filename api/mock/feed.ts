@@ -38,7 +38,7 @@ const deleteFeedItem = async (id: string) => {
     throw new ApiError(404, "Comment not found");
   }
   if (item.userId !== getCurrentUserId()) {
-    throw new ApiError(401, "Unauthorized access");
+    throw new ApiError(403, "Unauthorized access");
   }
   db.feed = db.feed.filter(i => i !== item);
   return respond(undefined);

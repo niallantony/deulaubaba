@@ -16,13 +16,13 @@ const findProject = (id: string | number) => {
 
 const assignedProject = (id: string | number) => {
   const project = findProject(id);
-  if (!project.users.some(u => u.userId === getCurrentUserId())) throw new ApiError(401, "Unauthorized access");
+  if (!project.users.some(u => u.userId === getCurrentUserId())) throw new ApiError(403, "Unauthorized access");
   return project;
 }
 
 const createdProject = (id: string | number) => {
   const project = findProject(id);
-  if (project.createdBy !== getCurrentUserId()) throw new ApiError(401, "Unauthorized access");
+  if (project.createdBy !== getCurrentUserId()) throw new ApiError(403, "Unauthorized access");
   return project;
 }
 
@@ -197,7 +197,7 @@ const deleteComment = async (id: string | number) => {
   if (comment.type !== "COMMENT") throw new ApiError(403, "Feed item cannot be deleted");
   const userId = getCurrentUserId();
   if (comment.userId !== userId && findProject(comment.projectId).createdBy !== userId) {
-    throw new ApiError(401, "Unauthorized access");
+    throw new ApiError(403, "Unauthorized access");
   }
   db.projectFeed = db.projectFeed.filter(item => item !== comment);
   return respond(undefined);

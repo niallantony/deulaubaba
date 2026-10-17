@@ -342,7 +342,7 @@ export const toAvatar = (user: DbUser | undefined): UserAvatar => ({
 export const authorisedStudent = (studentId: string) => {
   const student = db.students.find(s => s.studentId === studentId.toLowerCase());
   if (!student) throw new ApiError(404, "Student not found");
-  if (!student.userIds.includes(getCurrentUserId())) throw new ApiError(401, "Unauthorized access");
+  if (!student.userIds.includes(getCurrentUserId())) throw new ApiError(403, "Unauthorized access");
   return student;
 }
 

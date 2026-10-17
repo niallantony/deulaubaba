@@ -54,7 +54,7 @@ describe("mock API (demo mode)", () => {
 
   it("won't show a student to someone not linked to them", async () => {
     setCurrentUserId(USERS.parent);
-    await expect(studentApi.getStudentFromCode(STUDENT_CODES.seoyeon)).rejects.toMatchObject({ status: 401 });
+    await expect(studentApi.getStudentFromCode(STUDENT_CODES.seoyeon)).rejects.toMatchObject({ status: 403 });
   });
 
   it("adds a dictionary entry", async () => {
@@ -100,7 +100,7 @@ describe("mock API (demo mode)", () => {
   it("only lets the author delete a feed post", async () => {
     const { feed } = await feedApi.getFeed(STUDENT_CODES.minjun, 0);
     const parentPost = feed.find(item => item.user.username === "sujin_park")!;
-    await expect(feedApi.deleteFeedItem(String(parentPost.id))).rejects.toMatchObject({ status: 401 });
+    await expect(feedApi.deleteFeedItem(String(parentPost.id))).rejects.toMatchObject({ status: 403 });
   });
 
   it("groups projects and completes one when every member finishes", async () => {
@@ -139,6 +139,6 @@ describe("mock API (demo mode)", () => {
   it("only lets the creator edit a project", async () => {
     expect((await projectApi.getProject("1")).ownProject).toBe(true);
     expect((await projectApi.getProject("2")).ownProject).toBe(false);
-    await expect(projectApi.deleteProject("2")).rejects.toMatchObject({ status: 401, message: "Unauthorized access" });
+    await expect(projectApi.deleteProject("2")).rejects.toMatchObject({ status: 403, message: "Unauthorized access" });
   });
 });
