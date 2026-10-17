@@ -10,8 +10,8 @@ export const useUserRibbon = () => {
     try {
       setLoading(true)
       setUsers(await API.getUsersFromStudent(studentId));
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // Leave users as null so the ribbon renders empty
     } finally {
       setLoading(false)
     }

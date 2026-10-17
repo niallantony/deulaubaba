@@ -13,8 +13,8 @@ export default function Index() {
   const onPress = async (personaId?: string) => {
     try {
       await login(personaId);
-    } catch (e) {
-      console.log(e)
+    } catch {
+      // Login was cancelled or failed; stay on the login screen
     }
   }
 

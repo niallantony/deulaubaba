@@ -21,9 +21,8 @@ export const UserToolbar = ({ studentSelected, data }: { studentSelected: boolea
     try {
       hide();
       await logout();
-    } catch (e) {
-
-      console.error(e)
+    } catch {
+      // Nothing to recover; the user stays logged in
     }
   }
 

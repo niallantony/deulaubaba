@@ -16,9 +16,6 @@ export const useProjectFeed = (id: string) => {
       return API.postProjectComment({ id, body })
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['project-feed', id] }),
-    onError: (error, v, ctx) => {
-      console.log(error)
-    }
   })
 
   const deleteComment = useMutation({
@@ -26,9 +23,6 @@ export const useProjectFeed = (id: string) => {
       return API.deleteComment(commentId)
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['project-feed', id] }),
-    onError: (error, v, ctx) => {
-      console.error(error)
-    }
   })
 
   return {

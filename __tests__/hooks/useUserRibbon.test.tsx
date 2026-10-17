@@ -54,7 +54,6 @@ describe("useUserRibbon", () => {
   });
 
   it("resets loading on error", async () => {
-    const spy = jest.spyOn(console, "error").mockImplementation(() => { });
     (API.getUsersFromStudent as jest.Mock).mockRejectedValue(new Error("fail"));
     const { result } = renderHook(() => useUserRibbon());
 
@@ -64,6 +63,5 @@ describe("useUserRibbon", () => {
 
     expect(result.current.loading).toBe(false);
     expect(result.current.users).toBe(null);
-    spy.mockRestore();
   });
 });

@@ -59,9 +59,8 @@ export const FullSizeImageModal = ({ uri, onClose, ...rest }: { uri: string, onC
           setLoaded(true)
         }}
         // TODO: Show error
-        onError={(err) => {
+        onError={() => {
           setLoaded(false)
-          console.error(err)
         }}
       />
       {!loaded && (

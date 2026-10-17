@@ -36,8 +36,8 @@ export default function Register() {
   const handleCancel = async () => {
     try {
       await logout()
-    } catch (e) {
-      console.error(e)
+    } catch {
+      // Nothing to recover; the user stays on this screen
     }
   }
 

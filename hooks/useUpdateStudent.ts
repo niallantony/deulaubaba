@@ -9,9 +9,6 @@ export const useUpdateStudent = () => {
     mutationFn: (student: Omit<Student, "communicationDetails" | "challengesDetails">) => API.putStudentInfo(student),
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['student-data', variables.studentId] })
-    },
-    onError: (e) => {
-      console.error("Failed to update student", e)
     }
   })
 
@@ -19,9 +16,6 @@ export const useUpdateStudent = () => {
     mutationFn: (student: Pick<Student, "communicationDetails" | "studentId">) => API.putStudentCommunication(student),
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['student-data', variables.studentId] })
-    },
-    onError: (e) => {
-      console.error("Failed to update student", e)
     }
   })
 
@@ -29,9 +23,6 @@ export const useUpdateStudent = () => {
     mutationFn: (student: Pick<Student, "challengesDetails" | "studentId">) => API.putStudentChallenge(student),
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['student-data', variables.studentId] })
-    },
-    onError: (e) => {
-      console.error("Failed to update student", e)
     }
   })
 

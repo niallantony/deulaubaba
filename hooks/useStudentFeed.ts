@@ -16,17 +16,11 @@ export const useStudentFeed = () => {
   const create = useMutation({
     mutationFn: (post: { id: string, body: PostFeedBody }) => API.postFeed(post),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['feed', student?.studentId] }),
-    onError: (error, v, ctx) => {
-      console.error(error)
-    }
   })
 
   const deleteItem = useMutation({
     mutationFn: (id: string) => API.deleteFeedItem(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['feed', student?.studentId] }),
-    onError: (error, v, ctx) => {
-      console.error(error)
-    }
   })
 
   const { data, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
