@@ -13,7 +13,7 @@ describe('DictionaryForm', () => {
   const mockOnSubmit = jest.fn();
 
   beforeEach(() => {
-    useStudentStore.setState({ student: { studentId: '123', name: 'Jane' } })
+    useStudentStore.setState({ studentId: '123' })
     jest.clearAllMocks();
     (useModal as jest.Mock).mockReturnValue({ show: mockShow });
   })
@@ -67,7 +67,7 @@ describe('DictionaryForm', () => {
   })
 
   it("does not submit without student", () => {
-    useStudentStore.setState({ student: null });
+    useStudentStore.setState({ studentId: null });
     const { getByText } = render(
       <DictionaryForm
         type="BODY"

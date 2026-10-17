@@ -3,14 +3,14 @@ import API from "@/api/dictionary"
 import { useStudentStore } from "@/store/currentStudent"
 
 export const useDictionary = () => {
-  const student = useStudentStore((s) => s.student)
+  const studentId = useStudentStore((s) => s.studentId)
 
   return useQuery({
-    queryKey: ['dictionary', student?.studentId],
+    queryKey: ['dictionary', studentId],
     queryFn: () => {
-      if (!student) throw new Error("No student selected");
-      return API.getDictionaryListings(student?.studentId)
+      if (!studentId) throw new Error("No student selected");
+      return API.getDictionaryListings(studentId)
     },
-    enabled: !!student
+    enabled: !!studentId
   })
 }

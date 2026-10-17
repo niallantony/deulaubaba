@@ -1,10 +1,10 @@
 import { StudentBorder } from "@/components/StudentBorder";
 import { Feed } from "@/features/Feed";
-import { useStudentStore } from "@/store/currentStudent";
+import { useCurrentStudent } from "@/hooks/useCurrentStudent";
 
 export default function Root() {
 
-  const student = useStudentStore((s) => s.student)
+  const student = useCurrentStudent()
 
 
   return (
@@ -13,7 +13,7 @@ export default function Root() {
       subtitle={`${student?.name} 아침은 어떤가요?`}
       student={student}
     >
-      <Feed student={student} />
+      <Feed studentId={student?.studentId ?? null} />
     </StudentBorder>
   )
 }

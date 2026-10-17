@@ -9,7 +9,7 @@ import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { ActivityIndicator } from "react-native";
 
 export default function Index() {
-  const student = useStudentStore(s => s.student)
+  const studentId = useStudentStore(s => s.studentId)
   const { data } = useSelectedStudent();
   const router = useRouter();
 
@@ -26,9 +26,9 @@ export default function Index() {
 
   return (
     <FullView>
-      <UserToolbar studentSelected={!!student} data={userData} />
+      <UserToolbar studentSelected={!!studentId} data={userData} />
       <FullView >
-        {!student && (<NoSelectedStudent />)}
+        {!studentId && (<NoSelectedStudent />)}
         {data && (
           <StudentProfile
             data={data}

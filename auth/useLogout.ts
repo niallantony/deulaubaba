@@ -9,7 +9,7 @@ export const useLogout = () => {
 
   return async () => {
     await logout();
-    useStudentStore.setState({ student: null });
+    useStudentStore.setState({ studentId: null });
     queryClient.clear();
   }
 }

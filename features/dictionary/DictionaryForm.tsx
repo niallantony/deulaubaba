@@ -28,7 +28,7 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
   const [imagesrc, setImagesrc] = useState<string | null>(null)
   const [description, setDescription] = useState<string | undefined>(entry?.description)
   const [errors, setErrors] = useState<DictionaryErrors>({})
-  const student = useStudentStore((s) => s.student)
+  const studentId = useStudentStore((s) => s.studentId)
 
   const { show } = useModal();
 
@@ -50,11 +50,11 @@ export const DictionaryForm = ({ type, onSubmit, entry }: {
     if (!validate()) {
       return
     }
-    if (!student || !student.studentId) {
+    if (!studentId) {
       return
     }
     const listing: DictionaryPosting = {
-      studentId: student.studentId,
+      studentId: studentId,
       type,
       title: title!.trim(),
       category,

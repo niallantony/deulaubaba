@@ -1,9 +1,9 @@
 import { StudentBorder } from "@/components/StudentBorder";
-import { useStudentStore } from "@/store/currentStudent";
+import { useCurrentStudent } from "@/hooks/useCurrentStudent";
 import { Stack } from "expo-router";
 
 export default function Root() {
-  const student = useStudentStore((s) => s.student)
+  const student = useCurrentStudent()
   return (
     <StudentBorder
       student={student}

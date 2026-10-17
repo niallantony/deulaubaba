@@ -4,12 +4,11 @@ import { NoSelectedStudent } from "./student/NoSelectedStudent";
 import { View } from "react-native";
 import { StudentFeedEmotionName } from "@/types/feed";
 import { useStudentFeed } from "@/hooks/useStudentFeed";
-import { StudentIdAvatar } from "@/types/student";
 import { useState } from "react";
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { useModal } from "@/hooks/useModal";
 
-export const Feed = ({ student }: { student: StudentIdAvatar | null }) => {
+export const Feed = ({ studentId }: { studentId: string | null }) => {
 
   const [comment, setComment] = useState("");
   const [emojis, setEmojis] = useState<StudentFeedEmotionName[]>([])
@@ -43,13 +42,13 @@ export const Feed = ({ student }: { student: StudentIdAvatar | null }) => {
   }
 
   const commentSubmit = () => {
-    if (comment && student?.studentId) {
+    if (comment && studentId) {
       const body = {
         body: comment,
         emotions: emojis
       }
       const request = {
-        id: student.studentId,
+        id: studentId,
         body
       }
       create.mutate(request, {
@@ -67,7 +66,7 @@ export const Feed = ({ student }: { student: StudentIdAvatar | null }) => {
     }
   }
 
-  if (!student) return (<NoSelectedStudent />)
+  if (!studentId) return (<NoSelectedStudent />)
 
   return (
     <View style={{ flex: 1, paddingHorizontal: 16 }}>

@@ -1,15 +1,16 @@
-import { StudentIdAvatar } from '@/types/student'
 import { create } from 'zustand'
 
+// Only the selection lives here. Student details come from React Query
+// (see hooks/useCurrentStudent), so edits show up everywhere once refetched.
 type State = {
-  student: StudentIdAvatar | null
+  studentId: string | null
 }
 
 type Action = {
-  setStudent: (student: StudentIdAvatar) => void
+  setStudentId: (studentId: string) => void
 }
 
 export const useStudentStore = create<State & Action>((set) => ({
-  student: null,
-  setStudent: (student: StudentIdAvatar) => set(() => ({ student: student }))
+  studentId: null,
+  setStudentId: (studentId: string) => set(() => ({ studentId }))
 }))

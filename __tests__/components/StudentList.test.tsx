@@ -18,7 +18,7 @@ describe("Student Components", () => {
   describe("StudentList", () => {
     it("renders student rows and add row", () => {
       const { getAllByText } = render(
-        <StudentList students={sampleStudents} selectedStudent={null} />
+        <StudentList students={sampleStudents} selectedStudentId={null} />
       );
 
       expect(getAllByText(/Alice|Bob|학생 추/)).toHaveLength(3);

@@ -8,7 +8,7 @@ import { useStudentStore } from "@/store/currentStudent";
 
 export default function SelectStudent() {
   const { data } = useStudents();
-  const student = useStudentStore((s) => s.student);
+  const studentId = useStudentStore((s) => s.studentId);
 
   if (!data?.length) {
     return (<NoStudent />)
@@ -17,7 +17,7 @@ export default function SelectStudent() {
     <FullView>
       <SemiboldText style={{ paddingLeft: 24, width: "100%", textAlign: "left" }}>학생 선택해 주세요</SemiboldText>
       <DividerWithTitle title={"학생 목록"} />
-      <StudentList students={data} selectedStudent={student} />
+      <StudentList students={data} selectedStudentId={studentId} />
     </FullView>
   )
 

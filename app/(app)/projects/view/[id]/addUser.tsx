@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 export default function Root() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { query, addUsers } = useCurrentProject({ id })
-  const student = useStudentStore(s => s.student)
+  const studentId = useStudentStore(s => s.studentId)
   const router = useRouter();
   const project = query.data
   const [selected, setSelected] = useState<string[] | undefined>(project?.userStatuses.map(user => user.user.username))
@@ -20,8 +20,8 @@ export default function Root() {
 
 
   useEffect(() => {
-    fetchUsers(student!.studentId)
-  }, [student])
+    fetchUsers(studentId!)
+  }, [studentId])
 
 
   if (!project) return (

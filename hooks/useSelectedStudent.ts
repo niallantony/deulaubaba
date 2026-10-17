@@ -3,14 +3,14 @@ import { useQuery } from "@tanstack/react-query"
 import API from "@/api/student";
 
 export const useSelectedStudent = () => {
-  const student = useStudentStore((s) => s.student)
+  const studentId = useStudentStore((s) => s.studentId)
 
   return useQuery({
-    queryKey: ['student-data', student?.studentId],
+    queryKey: ['student-data', studentId],
     queryFn: () => {
-      if (!student) throw new Error("No student selected");
-      return API.getStudentFromCode(student.studentId);
+      if (!studentId) throw new Error("No student selected");
+      return API.getStudentFromCode(studentId);
     },
-    enabled: !!student,
+    enabled: !!studentId,
   })
 }

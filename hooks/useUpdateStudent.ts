@@ -9,6 +9,8 @@ export const useUpdateStudent = () => {
     mutationFn: (student: Omit<Student, "communicationDetails" | "challengesDetails">) => API.putStudentInfo(student),
     onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['student-data', variables.studentId] })
+      // Name and avatar in headers and the student list come from here
+      queryClient.invalidateQueries({ queryKey: ['students'] })
     }
   })
 

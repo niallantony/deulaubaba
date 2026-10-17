@@ -20,21 +20,21 @@ export default function Root() {
   const { create } = useProject();
   const router = useRouter()
 
-  const student = useStudentStore((s) => s.student)
+  const studentId = useStudentStore((s) => s.studentId)
   const { users, fetchUsers } = useUserRibbon();
 
 
   useEffect(() => {
-    fetchUsers(student!.studentId)
-  }, [student])
+    fetchUsers(studentId!)
+  }, [studentId])
 
   const handleSubmit = () => {
-    if (!type || !student?.studentId || !details) return;
+    if (!type || !studentId || !details) return;
     const postRequest: ProjectPostDTO = {
       ...details,
       usernames: selectedUsers,
       type: type,
-      studentId: student?.studentId
+      studentId: studentId
     }
     create.mutate(postRequest, {
       onSuccess: () => router.dismissAll(),

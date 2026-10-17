@@ -10,10 +10,10 @@ import { useRouter } from 'expo-router'
 
 export const StudentList = ({
   students,
-  selectedStudent,
+  selectedStudentId,
 }: {
   students: StudentIdAvatar[],
-  selectedStudent: StudentIdAvatar | null
+  selectedStudentId: string | null
 }) => {
   const [rows, setRows] = useState<StudentIdAvatar[]>();
 
@@ -48,7 +48,7 @@ export const StudentList = ({
               <AddStudentRow />
             )
           } else {
-            return (<StudentRow student={item} selected={item.studentId === selectedStudent?.studentId} />)
+            return (<StudentRow student={item} selected={item.studentId === selectedStudentId} />)
           }
         }
         }
@@ -75,7 +75,7 @@ const AddStudentRow = () => {
 }
 
 export const StudentRow = ({ student, selected }: { student: StudentIdAvatar; selected: boolean }) => {
-  const selectStudent = useStudentStore((s) => s.setStudent)
+  const selectStudent = useStudentStore((s) => s.setStudentId)
   const router = useRouter();
 
 
@@ -85,7 +85,7 @@ export const StudentRow = ({ student, selected }: { student: StudentIdAvatar; se
       selected ? styles.selected : styles.unselected,
     ]}
       onPress={() => {
-        selectStudent(student)
+        selectStudent(student.studentId)
         router.push('/home')
       }}
     >

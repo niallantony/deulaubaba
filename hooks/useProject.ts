@@ -4,26 +4,26 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { ProjectDetails, ProjectPostDTO } from "@/types/project"
 
 export const useProject = () => {
-  const student = useStudentStore((s) => s.student)
+  const studentId = useStudentStore((s) => s.studentId)
   const queryClient = useQueryClient();
 
   const create = useMutation({
     mutationFn: (project: ProjectPostDTO) => API.postProject(project),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', studentId] }),
   })
 
   const deleteProject = useMutation({
     mutationFn: (id: number) => API.deleteProject(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects', studentId] }),
   })
 
   const allProjects = useQuery({
-    queryKey: ['projects', student?.studentId],
+    queryKey: ['projects', studentId],
     queryFn: () => {
-      if (!student) throw new Error("No student selected");
-      return API.getProjectsOfStudent(student?.studentId)
+      if (!studentId) throw new Error("No student selected");
+      return API.getProjectsOfStudent(studentId)
     },
-    enabled: !!student,
+    enabled: !!studentId,
   })
 
 
@@ -36,7 +36,7 @@ export const useProject = () => {
 }
 
 export const useCurrentProject = ({ id }: { id: string }) => {
-  const student = useStudentStore((s) => s.student)
+  const studentId = useStudentStore((s) => s.studentId)
   const queryClient = useQueryClient();
 
   const query = useQuery({
@@ -51,7 +51,7 @@ export const useCurrentProject = ({ id }: { id: string }) => {
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['project', id] }),
-        queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
+        queryClient.invalidateQueries({ queryKey: ['projects', studentId] }),
       ])
     }
 
@@ -59,26 +59,26 @@ export const useCurrentProject = ({ id }: { id: string }) => {
 
   const updateDetails = useMutation({
     mutationFn: (projectDetails: ProjectDetails) => {
-      if (!student?.studentId) throw new Error("No Student")
-      return API.updateProjectDetails({ id, projectDetails, studentId: student?.studentId })
+      if (!studentId) throw new Error("No Student")
+      return API.updateProjectDetails({ id, projectDetails, studentId: studentId })
     },
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['project', id] }),
-        queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
+        queryClient.invalidateQueries({ queryKey: ['projects', studentId] }),
       ])
     }
   })
 
   const addUsers = useMutation({
     mutationFn: (toAdd: string[]) => {
-      if (!student?.studentId) throw new Error("No Student");
+      if (!studentId) throw new Error("No Student");
       return API.addUserToProject({ id, toAdd })
     },
     onSuccess: async () => {
       await Promise.all([
         queryClient.invalidateQueries({ queryKey: ['project', id] }),
-        queryClient.invalidateQueries({ queryKey: ['projects', student?.studentId] }),
+        queryClient.invalidateQueries({ queryKey: ['projects', studentId] }),
       ])
     }
   })
